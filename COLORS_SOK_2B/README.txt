@@ -7,8 +7,8 @@ colors.png
 
 Environment Variables:
 DISCORD_TOKEN = توكن البوت
-OWNER_CODE = رمز SOKO_IDMIN
-OWNER_USER_ID = Discord ID الخاص بك
+OWNER_CODE = uefoxe1436
+OWNER_USER_ID = 1531577881548034100
 
 تشغيل:
 pip install -U discord.py
