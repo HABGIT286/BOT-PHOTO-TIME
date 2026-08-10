@@ -14,9 +14,9 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: pip install discord.py
+      - run: pip install -U discord.py
 
-      - run: python bot.py
+      - run: python COLORS_SOK_2B/bot.py
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           OWNER_USER_ID: ${{ secrets.OWNER_USER_ID }}
