@@ -10,7 +10,7 @@ from discord.ext import commands
 from discord import app_commands
 
 DB = "colors_sok_2b.sqlite3"
-IMAGE = "colors.png"
+IMAGE="COLORS_SOK_2B/colors.png"
 
 OWNER_USER_ID = 1531577881548034100
 OWNER_CODE = "uefoxe1436"
@@ -357,7 +357,7 @@ class OwnerView(discord.ui.View):
         await bot.close()
 
 
-@bot.tree.command(name="SOKO_IDMIN", description="لوحة تحكم المبرمج")
+@bot.tree.command(name="soko_idmin", description="لوحة تحكم المبرمج")
 async def soko(i: discord.Interaction):
     if not is_owner(i.user.id):
         return await i.response.send_message("❌ هذا الأمر خاص بمالك البوت.", ephemeral=True)
@@ -370,7 +370,7 @@ async def help_cmd(i: discord.Interaction):
         "🎨 **COLORS_SOK_2B**\n\n"
         "🎨 `/colors` — صورة الألوان\n"
         "🛠️ `/setcolor ID` — تغيير لون عضو للإدارة\n"
-        "👑 `/SOKO_IDMIN` — لوحة المبرمج\n"
+        "👑 `/soko_idmin` — لوحة المبرمج\n"
         "ℹ️ `/help` — المساعدة\n\n"
         "👤 العضو: أرسل رقم اللون مثل `27` أو HEX مثل `#2962FF`.",
         ephemeral=True
