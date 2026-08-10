@@ -438,15 +438,25 @@ def init():
     """)
 
     db.execute("""
-        CREATE TABLE IF NOT EXISTS member_name_history(
+        CREATE TABLE IF NOT EXISTS username_history(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             guild_id INTEGER,
             user_id INTEGER,
             old_username TEXT,
             new_username TEXT,
-            old_display_name TEXT,
-            new_display_name TEXT,
             changed_at TEXT
+        )
+    """)
+
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS member_profiles(
+            guild_id INTEGER,
+            user_id INTEGER,
+            last_username TEXT,
+            last_display_name TEXT,
+            color_changes INTEGER DEFAULT 0,
+            username_changes INTEGER DEFAULT 0,
+            PRIMARY KEY(guild_id, user_id)
         )
     """)
 
@@ -723,46 +733,29 @@ async def assign_rank(
 ):
 
     if rank_name not in RANKS:
-        raise ValueError(
-            "رتبة غير صحيحة."
-        )
+        raise ValueError("رتبة غير صحيحة.")
 
-    # Member تعني إزالة جميع رتب SOKO وإعادته عضوًا عاديًا.
-    if rank_name == "Member":
-        remove_roles = [
-            role
-            for role in member.roles
-            if role.name.startswith("SOKO • ")
-        ]
-
-        if remove_roles:
-            await member.remove_roles(
-                *remove_roles,
-                reason="COLORS_SOK_2B demote to Member"
-            )
-
-        db.execute(
-            "DELETE FROM rank_roles WHERE guild_id=? AND rank_name=?",
-            (member.guild.id, "Member")
-        )
-        db.commit()
-        return None
-
-    role = await get_or_create_rank_role(
-        member.guild,
-        rank_name
-    )
-
+    # Remove every SOKO rank first, including when selecting Member.
     remove_roles = [
-        r
-        for r in member.roles
-        if r.name.startswith("SOKO • ") and r.id != role.id
+        r for r in member.roles
+        if r.name.startswith("SOKO • ")
     ]
 
     if remove_roles:
         await member.remove_roles(
             *remove_roles,
             reason="COLORS_SOK_2B rank change"
+        )
+
+    if rank_name == "Member":
+        return None
+
+    role = await get_or_create_rank_role(member.guild, rank_name)
+
+    me = member.guild.me
+    if me is None or role >= me.top_role:
+        raise RuntimeError(
+            "❌ رتبة SOKO ليست أسفل رتبة البوت. انقل رتبة البوت فوق رتب SOKO."
         )
 
     if role not in member.roles:
@@ -1056,77 +1049,80 @@ async def color_role(
     member
 ):
 
+    guild = member.guild
+    ensure(guild.id)
+
     row = db.execute(
         """
         SELECT role_id
         FROM roles
         WHERE guild_id=? AND user_id=?
         """,
-        (
-            member.guild.id,
-            member.id
-        )
+        (guild.id, member.id)
     ).fetchone()
 
     role = None
 
     if row:
+        role = guild.get_role(row["role_id"])
 
-        role = member.guild.get_role(
-            row["role_id"]
+    if role is None:
+        role = discord.utils.get(
+            guild.roles,
+            name=f"COLOR • {member.display_name}"[:100]
         )
 
     if role is None:
-
-        role = await member.guild.create_role(
+        role = await guild.create_role(
             name=f"COLOR • {member.display_name}"[:100],
             colour=discord.Colour.default(),
             reason="COLORS_SOK_2B personal color role"
         )
 
-        db.execute(
-            """
-            INSERT OR REPLACE INTO roles(
-                guild_id,
-                user_id,
-                role_id
-            )
-            VALUES(?,?,?)
-            """,
-            (
-                member.guild.id,
-                member.id,
-                role.id
-            )
+    db.execute(
+        """
+        INSERT OR REPLACE INTO roles(guild_id, user_id, role_id)
+        VALUES(?,?,?)
+        """,
+        (guild.id, member.id, role.id)
+    )
+    db.commit()
+
+    me = guild.me
+    if me is None:
+        raise RuntimeError("❌ لم أستطع تحديد رتبة البوت.")
+
+    if role >= me.top_role:
+        raise RuntimeError(
+            "❌ رتبة COLOR ليست أسفل رتبة البوت. انقل رتبة البوت فوق رتب الألوان."
         )
 
-        db.commit()
-
-    # --------------------------------------------------------
-    # ROLE POSITION
-    # --------------------------------------------------------
-
-    me = member.guild.me
-
-    if me and me.top_role > role:
-
+    # Put the color role immediately below the bot's highest role.
+    # This prevents an older COLOR role or another manageable role from
+    # overriding the visible member color.
+    if me.top_role.position > 1 and role.position != me.top_role.position - 1:
         try:
-
-            position = max(
-                1,
-                me.top_role.position - 1
+            await guild.edit_role_positions(
+                positions={role: me.top_role.position - 1},
+                reason="COLORS_SOK_2B color role hierarchy"
             )
-
-            await member.guild.edit_role_positions(
-                positions={
-                    role: position
-                },
-                reason="COLORS_SOK_2B color role position"
-            )
-
         except discord.HTTPException:
+            logging.exception("Failed to move color role")
 
-            pass
+    # Remove old personal color roles from this member, except the active one.
+    old_color_roles = [
+        r for r in member.roles
+        if r != role and r.name.startswith("COLOR • ")
+    ]
+
+    if old_color_roles:
+        try:
+            await member.remove_roles(
+                *old_color_roles,
+                reason="COLORS_SOK_2B remove old color roles"
+            )
+        except discord.HTTPException:
+            logging.exception("Failed to remove old color roles")
 
     return role
 
@@ -1365,228 +1361,101 @@ async def write_log(
     was_locked=False
 ):
 
-    if not get_bool(
-        guild.id,
-        "log_on"
-    ):
-        return
+    ensure(guild.id)
 
-    channel_id = get_log_channel(
-        guild.id
-    )
-
-    if not channel_id:
-        return
-
-    channel = guild.get_channel(
-        channel_id
-    )
-
-    if channel is None:
-        return
-
-    now = datetime.now(
-        timezone.utc
-    )
-
-    daily_count = get_daily_usage(
-        guild.id,
-        member.id
-    )
-
-    rank = get_member_rank(
-        member
-    )
+    now = datetime.now(timezone.utc)
+    daily_count = get_daily_usage(guild.id, member.id)
+    rank = get_member_rank(member)
 
     role_id = None
-
     row = db.execute(
         """
         SELECT role_id
         FROM roles
         WHERE guild_id=? AND user_id=?
         """,
-        (
-            guild.id,
-            member.id
-        )
+        (guild.id, member.id)
     ).fetchone()
 
     if row:
         role_id = row["role_id"]
 
-    history_text = (
-        f"🎨 **COLORS_SOK_2B LOG**\n\n"
-        f"👤 **العضو:**\n"
-        f"{member.display_name}\n\n"
-        f"🆔 **ID:**\n"
-        f"{member.id}\n\n"
-        f"🏷️ **رتبته:**\n"
-        f"{rank}\n\n"
-        f"🔴 **اللون السابق:**\n"
-        f"{old}\n\n"
-        f"🟢 **اللون الجديد:**\n"
-        f"{new}\n\n"
-        f"👮 **بواسطة:**\n"
-        f"{who}\n\n"
-        f"🔢 **تغييرات اليوم:**\n"
-        f"{daily_count}\n\n"
-        f"🚫 **تم قفل العضو:**\n"
-        f"{'نعم' if was_locked else 'لا'}\n\n"
-        f"🕒 **التاريخ:**\n"
-        f"{now.strftime('%Y/%m/%d %H:%M:%S UTC')}"
-    )
-
     db.execute(
         """
         INSERT INTO color_history(
-            guild_id,
-            user_id,
-            member_name,
-            old_color,
-            new_color,
-            changed_by,
-            changed_at,
-            daily_changes,
-            was_locked,
-            member_rank,
-            role_id
+            guild_id, user_id, member_name, old_color, new_color,
+            changed_by, changed_at, daily_changes, was_locked,
+            member_rank, role_id
         )
         VALUES(?,?,?,?,?,?,?,?,?,?,?)
         """,
         (
-            guild.id,
-            member.id,
-            member.display_name,
-            str(old),
-            str(new),
-            str(who),
-            now.isoformat(),
-            daily_count,
-            int(was_locked),
-            rank,
-            role_id
+            guild.id, member.id, member.display_name, str(old), str(new),
+            str(who), now.isoformat(), daily_count, int(was_locked),
+            rank, role_id
         )
     )
+
+    db.execute(
+        """
+        INSERT OR IGNORE INTO member_profiles(
+            guild_id, user_id, last_username, last_display_name,
+            color_changes, username_changes
+        ) VALUES(?,?,?,?,0,0)
+        """,
+        (guild.id, member.id, member.name, member.display_name)
+    )
+
+    if not was_locked and str(new) != "RATE LIMIT":
+        db.execute(
+            """
+            UPDATE member_profiles
+            SET last_username=?, last_display_name=?, color_changes=color_changes+1
+            WHERE guild_id=? AND user_id=?
+            """,
+            (member.name, member.display_name, guild.id, member.id)
+        )
+    else:
+        db.execute(
+            """
+            UPDATE member_profiles
+            SET last_username=?, last_display_name=?
+            WHERE guild_id=? AND user_id=?
+            """,
+            (member.name, member.display_name, guild.id, member.id)
+        )
 
     db.commit()
 
-    try:
+    # LOG channel is optional. Database history is always retained.
+    if not get_bool(guild.id, "log_on"):
+        return
 
-        await channel.send(
-            history_text
-        )
+    channel_id = get_log_channel(guild.id)
+    if not channel_id:
+        return
 
-    except discord.HTTPException:
+    channel = guild.get_channel(channel_id)
+    if channel is None:
+        return
 
-        pass
-
-
-# ============================================================
-# MEMBER HISTORY
-# ============================================================
-
-def get_member_history(guild_id, user_id, limit=20):
-
-    return db.execute(
-        """
-        SELECT * FROM color_history
-        WHERE guild_id=? AND user_id=?
-        ORDER BY id DESC
-        LIMIT ?
-        """,
-        (guild_id, user_id, limit)
-    ).fetchall()
-
-
-def get_member_change_count(guild_id, user_id):
-
-    row = db.execute(
-        """
-        SELECT COUNT(*) AS total
-        FROM color_history
-        WHERE guild_id=? AND user_id=?
-        """,
-        (guild_id, user_id)
-    ).fetchone()
-
-    return int(row["total"] or 0)
-
-
-def get_username_change_count(guild_id, user_id):
-
-    row = db.execute(
-        """
-        SELECT COUNT(*) AS total
-        FROM member_name_history
-        WHERE guild_id=? AND user_id=?
-        """,
-        (guild_id, user_id)
-    ).fetchone()
-
-    return int(row["total"] or 0)
-
-
-def format_member_history(member, rows):
-
-    guild_id = member.guild.id
-    user_id = member.id
-    lock = get_color_lock(guild_id, user_id)
-    rank = get_member_rank(member)
-    total = get_member_change_count(guild_id, user_id)
-    username_changes = get_username_change_count(guild_id, user_id)
-
-    if lock:
-        locked = f"🔴 محظور حتى: `{lock.strftime('%Y/%m/%d %H:%M UTC')}`"
-    else:
-        locked = "🟢 غير محظور"
-
-    text = (
-        "📋 **سجل العضو**\n\n"
-        f"👤 **الاسم:** {member.display_name}\n"
-        f"🆔 **ID:** `{member.id}`\n"
-        f"🏷️ **اليوزر:** `{member.name}`\n"
-        f"🏆 **الرتبة:** `{rank}`\n"
-        f"🔢 **عدد تغييرات اللون:** `{total}`\n"
-        f"🔤 **عدد مرات تغيير اليوزر:** `{username_changes}`\n"
-        f"🚫 **الحظر:** {locked}\n\n"
+    history_text = (
+        f"🎨 **COLORS_SOK_2B LOG**\n\n"
+        f"👤 **العضو:**\n{member.display_name}\n\n"
+        f"🆔 **ID:**\n{member.id}\n\n"
+        f"🏷️ **رتبته:**\n{rank}\n\n"
+        f"🔴 **اللون السابق:**\n{old}\n\n"
+        f"🟢 **اللون الجديد:**\n{new}\n\n"
+        f"👮 **بواسطة:**\n{who}\n\n"
+        f"🔢 **تغييرات اليوم:**\n{daily_count}\n\n"
+        f"🚫 **تم قفل العضو:**\n{'نعم' if was_locked else 'لا'}\n\n"
+        f"🕒 **التاريخ:**\n{now.strftime('%Y/%m/%d %H:%M:%S UTC')}"
     )
 
-    name_rows = db.execute(
-        """
-        SELECT * FROM member_name_history
-        WHERE guild_id=? AND user_id=?
-        ORDER BY id DESC
-        LIMIT 10
-        """,
-        (guild_id, user_id)
-    ).fetchall()
-
-    if name_rows:
-        text += "🔤 **تغييرات اليوزر الأخيرة:**\n\n"
-        for row in name_rows:
-            text += (
-                f"`{row['changed_at']}` — "
-                f"`{row['old_username']}` → `{row['new_username']}`\n"
-            )
-        text += "\n"
-
-    if not rows:
-        return text + "📭 لا توجد تغييرات لون مسجلة لهذا العضو."
-
-    text += "🕘 **آخر تغييرات اللون:**\n\n"
-
-    for index, row in enumerate(rows, 1):
-        text += (
-            f"**#{index}** — `{row['changed_at']}`\n"
-            f"🎨 السابق: `{row['old_color']}`\n"
-            f"🟢 الجديد: `{row['new_color']}`\n"
-            f"👮 بواسطة: `{row['changed_by']}`\n"
-            f"📊 تغييرات الساعة/السجل: `{row['daily_changes']}`\n"
-            f"{'🔒 تم القفل' if row['was_locked'] else '🔓 بدون قفل'}\n\n"
-        )
-
-    return text[:3900]
+    try:
+        await channel.send(history_text)
+    except discord.HTTPException:
+        logging.exception("Failed to send color log")
 
 
 # ============================================================
@@ -1601,44 +1470,22 @@ async def apply_color(
 ):
 
     guild = member.guild
+    ensure(guild.id)
 
-    ensure(
-        guild.id
-    )
+    if not get_bool(guild.id, "bot_on"):
+        raise ValueError("⛔ البوت متوقف في هذا السيرفر حاليًا.")
 
-    # --------------------------------------------------------
-    # GLOBAL SYSTEM
-    # --------------------------------------------------------
+    if not get_bool(guild.id, "system_on"):
+        raise ValueError("⛔ نظام الألوان متوقف حاليًا.")
 
-    if not get_bool(
-        guild.id,
-        "bot_on"
-    ):
-        raise ValueError(
-            "⛔ البوت متوقف حاليًا من لوحة التحكم."
-        )
-
-    if not get_bool(
-        guild.id,
-        "system_on"
-    ):
-
-        raise ValueError(
-            "⛔ نظام الألوان متوقف حاليًا."
-        )
-
-    # التغيير الذاتي للأعضاء يخضع لحالة قسم الأعضاء.
-    if not bypass_limit and not get_bool(
-        guild.id,
-        "members_on"
-    ):
-        raise ValueError(
-            "⛔ تم إيقاف تغيير الألوان للأعضاء من لوحة التحكم."
-        )
-
-    # --------------------------------------------------------
-    # USER LIMIT
-    # --------------------------------------------------------
+    # Manual administration uses bypass_limit, but still requires the
+    # administration section to be enabled. Normal members require members_on.
+    if bypass_limit:
+        if not get_bool(guild.id, "admins_on") and not is_owner(member.id):
+            raise ValueError("⛔ أوامر الإدارة متوقفة حاليًا.")
+    else:
+        if not get_bool(guild.id, "members_on"):
+            raise ValueError("⛔ تغيير الألوان للأعضاء متوقف حاليًا.")
 
     privileged = (
         bypass_limit
@@ -1648,19 +1495,11 @@ async def apply_color(
 
     if (
         not privileged
-        and get_bool(
-            guild.id,
-            "rate_limit_on"
-        )
+        and get_bool(guild.id, "rate_limit_on")
     ):
-
-        locked_until = get_color_lock(
-            guild.id,
-            member.id
-        )
+        locked_until = get_color_lock(guild.id, member.id)
 
         if locked_until:
-
             raise ValueError(
                 "🚫 تم إيقاف تغيير الألوان لك مؤقتًا.\n\n"
                 f"⏰ يعود النظام:\n"
@@ -1668,30 +1507,14 @@ async def apply_color(
                 "المالك والإدارة غير خاضعين لهذا الحد."
             )
 
-        usage = get_hourly_usage(
-            guild.id,
-            member.id
-        )
+        usage = get_hourly_usage(guild.id, member.id)
 
         if usage >= MAX_USER_CHANGES_PER_HOUR:
-
-            until = lock_user_until_tomorrow(
-                guild.id,
-                member.id
-            )
-
-            daily = get_daily_usage(
-                guild.id,
-                member.id
-            )
+            until = lock_user_until_tomorrow(guild.id, member.id)
+            daily = get_daily_usage(guild.id, member.id)
 
             await write_log(
-                guild,
-                member,
-                "N/A",
-                "RATE LIMIT",
-                who,
-                was_locked=True
+                guild, member, "N/A", "RATE LIMIT", who, was_locked=True
             )
 
             raise ValueError(
@@ -1702,116 +1525,87 @@ async def apply_color(
                 f"📊 تغييرات اليوم: `{daily}`"
             )
 
-    # --------------------------------------------------------
-    # PARSE
-    # --------------------------------------------------------
+    spec = parse_color(value)
 
-    spec = parse_color(
-        value
-    )
+    if spec["type"] == "gradient" and not gradient_available(guild):
+        raise GradientNotEnabled()
 
-    # --------------------------------------------------------
-    # GRADIENT CHECK
-    # --------------------------------------------------------
+    role = await color_role(member)
+    old_color = str(role.colour)
 
-    if spec["type"] == "gradient":
+    try:
+        if spec["type"] == "solid":
+            primary = hex_to_int(spec["colors"][0])
+            await role.edit(
+                name=f"COLOR • {member.display_name}"[:100],
+                colour=discord.Colour(primary),
+                reason="COLORS_SOK_2B solid color"
+            )
+        else:
+            primary = hex_to_int(spec["colors"][0])
+            secondary = hex_to_int(spec["colors"][1])
+            await role.edit(
+                name=f"COLOR • {member.display_name}"[:100],
+                colour=discord.Colour(primary),
+                secondary_colour=discord.Colour(secondary),
+                tertiary_colour=None,
+                reason="COLORS_SOK_2B gradient color"
+            )
+    except discord.Forbidden:
+        raise
+    except discord.HTTPException as exc:
+        logging.exception("Discord rejected color role edit")
+        raise RuntimeError(
+            "❌ Discord رفض تعديل لون الرتبة.\n"
+            "تأكد من تفعيل Manage Roles وأن رتبة البوت أعلى من رتبة COLOR."
+        ) from exc
 
-        if not gradient_available(
-            guild
-        ):
+    # Verify the server accepted the requested color. This prevents the bot
+    # from falsely saying success when Discord did not actually update it.
+    try:
+        refreshed_role = await guild.fetch_role(role.id)
+    except discord.HTTPException as exc:
+        logging.exception("Failed to verify updated color role")
+        raise RuntimeError("❌ تم تعديل الرتبة لكن تعذر التحقق من اللون من Discord.") from exc
 
-            raise GradientNotEnabled()
-
-    # --------------------------------------------------------
-    # ROLE
-    # --------------------------------------------------------
-
-    role = await color_role(
-        member
-    )
-
-    old_color = (
-        f"{role.colour}"
-    )
-
-    # --------------------------------------------------------
-    # SOLID
-    # --------------------------------------------------------
-
-    if spec["type"] == "solid":
-
-        primary = hex_to_int(
-            spec["colors"][0]
+    expected_primary = discord.Colour(hex_to_int(spec["colors"][0]))
+    if refreshed_role.colour.value != expected_primary.value:
+        raise RuntimeError(
+            "❌ لم يتم تطبيق اللون فعليًا على رتبة العضو.\n"
+            "تأكد من أن رتبة البوت أعلى من رتبة COLOR وأن Manage Roles مفعلة."
         )
 
-        await role.edit(
-            name=f"COLOR • {member.display_name}"[:100],
-            colour=discord.Colour(
-                primary
-            ),
-            secondary_colour=None,
-            tertiary_colour=None,
-            reason="COLORS_SOK_2B solid color"
-        )
-
-    # --------------------------------------------------------
-    # GRADIENT
-    # --------------------------------------------------------
-
-    elif spec["type"] == "gradient":
-
-        primary = hex_to_int(
-            spec["colors"][0]
-        )
-
-        secondary = hex_to_int(
-            spec["colors"][1]
-        )
-
-        await role.edit(
-            name=f"COLOR • {member.display_name}"[:100],
-            colour=discord.Colour(
-                primary
-            ),
-            secondary_colour=discord.Colour(
-                secondary
-            ),
-            tertiary_colour=None,
-            reason="COLORS_SOK_2B gradient color"
-        )
-
-    # --------------------------------------------------------
-    # ADD ROLE
-    # --------------------------------------------------------
+    role = refreshed_role
 
     if role not in member.roles:
-
         await member.add_roles(
             role,
             reason="COLORS_SOK_2B color role"
         )
 
-    # --------------------------------------------------------
-    # USAGE
-    # --------------------------------------------------------
+    # Discord displays the color of the highest colored role. If another
+    # colored role is above our COLOR role, report the real blocker instead
+    # of falsely reporting success.
+    blocking_roles = [
+        r for r in member.roles
+        if r != role
+        and r.position > role.position
+        and r.colour.value != 0
+    ]
 
-    if not privileged:
-
-        register_color_usage(
-            guild.id,
-            member.id
+    if blocking_roles:
+        names = ", ".join(r.name for r in blocking_roles[:3])
+        raise RuntimeError(
+            "❌ تم تعديل رتبة اللون، لكن Discord سيعرض لون رتبة أعلى للعضو.\n"
+            f"الرتب التي تمنع ظهور اللون: `{names}`\n"
+            "ارفع رتبة البوت فوق هذه الرتب أو أزل لونها."
         )
 
-    # --------------------------------------------------------
-    # LOG
-    # --------------------------------------------------------
+    if not privileged:
+        register_color_usage(guild.id, member.id)
 
     await write_log(
-        guild,
-        member,
-        old_color,
-        spec["label"],
-        who
+        guild, member, old_color, spec["label"], who
     )
 
     return spec
@@ -2058,10 +1852,29 @@ class OwnerView(
         await interaction.response.edit_message(
             content=(
                 "⛔ **إيقاف البوت**\n\n"
-                "هل أنت متأكد من إيقاف وظائف البوت في هذا السيرفر؟\n\n"
-                "سيبقى البوت متصلًا، ويمكن تشغيله مباشرة من نفس اللوحة."
+                "هل أنت متأكد من إيقاف البوت؟\n\n"
+                "لن يعود للعمل حتى يتم تشغيل Workflow مرة أخرى."
             ),
             view=StopView()
+        )
+
+    @discord.ui.button(
+        label="▶️ تشغيل البوت",
+        style=discord.ButtonStyle.success,
+        row=1
+    )
+    async def start_bot(self, interaction, button):
+        if not await self.allowed(interaction):
+            return
+
+        put(interaction.guild.id, "bot_on", True)
+        await interaction.response.edit_message(
+            content=(
+                dashboard_text(interaction.guild)
+                + "\n\n"
+                "✅ **تم تشغيل وظائف البوت لهذا السيرفر مباشرة.**"
+            ),
+            view=self
         )
 
     @discord.ui.button(
@@ -2080,10 +1893,26 @@ class OwnerView(
         ):
             return
 
-        await interaction.response.send_modal(
-            ManualColorModal(
-                interaction.guild.id
+        if not get_bool(interaction.guild.id, "bot_on"):
+            return await interaction.response.send_message(
+                "⛔ البوت متوقف في هذا السيرفر حاليًا.",
+                ephemeral=True
             )
+
+        if not get_bool(interaction.guild.id, "system_on"):
+            return await interaction.response.send_message(
+                "⛔ نظام الألوان متوقف حاليًا.",
+                ephemeral=True
+            )
+
+        if not get_bool(interaction.guild.id, "admins_on"):
+            return await interaction.response.send_message(
+                "⛔ أوامر الإدارة متوقفة حاليًا.",
+                ephemeral=True
+            )
+
+        await interaction.response.send_modal(
+            ManualColorModal()
         )
 
     @discord.ui.button(
@@ -2104,37 +1933,6 @@ class OwnerView(
 
         await interaction.response.send_modal(
             RankUserModal()
-        )
-
-
-    @discord.ui.button(
-        label="🟢 تشغيل البوت",
-        style=discord.ButtonStyle.success,
-        row=3
-    )
-    async def start_bot(
-        self,
-        interaction,
-        button
-    ):
-
-        if not await self.allowed(interaction):
-            return
-
-        put(
-            interaction.guild.id,
-            "bot_on",
-            True
-        )
-
-        await interaction.response.edit_message(
-            content=dashboard_text(interaction.guild),
-            view=self
-        )
-
-        await interaction.followup.send(
-            "🟢 تم تشغيل وظائف البوت في هذا السيرفر مباشرة.",
-            ephemeral=True
         )
 
 
@@ -2187,10 +1985,7 @@ def dashboard_text(
     )
 
     bot_status = status(
-        get_bool(
-            guild.id,
-            "bot_on"
-        )
+        get_bool(guild.id, "bot_on")
     )
 
     rate = status(
@@ -2341,11 +2136,6 @@ class MembersView(
             view=self
         )
 
-        await interaction.followup.send(
-            "🟢 تم تفعيل قسم الأعضاء. يستطيع الأعضاء تغيير ألوانهم الآن.",
-            ephemeral=True
-        )
-
     @discord.ui.button(
         label="🔴 إيقاف",
         style=discord.ButtonStyle.danger
@@ -2376,11 +2166,6 @@ class MembersView(
                 "members"
             ),
             view=self
-        )
-
-        await interaction.followup.send(
-            "🔴 تم إيقاف قسم الأعضاء. تم منع تغيير الألوان الذاتي فورًا.",
-            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2444,11 +2229,6 @@ class AdminsView(
             view=self
         )
 
-        await interaction.followup.send(
-            "🟢 تم تفعيل أوامر الإدارة.",
-            ephemeral=True
-        )
-
     @discord.ui.button(
         label="🔴 إيقاف",
         style=discord.ButtonStyle.danger
@@ -2479,11 +2259,6 @@ class AdminsView(
                 "admins"
             ),
             view=self
-        )
-
-        await interaction.followup.send(
-            "🔴 تم إيقاف أوامر الإدارة.",
-            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2548,11 +2323,6 @@ class SystemView(
             view=self
         )
 
-        await interaction.followup.send(
-            "🟢 تم تفعيل نظام الألوان.",
-            ephemeral=True
-        )
-
     @discord.ui.button(
         label="🔴 إيقاف النظام",
         style=discord.ButtonStyle.danger,
@@ -2584,11 +2354,6 @@ class SystemView(
                 "system"
             ),
             view=self
-        )
-
-        await interaction.followup.send(
-            "🔴 تم إيقاف نظام الألوان بالكامل.",
-            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2629,11 +2394,6 @@ class SystemView(
             view=self
         )
 
-        await interaction.followup.send(
-            "🟢 تم تفعيل حد 5 تغييرات/ساعة." if v else "🔴 تم إيقاف حد 5 تغييرات/ساعة.",
-            ephemeral=True
-        )
-
     @discord.ui.button(
         label="↩️ رجوع",
         style=discord.ButtonStyle.secondary,
@@ -2648,6 +2408,123 @@ class SystemView(
         await BackButton.back(
             interaction
         )
+
+
+# ============================================================
+# MEMBER HISTORY
+# ============================================================
+
+def get_member_history(guild_id, user_id, limit=20):
+    color_rows = db.execute(
+        """
+        SELECT changed_at, old_color, new_color, changed_by, member_rank
+        FROM color_history
+        WHERE guild_id=? AND user_id=?
+        ORDER BY id DESC
+        LIMIT ?
+        """,
+        (guild_id, user_id, limit)
+    ).fetchall()
+
+    username_rows = db.execute(
+        """
+        SELECT changed_at, old_username, new_username
+        FROM username_history
+        WHERE guild_id=? AND user_id=?
+        ORDER BY id DESC
+        LIMIT ?
+        """,
+        (guild_id, user_id, limit)
+    ).fetchall()
+
+    return color_rows, username_rows
+
+
+class MemberHistoryModal(discord.ui.Modal, title="📋 سجل عضو"):
+
+    user_id = discord.ui.TextInput(
+        label="ID العضو",
+        placeholder="ضع ID العضو",
+        required=True,
+        max_length=25
+    )
+
+    async def on_submit(self, interaction):
+        if not is_owner(interaction.user.id):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.", ephemeral=True
+            )
+
+        if not interaction.guild or not self.user_id.value.isdigit():
+            return await interaction.response.send_message(
+                "❌ ID غير صحيح.", ephemeral=True
+            )
+
+        user_id = int(self.user_id.value)
+        member = interaction.guild.get_member(user_id)
+        if member is None:
+            try:
+                member = await interaction.guild.fetch_member(user_id)
+            except discord.HTTPException:
+                member = None
+
+        row = db.execute(
+            """
+            SELECT color_changes, username_changes, last_username, last_display_name
+            FROM member_profiles
+            WHERE guild_id=? AND user_id=?
+            """,
+            (interaction.guild.id, user_id)
+        ).fetchone()
+
+        color_changes = int(row["color_changes"]) if row else 0
+        username_changes = int(row["username_changes"]) if row else 0
+        username = member.name if member else (row["last_username"] if row else "غير معروف")
+        display_name = member.display_name if member else (row["last_display_name"] if row else "غير معروف")
+        rank = get_member_rank(member) if member else "غير موجود حاليًا"
+        lock = get_color_lock(interaction.guild.id, user_id)
+
+        color_rows, username_rows = get_member_history(interaction.guild.id, user_id)
+
+        lines = [
+            "📋 **سجل العضو**",
+            "",
+            f"👤 الاسم: `{display_name}`",
+            f"🆔 ID: `{user_id}`",
+            f"🔤 اليوزر: `{username}`",
+            f"🏆 الرتبة: `{rank}`",
+            f"🎨 مرات تغيير اللون: `{color_changes}`",
+            f"🔤 مرات تغيير اليوزر: `{username_changes}`",
+            f"🚫 محظور من تغيير اللون: `{'نعم' if lock else 'لا'}`",
+        ]
+
+        if lock:
+            lines.append(f"⏰ انتهاء الحظر: `{lock.strftime('%Y/%m/%d %H:%M UTC')}`")
+
+        lines.extend(["", "🎨 **آخر تغييرات الألوان:**"])
+
+        if color_rows:
+            for item in color_rows[:10]:
+                lines.append(
+                    f"• `{item['changed_at']}` | `{item['old_color']}` → `{item['new_color']}` | بواسطة `{item['changed_by']}`"
+                )
+        else:
+            lines.append("• لا توجد سجلات ألوان.")
+
+        lines.extend(["", "🔤 **آخر تغييرات اليوزر:**"])
+        if username_rows:
+            for item in username_rows[:10]:
+                lines.append(
+                    f"• `{item['changed_at']}` | `{item['old_username']}` → `{item['new_username']}`"
+                )
+        else:
+            lines.append("• لا توجد تغييرات يوزر مسجلة.")
+
+        text = "\n".join(lines)
+        if len(text) > 3900:
+            text = text[:3890] + "\n…"
+
+        await interaction.response.send_message(text, ephemeral=True)
 
 
 # ============================================================
@@ -2697,11 +2574,6 @@ class LogView(
             view=self
         )
 
-        await interaction.followup.send(
-            "🟢 تم تفعيل LOG.",
-            ephemeral=True
-        )
-
     @discord.ui.button(
         label="🔴 إيقاف LOG",
         style=discord.ButtonStyle.danger,
@@ -2733,11 +2605,6 @@ class LogView(
                 "log"
             ),
             view=self
-        )
-
-        await interaction.followup.send(
-            "🔴 تم إيقاف LOG.",
-            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2773,33 +2640,22 @@ class LogView(
             view=self
         )
 
-
     @discord.ui.button(
-        label="👤 عرض سجل عضو",
+        label="📋 عرض سجل عضو",
         style=discord.ButtonStyle.primary,
         row=2
     )
-    async def member_history(
-        self,
-        interaction,
-        button
-    ):
-
+    async def member_history(self, interaction, button):
         if not is_owner(interaction.user.id):
             return await interaction.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
+                "❌ غير مصرح.", ephemeral=True
             )
-
-        await interaction.response.send_modal(
-            MemberHistoryModal()
-        )
-
+        await interaction.response.send_modal(MemberHistoryModal())
 
     @discord.ui.button(
         label="↩️ رجوع",
         style=discord.ButtonStyle.secondary,
-        row=3
+        row=2
     )
     async def back(
         self,
@@ -2844,21 +2700,19 @@ class StopView(
                 ephemeral=True
             )
 
-        put(
-            interaction.guild.id,
-            "bot_on",
-            False
-        )
+        if not interaction.guild:
+            return await interaction.response.send_message(
+                "❌ داخل السيرفر فقط.", ephemeral=True
+            )
+
+        put(interaction.guild.id, "bot_on", False)
 
         await interaction.response.edit_message(
-            content=dashboard_text(interaction.guild),
+            content=(
+                "⛔ **تم إيقاف وظائف البوت في هذا السيرفر.**\n\n"
+                "الاتصال مع Discord سيبقى يعمل، ويمكنك إعادة التفعيل من زر التشغيل."
+            ),
             view=OwnerView()
-        )
-
-        await interaction.followup.send(
-            "🔴 تم إيقاف وظائف البوت في هذا السيرفر مباشرة.\n"
-            "يمكنك تشغيله من زر **🟢 تشغيل البوت**.",
-            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2890,180 +2744,134 @@ class ManualColorModal(
 
     user_id = discord.ui.TextInput(
         label="ID العضو",
-        placeholder="1531577881548034100",
-        required=True,
-        max_length=25
-    )
-
-    color = discord.ui.TextInput(
-        label="اللون / التدرج",
-        placeholder="#7A00FF #FF00A8",
-        required=True,
-        max_length=300
-    )
-
-    async def on_submit(
-        self,
-        interaction
-    ):
-
-        if not is_owner(
-            interaction.user.id
-        ):
-
-            return await interaction.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
-            )
-
-        if not self.user_id.value.isdigit():
-
-            return await interaction.response.send_message(
-                "❌ ID غير صحيح.",
-                ephemeral=True
-            )
-
-        member = interaction.guild.get_member(
-            int(
-                self.user_id.value
-            )
-        )
-
-        if member is None:
-
-            try:
-
-                member = await interaction.guild.fetch_member(
-                    int(
-                        self.user_id.value
-                    )
-                )
-
-            except discord.HTTPException:
-
-                member = None
-
-        if member is None:
-
-            return await interaction.response.send_message(
-                "❌ العضو غير موجود.",
-                ephemeral=True
-            )
-
-        await interaction.response.defer(
-            ephemeral=True
-        )
-
-        try:
-
-            spec = await apply_color(
-                member,
-                self.color.value,
-                interaction.user.display_name,
-                bypass_limit=True
-            )
-
-            await interaction.followup.send(
-                "✅ **تم تعيين اللون بنجاح.**\n\n"
-                f"👤 {member.mention}\n"
-                f"🎨 {spec['label']}",
-                ephemeral=True
-            )
-
-        except GradientNotEnabled:
-
-            await interaction.followup.send(
-                gradient_help_text(),
-                view=GradientCheckView(
-                    interaction.guild.id
-                ),
-                ephemeral=True
-            )
-
-        except ValueError as e:
-
-            await interaction.followup.send(
-                str(e),
-                ephemeral=True
-            )
-
-        except discord.Forbidden:
-
-            await interaction.followup.send(
-                "❌ البوت لا يملك صلاحية إدارة الرتب.\n\n"
-                "تأكد أن:\n"
-                "• Manage Roles مفعلة للبوت.\n"
-                "• رتبة البوت أعلى من رتبة COLOR.",
-                ephemeral=True
-            )
-
-        except Exception:
-
-            logging.exception(
-                "Manual color error"
-            )
-
-            await interaction.followup.send(
-                "❌ حدث خطأ أثناء تطبيق اللون.",
-                ephemeral=True
-            )
-
-
-# ============================================================
-# MEMBER HISTORY MODAL
-# ============================================================
-
-class MemberHistoryModal(
-    discord.ui.Modal,
-    title="📋 عرض سجل عضو"
-):
-
-    user_id = discord.ui.TextInput(
-        label="ID العضو",
         placeholder="ضع ID العضو هنا",
         required=True,
         max_length=25
     )
 
     async def on_submit(self, interaction):
-
         if not is_owner(interaction.user.id):
             return await interaction.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
+                "❌ غير مصرح.", ephemeral=True
             )
 
-        if not self.user_id.value.isdigit():
+        if not interaction.guild:
             return await interaction.response.send_message(
-                "❌ ID غير صحيح.",
-                ephemeral=True
+                "❌ داخل السيرفر فقط.", ephemeral=True
             )
 
-        user_id = int(self.user_id.value)
-        member = interaction.guild.get_member(user_id)
+        if not get_bool(interaction.guild.id, "bot_on"):
+            return await interaction.response.send_message(
+                "⛔ البوت متوقف في هذا السيرفر حاليًا.", ephemeral=True
+            )
 
+        if not get_bool(interaction.guild.id, "system_on"):
+            return await interaction.response.send_message(
+                "⛔ نظام الألوان متوقف حاليًا.", ephemeral=True
+            )
+
+        if not get_bool(interaction.guild.id, "admins_on"):
+            return await interaction.response.send_message(
+                "⛔ أوامر الإدارة متوقفة حاليًا.", ephemeral=True
+            )
+
+        value = self.user_id.value.strip()
+        if not value.isdigit():
+            return await interaction.response.send_message(
+                "❌ ID غير صحيح.", ephemeral=True
+            )
+
+        member = interaction.guild.get_member(int(value))
         if member is None:
             try:
-                member = await interaction.guild.fetch_member(user_id)
+                member = await interaction.guild.fetch_member(int(value))
             except discord.HTTPException:
                 member = None
 
         if member is None:
             return await interaction.response.send_message(
-                "❌ العضو غير موجود في السيرفر.",
-                ephemeral=True
+                "❌ العضو غير موجود.", ephemeral=True
             )
 
-        rows = get_member_history(
-            interaction.guild.id,
-            member.id,
-            20
+        await interaction.response.send_modal(
+            ManualColorValueModal(member.id)
         )
 
-        await interaction.response.send_message(
-            format_member_history(member, rows),
-            ephemeral=True
-        )
+
+class ManualColorValueModal(
+    discord.ui.Modal,
+    title="🎨 لون العضو"
+):
+
+    color = discord.ui.TextInput(
+        label="رقم اللون أو HEX أو اسم اللون",
+        placeholder="50 أو #C86BFF أو #C86BFF #FFD900",
+        required=True,
+        max_length=300
+    )
+
+    def __init__(self, member_id):
+        super().__init__()
+        self.member_id = int(member_id)
+
+    async def on_submit(self, interaction):
+        if not is_owner(interaction.user.id):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.", ephemeral=True
+            )
+
+        if not interaction.guild:
+            return await interaction.response.send_message(
+                "❌ داخل السيرفر فقط.", ephemeral=True
+            )
+
+        member = interaction.guild.get_member(self.member_id)
+        if member is None:
+            try:
+                member = await interaction.guild.fetch_member(self.member_id)
+            except discord.HTTPException:
+                member = None
+
+        if member is None:
+            return await interaction.response.send_message(
+                "❌ العضو غير موجود.", ephemeral=True
+            )
+
+        await interaction.response.defer(ephemeral=True)
+
+        try:
+            spec = await apply_color(
+                member,
+                self.color.value,
+                interaction.user.display_name,
+                bypass_limit=True
+            )
+            await interaction.followup.send(
+                "✅ **تم تطبيق اللون فعليًا.**\n\n"
+                f"👤 {member.mention}\n"
+                f"🎨 {spec['label']}\n"
+                "💾 تم التحقق من اللون بعد التعديل.",
+                ephemeral=True
+            )
+        except GradientNotEnabled:
+            await interaction.followup.send(
+                gradient_help_text(),
+                view=GradientCheckView(interaction.guild.id),
+                ephemeral=True
+            )
+        except (ValueError, RuntimeError) as e:
+            await interaction.followup.send(str(e), ephemeral=True)
+        except discord.Forbidden:
+            await interaction.followup.send(
+                "❌ البوت لا يملك صلاحية إدارة الرتب.\n"
+                "تأكد من Manage Roles وأن رتبة البوت أعلى من رتبة COLOR.",
+                ephemeral=True
+            )
+        except Exception:
+            logging.exception("Manual color value error")
+            await interaction.followup.send(
+                "❌ حدث خطأ أثناء تطبيق اللون.", ephemeral=True
+            )
 
 
 # ============================================================
@@ -3204,15 +3012,15 @@ class RankSelectView(
                 rank
             )
 
-            if role is None:
-                content = (
-                    "✅ **تم تنزيل العضو بنجاح.**\n\n"
+            if rank == "Member":
+                result_text = (
+                    "✅ **تم تنزيل العضو إلى Member بنجاح.**\n\n"
                     f"👤 {self.member.mention}\n"
                     "🏆 الرتبة الحالية: `Member`\n"
-                    "تمت إزالة جميع رتب SOKO السابقة."
+                    "🧹 تمت إزالة رتب SOKO السابقة."
                 )
             else:
-                content = (
+                result_text = (
                     "✅ **تم رفع العضو بنجاح.**\n\n"
                     f"👤 {self.member.mention}\n"
                     f"🏆 الرتبة: `{rank}`\n"
@@ -3220,7 +3028,7 @@ class RankSelectView(
                 )
 
             await interaction.response.edit_message(
-                content=content,
+                content=result_text,
                 view=None
             )
 
@@ -3269,7 +3077,7 @@ async def colors_cmd(
     ):
 
         return await interaction.response.send_message(
-            "⛔ تم إيقاف البوت في هذا السيرفر بواسطة لوحة التحكم.",
+            "⛔ البوت متوقف في هذا السيرفر حاليًا.",
             ephemeral=True
         )
 
@@ -3280,16 +3088,6 @@ async def colors_cmd(
 
         return await interaction.response.send_message(
             "⛔ تم إيقاف نظام الألوان بواسطة لوحة التحكم.",
-            ephemeral=True
-        )
-
-    if not get_bool(
-        interaction.guild.id,
-        "members_on"
-    ):
-
-        return await interaction.response.send_message(
-            "⛔ تم إيقاف قسم الأعضاء. تغيير اللون الذاتي غير متاح حاليًا.",
             ephemeral=True
         )
 
@@ -3354,6 +3152,104 @@ async def colors_cmd(
 
 
 # ============================================================
+# ADMIN COLOR INPUT MODAL
+# ============================================================
+
+class AdminColorInputModal(
+    discord.ui.Modal,
+    title="🎨 تعيين لون عضو"
+):
+
+    color = discord.ui.TextInput(
+        label="اللون / التدرج",
+        placeholder="50 أو #C86BFF أو #C86BFF #FFD900",
+        required=True,
+        max_length=300
+    )
+
+    def __init__(self, member_id):
+        super().__init__()
+        self.member_id = int(member_id)
+
+    async def on_submit(self, interaction):
+        if not interaction.guild:
+            return await interaction.response.send_message(
+                "❌ داخل السيرفر فقط.", ephemeral=True
+            )
+
+        if not is_admin(interaction.user):
+            return await interaction.response.send_message(
+                "❌ هذا الأمر للإدارة فقط.", ephemeral=True
+            )
+
+        if not get_bool(interaction.guild.id, "bot_on"):
+            return await interaction.response.send_message(
+                "⛔ البوت متوقف في هذا السيرفر حاليًا.", ephemeral=True
+            )
+
+        if not get_bool(interaction.guild.id, "system_on"):
+            return await interaction.response.send_message(
+                "⛔ نظام الألوان متوقف حاليًا.", ephemeral=True
+            )
+
+        if not get_bool(interaction.guild.id, "admins_on"):
+            return await interaction.response.send_message(
+                "⛔ أوامر الإدارة متوقفة.", ephemeral=True
+            )
+
+        member = interaction.guild.get_member(self.member_id)
+        if member is None:
+            try:
+                member = await interaction.guild.fetch_member(self.member_id)
+            except discord.HTTPException:
+                member = None
+
+        if member is None:
+            return await interaction.response.send_message(
+                "❌ العضو غير موجود.", ephemeral=True
+            )
+
+        await interaction.response.defer(ephemeral=True)
+
+        try:
+            spec = await apply_color(
+                member,
+                self.color.value,
+                interaction.user.display_name,
+                bypass_limit=True
+            )
+
+            await interaction.followup.send(
+                "✅ **تم تطبيق اللون فعليًا.**\n\n"
+                f"👤 {member.mention}\n"
+                f"🎨 {spec['label']}\n"
+                "💾 تم التحقق من الرتبة بعد التعديل.",
+                ephemeral=True
+            )
+
+        except GradientNotEnabled:
+            await interaction.followup.send(
+                gradient_help_text(),
+                view=GradientCheckView(interaction.guild.id),
+                ephemeral=True
+            )
+        except (ValueError, RuntimeError) as e:
+            await interaction.followup.send(str(e), ephemeral=True)
+        except discord.Forbidden:
+            await interaction.followup.send(
+                "❌ البوت لا يملك صلاحية إدارة الرتب.\n\n"
+                "تأكد أن Manage Roles مفعلة وأن رتبة البوت أعلى من رتبة COLOR.",
+                ephemeral=True
+            )
+        except Exception:
+            logging.exception("Admin color modal error")
+            await interaction.followup.send(
+                "❌ حدث خطأ غير متوقع أثناء تطبيق اللون.",
+                ephemeral=True
+            )
+
+
+# ============================================================
 # /SETCOLOR
 # ============================================================
 
@@ -3370,180 +3266,50 @@ async def setcolor(
 ):
 
     if not interaction.guild:
-
         return await interaction.response.send_message(
-            "❌ داخل السيرفر فقط.",
-            ephemeral=True
+            "❌ داخل السيرفر فقط.", ephemeral=True
         )
 
-    if not is_admin(
-        interaction.user
-    ):
-
+    if not is_admin(interaction.user):
         return await interaction.response.send_message(
-            "❌ هذا الأمر للإدارة فقط.",
-            ephemeral=True
+            "❌ هذا الأمر للإدارة فقط.", ephemeral=True
         )
 
-    if not get_bool(
-        interaction.guild.id,
-        "bot_on"
-    ):
+    if not get_bool(interaction.guild.id, "bot_on"):
         return await interaction.response.send_message(
-            "⛔ تم إيقاف البوت في هذا السيرفر.",
-            ephemeral=True
+            "⛔ البوت متوقف في هذا السيرفر حاليًا.", ephemeral=True
         )
 
-    if not get_bool(
-        interaction.guild.id,
-        "system_on"
-    ):
+    if not get_bool(interaction.guild.id, "system_on"):
         return await interaction.response.send_message(
-            "⛔ نظام الألوان متوقف حاليًا.",
-            ephemeral=True
+            "⛔ نظام الألوان متوقف حاليًا.", ephemeral=True
         )
 
-    if not get_bool(
-        interaction.guild.id,
-        "admins_on"
-    ):
-
+    if not get_bool(interaction.guild.id, "admins_on"):
         return await interaction.response.send_message(
-            "⛔ أوامر الإدارة متوقفة.",
-            ephemeral=True
+            "⛔ أوامر الإدارة متوقفة.", ephemeral=True
         )
 
     if not user_id.isdigit():
-
         return await interaction.response.send_message(
-            "❌ ID غير صحيح.",
-            ephemeral=True
+            "❌ ID غير صحيح.", ephemeral=True
         )
 
-    member = interaction.guild.get_member(
-        int(user_id)
-    )
-
+    member = interaction.guild.get_member(int(user_id))
     if member is None:
-
         try:
-
-            member = await interaction.guild.fetch_member(
-                int(user_id)
-            )
-
+            member = await interaction.guild.fetch_member(int(user_id))
         except discord.HTTPException:
-
             member = None
 
     if member is None:
-
         return await interaction.response.send_message(
-            "❌ العضو غير موجود.",
-            ephemeral=True
+            "❌ العضو غير موجود.", ephemeral=True
         )
 
-    await interaction.response.send_message(
-        f"👤 {member.mention}\n\n"
-        "🎨 أرسل اللون أو التدرج في نفس القناة.\n\n"
-        "أمثلة:\n"
-        "`27`\n"
-        "`#7A00FF`\n"
-        "`#7A00FF #FF00A8`\n"
-        "`بنفسجي فاتح + وردي نيون`\n\n"
-        "⏳ لديك 120 ثانية.",
-        ephemeral=True
+    await interaction.response.send_modal(
+        AdminColorInputModal(member.id)
     )
-
-    def check(
-        message
-    ):
-
-        return (
-            message.author.id
-            == interaction.user.id
-            and message.channel.id
-            == interaction.channel.id
-            and message.guild
-            and message.guild.id
-            == interaction.guild.id
-        )
-
-    try:
-
-        message = await bot.wait_for(
-            "message",
-            timeout=120,
-            check=check
-        )
-
-        try:
-
-            spec = await apply_color(
-                member,
-                message.content,
-                interaction.user.display_name,
-                bypass_limit=True
-            )
-
-        except GradientNotEnabled:
-
-            await interaction.followup.send(
-                gradient_help_text(),
-                view=GradientCheckView(
-                    interaction.guild.id
-                ),
-                ephemeral=True
-            )
-
-            return
-
-        try:
-
-            await message.delete()
-
-        except discord.HTTPException:
-
-            pass
-
-        await interaction.followup.send(
-            "✅ **تم تطبيق اللون.**\n\n"
-            f"👤 {member.mention}\n"
-            f"🎨 {spec['label']}",
-            ephemeral=True
-        )
-
-    except asyncio.TimeoutError:
-
-        await interaction.followup.send(
-            "⌛ انتهى الوقت.",
-            ephemeral=True
-        )
-
-    except ValueError as e:
-
-        await interaction.followup.send(
-            str(e),
-            ephemeral=True
-        )
-
-    except discord.Forbidden:
-
-        await interaction.followup.send(
-            "❌ البوت لا يملك صلاحية إدارة الرتب.",
-            ephemeral=True
-        )
-
-    except Exception:
-
-        logging.exception(
-            "setcolor error"
-        )
-
-        await interaction.followup.send(
-            "❌ حدث خطأ.",
-            ephemeral=True
-        )
 
 
 # ============================================================
@@ -3676,40 +3442,6 @@ async def help_cmd(
 
 
 # ============================================================
-# MEMBER PROFILE / USERNAME HISTORY
-# ============================================================
-
-@bot.event
-async def on_member_update(before, after):
-
-    if before.name == after.name and before.display_name == after.display_name:
-        return
-
-    ensure(after.guild.id)
-
-    now = datetime.now(timezone.utc).isoformat()
-
-    db.execute(
-        """
-        INSERT INTO member_name_history(
-            guild_id, user_id, old_username, new_username,
-            old_display_name, new_display_name, changed_at
-        ) VALUES(?,?,?,?,?,?,?)
-        """,
-        (
-            after.guild.id,
-            after.id,
-            before.name,
-            after.name,
-            before.display_name,
-            after.display_name,
-            now
-        )
-    )
-    db.commit()
-
-
-# ============================================================
 # ON GUILD JOIN
 # ============================================================
 
@@ -3794,10 +3526,7 @@ async def on_message(
         guild.id,
         "bot_on"
     ):
-
-        return await bot.process_commands(
-            message
-        )
+        return
 
     if not get_bool(
         guild.id,
@@ -3807,6 +3536,12 @@ async def on_message(
         return await bot.process_commands(
             message
         )
+
+    if not get_bool(
+        guild.id,
+        "members_on"
+    ):
+        return await bot.process_commands(message)
 
     # --------------------------------------------------------
     # MEMBER COLOR SYSTEM
@@ -3926,6 +3661,61 @@ async def on_message(
     await bot.process_commands(
         message
     )
+
+
+# ============================================================
+# MEMBER UPDATE / USERNAME HISTORY
+# ============================================================
+
+@bot.event
+async def on_member_update(before, after):
+    try:
+        if before.name == after.name and before.display_name == after.display_name:
+            return
+
+        ensure(after.guild.id)
+        now = datetime.now(timezone.utc)
+
+        db.execute(
+            """
+            INSERT OR IGNORE INTO member_profiles(
+                guild_id, user_id, last_username, last_display_name,
+                color_changes, username_changes
+            ) VALUES(?,?,?,?,0,0)
+            """,
+            (after.guild.id, after.id, before.name, before.display_name)
+        )
+
+        if before.name != after.name:
+            db.execute(
+                """
+                INSERT INTO username_history(
+                    guild_id, user_id, old_username, new_username, changed_at
+                ) VALUES(?,?,?,?,?)
+                """,
+                (after.guild.id, after.id, before.name, after.name, now.isoformat())
+            )
+            db.execute(
+                """
+                UPDATE member_profiles
+                SET username_changes=username_changes+1, last_username=?, last_display_name=?
+                WHERE guild_id=? AND user_id=?
+                """,
+                (after.name, after.display_name, after.guild.id, after.id)
+            )
+        else:
+            db.execute(
+                """
+                UPDATE member_profiles
+                SET last_username=?, last_display_name=?
+                WHERE guild_id=? AND user_id=?
+                """,
+                (after.name, after.display_name, after.guild.id, after.id)
+            )
+
+        db.commit()
+    except Exception:
+        logging.exception("Member update history error")
 
 
 # ============================================================
