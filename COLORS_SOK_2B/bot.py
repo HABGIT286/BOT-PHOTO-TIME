@@ -437,6 +437,19 @@ def init():
         )
     """)
 
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS member_name_history(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            guild_id INTEGER,
+            user_id INTEGER,
+            old_username TEXT,
+            new_username TEXT,
+            old_display_name TEXT,
+            new_display_name TEXT,
+            changed_at TEXT
+        )
+    """)
+
     # --------------------------------------------------------
     # MIGRATION FOR OLD DATABASE
     # --------------------------------------------------------
@@ -709,39 +722,54 @@ async def assign_rank(
     rank_name
 ):
 
+    if rank_name not in RANKS:
+        raise ValueError(
+            "رتبة غير صحيحة."
+        )
+
+    # Member تعني إزالة جميع رتب SOKO وإعادته عضوًا عاديًا.
+    if rank_name == "Member":
+        remove_roles = [
+            role
+            for role in member.roles
+            if role.name.startswith("SOKO • ")
+        ]
+
+        if remove_roles:
+            await member.remove_roles(
+                *remove_roles,
+                reason="COLORS_SOK_2B demote to Member"
+            )
+
+        db.execute(
+            "DELETE FROM rank_roles WHERE guild_id=? AND rank_name=?",
+            (member.guild.id, "Member")
+        )
+        db.commit()
+        return None
+
     role = await get_or_create_rank_role(
         member.guild,
         rank_name
     )
 
-    if role in member.roles:
-        return role
-
-    # إزالة رتب SOKO السابقة
-    remove_roles = []
-
-    for r in member.roles:
-
-        if r.name.startswith(
-            "SOKO • "
-        ):
-
-            remove_roles.append(r)
+    remove_roles = [
+        r
+        for r in member.roles
+        if r.name.startswith("SOKO • ") and r.id != role.id
+    ]
 
     if remove_roles:
+        await member.remove_roles(
+            *remove_roles,
+            reason="COLORS_SOK_2B rank change"
+        )
 
-        try:
-            await member.remove_roles(
-                *remove_roles,
-                reason="COLORS_SOK_2B rank change"
-            )
-        except discord.HTTPException:
-            pass
-
-    await member.add_roles(
-        role,
-        reason="COLORS_SOK_2B rank assignment"
-    )
+    if role not in member.roles:
+        await member.add_roles(
+            role,
+            reason="COLORS_SOK_2B rank assignment"
+        )
 
     return role
 
@@ -1455,6 +1483,113 @@ async def write_log(
 
 
 # ============================================================
+# MEMBER HISTORY
+# ============================================================
+
+def get_member_history(guild_id, user_id, limit=20):
+
+    return db.execute(
+        """
+        SELECT * FROM color_history
+        WHERE guild_id=? AND user_id=?
+        ORDER BY id DESC
+        LIMIT ?
+        """,
+        (guild_id, user_id, limit)
+    ).fetchall()
+
+
+def get_member_change_count(guild_id, user_id):
+
+    row = db.execute(
+        """
+        SELECT COUNT(*) AS total
+        FROM color_history
+        WHERE guild_id=? AND user_id=?
+        """,
+        (guild_id, user_id)
+    ).fetchone()
+
+    return int(row["total"] or 0)
+
+
+def get_username_change_count(guild_id, user_id):
+
+    row = db.execute(
+        """
+        SELECT COUNT(*) AS total
+        FROM member_name_history
+        WHERE guild_id=? AND user_id=?
+        """,
+        (guild_id, user_id)
+    ).fetchone()
+
+    return int(row["total"] or 0)
+
+
+def format_member_history(member, rows):
+
+    guild_id = member.guild.id
+    user_id = member.id
+    lock = get_color_lock(guild_id, user_id)
+    rank = get_member_rank(member)
+    total = get_member_change_count(guild_id, user_id)
+    username_changes = get_username_change_count(guild_id, user_id)
+
+    if lock:
+        locked = f"🔴 محظور حتى: `{lock.strftime('%Y/%m/%d %H:%M UTC')}`"
+    else:
+        locked = "🟢 غير محظور"
+
+    text = (
+        "📋 **سجل العضو**\n\n"
+        f"👤 **الاسم:** {member.display_name}\n"
+        f"🆔 **ID:** `{member.id}`\n"
+        f"🏷️ **اليوزر:** `{member.name}`\n"
+        f"🏆 **الرتبة:** `{rank}`\n"
+        f"🔢 **عدد تغييرات اللون:** `{total}`\n"
+        f"🔤 **عدد مرات تغيير اليوزر:** `{username_changes}`\n"
+        f"🚫 **الحظر:** {locked}\n\n"
+    )
+
+    name_rows = db.execute(
+        """
+        SELECT * FROM member_name_history
+        WHERE guild_id=? AND user_id=?
+        ORDER BY id DESC
+        LIMIT 10
+        """,
+        (guild_id, user_id)
+    ).fetchall()
+
+    if name_rows:
+        text += "🔤 **تغييرات اليوزر الأخيرة:**\n\n"
+        for row in name_rows:
+            text += (
+                f"`{row['changed_at']}` — "
+                f"`{row['old_username']}` → `{row['new_username']}`\n"
+            )
+        text += "\n"
+
+    if not rows:
+        return text + "📭 لا توجد تغييرات لون مسجلة لهذا العضو."
+
+    text += "🕘 **آخر تغييرات اللون:**\n\n"
+
+    for index, row in enumerate(rows, 1):
+        text += (
+            f"**#{index}** — `{row['changed_at']}`\n"
+            f"🎨 السابق: `{row['old_color']}`\n"
+            f"🟢 الجديد: `{row['new_color']}`\n"
+            f"👮 بواسطة: `{row['changed_by']}`\n"
+            f"📊 تغييرات الساعة/السجل: `{row['daily_changes']}`\n"
+            f"{'🔒 تم القفل' if row['was_locked'] else '🔓 بدون قفل'}\n\n"
+        )
+
+    return text[:3900]
+
+
+# ============================================================
 # APPLY COLOR
 # ============================================================
 
@@ -1477,11 +1612,28 @@ async def apply_color(
 
     if not get_bool(
         guild.id,
+        "bot_on"
+    ):
+        raise ValueError(
+            "⛔ البوت متوقف حاليًا من لوحة التحكم."
+        )
+
+    if not get_bool(
+        guild.id,
         "system_on"
     ):
 
         raise ValueError(
             "⛔ نظام الألوان متوقف حاليًا."
+        )
+
+    # التغيير الذاتي للأعضاء يخضع لحالة قسم الأعضاء.
+    if not bypass_limit and not get_bool(
+        guild.id,
+        "members_on"
+    ):
+        raise ValueError(
+            "⛔ تم إيقاف تغيير الألوان للأعضاء من لوحة التحكم."
         )
 
     # --------------------------------------------------------
@@ -1906,8 +2058,8 @@ class OwnerView(
         await interaction.response.edit_message(
             content=(
                 "⛔ **إيقاف البوت**\n\n"
-                "هل أنت متأكد من إيقاف البوت؟\n\n"
-                "لن يعود للعمل حتى يتم تشغيل Workflow مرة أخرى."
+                "هل أنت متأكد من إيقاف وظائف البوت في هذا السيرفر؟\n\n"
+                "سيبقى البوت متصلًا، ويمكن تشغيله مباشرة من نفس اللوحة."
             ),
             view=StopView()
         )
@@ -1952,6 +2104,37 @@ class OwnerView(
 
         await interaction.response.send_modal(
             RankUserModal()
+        )
+
+
+    @discord.ui.button(
+        label="🟢 تشغيل البوت",
+        style=discord.ButtonStyle.success,
+        row=3
+    )
+    async def start_bot(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(interaction):
+            return
+
+        put(
+            interaction.guild.id,
+            "bot_on",
+            True
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(interaction.guild),
+            view=self
+        )
+
+        await interaction.followup.send(
+            "🟢 تم تشغيل وظائف البوت في هذا السيرفر مباشرة.",
+            ephemeral=True
         )
 
 
@@ -2000,6 +2183,13 @@ def dashboard_text(
         get_bool(
             guild.id,
             "log_on"
+        )
+    )
+
+    bot_status = status(
+        get_bool(
+            guild.id,
+            "bot_on"
         )
     )
 
@@ -2073,7 +2263,8 @@ def dashboard_text(
         "👑 **لوحة تحكم COLORS_SOK_2B**\n\n"
         f"🎨 الأعضاء: {members}\n"
         f"👑 الإدارة: {admins}\n"
-        f"🤖 النظام: {system}\n"
+        f"🤖 البوت: {bot_status}\n"
+        f"⚙️ النظام: {system}\n"
         f"📋 LOG: {log}\n"
         f"🌈 التدرج: {gradient}\n\n"
         "🛠️ الأدوات:\n"
@@ -2150,6 +2341,11 @@ class MembersView(
             view=self
         )
 
+        await interaction.followup.send(
+            "🟢 تم تفعيل قسم الأعضاء. يستطيع الأعضاء تغيير ألوانهم الآن.",
+            ephemeral=True
+        )
+
     @discord.ui.button(
         label="🔴 إيقاف",
         style=discord.ButtonStyle.danger
@@ -2180,6 +2376,11 @@ class MembersView(
                 "members"
             ),
             view=self
+        )
+
+        await interaction.followup.send(
+            "🔴 تم إيقاف قسم الأعضاء. تم منع تغيير الألوان الذاتي فورًا.",
+            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2243,6 +2444,11 @@ class AdminsView(
             view=self
         )
 
+        await interaction.followup.send(
+            "🟢 تم تفعيل أوامر الإدارة.",
+            ephemeral=True
+        )
+
     @discord.ui.button(
         label="🔴 إيقاف",
         style=discord.ButtonStyle.danger
@@ -2273,6 +2479,11 @@ class AdminsView(
                 "admins"
             ),
             view=self
+        )
+
+        await interaction.followup.send(
+            "🔴 تم إيقاف أوامر الإدارة.",
+            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2337,6 +2548,11 @@ class SystemView(
             view=self
         )
 
+        await interaction.followup.send(
+            "🟢 تم تفعيل نظام الألوان.",
+            ephemeral=True
+        )
+
     @discord.ui.button(
         label="🔴 إيقاف النظام",
         style=discord.ButtonStyle.danger,
@@ -2368,6 +2584,11 @@ class SystemView(
                 "system"
             ),
             view=self
+        )
+
+        await interaction.followup.send(
+            "🔴 تم إيقاف نظام الألوان بالكامل.",
+            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2406,6 +2627,11 @@ class SystemView(
                 "system"
             ),
             view=self
+        )
+
+        await interaction.followup.send(
+            "🟢 تم تفعيل حد 5 تغييرات/ساعة." if v else "🔴 تم إيقاف حد 5 تغييرات/ساعة.",
+            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2471,6 +2697,11 @@ class LogView(
             view=self
         )
 
+        await interaction.followup.send(
+            "🟢 تم تفعيل LOG.",
+            ephemeral=True
+        )
+
     @discord.ui.button(
         label="🔴 إيقاف LOG",
         style=discord.ButtonStyle.danger,
@@ -2502,6 +2733,11 @@ class LogView(
                 "log"
             ),
             view=self
+        )
+
+        await interaction.followup.send(
+            "🔴 تم إيقاف LOG.",
+            ephemeral=True
         )
 
     @discord.ui.button(
@@ -2537,10 +2773,33 @@ class LogView(
             view=self
         )
 
+
+    @discord.ui.button(
+        label="👤 عرض سجل عضو",
+        style=discord.ButtonStyle.primary,
+        row=2
+    )
+    async def member_history(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(interaction.user.id):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        await interaction.response.send_modal(
+            MemberHistoryModal()
+        )
+
+
     @discord.ui.button(
         label="↩️ رجوع",
         style=discord.ButtonStyle.secondary,
-        row=2
+        row=3
     )
     async def back(
         self,
@@ -2585,19 +2844,22 @@ class StopView(
                 ephemeral=True
             )
 
+        put(
+            interaction.guild.id,
+            "bot_on",
+            False
+        )
+
         await interaction.response.edit_message(
-            content=(
-                "⛔ **تم إرسال أمر إيقاف البوت.**\n\n"
-                "سيتم إغلاق اتصال Discord الآن."
-            ),
-            view=None
+            content=dashboard_text(interaction.guild),
+            view=OwnerView()
         )
 
-        await asyncio.sleep(
-            1
+        await interaction.followup.send(
+            "🔴 تم إيقاف وظائف البوت في هذا السيرفر مباشرة.\n"
+            "يمكنك تشغيله من زر **🟢 تشغيل البوت**.",
+            ephemeral=True
         )
-
-        await bot.close()
 
     @discord.ui.button(
         label="↩️ إلغاء",
@@ -2748,6 +3010,63 @@ class ManualColorModal(
 
 
 # ============================================================
+# MEMBER HISTORY MODAL
+# ============================================================
+
+class MemberHistoryModal(
+    discord.ui.Modal,
+    title="📋 عرض سجل عضو"
+):
+
+    user_id = discord.ui.TextInput(
+        label="ID العضو",
+        placeholder="ضع ID العضو هنا",
+        required=True,
+        max_length=25
+    )
+
+    async def on_submit(self, interaction):
+
+        if not is_owner(interaction.user.id):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        if not self.user_id.value.isdigit():
+            return await interaction.response.send_message(
+                "❌ ID غير صحيح.",
+                ephemeral=True
+            )
+
+        user_id = int(self.user_id.value)
+        member = interaction.guild.get_member(user_id)
+
+        if member is None:
+            try:
+                member = await interaction.guild.fetch_member(user_id)
+            except discord.HTTPException:
+                member = None
+
+        if member is None:
+            return await interaction.response.send_message(
+                "❌ العضو غير موجود في السيرفر.",
+                ephemeral=True
+            )
+
+        rows = get_member_history(
+            interaction.guild.id,
+            member.id,
+            20
+        )
+
+        await interaction.response.send_message(
+            format_member_history(member, rows),
+            ephemeral=True
+        )
+
+
+# ============================================================
 # RANK USER MODAL
 # ============================================================
 
@@ -2885,13 +3204,23 @@ class RankSelectView(
                 rank
             )
 
-            await interaction.response.edit_message(
-                content=(
+            if role is None:
+                content = (
+                    "✅ **تم تنزيل العضو بنجاح.**\n\n"
+                    f"👤 {self.member.mention}\n"
+                    "🏆 الرتبة الحالية: `Member`\n"
+                    "تمت إزالة جميع رتب SOKO السابقة."
+                )
+            else:
+                content = (
                     "✅ **تم رفع العضو بنجاح.**\n\n"
                     f"👤 {self.member.mention}\n"
                     f"🏆 الرتبة: `{rank}`\n"
                     f"🎭 {role.mention}"
-                ),
+                )
+
+            await interaction.response.edit_message(
+                content=content,
                 view=None
             )
 
@@ -2936,11 +3265,31 @@ async def colors_cmd(
 
     if not get_bool(
         interaction.guild.id,
+        "bot_on"
+    ):
+
+        return await interaction.response.send_message(
+            "⛔ تم إيقاف البوت في هذا السيرفر بواسطة لوحة التحكم.",
+            ephemeral=True
+        )
+
+    if not get_bool(
+        interaction.guild.id,
         "system_on"
     ):
 
         return await interaction.response.send_message(
             "⛔ تم إيقاف نظام الألوان بواسطة لوحة التحكم.",
+            ephemeral=True
+        )
+
+    if not get_bool(
+        interaction.guild.id,
+        "members_on"
+    ):
+
+        return await interaction.response.send_message(
+            "⛔ تم إيقاف قسم الأعضاء. تغيير اللون الذاتي غير متاح حاليًا.",
             ephemeral=True
         )
 
@@ -3033,6 +3382,24 @@ async def setcolor(
 
         return await interaction.response.send_message(
             "❌ هذا الأمر للإدارة فقط.",
+            ephemeral=True
+        )
+
+    if not get_bool(
+        interaction.guild.id,
+        "bot_on"
+    ):
+        return await interaction.response.send_message(
+            "⛔ تم إيقاف البوت في هذا السيرفر.",
+            ephemeral=True
+        )
+
+    if not get_bool(
+        interaction.guild.id,
+        "system_on"
+    ):
+        return await interaction.response.send_message(
+            "⛔ نظام الألوان متوقف حاليًا.",
             ephemeral=True
         )
 
@@ -3306,6 +3673,40 @@ async def help_cmd(
         "`neon #B026FF`",
         ephemeral=True
     )
+
+
+# ============================================================
+# MEMBER PROFILE / USERNAME HISTORY
+# ============================================================
+
+@bot.event
+async def on_member_update(before, after):
+
+    if before.name == after.name and before.display_name == after.display_name:
+        return
+
+    ensure(after.guild.id)
+
+    now = datetime.now(timezone.utc).isoformat()
+
+    db.execute(
+        """
+        INSERT INTO member_name_history(
+            guild_id, user_id, old_username, new_username,
+            old_display_name, new_display_name, changed_at
+        ) VALUES(?,?,?,?,?,?,?)
+        """,
+        (
+            after.guild.id,
+            after.id,
+            before.name,
+            after.name,
+            before.display_name,
+            after.display_name,
+            now
+        )
+    )
+    db.commit()
 
 
 # ============================================================
