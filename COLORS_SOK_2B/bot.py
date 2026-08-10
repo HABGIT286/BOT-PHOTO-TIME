@@ -3,7 +3,7 @@ import re
 import sqlite3
 import logging
 import asyncio
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import discord
 from discord.ext import commands
@@ -16,8 +16,15 @@ from discord import app_commands
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DB = os.path.join(BASE_DIR, "colors_sok_2b.sqlite3")
-IMAGE = os.path.join(BASE_DIR, "colors.png")
+DB = os.path.join(
+    BASE_DIR,
+    "colors_sok_2b.sqlite3"
+)
+
+IMAGE = os.path.join(
+    BASE_DIR,
+    "colors.png"
+)
 
 
 # ============================================================
@@ -25,14 +32,37 @@ IMAGE = os.path.join(BASE_DIR, "colors.png")
 # ============================================================
 
 OWNER_USER_ID = 1531577881548034100
+
 OWNER_CODE = "uefoxe1436"
 
 
 # ============================================================
-# DISCORD TOKEN
+# TOKEN
 # ============================================================
 
 TOKEN = os.getenv("DISCORD_TOKEN")
+
+
+# ============================================================
+# SETTINGS
+# ============================================================
+
+MAX_USER_CHANGES_PER_HOUR = 5
+
+
+# ============================================================
+# RANKS
+# ============================================================
+
+RANKS = [
+    "Owner",
+    "Primary Developer",
+    "Developer",
+    "Manager",
+    "Moderator",
+    "Monitor",
+    "Member"
+]
 
 
 # ============================================================
@@ -40,6 +70,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 # ============================================================
 
 COLORS = [
+
     (1, "#FF1744", "أحمر نيون"),
     (2, "#D50000", "أحمر قوي"),
     (3, "#B71C1C", "أحمر داكن"),
@@ -172,9 +203,9 @@ COLORS = [
 # ============================================================
 
 COLOR_ALIASES = {
+
     "احمر": "#FF1744",
     "أحمر": "#FF1744",
-
     "احمر نيون": "#FF1744",
     "أحمر نيون": "#FF1744",
 
@@ -183,7 +214,6 @@ COLOR_ALIASES = {
 
     "اصفر": "#FFD600",
     "أصفر": "#FFD600",
-
     "اصفر نيون": "#FFD600",
     "أصفر نيون": "#FFD600",
 
@@ -214,16 +244,12 @@ COLOR_ALIASES = {
 
     "بنفسجي": "#651FFF",
     "بنفسجي نيون": "#651FFF",
-
     "بنفسجي فاتح": "#B388FF",
-
     "بنفسجي قوي": "#6200EA",
-
     "بنفسجي عميق": "#311B92",
 
     "ارجواني": "#AA00FF",
     "أرجواني": "#AA00FF",
-
     "ارجواني نيون": "#AA00FF",
     "أرجواني نيون": "#AA00FF",
 
@@ -239,7 +265,6 @@ COLOR_ALIASES = {
     "أسود": "#000000",
 
     "ذهبي": "#F9A825",
-
     "ليموني": "#8BC34A",
 
     "purple": "#651FFF",
@@ -278,7 +303,7 @@ COLOR_ALIASES = {
 
 
 # ============================================================
-# DISCORD
+# LOGGING
 # ============================================================
 
 logging.basicConfig(
@@ -286,7 +311,13 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(message)s"
 )
 
+
+# ============================================================
+# DISCORD
+# ============================================================
+
 intents = discord.Intents.default()
+
 intents.members = True
 intents.message_content = True
 
@@ -308,14 +339,49 @@ db = sqlite3.connect(
 db.row_factory = sqlite3.Row
 
 
+def column_exists(table, column):
+
+    row = db.execute(
+        f"PRAGMA table_info({table})"
+    ).fetchall()
+
+    return any(
+        r["name"] == column
+        for r in row
+    )
+
+
+def add_column_if_missing(
+    table,
+    column,
+    definition
+):
+
+    if not column_exists(
+        table,
+        column
+    ):
+
+        db.execute(
+            f"ALTER TABLE {table} "
+            f"ADD COLUMN {column} {definition}"
+        )
+
+        db.commit()
+
+
 def init():
+
     db.execute("""
         CREATE TABLE IF NOT EXISTS settings(
             guild_id INTEGER PRIMARY KEY,
             members_on INTEGER DEFAULT 1,
             admins_on INTEGER DEFAULT 1,
             system_on INTEGER DEFAULT 1,
-            log_channel INTEGER
+            bot_on INTEGER DEFAULT 1,
+            log_on INTEGER DEFAULT 0,
+            log_channel INTEGER,
+            rate_limit_on INTEGER DEFAULT 1
         )
     """)
 
@@ -328,64 +394,192 @@ def init():
         )
     """)
 
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS rank_roles(
+            guild_id INTEGER,
+            rank_name TEXT,
+            role_id INTEGER,
+            PRIMARY KEY(guild_id, rank_name)
+        )
+    """)
+
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS color_usage(
+            guild_id INTEGER,
+            user_id INTEGER,
+            used_at TEXT
+        )
+    """)
+
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS color_bans(
+            guild_id INTEGER,
+            user_id INTEGER,
+            until_at TEXT,
+            PRIMARY KEY(guild_id, user_id)
+        )
+    """)
+
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS color_history(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            guild_id INTEGER,
+            user_id INTEGER,
+            member_name TEXT,
+            old_color TEXT,
+            new_color TEXT,
+            changed_by TEXT,
+            changed_at TEXT,
+            daily_changes INTEGER,
+            was_locked INTEGER DEFAULT 0,
+            member_rank TEXT,
+            role_id INTEGER
+        )
+    """)
+
+    # --------------------------------------------------------
+    # MIGRATION FOR OLD DATABASE
+    # --------------------------------------------------------
+
+    add_column_if_missing(
+        "settings",
+        "bot_on",
+        "INTEGER DEFAULT 1"
+    )
+
+    add_column_if_missing(
+        "settings",
+        "log_on",
+        "INTEGER DEFAULT 0"
+    )
+
+    add_column_if_missing(
+        "settings",
+        "rate_limit_on",
+        "INTEGER DEFAULT 1"
+    )
+
     db.commit()
 
 
 def ensure(guild_id):
+
+    init()
+
     db.execute(
-        "INSERT OR IGNORE INTO settings(guild_id) VALUES(?)",
-        (guild_id,)
+        """
+        INSERT OR IGNORE INTO settings(
+            guild_id
+        )
+        VALUES(?)
+        """,
+        (
+            guild_id,
+        )
     )
 
     db.commit()
 
 
-def get_bool(guild_id, key):
-    if key not in {
-        "members_on",
-        "admins_on",
-        "system_on"
-    }:
-        raise ValueError("Invalid setting")
+def get_setting(
+    guild_id,
+    key
+):
 
-    ensure(guild_id)
-
-    row = db.execute(
-        f"SELECT {key} FROM settings WHERE guild_id=?",
-        (guild_id,)
-    ).fetchone()
-
-    return bool(row[key])
-
-
-def put(guild_id, key, value):
-    if key not in {
+    allowed = {
         "members_on",
         "admins_on",
         "system_on",
-        "log_channel"
-    }:
-        raise ValueError("Invalid setting")
+        "bot_on",
+        "log_on",
+        "log_channel",
+        "rate_limit_on"
+    }
 
-    ensure(guild_id)
+    if key not in allowed:
+        raise ValueError(
+            "Invalid setting"
+        )
+
+    ensure(
+        guild_id
+    )
+
+    row = db.execute(
+        f"""
+        SELECT {key}
+        FROM settings
+        WHERE guild_id=?
+        """,
+        (
+            guild_id,
+        )
+    ).fetchone()
+
+    return row[key]
+
+
+def get_bool(
+    guild_id,
+    key
+):
+
+    return bool(
+        get_setting(
+            guild_id,
+            key
+        )
+    )
+
+
+def put(
+    guild_id,
+    key,
+    value
+):
+
+    allowed = {
+        "members_on",
+        "admins_on",
+        "system_on",
+        "bot_on",
+        "log_on",
+        "log_channel",
+        "rate_limit_on"
+    }
+
+    if key not in allowed:
+        raise ValueError(
+            "Invalid setting"
+        )
+
+    ensure(
+        guild_id
+    )
 
     db.execute(
-        f"UPDATE settings SET {key}=? WHERE guild_id=?",
-        (int(value), guild_id)
+        f"""
+        UPDATE settings
+        SET {key}=?
+        WHERE guild_id=?
+        """,
+        (
+            int(value),
+            guild_id
+        )
     )
 
     db.commit()
 
 
-def get_log_channel(guild_id):
-    ensure(guild_id)
+def get_log_channel(
+    guild_id
+):
 
-    row = db.execute(
-        "SELECT log_channel FROM settings WHERE guild_id=?",
-        (guild_id,)
-    ).fetchone()
-
-    return row["log_channel"]
+    return get_setting(
+        guild_id,
+        "log_channel"
+    )
 
 
 # ============================================================
@@ -393,53 +587,226 @@ def get_log_channel(guild_id):
 # ============================================================
 
 def is_admin(member):
-    return isinstance(member, discord.Member) and (
-        member.guild.owner_id == member.id
-        or member.guild_permissions.administrator
+
+    return (
+        isinstance(
+            member,
+            discord.Member
+        )
+        and (
+            member.guild.owner_id == member.id
+            or member.guild_permissions.administrator
+        )
     )
 
 
-def is_owner(user_id):
+def is_owner(
+    user_id
+):
+
     return user_id == OWNER_USER_ID
 
 
+def can_manage_colors(
+    member
+):
+
+    return is_admin(
+        member
+    )
+
+
 # ============================================================
-# BASIC HEX
+# RANK
 # ============================================================
 
-def valid_hex(value):
+def get_member_rank(
+    member
+):
+
+    if member.guild.owner_id == member.id:
+        return "Owner"
+
+    for rank in RANKS:
+
+        if any(
+            role.name == f"SOKO • {rank}"
+            for role in member.roles
+        ):
+
+            return rank
+
+    return "Member"
+
+
+async def get_or_create_rank_role(
+    guild,
+    rank_name
+):
+
+    if rank_name not in RANKS:
+        raise ValueError(
+            "رتبة غير صحيحة."
+        )
+
+    row = db.execute(
+        """
+        SELECT role_id
+        FROM rank_roles
+        WHERE guild_id=? AND rank_name=?
+        """,
+        (
+            guild.id,
+            rank_name
+        )
+    ).fetchone()
+
+    role = None
+
+    if row:
+        role = guild.get_role(
+            row["role_id"]
+        )
+
+    if role is None:
+
+        role = discord.utils.get(
+            guild.roles,
+            name=f"SOKO • {rank_name}"
+        )
+
+    if role is None:
+
+        role = await guild.create_role(
+            name=f"SOKO • {rank_name}",
+            colour=discord.Colour.default(),
+            reason="COLORS_SOK_2B rank role"
+        )
+
+    db.execute(
+        """
+        INSERT OR REPLACE INTO rank_roles(
+            guild_id,
+            rank_name,
+            role_id
+        )
+        VALUES(?,?,?)
+        """,
+        (
+            guild.id,
+            rank_name,
+            role.id
+        )
+    )
+
+    db.commit()
+
+    return role
+
+
+async def assign_rank(
+    member,
+    rank_name
+):
+
+    role = await get_or_create_rank_role(
+        member.guild,
+        rank_name
+    )
+
+    if role in member.roles:
+        return role
+
+    # إزالة رتب SOKO السابقة
+    remove_roles = []
+
+    for r in member.roles:
+
+        if r.name.startswith(
+            "SOKO • "
+        ):
+
+            remove_roles.append(r)
+
+    if remove_roles:
+
+        try:
+            await member.remove_roles(
+                *remove_roles,
+                reason="COLORS_SOK_2B rank change"
+            )
+        except discord.HTTPException:
+            pass
+
+    await member.add_roles(
+        role,
+        reason="COLORS_SOK_2B rank assignment"
+    )
+
+    return role
+
+
+# ============================================================
+# HEX
+# ============================================================
+
+def valid_hex(
+    value
+):
+
     value = value.strip().upper()
 
     if not value.startswith("#"):
         value = "#" + value
 
-    if re.fullmatch(r"#[0-9A-F]{6}", value):
+    if re.fullmatch(
+        r"#[0-9A-F]{6}",
+        value
+    ):
         return value
 
-    if re.fullmatch(r"#[0-9A-F]{3}", value):
+    if re.fullmatch(
+        r"#[0-9A-F]{3}",
+        value
+    ):
+
         return "#" + "".join(
-            c * 2 for c in value[1:]
+            c * 2
+            for c in value[1:]
         )
 
     return None
 
 
-def hex_to_int(value):
-    return int(value.replace("#", ""), 16)
+def hex_to_int(
+    value
+):
+
+    return int(
+        value.replace(
+            "#",
+            ""
+        ),
+        16
+    )
 
 
 # ============================================================
 # COLOR PARSER
 # ============================================================
 
-def find_colors_from_text(value):
+def find_colors_from_text(
+    value
+):
+
     text = value.strip()
+
     lower = text.lower()
 
     found = []
 
     # --------------------------------------------------------
-    # HEX COLORS
+    # HEX
     # --------------------------------------------------------
 
     hex_matches = re.findall(
@@ -448,13 +815,17 @@ def find_colors_from_text(value):
     )
 
     for item in hex_matches:
-        h = valid_hex(item)
+
+        h = valid_hex(
+            item
+        )
 
         if h and h not in found:
+
             found.append(h)
 
     # --------------------------------------------------------
-    # COLOR NUMBERS
+    # NUMBERS
     # --------------------------------------------------------
 
     number_matches = re.findall(
@@ -463,7 +834,10 @@ def find_colors_from_text(value):
     )
 
     for item in number_matches:
-        number = int(item)
+
+        number = int(
+            item
+        )
 
         result = next(
             (
@@ -475,13 +849,15 @@ def find_colors_from_text(value):
         )
 
         if result:
+
             h, _ = result
 
             if h not in found:
+
                 found.append(h)
 
     # --------------------------------------------------------
-    # COLOR NAMES
+    # NAMES
     # --------------------------------------------------------
 
     aliases = sorted(
@@ -492,33 +868,44 @@ def find_colors_from_text(value):
 
     for name, h in aliases:
 
-        pattern = re.escape(name.lower())
+        pattern = re.escape(
+            name.lower()
+        )
 
         if re.search(
             rf"(?<!\w){pattern}(?!\w)",
             lower
         ):
+
             if h not in found:
+
                 found.append(h)
 
     return found
 
 
-def parse_color(value):
+def parse_color(
+    value
+):
 
     if not value or not value.strip():
+
         raise ValueError(
-            "اكتب لونًا مثل `27` أو `#C86BFF`."
+            "❌ اكتب لونًا."
         )
 
     raw = value.strip()
+
     lower = raw.lower()
 
-    colors = find_colors_from_text(raw)
+    colors = find_colors_from_text(
+        raw
+    )
 
     if not colors:
+
         raise ValueError(
-            "لم أتعرف على اللون.\n"
+            "❌ لم أتعرف على اللون.\n\n"
             "أمثلة:\n"
             "`27`\n"
             "`#C86BFF`\n"
@@ -527,6 +914,7 @@ def parse_color(value):
         )
 
     if len(colors) > 3:
+
         raise ValueError(
             "❌ الحد الأقصى 3 ألوان."
         )
@@ -542,73 +930,103 @@ def parse_color(value):
         )
     )
 
-    is_gradient = (
-        "gradient" in lower
-        or "grad" in lower
-        or "تدرج" in lower
-        or "تدرّج" in lower
-        or len(colors) >= 2
-    )
-
     # --------------------------------------------------------
-    # ONE COLOR
+    # ONE
     # --------------------------------------------------------
 
     if len(colors) == 1:
 
         h = colors[0]
 
-        if is_neon:
-            label = f"NEON {h}"
-        else:
-            label = h
-
         return {
             "type": "solid",
             "colors": [h],
-            "label": label,
-            "description": "لون واحد"
+            "label": (
+                f"NEON {h}"
+                if is_neon
+                else h
+            ),
+            "description": (
+                "لون نيون"
+                if is_neon
+                else "لون واحد"
+            )
         }
 
     # --------------------------------------------------------
-    # TWO COLORS
+    # TWO
     # --------------------------------------------------------
 
     if len(colors) == 2:
 
-        if not is_gradient:
-            is_gradient = True
-
         return {
             "type": "gradient",
             "colors": colors,
-            "label": f"GRADIENT {colors[0]} → {colors[1]}",
+            "label": (
+                f"GRADIENT "
+                f"{colors[0]} → {colors[1]}"
+            ),
             "description": "تدرج بلونين"
         }
 
     # --------------------------------------------------------
-    # THREE COLORS
+    # THREE
     # --------------------------------------------------------
 
     if len(colors) == 3:
 
         raise ValueError(
-            "⚠️ Discord حاليًا لا يسمح بتدرج مخصص من 3 ألوان "
-            "داخل Role واحد.\n\n"
-            "يمكن استخدام لونين حقيقيين فقط للتدرج:\n"
-            f"`{colors[0]} {colors[1]}`\n\n"
-            "أما اللون الثالث في Discord فهو مخصص لنمط "
-            "Holographic بألوان ثابتة من Discord."
+            "⚠️ تم التعرف على 3 ألوان، "
+            "لكن Discord لا يسمح بتدرج مخصص من 3 ألوان.\n\n"
+            f"الألوان:\n"
+            f"`{colors[0]}`\n"
+            f"`{colors[1]}`\n"
+            f"`{colors[2]}`\n\n"
+            "التدرج المخصص في Discord يستخدم لونين."
         )
 
-    raise ValueError("تعذر تحليل اللون.")
+    raise ValueError(
+        "❌ تعذر تحليل اللون."
+    )
 
 
 # ============================================================
-# ROLE
+# GRADIENT SUPPORT
 # ============================================================
 
-async def color_role(member):
+def gradient_available(
+    guild
+):
+
+    return (
+        "ENHANCED_ROLE_COLORS"
+        in guild.features
+    )
+
+
+def gradient_help_text():
+
+    return (
+        "🌈 **التدرج غير مفعّل في هذا السيرفر.**\n\n"
+        "لتفعيل Gradient Roles:\n\n"
+        "1️⃣ افتح Discord من الكمبيوتر أو المتصفح.\n"
+        "2️⃣ ادخل إلى إعدادات السيرفر.\n"
+        "3️⃣ افتح **Server Boosts**.\n"
+        "4️⃣ ابحث عن **Enhanced Role Styles**.\n"
+        "5️⃣ فعّل الميزة باستخدام الـ Boosts المتاحة.\n"
+        "6️⃣ بعدها افتح Roles وتأكد أن Gradient متاح.\n\n"
+        "بعد التفعيل اضغط **تحقق الآن**.\n\n"
+        "💡 البوت لا يستطيع تجاوز متطلبات Discord نفسها."
+    )
+
+
+# ============================================================
+# PERSONAL COLOR ROLE
+# ============================================================
+
+async def color_role(
+    member
+):
 
     row = db.execute(
         """
@@ -622,15 +1040,13 @@ async def color_role(member):
         )
     ).fetchone()
 
-    role = (
-        member.guild.get_role(row["role_id"])
-        if row
-        else None
-    )
+    role = None
 
-    # --------------------------------------------------------
-    # CREATE
-    # --------------------------------------------------------
+    if row:
+
+        role = member.guild.get_role(
+            row["role_id"]
+        )
 
     if role is None:
 
@@ -659,29 +1075,253 @@ async def color_role(member):
         db.commit()
 
     # --------------------------------------------------------
-    # MOVE ROLE ABOVE MEMBER ROLES
+    # ROLE POSITION
     # --------------------------------------------------------
 
     me = member.guild.me
 
     if me and me.top_role > role:
 
-        target_position = max(
-            1,
-            me.top_role.position - 1
-        )
-
         try:
+
+            position = max(
+                1,
+                me.top_role.position - 1
+            )
+
             await member.guild.edit_role_positions(
                 positions={
-                    role: target_position
+                    role: position
                 },
                 reason="COLORS_SOK_2B color role position"
             )
+
         except discord.HTTPException:
+
             pass
 
     return role
+
+
+# ============================================================
+# RATE LIMIT
+# ============================================================
+
+def cleanup_old_usage():
+
+    cutoff = (
+        datetime.now(
+            timezone.utc
+        )
+        - timedelta(days=2)
+    ).isoformat()
+
+    db.execute(
+        """
+        DELETE FROM color_usage
+        WHERE used_at < ?
+        """,
+        (
+            cutoff,
+        )
+    )
+
+    db.commit()
+
+
+def get_hourly_usage(
+    guild_id,
+    user_id
+):
+
+    since = (
+        datetime.now(
+            timezone.utc
+        )
+        - timedelta(hours=1)
+    ).isoformat()
+
+    row = db.execute(
+        """
+        SELECT COUNT(*) AS total
+        FROM color_usage
+        WHERE guild_id=?
+        AND user_id=?
+        AND used_at>=?
+        """,
+        (
+            guild_id,
+            user_id,
+            since
+        )
+    ).fetchone()
+
+    return int(
+        row["total"]
+    )
+
+
+def get_daily_usage(
+    guild_id,
+    user_id
+):
+
+    today = datetime.now(
+        timezone.utc
+    ).date().isoformat()
+
+    row = db.execute(
+        """
+        SELECT COUNT(*) AS total
+        FROM color_usage
+        WHERE guild_id=?
+        AND user_id=?
+        AND substr(used_at,1,10)=?
+        """,
+        (
+            guild_id,
+            user_id,
+            today
+        )
+    ).fetchone()
+
+    return int(
+        row["total"]
+    )
+
+
+def get_color_lock(
+    guild_id,
+    user_id
+):
+
+    row = db.execute(
+        """
+        SELECT until_at
+        FROM color_bans
+        WHERE guild_id=? AND user_id=?
+        """,
+        (
+            guild_id,
+            user_id
+        )
+    ).fetchone()
+
+    if not row:
+        return None
+
+    try:
+
+        until = datetime.fromisoformat(
+            row["until_at"]
+        )
+
+    except Exception:
+
+        db.execute(
+            """
+            DELETE FROM color_bans
+            WHERE guild_id=? AND user_id=?
+            """,
+            (
+                guild_id,
+                user_id
+            )
+        )
+
+        db.commit()
+
+        return None
+
+    if until <= datetime.now(
+        timezone.utc
+    ):
+
+        db.execute(
+            """
+            DELETE FROM color_bans
+            WHERE guild_id=? AND user_id=?
+            """,
+            (
+                guild_id,
+                user_id
+            )
+        )
+
+        db.commit()
+
+        return None
+
+    return until
+
+
+def lock_user_until_tomorrow(
+    guild_id,
+    user_id
+):
+
+    now = datetime.now(
+        timezone.utc
+    )
+
+    tomorrow = (
+        now.date()
+        + timedelta(days=1)
+    )
+
+    until = datetime.combine(
+        tomorrow,
+        datetime.min.time(),
+        tzinfo=timezone.utc
+    )
+
+    db.execute(
+        """
+        INSERT OR REPLACE INTO color_bans(
+            guild_id,
+            user_id,
+            until_at
+        )
+        VALUES(?,?,?)
+        """,
+        (
+            guild_id,
+            user_id,
+            until.isoformat()
+        )
+    )
+
+    db.commit()
+
+    return until
+
+
+def register_color_usage(
+    guild_id,
+    user_id
+):
+
+    now = datetime.now(
+        timezone.utc
+    )
+
+    db.execute(
+        """
+        INSERT INTO color_usage(
+            guild_id,
+            user_id,
+            used_at
+        )
+        VALUES(?,?,?)
+        """,
+        (
+            guild_id,
+            user_id,
+            now.isoformat()
+        )
+    )
+
+    db.commit()
 
 
 # ============================================================
@@ -693,8 +1333,15 @@ async def write_log(
     member,
     old,
     new,
-    who
+    who,
+    was_locked=False
 ):
+
+    if not get_bool(
+        guild.id,
+        "log_on"
+    ):
+        return
 
     channel_id = get_log_channel(
         guild.id
@@ -707,29 +1354,103 @@ async def write_log(
         channel_id
     )
 
-    if not channel:
+    if channel is None:
         return
 
     now = datetime.now(
         timezone.utc
-    ).astimezone()
-
-    text = (
-        "🎨 **COLORS_SOK_2B LOG**\n\n"
-        f"👤 **العضو:**\n{member.display_name}\n\n"
-        f"🆔 **ID:**\n{member.id}\n\n"
-        f"🔴 **السابق:**\n{old}\n\n"
-        f"🟢 **الجديد:**\n{new}\n\n"
-        f"👮 **بواسطة:**\n{who}\n\n"
-        f"🕒 **الوقت:**\n"
-        f"{now.strftime('%Y/%m/%d %H:%M:%S')}"
     )
 
-    try:
-        await channel.send(
-            text
+    daily_count = get_daily_usage(
+        guild.id,
+        member.id
+    )
+
+    rank = get_member_rank(
+        member
+    )
+
+    role_id = None
+
+    row = db.execute(
+        """
+        SELECT role_id
+        FROM roles
+        WHERE guild_id=? AND user_id=?
+        """,
+        (
+            guild.id,
+            member.id
         )
+    ).fetchone()
+
+    if row:
+        role_id = row["role_id"]
+
+    history_text = (
+        f"🎨 **COLORS_SOK_2B LOG**\n\n"
+        f"👤 **العضو:**\n"
+        f"{member.display_name}\n\n"
+        f"🆔 **ID:**\n"
+        f"{member.id}\n\n"
+        f"🏷️ **رتبته:**\n"
+        f"{rank}\n\n"
+        f"🔴 **اللون السابق:**\n"
+        f"{old}\n\n"
+        f"🟢 **اللون الجديد:**\n"
+        f"{new}\n\n"
+        f"👮 **بواسطة:**\n"
+        f"{who}\n\n"
+        f"🔢 **تغييرات اليوم:**\n"
+        f"{daily_count}\n\n"
+        f"🚫 **تم قفل العضو:**\n"
+        f"{'نعم' if was_locked else 'لا'}\n\n"
+        f"🕒 **التاريخ:**\n"
+        f"{now.strftime('%Y/%m/%d %H:%M:%S UTC')}"
+    )
+
+    db.execute(
+        """
+        INSERT INTO color_history(
+            guild_id,
+            user_id,
+            member_name,
+            old_color,
+            new_color,
+            changed_by,
+            changed_at,
+            daily_changes,
+            was_locked,
+            member_rank,
+            role_id
+        )
+        VALUES(?,?,?,?,?,?,?,?,?,?,?)
+        """,
+        (
+            guild.id,
+            member.id,
+            member.display_name,
+            str(old),
+            str(new),
+            str(who),
+            now.isoformat(),
+            daily_count,
+            int(was_locked),
+            rank,
+            role_id
+        )
+    )
+
+    db.commit()
+
+    try:
+
+        await channel.send(
+            history_text
+        )
+
     except discord.HTTPException:
+
         pass
 
 
@@ -740,23 +1461,125 @@ async def write_log(
 async def apply_color(
     member,
     value,
-    who
+    who,
+    bypass_limit=False
 ):
+
+    guild = member.guild
+
+    ensure(
+        guild.id
+    )
+
+    # --------------------------------------------------------
+    # GLOBAL SYSTEM
+    # --------------------------------------------------------
+
+    if not get_bool(
+        guild.id,
+        "system_on"
+    ):
+
+        raise ValueError(
+            "⛔ نظام الألوان متوقف حاليًا."
+        )
+
+    # --------------------------------------------------------
+    # USER LIMIT
+    # --------------------------------------------------------
+
+    privileged = (
+        bypass_limit
+        or is_owner(member.id)
+        or is_admin(member)
+    )
+
+    if (
+        not privileged
+        and get_bool(
+            guild.id,
+            "rate_limit_on"
+        )
+    ):
+
+        locked_until = get_color_lock(
+            guild.id,
+            member.id
+        )
+
+        if locked_until:
+
+            raise ValueError(
+                "🚫 تم إيقاف تغيير الألوان لك مؤقتًا.\n\n"
+                f"⏰ يعود النظام:\n"
+                f"`{locked_until.strftime('%Y/%m/%d %H:%M UTC')}`\n\n"
+                "المالك والإدارة غير خاضعين لهذا الحد."
+            )
+
+        usage = get_hourly_usage(
+            guild.id,
+            member.id
+        )
+
+        if usage >= MAX_USER_CHANGES_PER_HOUR:
+
+            until = lock_user_until_tomorrow(
+                guild.id,
+                member.id
+            )
+
+            daily = get_daily_usage(
+                guild.id,
+                member.id
+            )
+
+            await write_log(
+                guild,
+                member,
+                "N/A",
+                "RATE LIMIT",
+                who,
+                was_locked=True
+            )
+
+            raise ValueError(
+                "🚫 تم تجاوز الحد المسموح.\n\n"
+                f"استخدمت **{usage}** تغييرات خلال آخر ساعة.\n"
+                f"تم قفل تغيير الألوان حتى:\n"
+                f"`{until.strftime('%Y/%m/%d %H:%M UTC')}`\n\n"
+                f"📊 تغييرات اليوم: `{daily}`"
+            )
+
+    # --------------------------------------------------------
+    # PARSE
+    # --------------------------------------------------------
 
     spec = parse_color(
         value
     )
 
+    # --------------------------------------------------------
+    # GRADIENT CHECK
+    # --------------------------------------------------------
+
+    if spec["type"] == "gradient":
+
+        if not gradient_available(
+            guild
+        ):
+
+            raise GradientNotEnabled()
+
+    # --------------------------------------------------------
+    # ROLE
+    # --------------------------------------------------------
+
     role = await color_role(
         member
     )
 
-    old = role.name
-
-    primary = spec["colors"][0]
-
-    primary_int = hex_to_int(
-        primary
+    old_color = (
+        f"{role.colour}"
     )
 
     # --------------------------------------------------------
@@ -765,10 +1588,14 @@ async def apply_color(
 
     if spec["type"] == "solid":
 
+        primary = hex_to_int(
+            spec["colors"][0]
+        )
+
         await role.edit(
             name=f"COLOR • {member.display_name}"[:100],
             colour=discord.Colour(
-                primary_int
+                primary
             ),
             secondary_colour=None,
             tertiary_colour=None,
@@ -781,27 +1608,21 @@ async def apply_color(
 
     elif spec["type"] == "gradient":
 
-        if "ENHANCED_ROLE_COLORS" not in member.guild.features:
+        primary = hex_to_int(
+            spec["colors"][0]
+        )
 
-            raise ValueError(
-                "❌ السيرفر لا يدعم التدرجات حاليًا.\n\n"
-                "يجب تفعيل Enhanced Role Styles في السيرفر "
-                "حتى يستطيع Discord استخدام Gradient Roles."
-            )
-
-        secondary = spec["colors"][1]
-
-        secondary_int = hex_to_int(
-            secondary
+        secondary = hex_to_int(
+            spec["colors"][1]
         )
 
         await role.edit(
             name=f"COLOR • {member.display_name}"[:100],
             colour=discord.Colour(
-                primary_int
+                primary
             ),
             secondary_colour=discord.Colour(
-                secondary_int
+                secondary
             ),
             tertiary_colour=None,
             reason="COLORS_SOK_2B gradient color"
@@ -815,7 +1636,18 @@ async def apply_color(
 
         await member.add_roles(
             role,
-            reason="COLORS_SOK_2B"
+            reason="COLORS_SOK_2B color role"
+        )
+
+    # --------------------------------------------------------
+    # USAGE
+    # --------------------------------------------------------
+
+    if not privileged:
+
+        register_color_usage(
+            guild.id,
+            member.id
         )
 
     # --------------------------------------------------------
@@ -823,9 +1655,9 @@ async def apply_color(
     # --------------------------------------------------------
 
     await write_log(
-        member.guild,
+        guild,
         member,
-        old,
+        old_color,
         spec["label"],
         who
     )
@@ -834,107 +1666,1394 @@ async def apply_color(
 
 
 # ============================================================
-# /colors
+# GRADIENT ERROR
 # ============================================================
 
-@bot.tree.command(
-    name="colors",
-    description="عرض صورة الألوان وطريقة اختيار اللون"
-)
-async def colors_cmd(
-    i: discord.Interaction
+class GradientNotEnabled(
+    Exception
+):
+    pass
+
+
+# ============================================================
+# GRADIENT CHECK VIEW
+# ============================================================
+
+class GradientCheckView(
+    discord.ui.View
 ):
 
-    if not i.guild:
-
-        return await i.response.send_message(
-            "❌ استخدمه داخل السيرفر.",
-            ephemeral=True
-        )
-
-    if not get_bool(
-        i.guild.id,
-        "system_on"
+    def __init__(
+        self,
+        guild_id
     ):
 
-        return await i.response.send_message(
-            "⛔ النظام متوقف.",
+        super().__init__(
+            timeout=180
+        )
+
+        self.guild_id = guild_id
+
+    @discord.ui.button(
+        label="🔄 تحقق الآن",
+        style=discord.ButtonStyle.success
+    )
+    async def check(
+        self,
+        interaction,
+        button
+    ):
+
+        if not interaction.guild:
+
+            return await interaction.response.send_message(
+                "❌ داخل السيرفر فقط.",
+                ephemeral=True
+            )
+
+        if gradient_available(
+            interaction.guild
+        ):
+
+            await interaction.response.edit_message(
+                content=(
+                    "✅ **تم اكتشاف Enhanced Role Colors!**\n\n"
+                    "يمكن الآن استخدام التدرجات بلونين.\n\n"
+                    "مثال:\n"
+                    "`#C86BFF #FFD900`"
+                ),
+                view=None
+            )
+
+        else:
+
+            await interaction.response.send_message(
+                "❌ ما زالت الميزة غير متاحة في السيرفر.",
+                ephemeral=True
+            )
+
+    @discord.ui.button(
+        label="📖 طريقة التفعيل",
+        style=discord.ButtonStyle.secondary
+    )
+    async def guide(
+        self,
+        interaction,
+        button
+    ):
+
+        await interaction.response.send_message(
+            gradient_help_text(),
             ephemeral=True
         )
 
-    if not os.path.exists(IMAGE):
 
-        return await i.response.send_message(
-            "❌ colors.png غير موجود.",
-            ephemeral=True
+# ============================================================
+# MAIN OWNER VIEW
+# ============================================================
+
+class OwnerView(
+    discord.ui.View
+):
+
+    def __init__(
+        self
+    ):
+
+        super().__init__(
+            timeout=None
         )
 
-    await i.response.send_message(
-        "🎨 **نظام COLORS_SOK_2B**\n\n"
-        "لون واحد:\n"
-        "`27`\n"
-        "`#C86BFF`\n"
-        "`بنفسجي فاتح`\n\n"
-        "تدرج بلونين:\n"
-        "`#C86BFF #FFD900`\n"
-        "`تدرج #C86BFF + #FFD900`\n"
-        "`بنفسجي فاتح + أصفر ليموني`\n\n"
-        "نيون:\n"
-        "`نيون #C86BFF`\n"
-        "`neon #39FF14`\n\n"
-        "⚠️ التدرج المخصص يدعم لونين.",
-        file=discord.File(IMAGE)
+    async def allowed(
+        self,
+        interaction
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+
+            await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+            return False
+
+        if not interaction.guild:
+
+            await interaction.response.send_message(
+                "❌ داخل السيرفر فقط.",
+                ephemeral=True
+            )
+
+            return False
+
+        return True
+
+    @discord.ui.button(
+        label="🎨 الأعضاء",
+        style=discord.ButtonStyle.primary,
+        row=0
+    )
+    async def members(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "members"
+            ),
+            view=MembersView()
+        )
+
+    @discord.ui.button(
+        label="👑 الإدارة",
+        style=discord.ButtonStyle.secondary,
+        row=0
+    )
+    async def admins(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "admins"
+            ),
+            view=AdminsView()
+        )
+
+    @discord.ui.button(
+        label="🤖 النظام",
+        style=discord.ButtonStyle.success,
+        row=0
+    )
+    async def system(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "system"
+            ),
+            view=SystemView()
+        )
+
+    @discord.ui.button(
+        label="📋 LOG",
+        style=discord.ButtonStyle.secondary,
+        row=1
+    )
+    async def log(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "log"
+            ),
+            view=LogView()
+        )
+
+    @discord.ui.button(
+        label="⛔ إيقاف البوت",
+        style=discord.ButtonStyle.danger,
+        row=1
+    )
+    async def stop(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.edit_message(
+            content=(
+                "⛔ **إيقاف البوت**\n\n"
+                "هل أنت متأكد من إيقاف البوت؟\n\n"
+                "لن يعود للعمل حتى يتم تشغيل Workflow مرة أخرى."
+            ),
+            view=StopView()
+        )
+
+    @discord.ui.button(
+        label="🎨 تعيين لون لعضو",
+        style=discord.ButtonStyle.primary,
+        row=2
+    )
+    async def manual_color(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.send_modal(
+            ManualColorModal(
+                interaction.guild.id
+            )
+        )
+
+    @discord.ui.button(
+        label="🏆 رفع عضو",
+        style=discord.ButtonStyle.secondary,
+        row=2
+    )
+    async def rank_user(
+        self,
+        interaction,
+        button
+    ):
+
+        if not await self.allowed(
+            interaction
+        ):
+            return
+
+        await interaction.response.send_modal(
+            RankUserModal()
+        )
+
+
+# ============================================================
+# DASHBOARD TEXT
+# ============================================================
+
+def status(
+    value
+):
+
+    return "🟢 مفعّل" if value else "🔴 متوقف"
+
+
+def dashboard_text(
+    guild,
+    section=None
+):
+
+    ensure(
+        guild.id
+    )
+
+    members = status(
+        get_bool(
+            guild.id,
+            "members_on"
+        )
+    )
+
+    admins = status(
+        get_bool(
+            guild.id,
+            "admins_on"
+        )
+    )
+
+    system = status(
+        get_bool(
+            guild.id,
+            "system_on"
+        )
+    )
+
+    log = status(
+        get_bool(
+            guild.id,
+            "log_on"
+        )
+    )
+
+    rate = status(
+        get_bool(
+            guild.id,
+            "rate_limit_on"
+        )
+    )
+
+    channel_id = get_log_channel(
+        guild.id
+    )
+
+    gradient = (
+        "🟢 متاح"
+        if gradient_available(guild)
+        else "🔴 غير متاح"
+    )
+
+    if section == "members":
+
+        return (
+            "🎨 **قسم الأعضاء**\n\n"
+            f"حالة تغيير الألوان للأعضاء: {members}\n\n"
+            "عند الإيقاف لن يستطيع العضو تغيير لونه بنفسه.\n"
+            "المالك والإدارة يستطيعون الاستمرار باستخدام لوحة التحكم."
+        )
+
+    if section == "admins":
+
+        return (
+            "👑 **قسم الإدارة**\n\n"
+            f"حالة أوامر الإدارة: {admins}\n\n"
+            "الإدارة تستطيع تعيين لون لأي عضو.\n"
+            "الإدارة والمالك غير خاضعين لحد التغييرات."
+        )
+
+    if section == "system":
+
+        return (
+            "🤖 **قسم النظام**\n\n"
+            f"النظام: {system}\n\n"
+            f"حد التغييرات: {rate}\n"
+            f"التدرجات: {gradient}\n\n"
+            "الحد الافتراضي:\n"
+            "5 تغييرات خلال ساعة للعضو العادي.\n"
+            "عند تجاوز الحد يتم قفل تغيير اللون حتى اليوم التالي."
+        )
+
+    if section == "log":
+
+        return (
+            "📋 **قسم LOG**\n\n"
+            f"حالة LOG: {log}\n\n"
+            f"القناة الحالية: "
+            f"{f'<#{channel_id}>' if channel_id else 'غير محددة'}\n\n"
+            "يسجل:\n"
+            "• اسم العضو\n"
+            "• ID\n"
+            "• الرتبة\n"
+            "• اللون السابق\n"
+            "• اللون الجديد\n"
+            "• من قام بالتغيير\n"
+            "• عدد تغييرات اليوم\n"
+            "• هل تم قفل العضو\n"
+            "• التاريخ والوقت"
+        )
+
+    return (
+        "👑 **لوحة تحكم COLORS_SOK_2B**\n\n"
+        f"🎨 الأعضاء: {members}\n"
+        f"👑 الإدارة: {admins}\n"
+        f"🤖 النظام: {system}\n"
+        f"📋 LOG: {log}\n"
+        f"🌈 التدرج: {gradient}\n\n"
+        "🛠️ الأدوات:\n"
+        "• تعيين لون لعضو\n"
+        "• رفع عضو لرتبة\n"
+        "• إدارة الحد اليومي\n"
+        "• إدارة LOG\n\n"
+        "اختر القسم الذي تريد التحكم به."
     )
 
 
 # ============================================================
-# /setcolor
+# BACK BUTTON
+# ============================================================
+
+class BackButton:
+
+    @staticmethod
+    async def back(
+        interaction
+    ):
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild
+            ),
+            view=OwnerView()
+        )
+
+
+# ============================================================
+# MEMBERS VIEW
+# ============================================================
+
+class MembersView(
+    discord.ui.View
+):
+
+    def __init__(self):
+
+        super().__init__(
+            timeout=None
+        )
+
+    @discord.ui.button(
+        label="🟢 تفعيل",
+        style=discord.ButtonStyle.success
+    )
+    async def enable(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "members_on",
+            True
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "members"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="🔴 إيقاف",
+        style=discord.ButtonStyle.danger
+    )
+    async def disable(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "members_on",
+            False
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "members"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="↩️ رجوع",
+        style=discord.ButtonStyle.secondary
+    )
+    async def back(
+        self,
+        interaction,
+        button
+    ):
+
+        await BackButton.back(
+            interaction
+        )
+
+
+# ============================================================
+# ADMINS VIEW
+# ============================================================
+
+class AdminsView(
+    discord.ui.View
+):
+
+    def __init__(self):
+
+        super().__init__(
+            timeout=None
+        )
+
+    @discord.ui.button(
+        label="🟢 تفعيل",
+        style=discord.ButtonStyle.success
+    )
+    async def enable(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "admins_on",
+            True
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "admins"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="🔴 إيقاف",
+        style=discord.ButtonStyle.danger
+    )
+    async def disable(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "admins_on",
+            False
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "admins"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="↩️ رجوع",
+        style=discord.ButtonStyle.secondary
+    )
+    async def back(
+        self,
+        interaction,
+        button
+    ):
+
+        await BackButton.back(
+            interaction
+        )
+
+
+# ============================================================
+# SYSTEM VIEW
+# ============================================================
+
+class SystemView(
+    discord.ui.View
+):
+
+    def __init__(self):
+
+        super().__init__(
+            timeout=None
+        )
+
+    @discord.ui.button(
+        label="🟢 تفعيل النظام",
+        style=discord.ButtonStyle.success,
+        row=0
+    )
+    async def enable_system(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "system_on",
+            True
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "system"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="🔴 إيقاف النظام",
+        style=discord.ButtonStyle.danger,
+        row=0
+    )
+    async def disable_system(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "system_on",
+            False
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "system"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="🛡️ الحد 5/ساعة",
+        style=discord.ButtonStyle.primary,
+        row=1
+    )
+    async def rate(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        v = not get_bool(
+            interaction.guild.id,
+            "rate_limit_on"
+        )
+
+        put(
+            interaction.guild.id,
+            "rate_limit_on",
+            v
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "system"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="↩️ رجوع",
+        style=discord.ButtonStyle.secondary,
+        row=2
+    )
+    async def back(
+        self,
+        interaction,
+        button
+    ):
+
+        await BackButton.back(
+            interaction
+        )
+
+
+# ============================================================
+# LOG VIEW
+# ============================================================
+
+class LogView(
+    discord.ui.View
+):
+
+    def __init__(self):
+
+        super().__init__(
+            timeout=None
+        )
+
+    @discord.ui.button(
+        label="🟢 تفعيل LOG",
+        style=discord.ButtonStyle.success,
+        row=0
+    )
+    async def enable(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "log_on",
+            True
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "log"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="🔴 إيقاف LOG",
+        style=discord.ButtonStyle.danger,
+        row=0
+    )
+    async def disable(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "log_on",
+            False
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "log"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="📋 تعيين هذه القناة",
+        style=discord.ButtonStyle.primary,
+        row=1
+    )
+    async def set_channel(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        put(
+            interaction.guild.id,
+            "log_channel",
+            interaction.channel.id
+        )
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild,
+                "log"
+            ),
+            view=self
+        )
+
+    @discord.ui.button(
+        label="↩️ رجوع",
+        style=discord.ButtonStyle.secondary,
+        row=2
+    )
+    async def back(
+        self,
+        interaction,
+        button
+    ):
+
+        await BackButton.back(
+            interaction
+        )
+
+
+# ============================================================
+# STOP VIEW
+# ============================================================
+
+class StopView(
+    discord.ui.View
+):
+
+    def __init__(self):
+
+        super().__init__(
+            timeout=None
+        )
+
+    @discord.ui.button(
+        label="⛔ إيقاف البوت الآن",
+        style=discord.ButtonStyle.danger
+    )
+    async def confirm(
+        self,
+        interaction,
+        button
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        await interaction.response.edit_message(
+            content=(
+                "⛔ **تم إرسال أمر إيقاف البوت.**\n\n"
+                "سيتم إغلاق اتصال Discord الآن."
+            ),
+            view=None
+        )
+
+        await asyncio.sleep(
+            1
+        )
+
+        await bot.close()
+
+    @discord.ui.button(
+        label="↩️ إلغاء",
+        style=discord.ButtonStyle.secondary
+    )
+    async def cancel(
+        self,
+        interaction,
+        button
+    ):
+
+        await interaction.response.edit_message(
+            content=dashboard_text(
+                interaction.guild
+            ),
+            view=OwnerView()
+        )
+
+
+# ============================================================
+# MANUAL COLOR MODAL
+# ============================================================
+
+class ManualColorModal(
+    discord.ui.Modal,
+    title="🎨 تعيين لون لعضو"
+):
+
+    user_id = discord.ui.TextInput(
+        label="ID العضو",
+        placeholder="1531577881548034100",
+        required=True,
+        max_length=25
+    )
+
+    color = discord.ui.TextInput(
+        label="اللون / التدرج",
+        placeholder="#7A00FF #FF00A8",
+        required=True,
+        max_length=300
+    )
+
+    async def on_submit(
+        self,
+        interaction
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        if not self.user_id.value.isdigit():
+
+            return await interaction.response.send_message(
+                "❌ ID غير صحيح.",
+                ephemeral=True
+            )
+
+        member = interaction.guild.get_member(
+            int(
+                self.user_id.value
+            )
+        )
+
+        if member is None:
+
+            try:
+
+                member = await interaction.guild.fetch_member(
+                    int(
+                        self.user_id.value
+                    )
+                )
+
+            except discord.HTTPException:
+
+                member = None
+
+        if member is None:
+
+            return await interaction.response.send_message(
+                "❌ العضو غير موجود.",
+                ephemeral=True
+            )
+
+        await interaction.response.defer(
+            ephemeral=True
+        )
+
+        try:
+
+            spec = await apply_color(
+                member,
+                self.color.value,
+                interaction.user.display_name,
+                bypass_limit=True
+            )
+
+            await interaction.followup.send(
+                "✅ **تم تعيين اللون بنجاح.**\n\n"
+                f"👤 {member.mention}\n"
+                f"🎨 {spec['label']}",
+                ephemeral=True
+            )
+
+        except GradientNotEnabled:
+
+            await interaction.followup.send(
+                gradient_help_text(),
+                view=GradientCheckView(
+                    interaction.guild.id
+                ),
+                ephemeral=True
+            )
+
+        except ValueError as e:
+
+            await interaction.followup.send(
+                str(e),
+                ephemeral=True
+            )
+
+        except discord.Forbidden:
+
+            await interaction.followup.send(
+                "❌ البوت لا يملك صلاحية إدارة الرتب.\n\n"
+                "تأكد أن:\n"
+                "• Manage Roles مفعلة للبوت.\n"
+                "• رتبة البوت أعلى من رتبة COLOR.",
+                ephemeral=True
+            )
+
+        except Exception:
+
+            logging.exception(
+                "Manual color error"
+            )
+
+            await interaction.followup.send(
+                "❌ حدث خطأ أثناء تطبيق اللون.",
+                ephemeral=True
+            )
+
+
+# ============================================================
+# RANK USER MODAL
+# ============================================================
+
+class RankUserModal(
+    discord.ui.Modal,
+    title="🏆 رفع عضو"
+):
+
+    user_id = discord.ui.TextInput(
+        label="ID العضو",
+        placeholder="ضع ID العضو",
+        required=True,
+        max_length=25
+    )
+
+    async def on_submit(
+        self,
+        interaction
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        if not self.user_id.value.isdigit():
+
+            return await interaction.response.send_message(
+                "❌ ID غير صحيح.",
+                ephemeral=True
+            )
+
+        member = interaction.guild.get_member(
+            int(
+                self.user_id.value
+            )
+        )
+
+        if member is None:
+
+            try:
+
+                member = await interaction.guild.fetch_member(
+                    int(
+                        self.user_id.value
+                    )
+                )
+
+            except discord.HTTPException:
+
+                member = None
+
+        if member is None:
+
+            return await interaction.response.send_message(
+                "❌ العضو غير موجود.",
+                ephemeral=True
+            )
+
+        await interaction.response.send_message(
+            f"👤 **العضو:** {member.mention}\n\n"
+            "🏆 اختر الرتبة التي تريد إعطاءها له:",
+            view=RankSelectView(
+                member
+            ),
+            ephemeral=True
+        )
+
+
+# ============================================================
+# RANK SELECT VIEW
+# ============================================================
+
+class RankSelectView(
+    discord.ui.View
+):
+
+    def __init__(
+        self,
+        member
+    ):
+
+        super().__init__(
+            timeout=300
+        )
+
+        self.member = member
+
+        options = []
+
+        for rank in RANKS:
+
+            options.append(
+                discord.SelectOption(
+                    label=rank,
+                    value=rank
+                )
+            )
+
+        self.select = discord.ui.Select(
+            placeholder="اختر الرتبة",
+            options=options
+        )
+
+        self.select.callback = self.select_callback
+
+        self.add_item(
+            self.select
+        )
+
+    async def select_callback(
+        self,
+        interaction
+    ):
+
+        if not is_owner(
+            interaction.user.id
+        ):
+
+            return await interaction.response.send_message(
+                "❌ غير مصرح.",
+                ephemeral=True
+            )
+
+        rank = self.select.values[0]
+
+        try:
+
+            role = await assign_rank(
+                self.member,
+                rank
+            )
+
+            await interaction.response.edit_message(
+                content=(
+                    "✅ **تم رفع العضو بنجاح.**\n\n"
+                    f"👤 {self.member.mention}\n"
+                    f"🏆 الرتبة: `{rank}`\n"
+                    f"🎭 {role.mention}"
+                ),
+                view=None
+            )
+
+        except discord.Forbidden:
+
+            await interaction.response.send_message(
+                "❌ البوت لا يستطيع إدارة هذه الرتبة.\n\n"
+                "ضع رتبة البوت فوق رتب SOKO.",
+                ephemeral=True
+            )
+
+        except Exception:
+
+            logging.exception(
+                "Rank assignment error"
+            )
+
+            await interaction.response.send_message(
+                "❌ حدث خطأ أثناء إعطاء الرتبة.",
+                ephemeral=True
+            )
+
+
+# ============================================================
+# /COLORS
+# ============================================================
+
+@bot.tree.command(
+    name="colors",
+    description="عرض نظام الألوان"
+)
+async def colors_cmd(
+    interaction
+):
+
+    if not interaction.guild:
+
+        return await interaction.response.send_message(
+            "❌ استخدم الأمر داخل السيرفر.",
+            ephemeral=True
+        )
+
+    if not get_bool(
+        interaction.guild.id,
+        "system_on"
+    ):
+
+        return await interaction.response.send_message(
+            "⛔ تم إيقاف نظام الألوان بواسطة لوحة التحكم.",
+            ephemeral=True
+        )
+
+    gradient_status = (
+        "🟢 متاح"
+        if gradient_available(
+            interaction.guild
+        )
+        else "🔴 غير متاح - يحتاج Enhanced Role Styles"
+    )
+
+    text = (
+        "🎨 **COLORS_SOK_2B**\n\n"
+
+        "━━━━━━━━━━━━━━━━━━\n"
+        "🎨 **لون واحد**\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+
+        "`27`\n"
+        "`#C86BFF`\n"
+        "`بنفسجي فاتح`\n"
+        "`نيون #39FF14`\n\n"
+
+        "━━━━━━━━━━━━━━━━━━\n"
+        "🌈 **تدرج بلونين**\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+
+        "`#C86BFF #FFD900`\n"
+        "`تدرج #C86BFF + #FFD900`\n"
+        "`بنفسجي فاتح + أصفر ليموني`\n\n"
+
+        f"حالة التدرج: {gradient_status}\n\n"
+
+        "━━━━━━━━━━━━━━━━━━\n"
+        "⏱️ **حد العضو**\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+
+        "العضو العادي يستطيع تغيير اللون "
+        "حتى 5 مرات خلال ساعة.\n"
+        "بعد تجاوز الحد يتم قفل تغيير اللون "
+        "حتى اليوم التالي.\n\n"
+
+        "👑 المالك والإدارة مستثنون من الحد."
+    )
+
+    if not os.path.exists(
+        IMAGE
+    ):
+
+        return await interaction.response.send_message(
+            text,
+            ephemeral=True
+        )
+
+    await interaction.response.send_message(
+        text,
+        file=discord.File(
+            IMAGE
+        ),
+        ephemeral=True
+    )
+
+
+# ============================================================
+# /SETCOLOR
 # ============================================================
 
 @bot.tree.command(
     name="setcolor",
-    description="تغيير لون أو تدرج عضو - الإدارة"
+    description="تغيير لون عضو - الإدارة"
 )
 @app_commands.describe(
-    user_id="ID العضو المستهدف"
+    user_id="ID العضو"
 )
 async def setcolor(
-    i: discord.Interaction,
+    interaction,
     user_id: str
 ):
 
-    if not i.guild:
+    if not interaction.guild:
 
-        return await i.response.send_message(
+        return await interaction.response.send_message(
             "❌ داخل السيرفر فقط.",
             ephemeral=True
         )
 
-    if not is_admin(i.user):
+    if not is_admin(
+        interaction.user
+    ):
 
-        return await i.response.send_message(
+        return await interaction.response.send_message(
             "❌ هذا الأمر للإدارة فقط.",
             ephemeral=True
         )
 
     if not get_bool(
-        i.guild.id,
+        interaction.guild.id,
         "admins_on"
     ):
 
-        return await i.response.send_message(
-            "⛔ إدارة البوت متوقفة.",
+        return await interaction.response.send_message(
+            "⛔ أوامر الإدارة متوقفة.",
             ephemeral=True
         )
 
     if not user_id.isdigit():
 
-        return await i.response.send_message(
+        return await interaction.response.send_message(
             "❌ ID غير صحيح.",
             ephemeral=True
         )
 
-    member = i.guild.get_member(
+    member = interaction.guild.get_member(
         int(user_id)
     )
 
@@ -942,7 +3061,7 @@ async def setcolor(
 
         try:
 
-            member = await i.guild.fetch_member(
+            member = await interaction.guild.fetch_member(
                 int(user_id)
             )
 
@@ -952,112 +3071,99 @@ async def setcolor(
 
     if member is None:
 
-        return await i.response.send_message(
+        return await interaction.response.send_message(
             "❌ العضو غير موجود.",
             ephemeral=True
         )
 
-    await i.response.send_message(
+    await interaction.response.send_message(
         f"👤 {member.mention}\n\n"
-        "🎨 أرسل الآن اللون أو التدرج.\n\n"
-        "**أمثلة:**\n"
+        "🎨 أرسل اللون أو التدرج في نفس القناة.\n\n"
+        "أمثلة:\n"
         "`27`\n"
-        "`#C86BFF`\n"
-        "`#C86BFF #FFD900`\n"
-        "`تدرج #C86BFF + #FFD900`\n"
-        "`بنفسجي فاتح + أصفر ليموني`\n"
-        "`نيون #39FF14`\n\n"
+        "`#7A00FF`\n"
+        "`#7A00FF #FF00A8`\n"
+        "`بنفسجي فاتح + وردي نيون`\n\n"
         "⏳ لديك 120 ثانية.",
         ephemeral=True
     )
 
-    def check(message):
+    def check(
+        message
+    ):
 
         return (
-            message.author.id == i.user.id
-            and message.channel.id == i.channel.id
-            and message.guild is not None
-            and message.guild.id == i.guild.id
+            message.author.id
+            == interaction.user.id
+            and message.channel.id
+            == interaction.channel.id
+            and message.guild
+            and message.guild.id
+            == interaction.guild.id
         )
 
     try:
 
-        msg = await bot.wait_for(
+        message = await bot.wait_for(
             "message",
             timeout=120,
             check=check
         )
 
-        spec = await apply_color(
-            member,
-            msg.content,
-            i.user.display_name
-        )
+        try:
+
+            spec = await apply_color(
+                member,
+                message.content,
+                interaction.user.display_name,
+                bypass_limit=True
+            )
+
+        except GradientNotEnabled:
+
+            await interaction.followup.send(
+                gradient_help_text(),
+                view=GradientCheckView(
+                    interaction.guild.id
+                ),
+                ephemeral=True
+            )
+
+            return
 
         try:
 
-            await msg.delete()
+            await message.delete()
 
         except discord.HTTPException:
+
             pass
 
-        if spec["type"] == "gradient":
-
-            colors_text = (
-                f"`{spec['colors'][0]}`"
-                f" → "
-                f"`{spec['colors'][1]}`"
-            )
-
-            await i.followup.send(
-                "🌈 **تم تطبيق التدرج بنجاح!**\n\n"
-                f"👤 {member.mention}\n"
-                f"🎨 {colors_text}",
-                ephemeral=True
-            )
-
-        else:
-
-            await i.followup.send(
-                "✅ **تم تغيير اللون!**\n\n"
-                f"👤 {member.mention}\n"
-                f"🎨 `{spec['colors'][0]}`",
-                ephemeral=True
-            )
+        await interaction.followup.send(
+            "✅ **تم تطبيق اللون.**\n\n"
+            f"👤 {member.mention}\n"
+            f"🎨 {spec['label']}",
+            ephemeral=True
+        )
 
     except asyncio.TimeoutError:
 
-        await i.followup.send(
+        await interaction.followup.send(
             "⌛ انتهى الوقت.",
             ephemeral=True
         )
 
     except ValueError as e:
 
-        await i.followup.send(
-            f"{e}",
+        await interaction.followup.send(
+            str(e),
             ephemeral=True
         )
 
     except discord.Forbidden:
 
-        await i.followup.send(
-            "❌ البوت لا يملك صلاحية إدارة الرتب.\n\n"
-            "تأكد من:\n"
-            "• Manage Roles\n"
-            "• وضع رتبة البوت فوق رتبة اللون.",
-            ephemeral=True
-        )
-
-    except discord.HTTPException as e:
-
-        logging.exception(
-            "Discord HTTP error"
-        )
-
-        await i.followup.send(
-            "❌ Discord رفض تعديل الرتبة.\n\n"
-            f"الخطأ: `{e}`",
+        await interaction.followup.send(
+            "❌ البوت لا يملك صلاحية إدارة الرتب.",
             ephemeral=True
         )
 
@@ -1067,10 +3173,43 @@ async def setcolor(
             "setcolor error"
         )
 
-        await i.followup.send(
-            "❌ حدث خطأ أثناء تطبيق اللون.",
+        await interaction.followup.send(
+            "❌ حدث خطأ.",
             ephemeral=True
         )
+
+
+# ============================================================
+# /SOKO_IDMIN
+# ============================================================
+
+@bot.tree.command(
+    name="soko_idmin",
+    description="لوحة تحكم COLORS_SOK_2B"
+)
+async def soko_idmin(
+    interaction
+):
+
+    if not is_owner(
+        interaction.user.id
+    ):
+
+        return await interaction.response.send_message(
+            "❌ هذا الأمر خاص بمالك البوت.",
+            ephemeral=True
+        )
+
+    if not interaction.guild:
+
+        return await interaction.response.send_message(
+            "❌ داخل السيرفر فقط.",
+            ephemeral=True
+        )
+
+    await interaction.response.send_modal(
+        OwnerModal()
+    )
 
 
 # ============================================================
@@ -1084,255 +3223,51 @@ class OwnerModal(
 
     code = discord.ui.TextInput(
         label="رمز المالك",
-        required=True
+        required=True,
+        max_length=100
     )
 
     async def on_submit(
         self,
-        i: discord.Interaction
+        interaction
     ):
 
         if not is_owner(
-            i.user.id
+            interaction.user.id
         ):
 
-            return await i.response.send_message(
+            return await interaction.response.send_message(
                 "❌ غير مصرح.",
                 ephemeral=True
             )
 
-        if str(self.code) != OWNER_CODE:
+        if str(
+            self.code
+        ) != OWNER_CODE:
 
-            return await i.response.send_message(
+            return await interaction.response.send_message(
                 "❌ رمز غير صحيح.",
                 ephemeral=True
             )
 
-        if not i.guild:
+        if not interaction.guild:
 
-            return await i.response.send_message(
+            return await interaction.response.send_message(
                 "❌ داخل السيرفر فقط.",
                 ephemeral=True
             )
 
-        await i.response.send_message(
-            "👑 **لوحة تحكم COLORS_SOK_2B**",
+        await interaction.response.send_message(
+            dashboard_text(
+                interaction.guild
+            ),
             view=OwnerView(),
             ephemeral=True
         )
 
 
 # ============================================================
-# OWNER VIEW
-# ============================================================
-
-class OwnerView(
-    discord.ui.View
-):
-
-    def __init__(self):
-
-        super().__init__(
-            timeout=300
-        )
-
-    async def allowed(
-        self,
-        i
-    ):
-
-        if not is_owner(
-            i.user.id
-        ):
-
-            await i.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
-            )
-
-            return False
-
-        if not i.guild:
-
-            await i.response.send_message(
-                "❌ داخل السيرفر فقط.",
-                ephemeral=True
-            )
-
-            return False
-
-        return True
-
-    @discord.ui.button(
-        label="🎨 الأعضاء",
-        style=discord.ButtonStyle.primary
-    )
-    async def members(
-        self,
-        i,
-        button
-    ):
-
-        if not await self.allowed(i):
-            return
-
-        v = not get_bool(
-            i.guild.id,
-            "members_on"
-        )
-
-        put(
-            i.guild.id,
-            "members_on",
-            v
-        )
-
-        await i.response.send_message(
-            "🟢 تغيير الألوان للأعضاء مفعّل."
-            if v
-            else
-            "🔴 تغيير الألوان للأعضاء متوقف.",
-            ephemeral=True
-        )
-
-    @discord.ui.button(
-        label="👑 الإدارة",
-        style=discord.ButtonStyle.secondary
-    )
-    async def admins(
-        self,
-        i,
-        button
-    ):
-
-        if not await self.allowed(i):
-            return
-
-        v = not get_bool(
-            i.guild.id,
-            "admins_on"
-        )
-
-        put(
-            i.guild.id,
-            "admins_on",
-            v
-        )
-
-        await i.response.send_message(
-            "🟢 أوامر الإدارة مفعّلة."
-            if v
-            else
-            "🔴 أوامر الإدارة متوقفة.",
-            ephemeral=True
-        )
-
-    @discord.ui.button(
-        label="🤖 النظام",
-        style=discord.ButtonStyle.success
-    )
-    async def system(
-        self,
-        i,
-        button
-    ):
-
-        if not await self.allowed(i):
-            return
-
-        v = not get_bool(
-            i.guild.id,
-            "system_on"
-        )
-
-        put(
-            i.guild.id,
-            "system_on",
-            v
-        )
-
-        await i.response.send_message(
-            "🟢 النظام يعمل."
-            if v
-            else
-            "🔴 النظام متوقف.",
-            ephemeral=True
-        )
-
-    @discord.ui.button(
-        label="📋 تعيين LOG",
-        style=discord.ButtonStyle.secondary
-    )
-    async def log(
-        self,
-        i,
-        button
-    ):
-
-        if not await self.allowed(i):
-            return
-
-        put(
-            i.guild.id,
-            "log_channel",
-            i.channel.id
-        )
-
-        await i.response.send_message(
-            "✅ تم تعيين هذه القناة للـLOG.\n"
-            f"🆔 `{i.channel.id}`",
-            ephemeral=True
-        )
-
-    @discord.ui.button(
-        label="⛔ إيقاف البوت",
-        style=discord.ButtonStyle.danger
-    )
-    async def stop(
-        self,
-        i,
-        button
-    ):
-
-        if not await self.allowed(i):
-            return
-
-        await i.response.send_message(
-            "⛔ سيتم إيقاف البوت.",
-            ephemeral=True
-        )
-
-        await bot.close()
-
-
-# ============================================================
-# /soko_idmin
-# ============================================================
-
-@bot.tree.command(
-    name="soko_idmin",
-    description="لوحة تحكم المبرمج"
-)
-async def soko(
-    i: discord.Interaction
-):
-
-    if not is_owner(
-        i.user.id
-    ):
-
-        return await i.response.send_message(
-            "❌ هذا الأمر خاص بمالك البوت.",
-            ephemeral=True
-        )
-
-    await i.response.send_modal(
-        OwnerModal()
-    )
-
-
-# ============================================================
-# /help
+# /HELP
 # ============================================================
 
 @bot.tree.command(
@@ -1340,20 +3275,20 @@ async def soko(
     description="مساعدة COLORS_SOK_2B"
 )
 async def help_cmd(
-    i: discord.Interaction
+    interaction
 ):
 
-    await i.response.send_message(
+    await interaction.response.send_message(
         "🎨 **COLORS_SOK_2B**\n\n"
 
         "🎨 `/colors`\n"
         "عرض نظام الألوان.\n\n"
 
         "🛠️ `/setcolor ID`\n"
-        "تغيير لون عضو.\n\n"
+        "تغيير لون عضو للإدارة.\n\n"
 
         "👑 `/soko_idmin`\n"
-        "لوحة المبرمج.\n\n"
+        "لوحة تحكم المالك.\n\n"
 
         "━━━━━━━━━━━━━━━━━━\n\n"
 
@@ -1362,22 +3297,19 @@ async def help_cmd(
         "`#C86BFF`\n"
         "`بنفسجي فاتح`\n\n"
 
-        "**تدرج:**\n"
+        "**لونان:**\n"
         "`#C86BFF #FFD900`\n"
-        "`تدرج #C86BFF + #FFD900`\n"
         "`بنفسجي فاتح + أصفر ليموني`\n\n"
 
         "**نيون:**\n"
         "`نيون #39FF14`\n"
-        "`neon #B026FF`\n\n"
-
-        "⚠️ التدرج المخصص = لونان.",
+        "`neon #B026FF`",
         ephemeral=True
     )
 
 
 # ============================================================
-# BOT JOIN GUILD
+# ON GUILD JOIN
 # ============================================================
 
 @bot.event
@@ -1394,34 +3326,38 @@ async def on_guild_join(
         f"{guild.name} ({guild.id})"
     )
 
-    # محاولة إرسال رسالة ترحيب
     channel = guild.system_channel
 
     if channel is None:
 
         for ch in guild.text_channels:
 
-            if ch.permissions_for(
-                guild.me
-            ).send_messages:
+            try:
 
-                channel = ch
-                break
+                if ch.permissions_for(
+                    guild.me
+                ).send_messages:
+
+                    channel = ch
+                    break
+
+            except Exception:
+
+                continue
 
     if channel is not None:
 
         try:
 
             await channel.send(
-                "🎨 **COLORS_SOK_2B متصل!**\n\n"
-                "يمكن للأعضاء الآن إرسال:\n"
-                "`27`\n"
-                "`#C86BFF`\n"
-                "`#C86BFF #FFD900`\n\n"
-                "استخدم `/help` لمعرفة جميع الخيارات."
+                "🎨 **COLORS_SOK_2B متصل الآن!**\n\n"
+                "استخدم `/colors` لمعرفة طريقة الألوان.\n"
+                "استخدم `/help` للمساعدة.\n"
+                "استخدم `/soko_idmin` للوحة المالك."
             )
 
         except discord.HTTPException:
+
             pass
 
 
@@ -1437,28 +3373,53 @@ async def on_message(
     if message.author.bot:
         return
 
+    if not message.guild:
+
+        return await bot.process_commands(
+            message
+        )
+
+    guild = message.guild
+
+    ensure(
+        guild.id
+    )
+
     # --------------------------------------------------------
-    # COLOR SYSTEM
+    # BOT / SYSTEM
     # --------------------------------------------------------
 
-    if (
-        message.guild
-        and get_bool(
-            message.guild.id,
-            "system_on"
+    if not get_bool(
+        guild.id,
+        "bot_on"
+    ):
+
+        return await bot.process_commands(
+            message
         )
-        and get_bool(
-            message.guild.id,
-            "members_on"
+
+    if not get_bool(
+        guild.id,
+        "system_on"
+    ):
+
+        return await bot.process_commands(
+            message
         )
+
+    # --------------------------------------------------------
+    # MEMBER COLOR SYSTEM
+    # --------------------------------------------------------
+
+    if get_bool(
+        guild.id,
+        "members_on"
     ):
 
         raw = message.content.strip()
 
-        # لا نحاول معالجة الرسائل الطويلة جدًا
         if len(raw) <= 300:
 
-            # نتحقق هل تحتوي الرسالة على لون
             possible_colors = find_colors_from_text(
                 raw
             )
@@ -1474,15 +3435,17 @@ async def on_message(
                     )
 
                     try:
+
                         await message.delete()
 
                     except discord.HTTPException:
+
                         pass
 
                     if spec["type"] == "gradient":
 
                         await message.channel.send(
-                            f"🌈 {message.author.mention} "
+                            f"🌈 {message.author.mention}\n"
                             f"تم تطبيق التدرج:\n"
                             f"`{spec['colors'][0]}` → "
                             f"`{spec['colors'][1]}`",
@@ -1492,7 +3455,7 @@ async def on_message(
                     else:
 
                         await message.channel.send(
-                            f"✅ {message.author.mention} "
+                            f"✅ {message.author.mention}\n"
                             f"تم تغيير لونك إلى "
                             f"`{spec['colors'][0]}`.",
                             delete_after=8
@@ -1500,12 +3463,26 @@ async def on_message(
 
                     return
 
+                except GradientNotEnabled:
+
+                    await message.channel.send(
+                        f"{message.author.mention}\n\n"
+                        "🌈 **التدرج غير مفعّل في هذا السيرفر.**\n\n"
+                        "يجب على مالك/إدارة السيرفر تفعيل "
+                        "**Enhanced Role Styles** أولًا.\n\n"
+                        "بعدها يمكن استخدام:\n"
+                        "`#C86BFF #FFD900`",
+                        delete_after=15
+                    )
+
+                    return
+
                 except ValueError as e:
 
-                    # رسائل 3 ألوان مثلًا
                     await message.channel.send(
-                        f"{message.author.mention} {e}",
-                        delete_after=10
+                        f"{message.author.mention}\n"
+                        f"{e}",
+                        delete_after=12
                     )
 
                     return
@@ -1535,7 +3512,7 @@ async def on_message(
                 except Exception:
 
                     logging.exception(
-                        "member color error"
+                        "Member color error"
                     )
 
                     await message.channel.send(
@@ -1544,10 +3521,6 @@ async def on_message(
                     )
 
                     return
-
-    # --------------------------------------------------------
-    # COMMANDS
-    # --------------------------------------------------------
 
     await bot.process_commands(
         message
@@ -1563,13 +3536,34 @@ async def on_ready():
 
     init()
 
+    cleanup_old_usage()
+
     logging.info(
-        f"COLORS_SOK_2B online: "
-        f"{bot.user}"
+        "===================================="
+    )
+
+    logging.info(
+        f"COLORS_SOK_2B ONLINE: {bot.user}"
     )
 
     logging.info(
         f"Guilds: {len(bot.guilds)}"
+    )
+
+    for guild in bot.guilds:
+
+        ensure(
+            guild.id
+        )
+
+        logging.info(
+            f"Guild: {guild.name} | "
+            f"Gradient: "
+            f"{gradient_available(guild)}"
+        )
+
+    logging.info(
+        "===================================="
     )
 
     try:
