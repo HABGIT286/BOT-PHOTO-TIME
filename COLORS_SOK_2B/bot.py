@@ -16,7 +16,7 @@ OWNER_USER_ID = 1531577881548034100
 OWNER_CODE = "uefoxe1436"
 
 # ضع التوكن الجديد هنا بعد عمل Reset للتوكن السابق:
-TOKEN = "MTUzNjA3MjYxMjU2MjczNTMzOA.GjiJGD.seyFjOUNNPG_Gebq97dgG5_tA-RtHxoc0X-omM"
+TOKEN = "MTUzNjA3MjYxMjU2MjczNTMzOA.GBh8sm.0ZYyR3m5Yn76BExFq_op8YJLTmxCgVAwdDFekw"
 
 COLORS = [
     (1, "#FF1744", "أحمر نيون"), (2, "#D50000", "أحمر قوي"), (3, "#B71C1C", "أحمر داكن"), (4, "#FF5252", "أحمر فاتح"),
