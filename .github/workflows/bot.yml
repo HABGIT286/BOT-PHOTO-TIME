@@ -3,11 +3,20 @@ name: COLORS_SOK_2B
 on:
   workflow_dispatch:
 
+  push:
+    branches:
+      - main
+      - master
+
 jobs:
   bot:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -16,12 +25,21 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Upgrade pip
         run: |
           python -m pip install --upgrade pip
-          pip install discord.py
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U "discord.py==2.7.1"
+
+      - name: Check Python
+        run: |
+          python --version
+          python -c "import discord; print('discord.py:', discord.__version__)"
 
       - name: Run Discord Bot
-        run: python COLORS_SOK_2B/bot.py
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          python -u COLORS_SOK_2B/bot.py
