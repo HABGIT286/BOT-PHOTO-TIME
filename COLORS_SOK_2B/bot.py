@@ -21,6 +21,8 @@ DB = os.path.join(
     "colors_sok_2b.sqlite3"
 )
 
+# V10 keeps the original database filename so existing data is preserved.
+
 IMAGE = os.path.join(
     BASE_DIR,
     "colors.png"
@@ -39,6 +41,8 @@ OWNER_CODE = "uefoxe1436"
 # ============================================================
 # TOKEN
 # ============================================================
+
+BOT_VERSION = "10.0.0"
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -381,7 +385,10 @@ def init():
             bot_on INTEGER DEFAULT 1,
             log_on INTEGER DEFAULT 0,
             log_channel INTEGER,
-            rate_limit_on INTEGER DEFAULT 1
+            rate_limit_on INTEGER DEFAULT 1,
+            daily_limit_on INTEGER DEFAULT 0,
+            daily_limit INTEGER DEFAULT 20,
+            v10_enabled INTEGER DEFAULT 1
         )
     """)
 
@@ -460,6 +467,19 @@ def init():
         )
     """)
 
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS admin_audit(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            guild_id INTEGER,
+            actor_id INTEGER,
+            actor_name TEXT,
+            action TEXT,
+            target_id INTEGER,
+            details TEXT,
+            created_at TEXT
+        )
+    """)
+
     # --------------------------------------------------------
     # MIGRATION FOR OLD DATABASE
     # --------------------------------------------------------
@@ -479,6 +499,24 @@ def init():
     add_column_if_missing(
         "settings",
         "rate_limit_on",
+        "INTEGER DEFAULT 1"
+    )
+
+    add_column_if_missing(
+        "settings",
+        "daily_limit_on",
+        "INTEGER DEFAULT 0"
+    )
+
+    add_column_if_missing(
+        "settings",
+        "daily_limit",
+        "INTEGER DEFAULT 20"
+    )
+
+    add_column_if_missing(
+        "settings",
+        "v10_enabled",
         "INTEGER DEFAULT 1"
     )
 
@@ -516,7 +554,10 @@ def get_setting(
         "bot_on",
         "log_on",
         "log_channel",
-        "rate_limit_on"
+        "rate_limit_on",
+        "daily_limit_on",
+        "daily_limit",
+        "v10_enabled"
     }
 
     if key not in allowed:
@@ -568,7 +609,10 @@ def put(
         "bot_on",
         "log_on",
         "log_channel",
-        "rate_limit_on"
+        "rate_limit_on",
+        "daily_limit_on",
+        "daily_limit",
+        "v10_enabled"
     }
 
     if key not in allowed:
@@ -579,6 +623,12 @@ def put(
     ensure(
         guild_id
     )
+
+    old_row = db.execute(
+        f"SELECT {key} FROM settings WHERE guild_id=?",
+        (guild_id,)
+    ).fetchone()
+    old_value = old_row[key] if old_row else None
 
     db.execute(
         f"""
@@ -593,6 +643,11 @@ def put(
     )
 
     db.commit()
+
+    if old_value != int(value):
+        # Actor is not available in the low-level setter; the setting change
+        # is still persisted atomically. UI actions add their own audit rows.
+        logging.info("V10 setting changed guild=%s key=%s old=%s new=%s", guild_id, key, old_value, value)
 
 
 def get_log_channel(
@@ -703,7 +758,7 @@ async def get_or_create_rank_role(
         role = await guild.create_role(
             name=f"SOKO • {rank_name}",
             colour=discord.Colour.default(),
-            reason="COLORS_SOK_2B rank role"
+            reason="COLORS_SOK_2B V10 rank role"
         )
 
     db.execute(
@@ -1459,6 +1514,34 @@ async def write_log(
 
 
 # ============================================================
+# V10 ADMIN AUDIT
+# ============================================================
+
+def write_admin_audit(guild_id, actor, action, target_id=None, details=""):
+    try:
+        db.execute(
+            """
+            INSERT INTO admin_audit(
+                guild_id, actor_id, actor_name, action,
+                target_id, details, created_at
+            ) VALUES(?,?,?,?,?,?,?)
+            """,
+            (
+                guild_id,
+                getattr(actor, "id", 0),
+                str(getattr(actor, "display_name", actor)),
+                action,
+                target_id,
+                details,
+                datetime.now(timezone.utc).isoformat()
+            )
+        )
+        db.commit()
+    except Exception:
+        logging.exception("Admin audit write failed")
+
+
+# ============================================================
 # APPLY COLOR
 # ============================================================
 
@@ -1492,6 +1575,19 @@ async def apply_color(
         or is_owner(member.id)
         or is_admin(member)
     )
+
+    if not privileged and get_bool(guild.id, "daily_limit_on"):
+        daily_usage = get_daily_usage(guild.id, member.id)
+        daily_limit_value = int(get_setting(guild.id, "daily_limit") or 20)
+        if daily_usage >= daily_limit_value:
+            until = lock_user_until_tomorrow(guild.id, member.id)
+            await write_log(guild, member, "N/A", "DAILY RATE LIMIT", who, was_locked=True)
+            raise ValueError(
+                "🚫 تم تجاوز الحد اليومي.\n\n"
+                f"استخدمت **{daily_usage}** تغييرات اليوم.\n"
+                f"الحد اليومي: **{daily_limit_value}**.\n"
+                f"تم قفل تغيير الألوان حتى: `{until.strftime('%Y/%m/%d %H:%M UTC')}`"
+            )
 
     if (
         not privileged
@@ -1995,6 +2091,12 @@ def dashboard_text(
         )
     )
 
+    daily_limit = status(
+        get_bool(guild.id, "daily_limit_on")
+    )
+
+    daily_limit_value = int(get_setting(guild.id, "daily_limit") or 20)
+
     channel_id = get_log_channel(
         guild.id
     )
@@ -2061,7 +2163,8 @@ def dashboard_text(
         f"🤖 البوت: {bot_status}\n"
         f"⚙️ النظام: {system}\n"
         f"📋 LOG: {log}\n"
-        f"🌈 التدرج: {gradient}\n\n"
+        f"🌈 التدرج: {gradient}\n"
+        f"📅 الحد اليومي: {daily_limit} — `{daily_limit_value}`\n\n"
         "🛠️ الأدوات:\n"
         "• تعيين لون لعضو\n"
         "• رفع عضو لرتبة\n"
@@ -2284,42 +2387,32 @@ class SystemView(
     discord.ui.View
 ):
 
-    def __init__(self):
+    def __init__(
+        self
+    ):
+        super().__init__(timeout=None)
 
-        super().__init__(
-            timeout=None
-        )
+    async def _owner(self, interaction):
+        if not is_owner(interaction.user.id):
+            await interaction.response.send_message("❌ غير مصرح.", ephemeral=True)
+            return False
+        if not interaction.guild:
+            await interaction.response.send_message("❌ داخل السيرفر فقط.", ephemeral=True)
+            return False
+        return True
 
     @discord.ui.button(
-        label="🟢 تفعيل النظام",
+        label="🟢 تشغيل النظام",
         style=discord.ButtonStyle.success,
         row=0
     )
-    async def enable_system(
-        self,
-        interaction,
-        button
-    ):
-
-        if not is_owner(
-            interaction.user.id
-        ):
-            return await interaction.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
-            )
-
-        put(
-            interaction.guild.id,
-            "system_on",
-            True
-        )
-
+    async def enable_system(self, interaction, button):
+        if not await self._owner(interaction):
+            return
+        put(interaction.guild.id, "system_on", True)
         await interaction.response.edit_message(
-            content=dashboard_text(
-                interaction.guild,
-                "system"
-            ),
+            content=dashboard_text(interaction.guild, "system") +
+                    "\n\n✅ **تم تشغيل النظام مباشرة.**",
             view=self
         )
 
@@ -2328,69 +2421,47 @@ class SystemView(
         style=discord.ButtonStyle.danger,
         row=0
     )
-    async def disable_system(
-        self,
-        interaction,
-        button
-    ):
-
-        if not is_owner(
-            interaction.user.id
-        ):
-            return await interaction.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
-            )
-
-        put(
-            interaction.guild.id,
-            "system_on",
-            False
-        )
-
+    async def disable_system(self, interaction, button):
+        if not await self._owner(interaction):
+            return
+        put(interaction.guild.id, "system_on", False)
         await interaction.response.edit_message(
-            content=dashboard_text(
-                interaction.guild,
-                "system"
-            ),
+            content=dashboard_text(interaction.guild, "system") +
+                    "\n\n⛔ **تم إيقاف النظام مباشرة.**",
             view=self
         )
 
     @discord.ui.button(
-        label="🛡️ الحد 5/ساعة",
+        label="🛡️ حد 5/ساعة",
         style=discord.ButtonStyle.primary,
         row=1
     )
-    async def rate(
-        self,
-        interaction,
-        button
-    ):
-
-        if not is_owner(
-            interaction.user.id
-        ):
-            return await interaction.response.send_message(
-                "❌ غير مصرح.",
-                ephemeral=True
-            )
-
-        v = not get_bool(
-            interaction.guild.id,
-            "rate_limit_on"
-        )
-
-        put(
-            interaction.guild.id,
-            "rate_limit_on",
-            v
-        )
-
+    async def rate(self, interaction, button):
+        if not await self._owner(interaction):
+            return
+        value = not get_bool(interaction.guild.id, "rate_limit_on")
+        put(interaction.guild.id, "rate_limit_on", value)
+        state = "تفعيل" if value else "إيقاف"
         await interaction.response.edit_message(
-            content=dashboard_text(
-                interaction.guild,
-                "system"
-            ),
+            content=dashboard_text(interaction.guild, "system") +
+                    f"\n\n🛡️ **تم {state} حد 5 تغييرات بالساعة.**",
+            view=self
+        )
+
+    @discord.ui.button(
+        label="📅 الحد اليومي",
+        style=discord.ButtonStyle.primary,
+        row=1
+    )
+    async def daily(self, interaction, button):
+        if not await self._owner(interaction):
+            return
+        value = not get_bool(interaction.guild.id, "daily_limit_on")
+        put(interaction.guild.id, "daily_limit_on", value)
+        state = "تفعيل" if value else "إيقاف"
+        await interaction.response.edit_message(
+            content=dashboard_text(interaction.guild, "system") +
+                    f"\n\n📅 **تم {state} الحد اليومي.**",
             view=self
         )
 
@@ -2399,15 +2470,8 @@ class SystemView(
         style=discord.ButtonStyle.secondary,
         row=2
     )
-    async def back(
-        self,
-        interaction,
-        button
-    ):
-
-        await BackButton.back(
-            interaction
-        )
+    async def back(self, interaction, button):
+        await BackButton.back(interaction)
 
 
 # ============================================================
@@ -2846,6 +2910,14 @@ class ManualColorValueModal(
                 interaction.user.display_name,
                 bypass_limit=True
             )
+            write_admin_audit(
+                interaction.guild.id,
+                interaction.user,
+                "ADMIN_COLOR_CHANGE",
+                member.id,
+                f"value={self.color.value}"
+            )
+
             await interaction.followup.send(
                 "✅ **تم تطبيق اللون فعليًا.**\n\n"
                 f"👤 {member.mention}\n"
@@ -3010,6 +3082,14 @@ class RankSelectView(
             role = await assign_rank(
                 self.member,
                 rank
+            )
+
+            write_admin_audit(
+                interaction.guild.id,
+                interaction.user,
+                "RANK_CHANGE",
+                self.member.id,
+                f"rank={rank}"
             )
 
             if rank == "Member":
@@ -3734,7 +3814,7 @@ async def on_ready():
     )
 
     logging.info(
-        f"COLORS_SOK_2B ONLINE: {bot.user}"
+        f"COLORS_SOK_2B V10 ONLINE: {bot.user} | Version={BOT_VERSION}"
     )
 
     logging.info(
