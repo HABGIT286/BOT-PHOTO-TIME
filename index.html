@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOKO-SERVES | نظام الألوان المتكامل</title>
+    <link rel="icon" type="image/jpeg" href="AA.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           إعدادات عامة ومنع النسخ
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-family: 'Cairo', sans-serif;
+            outline: none;
+        }
+
+        ::selection {
+            background: transparent;
+            color: transparent;
+        }
+
+        body {
+            background-color: #0f0c29;
+            background-image: url('AA.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           الساعة والتاريخ
+           ============================================================ */
+        .clock-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .clock {
+            font-size: 28px;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(0, 242, 96, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-top: 5px;
+            color: #a0aec0;
+        }
+
+        /* ============================================================
+           شريط التنقل (Navbar)
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 242, 96, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 242, 96, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 242, 96, 0.2);
+        }
+
+        /* ============================================================
+           الحاوية الرئيسية والكارد الزجاجي
+           ============================================================ */
+        .main-container {
+            margin-top: 120px;
+            padding: 20px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 100px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.02);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .section-icon {
+            font-size: 36px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        /* ============================================================
+           قسم الألبوم
+           ============================================================ */
+        .album-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .album-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .album-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 242, 96, 0.2);
+            border-color: rgba(0, 242, 96, 0.5);
+        }
+
+        .album-item:hover img {
+            transform: scale(1.15);
+        }
+
+        .album-tip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .album-item:hover .album-tip {
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           قسم المميزات (نبض وأيقونات مضيئة)
+           ============================================================ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 35px 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 242, 96, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(0, 242, 96, 0.5)); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 20px rgba(0, 242, 96, 0.9)); }
+        }
+
+        .feature-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #00f260;
+        }
+
+        .feature-desc {
+            font-size: 15px;
+            color: #cbd5e0;
+            line-height: 1.7;
+        }
+
+        /* ============================================================
+           قسم الثيمات (10 ثيمات فخمة)
+           ============================================================ */
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .theme-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 25px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .theme-card:hover::after {
+            opacity: 1;
+        }
+
+        .theme-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 140px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-card:hover .theme-preview {
+            transform: scale(1.05);
+        }
+
+        .theme-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* ============================================================
+           قسم RGB الفخم
+           ============================================================ */
+        .rgb-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .rgb-item {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .rgb-item::before {
+            content: 'انقر للنسخ';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .rgb-item:hover::before {
+            opacity: 1;
+        }
+
+        .rgb-item:hover {
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            border-color: #ffffff;
+        }
+
+        /* ============================================================
+           قسم التواصل والأيقونات
+           ============================================================ */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .social-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 35px 20px;
+            border-radius: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .social-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-card.tiktok:hover { background: rgba(0, 0, 0, 0.8); border-color: #00f260; box-shadow: 0 10px 30px rgba(0, 242, 96, 0.3); }
+        .social-card.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-color: transparent; }
+        .social-card.discord:hover { background: #5865F2; border-color: #5865F2; box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4); }
+        .social-card.telegram:hover { background: #0088cc; border-color: #0088cc; box-shadow: 0 10px 30px rgba(0, 136, 204, 0.4); }
+
+        .social-icon {
+            font-size: 48px;
+        }
+
+        .social-name {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        /* ============================================================
+           نموذج التواصل
+           ============================================================ */
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            font-size: 16px;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00f260;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 20px rgba(0, 242, 96, 0.15);
+        }
+
+        .btn {
+            padding: 16px 45px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 800;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 242, 96, 0.3);
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(0, 242, 96, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* ============================================================
+           لوحة التحكم (مخفية افتراضياً)
+           ============================================================ */
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .control-card {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-card h3 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #00f260;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 32px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #ffffff;
+            transition: 0.4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        input:checked + .slider {
+            background-color: #00f260;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(28px);
+        }
+
+        .history-result {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-right: 4px solid #00f260;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* ============================================================
+           نموذج تسجيل الدخول
+           ============================================================ */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-box h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #00f260;
+        }
+
+        .login-box p {
+            margin-bottom: 25px;
+            color: #a0aec0;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 20px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            letter-spacing: 3px;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .login-box input:focus {
+            border-color: #00f260;
+            outline: none;
+        }
+
+        /* ============================================================
+           الإشعارات (Toast)
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 12, 41, 0.95);
+            color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 15px;
+            border-right: 5px solid #00f260;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* ============================================================
+           التجاوب مع الشاشات (Responsive)
+           ============================================================ */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+                padding: 8px 15px;
+            }
+
+            .main-container {
+                margin-top: 180px;
+                padding: 15px;
+            }
+
+            .glass-card {
+                padding: 25px;
+            }
+
+            .clock-container {
+                top: 10px;
+                left: 10px;
+                padding: 10px 15px;
+                border-radius: 15px;
+            }
+
+            .clock {
+                font-size: 20px;
+            }
+
+            .date {
+                font-size: 12px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الساعة والتاريخ -->
+    <div class="clock-container">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="date" id="date">جاري التحميل...</div>
+    </div>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="logo">✨ MOKO-SERVES</div>
+        <ul class="nav-links">
+            <li><a href="#home">🏠 الرئيسية</a></li>
+            <li><a href="#features">⚡ المميزات</a></li>
+            <li><a href="#themes">🎨 الثيمات</a></li>
+            <li><a href="#rgb">🌈 ألوان RGB</a></li>
+            <li><a href="#contact">📞 التواصل</a></li>
+            <li><a href="#" onclick="showLogin()" style="color: #00f260; border: 1px solid #00f260;">🔐 لوحة التحكم</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <!-- القسم الرئيسي: الألبوم -->
+        <section id="home" class="glass-card">
+            <h2 class="section-title">
+                <span class="section-icon">🎬</span>
+                ألبوم الصور
+            </h2>
+            <div class="album-container" id="album">
+                <!-- يتم ملؤه تلقائياً عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم المميزات -->
+        <section id="features" class="glass-card">
+            <h2 class="section-title">
+                <span class="section-icon">⚡</span>
+                مميزات النظام
+            </h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">أكثر من 100 لون</h3>
+                    <p class="feature-desc">مكتبة ألوان شاملة تتضمن ألوان النيون، التدرجات، والألوان الكلاسيكية مع دعم الأسماء والأكواد.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">حماية متقدمة من السبام</h3>
+                    <p class="feature-desc">نظام حد يومي وساعي ذكي لتغيير الألوان يمنع الإساءة ويحفظ أداء السيرفر.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3 class="feature-title">سجل تدقيق كامل</h3>
+                    <p class="feature-desc">تتبع دقيق لكل تغيير يحدث في الألوان أو الأسماء مع تفاصيل العضو والتوقيت.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👑</div>
+                    <h3 class="feature-title">نظام رتب SOKO</h3>
+                    <p class="feature-desc">7 رتب إدارية وتنظيمية مخصصة يمكن تعيينها وإزالتها بضغطة زر من لوحة التحكم.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">تحكم كامل عبر الويب</h3>
+                    <p class="feature-desc">لوحة تحكم فخمة تتيح لك إدارة كل شيء في البوت من أي مكان في العالم.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3 class="feature-title">تنبيهات وسجلات فورية</h3>
+                    <p class="feature-desc">إشعارات فورية في قناة مخصصة عند أي تغيير مع تفاصيل شاملة للحالة.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الثيمات -->
+        <section id="themes" class="glass-card">
+            <h2 class="section-title">
+                <span class="section-icon">🎨</span>
+                ثيمات الموقع
+            </h2>
+            <div class="themes-grid" id="themesGrid">
+                <!-- يتم ملؤه تلقائياً عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم ألوان RGB -->
+        <section id="rgb" class="glass-card">
+            <h2 class="section-title">
+                <span class="section-icon">🌈</span>
+                ألوان RGB سريعة
+            </h2>
+            <p style="text-align: center; margin-bottom: 20px; color: #a0aec0;">انقر على أي لون لنسخ كوده فوراً</p>
+            <div class="rgb-container" id="rgbContainer">
+                <!-- يتم ملؤه تلقائياً عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم التواصل -->
+        <section id="contact" class="glass-card">
+            <h2 class="section-title">
+                <span class="section-icon">📞</span>
+                تواصل معنا
+            </h2>
+            <div class="social-grid">
+                <a href="#" class="social-card tiktok" target="_blank">
+                    <div class="social-icon">🎵</div>
+                    <div class="social-name">TikTok</div>
+                </a>
+                <a href="#" class="social-card instagram" target="_blank">
+                    <div class="social-icon">📷</div>
+                    <div class="social-name">Instagram</div>
+                </a>
+                <a href="#" class="social-card discord" target="_blank">
+                    <div class="social-icon">💬</div>
+                    <div class="social-name">Discord</div>
+                </a>
+                <a href="#" class="social-card telegram" target="_blank">
+                    <div class="social-icon">✈️</div>
+                    <div class="social-name">Telegram</div>
+                </a>
+            </div>
+
+            <div class="contact-form">
+                <h3 style="text-align: center; margin-bottom: 30px; font-size: 24px; font-weight: 800;">📩 أرسل رسالة مباشرة للإدارة</h3>
+                <div class="form-group">
+                    <label>الاسم *</label>
+                    <input type="text" id="contactName" placeholder="أدخل اسمك أو معرفك" required>
+                </div>
+                <div class="form-group">
+                    <label>الرسالة *</label>
+                    <textarea id="contactMessage" rows="5" placeholder="اكتب رسالتك أو استفسارك هنا بالتفصيل..." required></textarea>
+                </div>
+                <button class="btn" onclick="sendContact()">
+                    إرسال الرسالة 🚀
+                </button>
+            </div>
+        </section>
+
+        <!-- لوحة التحكم الكاملة (مخفية حتى تسجيل الدخول) -->
+        <section id="adminPanel" class="glass-card admin-panel">
+            <h2 class="section-title">
+                <span class="section-icon">🔐</span>
+                لوحة التحكم الكاملة بالنظام
+            </h2>
+            
+            <div class="control-grid">
+                <!-- 1. التحكم العام في البوت -->
+                <div class="control-card">
+                    <h3>🤖 حالة النظام العامة</h3>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">تفعيل البوت بالكامل</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleBot" onchange="toggleSetting('bot_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">نظام الألوان (عام)</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleSystem" onchange="toggleSetting('system_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">سماح للأعضاء بتغيير الألوان</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleMembers" onchange="toggleSetting('members_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">سماح للإدارة باستخدام الأوامر</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleAdmins" onchange="toggleSetting('admins_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 2. الحد اليومي والسجل -->
+                <div class="control-card">
+                    <h3>⚙️ الحدود والسجلات</h3>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">تفعيل الحد اليومي للتغييرات</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleDaily" onchange="toggleSetting('daily_limit_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>عدد المرات المسموحة يومياً:</label>
+                        <input type="number" id="dailyLimitValue" value="20" min="1" max="100" style="margin-top: 10px;">
+                        <button class="btn" onclick="setDailyLimit()" style="margin-top: 15px; font-size: 16px; padding: 12px;">
+                            حفظ الحد اليومي
+                        </button>
+                    </div>
+                    <div class="toggle-switch" style="margin-top: 20px;">
+                        <span class="toggle-label">تفعيل سجل LOG التفصيلي</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleLog" onchange="toggleSetting('log_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">تفعيل حد 5 تغييرات / ساعة</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleRate" onchange="toggleSetting('rate_limit_on', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 3. عرض سجل عضو -->
+                <div class="control-card">
+                    <h3>📋 عرض سجل عضو مفصل</h3>
+                    <div class="form-group">
+                        <label>معرف (ID) العضو:</label>
+                        <input type="text" id="historyUserId" placeholder="مثال: 1531577881548034100" style="margin-top: 10px;">
+                        <button class="btn" onclick="showMemberHistory()" style="margin-top: 15px; font-size: 16px; padding: 12px;">
+                            جلب وعرض السجل
+                        </button>
+                    </div>
+                    <div id="memberHistoryResult" class="history-result" style="display: none;"></div>
+                </div>
+
+                <!-- 4. نظام الرتب -->
+                <div class="control-card">
+                    <h3>🏆 إدارة رتب الأعضاء</h3>
+                    <div class="form-group">
+                        <label>معرف (ID) العضو:</label>
+                        <input type="text" id="rankUserId" placeholder="أدخل ID العضو" style="margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label>اختر الرتبة الجديدة:</label>
+                        <select id="rankSelect" style="width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; background: rgba(0,0,0,0.3); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-family: 'Cairo'; font-size: 16px;">
+                            <option value="Owner">Owner</option>
+                            <option value="Primary Developer">Primary Developer</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Moderator">Moderator</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Member">Member (إزالة الرتب)</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="setMemberRank()" style="margin-top: 10px;">
+                        تعيين الرتبة فوراً
+                    </button>
+                </div>
+
+                <!-- 5. حظر/فك حظر الألوان -->
+                <div class="control-card">
+                    <h3>🚫 حظر تغيير الألوان</h3>
+                    <p style="font-size: 13px; color: #a0aec0; margin-bottom: 15px;">يمكنك حظر أي عضو (حتى الإداريين) من تغيير لونه.</p>
+                    <div class="form-group">
+                        <label>معرف (ID) العضو:</label>
+                        <input type="text" id="banUserId" placeholder="أدخل ID العضو" style="margin-top: 10px;">
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-top: 15px;">
+                        <button class="btn" onclick="banMember(true)" style="background: linear-gradient(135deg, #ff416c, #ff4b2b); flex: 1;">
+                            حظر العضو
+                        </button>
+                        <button class="btn" onclick="banMember(false)" style="background: linear-gradient(135deg, #00b09b, #96c93d); flex: 1;">
+                            فك الحظر
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6. تعيين لون لعضو -->
+                <div class="control-card">
+                    <h3>🎨 تعيين لون لعضو محدد</h3>
+                    <div class="form-group">
+                        <label>معرف (ID) العضو:</label>
+                        <input type="text" id="colorUserId" placeholder="أدخل ID العضو" style="margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label>اللون المطلوب (رقم / HEX / اسم):</label>
+                        <input type="text" id="colorValue" placeholder="مثال: 27 أو #C86BFF أو بنفسجي فاتح" style="margin-top: 10px;">
+                    </div>
+                    <button class="btn" onclick="setColorForMember()" style="margin-top: 10px;">
+                        تطبيق اللون على العضو
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- نموذج تسجيل الدخول للمالك -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-box">
+            <h2>🔐 تسجيل دخول المالك</h2>
+            <p>أدخل رمز الأمان للوصول إلى لوحة التحكم الكاملة</p>
+            <input type="password" id="authCode" placeholder="••••••••" maxlength="20">
+            <button class="btn" onclick="authenticate()">دخول آمن</button>
+            <button class="btn" onclick="closeLogin()" style="margin-top: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.2);">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- إشعار منبثق (Toast) -->
+    <div id="toast" class="toast">
+        <span style="font-size: 20px;">✅</span>
+        <span id="toastMessage">تمت العملية بنجاح</span>
+    </div>
+
+<script>
+        // ============================================================
+        // المتغيرات العامة والإعدادات
+        // ============================================================
+        let authToken = null;
+        let currentGuildId = null;
+        const API_URL = window.location.origin; // يتصل تلقائياً بعنوان الـ VPS
+        const WEBHOOK_URL = ''; // 👈 ضع رابط Webhook الخاص بك هنا لاحقاً
+
+        // ============================================================
+        // 1. الساعة والتاريخ (نظام 12 ساعة)
+        // ============================================================
+        function updateClock() {
+            const now = new Date();
+            
+            // تنسيق الوقت بنظام 12 ساعة
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // الساعة 0 تصبح 12
+            const hoursStr = hours.toString().padStart(2, '0');
+            
+            document.getElementById('clock').textContent = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+            
+            // تنسيق التاريخ الكامل بالعربي
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('ar-SA', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ============================================================
+        // 2. ملء الألبوم (10 صور)
+        // ============================================================
+        function fillAlbum() {
+            const album = document.getElementById('album');
+            const tips = [
+                "تصميم واجهة البوت", "نظام الألوان المتكامل", "لوحة التحكم الفخمة",
+                "حماية متقدمة من السبام", "دعم تدرجات الألوان", "سجل تدقيق دقيق",
+                "نظام رتب SOKO", "سرعة استجابة عالية", "تصميم متجاوب مع جميع الشاشات",
+                "تحديثات مستمرة وقوية"
+            ];
+            
+            for (let i = 1; i <= 10; i++) {
+                const div = document.createElement('div');
+                div.className = 'album-item';
+                div.innerHTML = `
+                    <img src="${i}.jpg" alt="MOKO-SERVES Image ${i}" loading="lazy">
+                    <div class="album-tip">${tips[i-1]}</div>
+                `;
+                album.appendChild(div);
+            }
+        }
+
+        // ============================================================
+        // 3. ملء الثيمات (10 ثيمات فخمة)
+        // ============================================================
+        function fillThemes() {
+            const themes = [
+                { name: 'ثيم ليلي ملكي', color: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)' },
+                { name: 'ثيم غروب الشمس', color: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366)' },
+                { name: 'ثيم غابات الزمرد', color: 'linear-gradient(135deg, #11998e, #38ef7d)' },
+                { name: 'ثيم وردي ناعم', color: 'linear-gradient(135deg, #ee0979, #ff6a00)' },
+                { name: 'ثيم بنفسجي عميق', color: 'linear-gradient(135deg, #667eea, #764ba2)' },
+                { name: 'ثيم أزرق محيطي', color: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+                { name: 'ثيم ذهبي فاخر', color: 'linear-gradient(135deg, #f093fb, #f5576c)' },
+                { name: 'ثيم تركواز هادئ', color: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
+                { name: 'ثيم برتقالي ناري', color: 'linear-gradient(135deg, #fa709a, #fee140)' },
+                { name: 'ثيم رمادي معدني', color: 'linear-gradient(135deg, #434343, #000000)' }
+            ];
+
+            const grid = document.getElementById('themesGrid');
+            themes.forEach(theme => {
+                const card = document.createElement('div');
+                card.className = 'theme-card';
+                card.innerHTML = `
+                    <div class="theme-preview" style="background: ${theme.color}"></div>
+                    <div class="theme-name">${theme.name}</div>
+                `;
+                card.onclick = () => applyTheme(theme.color);
+                grid.appendChild(card);
+            });
+        }
+
+        function applyTheme(color) {
+            document.body.style.background = color;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundAttachment = 'fixed';
+            showToast('✨ تم تطبيق الثيم بنجاح!');
+        }
+
+        // ============================================================
+        // 4. ملء قسم RGB (10 ألوان)
+        // ============================================================
+        function fillRGB() {
+            const colors = [
+                '#FF1744', '#FF6D00', '#FFD600', '#76FF03',
+                '#00E676', '#00E5FF', '#2979FF', '#3D5AFE',
+                '#651FFF', '#D500F9'
+            ];
+
+            const container = document.getElementById('rgbContainer');
+            colors.forEach(color => {
+                const div = document.createElement('div');
+                div.className = 'rgb-item';
+                div.style.background = color;
+                div.style.boxShadow = `0 5px 20px ${color}66`; // إضافة توهج بنفس اللون
+                div.onclick = () => copyColor(color);
+                container.appendChild(div);
+            });
+        }
+
+        function copyColor(color) {
+            navigator.clipboard.writeText(color).then(() => {
+                showToast(`🎨 تم نسخ اللون: ${color}`);
+            }).catch(() => {
+                showToast('❌ فشل النسخ، يرجى المحاولة يدوياً');
+            });
+        }
+
+        // ============================================================
+        // 5. نظام تسجيل الدخول والأمان
+        // ============================================================
+        function showLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('authCode').value = '';
+            document.getElementById('authCode').focus();
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        async function authenticate() {
+            const code = document.getElementById('authCode').value.trim();
+            
+            if (!code) {
+                showToast('❌ يرجى إدخال رمز الأمان');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/auth`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = code;
+                    document.getElementById('adminPanel').classList.add('active');
+                    closeLogin();
+                    showToast('✅ تم تسجيل الدخول بنجاح! مرحباً بك يا مالك.');
+                    
+                    // طلب ID السيرفر لتحميل البيانات
+                    setTimeout(() => {
+                        const guildId = prompt('🔑 يرجى إدخال معرف (ID) السيرفر الذي تريد التحكم به:\n(يمكنك الحصول عليه من إعدادات ديسكورد > ويدجيت > معرف الخادم)');
+                        if (guildId && /^\d+$/.test(guildId)) {
+                            currentGuildId = guildId;
+                            loadBotStatus();
+                        } else {
+                            showToast('⚠️ لم يتم إدخال ID صحيح، بعض الميزات قد لا تعمل');
+                        }
+                    }, 500);
+                } else {
+                    showToast('❌ رمز الأمان غير صحيح!');
+                    document.getElementById('authCode').value = '';
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('❌ حدث خطأ في الاتصال بالخادم. تأكد من تشغيل البوت.');
+            }
+        }
+
+        // ============================================================
+        // 6. وظائف لوحة التحكم (API Calls)
+        // ============================================================
+        async function loadBotStatus() {
+            if (!currentGuildId) return;
+
+            try {
+                const response = await fetch(`${API_URL}/api/bot/status?guild_id=${currentGuildId}`);
+                if (!response.ok) throw new Error('Failed to fetch');
+                const data = await response.json();
+
+                document.getElementById('toggleBot').checked = data.bot_on;
+                document.getElementById('toggleSystem').checked = data.system_on;
+                document.getElementById('toggleMembers').checked = data.members_on;
+                document.getElementById('toggleAdmins').checked = data.admins_on;
+                document.getElementById('toggleLog').checked = data.log_on;
+                document.getElementById('toggleRate').checked = data.rate_limit_on;
+                document.getElementById('toggleDaily').checked = data.daily_limit_on;
+                document.getElementById('dailyLimitValue').value = data.daily_limit;
+                
+                showToast('✅ تم تحميل إعدادات السيرفر بنجاح');
+            } catch (error) {
+                showToast('❌ فشل في تحميل البيانات. تأكد من ID السيرفر واتصال البوت.');
+            }
+        }
+
+        async function toggleSetting(setting, value) {
+            if (!authToken || !currentGuildId) return;
+
+            try {
+                const response = await fetch(`${API_URL}/api/bot/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: authToken,
+                        guild_id: currentGuildId,
+                        setting: setting,
+                        value: value
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`✅ تم ${value ? 'تفعيل' : 'إيقاف'}: ${setting}`);
+                } else {
+                    showToast('❌ فشل في حفظ الإعداد');
+                }
+            } catch (error) {
+                showToast('❌ حدث خطأ في الاتصال');
+            }
+        }
+
+        async function setDailyLimit() {
+            const limit = parseInt(document.getElementById('dailyLimitValue').value);
+            if (!limit || limit < 1) {
+                showToast('❌ يرجى إدخال رقم صحيح أكبر من 0');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/bot/daily_limit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: authToken,
+                        guild_id: currentGuildId,
+                        limit: limit
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`✅ تم تحديد الحد اليومي بـ ${limit} تغييرات`);
+                } else {
+                    showToast('❌ فشل في حفظ الحد اليومي');
+                }
+            } catch (error) {
+                showToast('❌ حدث خطأ في الاتصال');
+            }
+        }
+
+        // ============================================================
+        // 7. عرض سجل العضو (بالتنسيق المطلوب تماماً)
+        // ============================================================
+        async function showMemberHistory() {
+            const userId = document.getElementById('historyUserId').value.trim();
+            if (!userId || !/^\d+$/.test(userId)) {
+                showToast('❌ يرجى إدخال معرف (ID) رقمي صحيح للعضو');
+                return;
+            }
+
+            const resultDiv = document.getElementById('memberHistoryResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="text-align:center; padding: 20px;"><div class="loading"></div> جاري جلب البيانات...</div>';
+
+            try {
+                const response = await fetch(`${API_URL}/api/member/history`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: authToken,
+                        guild_id: currentGuildId,
+                        user_id: parseInt(userId)
+                    })
+                });
+
+                const data = await response.json();
+                
+                // تنسيق السجل تماماً كما طلبت
+                let historyText = `📋 **سجل العضو**\n\n`;
+                historyText += `👤 الاسم: \`${data.display_name}\`\n`;
+                historyText += `🆔 ID: \`${data.user_id}\`\n`;
+                historyText += `🔤 اليوزر: \`${data.username}\`\n`;
+                historyText += `🏆 الرتبة: \`${data.rank}\`\n`;
+                historyText += `🎨 مرات تغيير اللون: \`${data.color_changes}\`\n`;
+                historyText += `🔤 مرات تغيير اليوزر: \`${data.username_changes}\`\n`;
+                historyText += `🚫 محظور من تغيير اللون: \`${data.locked ? 'نعم' : 'لا'}\`\n`;
+                
+                if (data.locked && data.lock_until) {
+                    const lockDate = new Date(data.lock_until);
+                    historyText += `⏰ انتهاء الحظر: \`${lockDate.toLocaleString('ar-SA')}\`\n`;
+                }
+
+                historyText += `\n🎨 **آخر تغييرات الألوان:**\n`;
+                if (data.color_history && data.color_history.length > 0) {
+                    data.color_history.forEach(item => {
+                        const date = new Date(item.changed_at).toLocaleString('ar-SA');
+                        historyText += `• \`${date}\` | \`${item.old_color}\` → \`${item.new_color}\` | بواسطة \`${item.changed_by}\`\n`;
+                    });
+                } else {
+                    historyText += `• لا توجد سجلات ألوان.\n`;
+                }
+
+                historyText += `\n🔤 **آخر تغييرات اليوزر:**\n`;
+                if (data.username_history && data.username_history.length > 0) {
+                    data.username_history.forEach(item => {
+                        const date = new Date(item.changed_at).toLocaleString('ar-SA');
+                        historyText += `• \`${date}\` | \`${item.old_username}\` → \`${item.new_username}\`\n`;
+                    });
+                } else {
+                    historyText += `• لا توجد تغييرات يوزر مسجلة.\n`;
+                }
+
+                resultDiv.textContent = historyText;
+                showToast('✅ تم جلب سجل العضو بنجاح');
+
+            } catch (error) {
+                resultDiv.textContent = '❌ حدث خطأ في جلب البيانات. تأكد من ID العضو واتصال البوت.';
+                showToast('❌ فشل في جلب السجل');
+            }
+        }
+
+        // ============================================================
+        // 8. إدارة الرتب
+        // ============================================================
+        async function setMemberRank() {
+            const userId = document.getElementById('rankUserId').value.trim();
+            const rank = document.getElementById('rankSelect').value;
+            
+            if (!userId || !/^\d+$/.test(userId)) {
+                showToast('❌ يرجى إدخال معرف (ID) رقمي صحيح');
+                return;
+            }
+
+            showToast('⏳ جاري تعيين الرتبة...');
+
+            try {
+                const response = await fetch(`${API_URL}/api/member/rank`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: authToken,
+                        guild_id: currentGuildId,
+                        user_id: parseInt(userId),
+                        rank: rank
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`✅ ${data.message}`);
+                } else {
+                    showToast(`❌ ${data.error || 'فشل في تعيين الرتبة'}`);
+                }
+            } catch (error) {
+                showToast('❌ حدث خطأ في الاتصال بالخادم');
+            }
+        }
+
+        // ============================================================
+        // 9. حظر / فك حظر الألوان
+        // ============================================================
+        async function banMember(isBan) {
+            const userId = document.getElementById('banUserId').value.trim();
+            
+            if (!userId || !/^\d+$/.test(userId)) {
+                showToast('❌ يرجى إدخال معرف (ID) رقمي صحيح');
+                return;
+            }
+
+            const actionText = isBan ? 'حظر' : 'فك الحظر';
+            showToast(`⏳ جاري ${actionText} العضو...`);
+
+            try {
+                const response = await fetch(`${API_URL}/api/member/ban`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: authToken,
+                        guild_id: currentGuildId,
+                        user_id: parseInt(userId),
+                        action: isBan ? 'ban' : 'unban'
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`✅ ${data.message}`);
+                } else {
+                    showToast(`❌ ${data.error || 'فشلت العملية'}`);
+                }
+            } catch (error) {
+                showToast('❌ حدث خطأ في الاتصال بالخادم');
+            }
+        }
+
+        // ============================================================
+        // 10. تعيين لون لعضو محدد
+        // ============================================================
+        async function setColorForMember() {
+            const userId = document.getElementById('colorUserId').value.trim();
+            const color = document.getElementById('colorValue').value.trim();
+            
+            if (!userId || !/^\d+$/.test(userId)) {
+                showToast('❌ يرجى إدخال معرف (ID) رقمي صحيح للعضو');
+                return;
+            }
+            if (!color) {
+                showToast('❌ يرجى إدخال قيمة اللون (رقم، HEX، أو اسم)');
+                return;
+            }
+
+            showToast('⏳ جاري تطبيق اللون...');
+
+            try {
+                const response = await fetch(`${API_URL}/api/color/set`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: authToken,
+                        guild_id: currentGuildId,
+                        user_id: parseInt(userId),
+                        color: color
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`✅ تم تعيين اللون بنجاح: ${data.color}`);
+                } else {
+                    showToast(`❌ ${data.error || 'فشل في تطبيق اللون. تأكد من صحة الكود أو الاسم.'}`);
+                }
+            } catch (error) {
+                showToast('❌ حدث خطأ في الاتصال بالخادم');
+            }
+        }
+
+        // ============================================================
+        // 11. نموذج التواصل (Webhook)
+        // ============================================================
+        async function sendContact() {
+            const name = document.getElementById('contactName').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+
+            if (!name || !message) {
+                showToast('❌ يرجى ملء جميع الحقول المطلوبة');
+                return;
+            }
+
+            // ملاحظة: إذا لم يتم تعيين WEBHOOK_URL، سيتم استخدام API البوت لإرساله
+            const targetWebhook = WEBHOOK_URL || ''; 
+
+            showToast('⏳ جاري إرسال الرسالة...');
+
+            try {
+                const response = await fetch(`${API_URL}/api/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        webhook_url: targetWebhook,
+                        name: name,
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast('✅ تم إرسال رسالتك بنجاح! سيتم الرد عليك قريباً.');
+                    document.getElementById('contactName').value = '';
+                    document.getElementById('contactMessage').value = '';
+                } else {
+                    showToast('❌ فشل في إرسال الرسالة. يرجى المحاولة لاحقاً.');
+                }
+            } catch (error) {
+                showToast('❌ حدث خطأ في الاتصال. تأكد من إعدادات الويب هوك.');
+            }
+        }
+
+        // ============================================================
+        // 12. نظام الإشعارات (Toast)
+        // ============================================================
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            
+            // إخفاء الإشعار بعد 4 ثواني
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ============================================================
+        // 13. حماية الموقع (منع النسخ والقائمة المنبثقة)
+        // ============================================================
+        document.addEventListener('selectstart', (e) => {
+            // السماح بالتحديد فقط داخل حقول الإدخال
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('contextmenu', (e) => {
+            // منع القائمة المنبثقة (النقر المطول) إلا في حقول الإدخال
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        });
+
+        // منع اختصارات النسخ (Ctrl+C, Ctrl+U, F12)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's')) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+        });
+
+        // ============================================================
+        // 14. تهيئة الصفحة عند التحميل
+        // ============================================================
+        window.onload = function() {
+            fillAlbum();
+            fillThemes();
+            fillRGB();
+            console.log('✅ MOKO-SERVES Website Loaded Successfully');
+        };
+
+        // إغلاق نموذج الدخول عند النقر خارجه
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLogin();
+            }
+        });
+    </script>
+</body>
+</html>
+
+    <!-- نهاية الجزء الأول -->
