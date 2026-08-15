@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+
+  "sources": {
+    "primary": {
+      "name": "ebay_deals",
+      "enabled": true,
+      "base_url": "https://www.ebay.com/deals",
+      "tech_url": "https://www.ebay.com/deals/tech",
+      "product_url_pattern": "https://www.ebay.com/itm/{item_id}",
+      "image_domain": "https://i.ebayimg.com",
+      "timeout": 15
+    },
+
+    "fallback": {
+      "name": "cache",
+      "enabled": true,
+      "use_cached_products": true,
+      "max_cached_products": 1000
+    }
+  },
+
+  "categories": [
+    "cosmetics",
+    "perfumes",
+    "shampoo",
+    "creams",
+    "canned_food",
+    "drinks",
+    "juices",
+    "chocolate",
+    "sweets",
+    "home_products"
+  ],
+
+  "difficulty_filters": {
+    "easy": {
+      "min_price": 0,
+      "max_price": 100
+    },
+    "normal": {
+      "min_price": 0,
+      "max_price": 300
+    },
+    "hard": {
+      "min_price": 0,
+      "max_price": 500
+    }
+  },
+
+  "preferred_price_range": {
+    "enabled": true,
+    "min_price": 50,
+    "max_price": 120
+  },
+
+  "product_rules": {
+    "require_image": true,
+    "require_title": true,
+    "require_price": true,
+    "allow_duplicate_products": false,
+    "cache_products": true
+  },
+
+  "scraper": {
+    "user_agent": "PriceGuessPro/1.0",
+    "request_timeout": 15,
+    "retry_attempts": 3,
+    "retry_delay": 2
+  },
+
+  "cache": {
+    "enabled": true,
+    "file": "data/products_cache.json",
+    "max_items": 1000,
+    "refresh_interval_minutes": 60
+  },
+
+  "api_keys": {
+    "ebay_app_id": "",
+    "ebay_client_id": "",
+    "ebay_client_secret": ""
+  }
+}
