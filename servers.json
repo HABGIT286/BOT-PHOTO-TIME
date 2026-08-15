@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "servers": {},
+  "defaults": {
+    "enabled": true,
+    "prefix": "!",
+    "language": "ar",
+    "active_game": false,
+    "allow_multiple_games": false,
+    "min_players": 2,
+    "registration_time": 20,
+    "guess_time": 20,
+    "rounds": 3,
+    "images_per_round": 5,
+    "difficulty": "normal",
+    "leaderboard_enabled": true,
+    "profile_enabled": true,
+    "logs_enabled": true,
+    "auto_save": true,
+    "embed_color": 3447003,
+    "game_channel_id": null,
+    "log_channel_id": null,
+    "created_at": null,
+    "updated_at": null
+  }
+}
