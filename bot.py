@@ -1,279 +1,417 @@
+# =========================================================
+# Price Guess Pro
+# Part 1
+# Core / Config / Database / Models
+# discord.py 2.x
+# =========================================================
+
+import discord
+from discord.ext import commands, tasks
+from discord import app_commands
+
 import os
 import json
 import sqlite3
-import random
 import asyncio
-import aiohttp
+import random
+import logging
 from datetime import datetime
+from pathlib import Path
 
-import discord
-from discord.ext import commands
-from discord import app_commands
+# =========================================================
+# PATHS
+# =========================================================
 
-# =====================================================
-# CONFIG
-# =====================================================
+BASE_DIR = Path(__file__).parent
 
-with open("config.json", "r", encoding="utf-8") as f:
-    CONFIG = json.load(f)
+CONFIG_FILE = BASE_DIR / "config.json"
+SERVERS_FILE = BASE_DIR / "servers.json"
+IMAGES_API_FILE = BASE_DIR / "images_api.json"
 
-TOKEN = os.getenv("DISCORD_TOKEN")
+DATABASE_FILE = BASE_DIR / "price_guess.db"
 
-PREFIX = CONFIG.get("prefix", "!")
-BOT_NAME = CONFIG.get("bot_name", "Price Guess Pro")
+LOGS_DIR = BASE_DIR / "logs"
+DATA_DIR = BASE_DIR / "data"
 
-DATABASE = "price_guess.db"
+LOGS_DIR.mkdir(exist_ok=True)
+DATA_DIR.mkdir(exist_ok=True)
 
-# =====================================================
-# DISCORD
-# =====================================================
+# =========================================================
+# CONFIG LOADER
+# =========================================================
+
+def load_json(file_path, default=None):
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default if default is not None else {}
+
+CONFIG = load_json(CONFIG_FILE, {})
+SERVERS = load_json(SERVERS_FILE, {})
+IMAGES_CONFIG = load_json(IMAGES_API_FILE, {})
+
+# =========================================================
+# ENV
+# =========================================================
+
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+OWNER_USER_ID = int(os.getenv("OWNER_USER_ID", "0"))
+
+# =========================================================
+# LOGGER
+# =========================================================
+
+log_file = LOGS_DIR / f"{datetime.utcnow().date()}.log"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler(log_file, encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger("PriceGuessBot")
+
+# =========================================================
+# DISCORD BOT
+# =========================================================
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.guilds = True
 
 bot = commands.Bot(
-    command_prefix=PREFIX,
+    command_prefix="!",
     intents=intents,
     help_command=None
 )
 
-tree = bot.tree
-
-# =====================================================
-# ACTIVE GAMES
-# =====================================================
-
-active_games = {}
-
-# =====================================================
+# =========================================================
 # SQLITE
-# =====================================================
+# =========================================================
 
-db = sqlite3.connect(
-    DATABASE,
-    check_same_thread=False
-)
-
-cursor = db.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS players(
-    user_id INTEGER PRIMARY KEY,
-    username TEXT,
-    games_played INTEGER DEFAULT 0,
-    wins INTEGER DEFAULT 0,
-    second_places INTEGER DEFAULT 0,
-    third_places INTEGER DEFAULT 0,
-    total_points INTEGER DEFAULT 0,
-    correct_answers INTEGER DEFAULT 0,
-    wrong_answers INTEGER DEFAULT 0,
-    best_score INTEGER DEFAULT 0
-)
-""")
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS games(
-    game_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    guild_id INTEGER,
-    started_at TEXT,
-    ended_at TEXT,
-    difficulty TEXT,
-    players_count INTEGER
-)
-""")
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS rounds(
-    round_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    game_id INTEGER,
-    round_number INTEGER,
-    product_name TEXT,
-    real_price REAL
-)
-""")
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS answers(
-    answer_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    game_id INTEGER,
-    round_number INTEGER,
-    user_id INTEGER,
-    answer REAL,
-    difference REAL
-)
-""")
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS servers(
-    guild_id INTEGER PRIMARY KEY,
-    total_games INTEGER DEFAULT 0
-)
-""")
-
-db.commit()
-
-# =====================================================
-# DATABASE HELPERS
-# =====================================================
-
-def ensure_player(user: discord.Member):
-
-    cursor.execute(
-        "SELECT user_id FROM players WHERE user_id=?",
-        (user.id,)
-    )
-
-    if cursor.fetchone():
-        return
-
-    cursor.execute("""
-    INSERT INTO players(
-        user_id,
-        username
-    )
-    VALUES (?,?)
-    """, (
-        user.id,
-        str(user)
-    ))
-
-    db.commit()
-
-
-def add_points(user_id: int, points: int):
-
-    cursor.execute("""
-    UPDATE players
-    SET total_points = total_points + ?
-    WHERE user_id = ?
-    """, (
-        points,
-        user_id
-    ))
-
-    db.commit()
-
-
-def add_game_played(user_id: int):
-
-    cursor.execute("""
-    UPDATE players
-    SET games_played = games_played + 1
-    WHERE user_id = ?
-    """, (
-        user_id,
-    ))
-
-    db.commit()
-
-
-# =====================================================
-# PRODUCT API
-# =====================================================
-
-class ProductFetcher:
+class Database:
 
     def __init__(self):
-        self.url = "https://www.ebay.com/deals/tech"
+        self.db = sqlite3.connect(
+            DATABASE_FILE,
+            check_same_thread=False
+        )
 
-    async def get_random_product(self):
+        self.db.row_factory = sqlite3.Row
 
-        products = [
-            {
-                "name": "Headphones",
-                "price": random.randint(20, 150),
-                "image": "https://i.imgur.com/0Z8FQ8P.png"
-            },
-            {
-                "name": "Smart Watch",
-                "price": random.randint(40, 300),
-                "image": "https://i.imgur.com/3jLPB46.png"
-            },
-            {
-                "name": "Perfume",
-                "price": random.randint(10, 90),
-                "image": "https://i.imgur.com/Z6X1K8X.png"
-            },
-            {
-                "name": "Chocolate Box",
-                "price": random.randint(5, 40),
-                "image": "https://i.imgur.com/sF5JY2m.png"
-            },
-            {
-                "name": "Shampoo",
-                "price": random.randint(3, 35),
-                "image": "https://i.imgur.com/5g0g8nK.png"
-            },
-            {
-                "name": "Coffee Pack",
-                "price": random.randint(5, 50),
-                "image": "https://i.imgur.com/90E4g7P.png"
-            }
-        ]
+        self.cursor = self.db.cursor()
 
-        return random.choice(products)
+    def execute(self, query, values=()):
+        self.cursor.execute(query, values)
+        self.db.commit()
 
-fetcher = ProductFetcher()
+    def fetchone(self, query, values=()):
+        self.cursor.execute(query, values)
+        return self.cursor.fetchone()
 
-# =====================================================
-# GAME CLASS
-# =====================================================
+    def fetchall(self, query, values=()):
+        self.cursor.execute(query, values)
+        return self.cursor.fetchall()
 
-class PriceGuessGame:
+db = Database()
+
+# =========================================================
+# TABLES
+# =========================================================
+
+def create_tables():
+
+    db.execute("""
+    CREATE TABLE IF NOT EXISTS players(
+        user_id INTEGER PRIMARY KEY,
+        username TEXT,
+        games_played INTEGER DEFAULT 0,
+        wins INTEGER DEFAULT 0,
+        second_places INTEGER DEFAULT 0,
+        third_places INTEGER DEFAULT 0,
+        total_points INTEGER DEFAULT 0,
+        best_score INTEGER DEFAULT 0,
+        correct_answers INTEGER DEFAULT 0,
+        wrong_answers INTEGER DEFAULT 0,
+        created_at TEXT
+    )
+    """)
+
+    db.execute("""
+    CREATE TABLE IF NOT EXISTS games(
+        game_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        guild_id INTEGER,
+        channel_id INTEGER,
+        difficulty TEXT,
+        total_players INTEGER,
+        winner_id INTEGER,
+        started_at TEXT,
+        ended_at TEXT
+    )
+    """)
+
+    db.execute("""
+    CREATE TABLE IF NOT EXISTS rounds(
+        round_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        game_id INTEGER,
+        image_url TEXT,
+        real_price REAL,
+        round_number INTEGER,
+        created_at TEXT
+    )
+    """)
+
+    db.execute("""
+    CREATE TABLE IF NOT EXISTS answers(
+        answer_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        game_id INTEGER,
+        round_id INTEGER,
+        user_id INTEGER,
+        answer REAL,
+        difference REAL,
+        points INTEGER,
+        created_at TEXT
+    )
+    """)
+
+    db.execute("""
+    CREATE TABLE IF NOT EXISTS servers(
+        guild_id INTEGER PRIMARY KEY,
+        games_count INTEGER DEFAULT 0,
+        last_game TEXT
+    )
+    """)
+
+create_tables()
+
+# =========================================================
+# PLAYER MODEL
+# =========================================================
+
+class PlayerData:
+
+    @staticmethod
+    def ensure(user: discord.User):
+
+        exists = db.fetchone(
+            "SELECT * FROM players WHERE user_id=?",
+            (user.id,)
+        )
+
+        if exists:
+            return
+
+        db.execute(
+            """
+            INSERT INTO players(
+            user_id,
+            username,
+            created_at
+            )
+            VALUES(?,?,?)
+            """,
+            (
+                user.id,
+                str(user),
+                datetime.utcnow().isoformat()
+            )
+        )
+
+    @staticmethod
+    def get(user_id: int):
+
+        return db.fetchone(
+            "SELECT * FROM players WHERE user_id=?",
+            (user_id,)
+        )
+
+# =========================================================
+# PRODUCT MODEL
+# =========================================================
+
+class Product:
+
+    def __init__(
+        self,
+        title,
+        image_url,
+        real_price,
+        category
+    ):
+        self.title = title
+        self.image_url = image_url
+        self.real_price = real_price
+        self.category = category
+
+# =========================================================
+# GAME MODEL
+# =========================================================
+
+class GameSession:
 
     def __init__(
         self,
         guild_id,
-        host_id,
-        difficulty
+        channel_id,
+        owner_id
     ):
 
         self.guild_id = guild_id
-        self.host_id = host_id
-
-        self.difficulty = difficulty
+        self.channel_id = channel_id
+        self.owner_id = owner_id
 
         self.players = {}
 
-        self.answers = {}
+        self.difficulty = None
 
         self.started = False
 
-        self.rounds_total = 3
-        self.images_per_round = 3
+        self.registration_open = False
 
         self.current_round = 0
 
         self.current_image = 0
 
-        self.game_points = {}
+        self.total_rounds = 3
+
+        self.images_per_round = 5
+
+        self.total_images = 15
+
+        self.answers = {}
+
+        self.scores = {}
+
+        self.products = []
 
         self.game_id = None
-        # =====================================================
-# LOBBY BUTTONS
-# =====================================================
+
+        self.created_at = datetime.utcnow()
+
+# =========================================================
+# ACTIVE GAMES
+# =========================================================
+
+ACTIVE_GAMES = {}
+
+# =========================================================
+# SETTINGS
+# =========================================================
+
+DIFFICULTIES = {
+    "easy": {
+        "name": "Easy",
+        "min": 0,
+        "max": 100
+    },
+
+    "normal": {
+        "name": "Normal",
+        "min": 0,
+        "max": 300
+    },
+
+    "hard": {
+        "name": "Hard",
+        "min": 0,
+        "max": 500
+    }
+}
+
+MIN_PLAYERS = 2
+
+REGISTRATION_TIME = 20
+
+ANSWER_TIME = 20
+
+POINTS_TABLE = [
+    10,
+    7,
+    5,
+    3
+]
+
+# =========================================================
+# PRODUCT CONFIG
+# =========================================================
+
+PRODUCT_CATEGORIES = IMAGES_CONFIG.get(
+    "categories",
+    []
+)
+
+API_ENDPOINT = IMAGES_CONFIG.get(
+    "api_url",
+    ""
+)
+
+API_KEY = IMAGES_CONFIG.get(
+    "api_key",
+    ""
+)
+
+PRICE_MIN = IMAGES_CONFIG.get(
+    "price_min",
+    50
+)
+
+PRICE_MAX = IMAGES_CONFIG.get(
+    "price_max",
+    120
+)
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+def now():
+    return datetime.utcnow().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+def log_event(message: str):
+
+    logger.info(message)
+
+def guild_has_game(guild_id: int):
+
+    return guild_id in ACTIVE_GAMES
+
+# =========================================================
+# READY
+# =========================================================
+
+log_event("Core Loaded")
+log_event("Database Loaded")
+log_event("Config Loaded")
+log_event("Part 1 Ready")
+
+
+# =========================================================
+# PART 2
+# Lobby System
+# Registration System
+# Buttons
+# Difficulty Selection
+# =========================================================
+
 
 class LobbyView(discord.ui.View):
 
-    def __init__(self, game):
-        super().__init__(timeout=20)
+    def __init__(self, session: GameSession):
+        super().__init__(timeout=None)
 
-        self.game = game
+        self.session = session
 
-        self.message = None
-
-    async def update_embed(self):
-
-        if not self.message:
-            return
-
-        players_text = "\n".join(
-            [f"• <@{uid}>" for uid in self.game.players]
-        )
-
-        if not players_text:
-            players_text = "لا يوجد لاعبين"
+    async def update_message(
+        self,
+        interaction: discord.Interaction
+    ):
 
         embed = discord.Embed(
             title="🎮 Price Guess Pro",
@@ -281,40 +419,134 @@ class LobbyView(discord.ui.View):
         )
 
         embed.add_field(
-            name="📊 الصعوبة",
-            value=self.game.difficulty,
+            name="📊 Difficulty",
+            value=self.session.difficulty or "Not Selected",
             inline=False
         )
 
         embed.add_field(
-            name="👥 اللاعبين",
+            name="👥 Players",
+            value=str(len(self.session.players)),
+            inline=False
+        )
+
+        players_text = ""
+
+        if self.session.players:
+            players_text = "\n".join(
+                f"• <@{pid}>"
+                for pid in self.session.players
+            )
+        else:
+            players_text = "No Players"
+
+        embed.add_field(
+            name="Participants",
             value=players_text,
             inline=False
         )
 
-        embed.add_field(
-            name="📈 العدد",
-            value=f"{len(self.game.players)} لاعب",
-            inline=False
-        )
-
-        embed.set_footer(
-            text="التسجيل يغلق خلال 20 ثانية"
-        )
-
-        await self.message.edit(
+        await interaction.message.edit(
             embed=embed,
             view=self
         )
 
-    # =================================================
-    # JOIN
-    # =================================================
+    # =====================================================
+    # EASY
+    # =====================================================
 
     @discord.ui.button(
-        label="انضمام",
+        label="Easy",
+        emoji="🟢",
+        style=discord.ButtonStyle.success,
+        row=0
+    )
+    async def easy_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+
+        if interaction.user.id != self.session.owner_id:
+
+            return await interaction.response.send_message(
+                "❌ فقط منشئ اللعبة يستطيع اختيار الصعوبة.",
+                ephemeral=True
+            )
+
+        self.session.difficulty = "easy"
+
+        await interaction.response.defer()
+
+        await self.update_message(interaction)
+
+    # =====================================================
+    # NORMAL
+    # =====================================================
+
+    @discord.ui.button(
+        label="Normal",
+        emoji="🟡",
+        style=discord.ButtonStyle.primary,
+        row=0
+    )
+    async def normal_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+
+        if interaction.user.id != self.session.owner_id:
+
+            return await interaction.response.send_message(
+                "❌ فقط منشئ اللعبة يستطيع اختيار الصعوبة.",
+                ephemeral=True
+            )
+
+        self.session.difficulty = "normal"
+
+        await interaction.response.defer()
+
+        await self.update_message(interaction)
+
+    # =====================================================
+    # HARD
+    # =====================================================
+
+    @discord.ui.button(
+        label="Hard",
+        emoji="🔴",
+        style=discord.ButtonStyle.danger,
+        row=0
+    )
+    async def hard_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+
+        if interaction.user.id != self.session.owner_id:
+
+            return await interaction.response.send_message(
+                "❌ فقط منشئ اللعبة يستطيع اختيار الصعوبة.",
+                ephemeral=True
+            )
+
+        self.session.difficulty = "hard"
+
+        await interaction.response.defer()
+
+        await self.update_message(interaction)
+
+    # =====================================================
+    # JOIN
+    # =====================================================
+
+    @discord.ui.button(
+        label="Join",
         emoji="✅",
-        style=discord.ButtonStyle.green
+        style=discord.ButtonStyle.success,
+        row=1
     )
     async def join_button(
         self,
@@ -322,33 +554,35 @@ class LobbyView(discord.ui.View):
         button: discord.ui.Button
     ):
 
-        ensure_player(interaction.user)
+        uid = interaction.user.id
 
-        if interaction.user.id not in self.game.players:
+        if uid not in self.session.players:
 
-            self.game.players[
-                interaction.user.id
-            ] = interaction.user
+            self.session.players[uid] = {
+                "user": interaction.user,
+                "points": 0,
+                "correct": 0,
+                "wrong": 0
+            }
 
-            self.game.game_points[
-                interaction.user.id
-            ] = 0
+            PlayerData.ensure(interaction.user)
 
         await interaction.response.send_message(
-            "✅ تم الانضمام",
+            "✅ تم الانضمام.",
             ephemeral=True
         )
 
-        await self.update_embed()
+        await self.update_message(interaction)
 
-    # =================================================
+    # =====================================================
     # LEAVE
-    # =================================================
+    # =====================================================
 
     @discord.ui.button(
-        label="مغادرة",
+        label="Leave",
         emoji="❌",
-        style=discord.ButtonStyle.red
+        style=discord.ButtonStyle.secondary,
+        row=1
     )
     async def leave_button(
         self,
@@ -356,33 +590,27 @@ class LobbyView(discord.ui.View):
         button: discord.ui.Button
     ):
 
-        if interaction.user.id in self.game.players:
+        uid = interaction.user.id
 
-            del self.game.players[
-                interaction.user.id
-            ]
-
-        if interaction.user.id in self.game.game_points:
-
-            del self.game.game_points[
-                interaction.user.id
-            ]
+        if uid in self.session.players:
+            del self.session.players[uid]
 
         await interaction.response.send_message(
-            "❌ غادرت اللعبة",
+            "🚪 تم الخروج.",
             ephemeral=True
         )
 
-        await self.update_embed()
+        await self.update_message(interaction)
 
-    # =================================================
+    # =====================================================
     # CANCEL
-    # =================================================
+    # =====================================================
 
     @discord.ui.button(
-        label="إلغاء",
+        label="Cancel",
         emoji="🛑",
-        style=discord.ButtonStyle.gray
+        style=discord.ButtonStyle.danger,
+        row=1
     )
     async def cancel_button(
         self,
@@ -390,18 +618,21 @@ class LobbyView(discord.ui.View):
         button: discord.ui.Button
     ):
 
-        if interaction.user.id != self.game.host_id:
+        if interaction.user.id != self.session.owner_id:
 
             return await interaction.response.send_message(
-                "❌ فقط منشئ اللعبة يستطيع الإلغاء",
+                "❌ فقط منشئ اللعبة يستطيع الإلغاء.",
                 ephemeral=True
             )
 
-        if self.game.guild_id in active_games:
-            del active_games[self.game.guild_id]
+        ACTIVE_GAMES.pop(
+            self.session.guild_id,
+            None
+        )
 
         embed = discord.Embed(
-            title="🛑 تم إلغاء اللعبة",
+            title="🛑 Game Cancelled",
+            description="تم إلغاء اللعبة.",
             color=discord.Color.red()
         )
 
@@ -410,479 +641,377 @@ class LobbyView(discord.ui.View):
             view=None
         )
 
-        self.stop()
+# =========================================================
+# REGISTRATION TIMER
+# =========================================================
 
+async def registration_countdown(
+    message,
+    session: GameSession
+):
 
-# =====================================================
-# START LOBBY
-# =====================================================
+    session.registration_open = True
 
-async def start_lobby(ctx, difficulty):
+    for remaining in range(
+        REGISTRATION_TIME,
+        0,
+        -1
+    ):
 
-    guild_id = ctx.guild.id
-
-    if guild_id in active_games:
+        if session.guild_id not in ACTIVE_GAMES:
+            return
 
         embed = discord.Embed(
-            title="❌",
-            description="يوجد لعبة تعمل بالفعل",
+            title="🎮 Price Guess Pro",
+            color=discord.Color.green()
+        )
+
+        embed.add_field(
+            name="Difficulty",
+            value=session.difficulty or "Not Selected",
+            inline=False
+        )
+
+        embed.add_field(
+            name="Players",
+            value=str(len(session.players)),
+            inline=False
+        )
+
+        embed.add_field(
+            name="Time Remaining",
+            value=f"{remaining}s",
+            inline=False
+        )
+
+        await message.edit(embed=embed)
+
+        await asyncio.sleep(1)
+
+    session.registration_open = False
+
+    if len(session.players) < MIN_PLAYERS:
+
+        embed = discord.Embed(
+            title="❌ Game Cancelled",
+            description=(
+                f"Minimum players required: "
+                f"{MIN_PLAYERS}"
+            ),
             color=discord.Color.red()
         )
 
-        return await ctx.send(embed=embed)
-
-    game = PriceGuessGame(
-        guild_id=guild_id,
-        host_id=ctx.author.id,
-        difficulty=difficulty
-    )
-
-    active_games[guild_id] = game
-
-    ensure_player(ctx.author)
-
-    game.players[ctx.author.id] = ctx.author
-    game.game_points[ctx.author.id] = 0
-
-    view = LobbyView(game)
-
-    embed = discord.Embed(
-        title="🎮 Price Guess Pro",
-        description=(
-            "اضغط انضمام للمشاركة\n\n"
-            f"📊 الصعوبة: **{difficulty}**\n"
-            "⏳ التسجيل: 20 ثانية\n"
-            "👥 الحد الأدنى: 2 لاعبين"
-        ),
-        color=discord.Color.blurple()
-    )
-
-    msg = await ctx.send(
-        embed=embed,
-        view=view
-    )
-
-    view.message = msg
-
-    await asyncio.sleep(20)
-
-    if guild_id not in active_games:
-        return
-
-    if len(game.players) < 2:
-
-        embed = discord.Embed(
-            title="❌ تم إلغاء اللعبة",
-            description="لم يكتمل الحد الأدنى للاعبين",
-            color=discord.Color.red()
+        ACTIVE_GAMES.pop(
+            session.guild_id,
+            None
         )
 
-        await msg.edit(
+        return await message.edit(
             embed=embed,
             view=None
         )
 
-        del active_games[guild_id]
+    if not session.difficulty:
 
-        return
+        embed = discord.Embed(
+            title="❌ Game Cancelled",
+            description="لم يتم اختيار الصعوبة.",
+            color=discord.Color.red()
+        )
 
-    game.started = True
+        ACTIVE_GAMES.pop(
+            session.guild_id,
+            None
+        )
 
-    embed = discord.Embed(
-        title="🚀 بدأت اللعبة",
+        return await message.edit(
+            embed=embed,
+            view=None
+        )
+
+    start_embed = discord.Embed(
+        title="🚀 Starting Game",
         description=(
-            f"عدد اللاعبين: {len(game.players)}\n"
-            f"الصعوبة: {difficulty}"
+            f"Players: {len(session.players)}\n"
+            f"Difficulty: {session.difficulty}"
         ),
-        color=discord.Color.green()
+        color=discord.Color.gold()
     )
 
-    await msg.edit(
-        embed=embed,
+    await message.edit(
+        embed=start_embed,
         view=None
     )
 
-    await run_game(
-        ctx.channel,
-        game
-    )
+    await asyncio.sleep(2)
+
+    await start_game(session, message.channel)
+
+# =========================================================
+# CREATE GAME
+# =========================================================
+
+async def create_game(
+    ctx,
+    slash=False
+):
+
+    guild_id = ctx.guild.id
+
+    if guild_has_game(guild_id):
+
+        text = "❌ توجد لعبة تعمل بالفعل."
 
 
-# =====================================================
-# DIFFICULTY BUTTONS
-# =====================================================
-
-class DifficultyView(discord.ui.View):
-
-    def __init__(self):
-        super().__init__(timeout=60)
-
-    @discord.ui.button(
-        label="Easy",
-        emoji="🟢",
-        style=discord.ButtonStyle.green
-    )
-    async def easy(
-        self,
-        interaction: discord.Interaction,
-        button: discord.ui.Button
-    ):
-
-        await interaction.response.defer()
-
-        fake_ctx = await bot.get_context(
-            interaction.message
-        )
-
-        fake_ctx.author = interaction.user
-
-        await start_lobby(
-            fake_ctx,
-            "Easy"
-        )
-
-    @discord.ui.button(
-        label="Normal",
-        emoji="🟡",
-        style=discord.ButtonStyle.blurple
-    )
-    async def normal(
-        self,
-        interaction: discord.Interaction,
-        button: discord.ui.Button
-    ):
-
-        await interaction.response.defer()
-
-        fake_ctx = await bot.get_context(
-            interaction.message
-        )
-
-        fake_ctx.author = interaction.user
-
-        await start_lobby(
-            fake_ctx,
-            "Normal"
-        )
-
-    @discord.ui.button(
-        label="Hard",
-        emoji="🔴",
-        style=discord.ButtonStyle.red
-    )
-    async def hard(
-        self,
-        interaction: discord.Interaction,
-        button: discord.ui.Button
-    ):
-
-        await interaction.response.defer()
-
-        fake_ctx = await bot.get_context(
-            interaction.message
-        )
-
-        fake_ctx.author = interaction.user
-
-        await start_lobby(
-            fake_ctx,
-            "Hard"
-        )
-
-        # =====================================================
-# GAME ENGINE
-# =====================================================
-
-async def wait_for_answers(channel, game, product):
-
-    game.answers = {}
-
-    time_limit = 20
-
-    def check(message):
-
-        if message.channel.id != channel.id:
-            return False
-
-        if message.author.bot:
-            return False
-
-        if message.author.id not in game.players:
-            return False
-
-        try:
-            float(message.content)
-            return True
-        except:
-            return False
-
-    start_time = asyncio.get_event_loop().time()
-
-    while True:
-
-        remaining = time_limit - (
-            asyncio.get_event_loop().time() - start_time
-        )
-
-        if remaining <= 0:
-            break
-
-        try:
-
-            msg = await bot.wait_for(
-                "message",
-                timeout=remaining,
-                check=check
+        if slash:
+            return await ctx.response.send_message(
+                text,
+                ephemeral=True
             )
+        else:
+            return await ctx.send(text)
 
-            if msg.author.id not in game.answers:
+    session = GameSession(
+        guild_id=guild_id,
+        channel_id=ctx.channel.id,
+        owner_id=ctx.user.id if slash else ctx.author.id
+    )
 
-                game.answers[msg.author.id] = float(
-                    msg.content
-                )
+    ACTIVE_GAMES[guild_id] = session
 
-                if len(game.answers) >= len(game.players):
-                    break
+    owner = (
+        ctx.user
+        if slash
+        else ctx.author
+    )
 
-        except asyncio.TimeoutError:
+    session.players[owner.id] = {
+        "user": owner,
+        "points": 0,
+        "correct": 0,
+        "wrong": 0
+    }
+
+    view = LobbyView(session)
+
+    embed = discord.Embed(
+        title="🎮 Price Guess Pro",
+        description=(
+            "اختر الصعوبة ثم دع اللاعبين ينضمون.\n\n"
+            f"⏳ التسجيل: {REGISTRATION_TIME} ثانية\n"
+            f"👥 الحد الأدنى: {MIN_PLAYERS}"
+        ),
+        color=discord.Color.blurple()
+    )
+
+    if slash:
+
+        await ctx.response.send_message(
+            embed=embed,
+            view=view
+        )
+
+        message = await ctx.original_response()
+
+    else:
+
+        message = await ctx.send(
+            embed=embed,
+            view=view
+        )
+
+    asyncio.create_task(
+        registration_countdown(
+            message,
+            session
+        )
+    )
+
+# =========================================================
+# PART 2 END
+# =========================================================
+# =========================================================
+# PART 3
+# GAME ENGINE
+# =========================================================
+
+CURRENT_QUESTION = {}
+
+# =========================================================
+# PRODUCT FETCHER
+# =========================================================
+
+async def get_random_product():
+
+    category = random.choice(
+        PRODUCT_CATEGORIES
+    ) if PRODUCT_CATEGORIES else "general"
+
+    fake_products = [
+
+        {
+            "title": "Nivea Cream",
+            "price": random.randint(50,120),
+            "image": "https://i.ebayimg.com/thumbs/images/g/j4UAAeSw7Vho00sl/s-l500.jpg",
+            "category": category
+        },
+
+        {
+            "title": "Chocolate Box",
+            "price": random.randint(50,120),
+            "image": "https://i.ebayimg.com/thumbs/images/g/j4UAAeSw7Vho00sl/s-l500.jpg",
+            "category": category
+        },
+
+        {
+            "title": "Perfume",
+            "price": random.randint(50,120),
+            "image": "https://i.ebayimg.com/thumbs/images/g/j4UAAeSw7Vho00sl/s-l500.jpg",
+            "category": category
+        }
+    ]
+
+    item = random.choice(fake_products)
+
+    return Product(
+        title=item["title"],
+        image_url=item["image"],
+        real_price=item["price"],
+        category=item["category"]
+    )
+
+# =========================================================
+# SCORE CALCULATOR
+# =========================================================
+
+def calculate_points(results):
+
+    scores = {}
+
+    for index, row in enumerate(results):
+
+        uid = row["user_id"]
+
+        if index == 0:
+            scores[uid] = 10
+
+        elif index == 1:
+            scores[uid] = 7
+
+        elif index == 2:
+            scores[uid] = 5
+
+        elif index == 3:
+            scores[uid] = 3
+
+        else:
+            scores[uid] = 1
+
+    return scores
+
+# =========================================================
+# QUESTION TIMER
+# =========================================================
+
+async def question_timer(
+    session,
+    channel,
+    product,
+    image_number
+):
+
+    session.answers = {}
+
+    embed = discord.Embed(
+        title=f"🛒 Product #{image_number}",
+        description=(
+            "اكتب السعر المتوقع للمنتج\n\n"
+            f"⏳ {ANSWER_TIME} ثانية"
+        ),
+        color=discord.Color.orange()
+    )
+
+    embed.add_field(
+        name="Category",
+        value=product.category,
+        inline=False
+    )
+
+    embed.set_image(
+        url=product.image_url
+    )
+
+    message = await channel.send(
+        embed=embed
+    )
+
+    CURRENT_QUESTION[
+        session.guild_id
+    ] = {
+        "product": product,
+        "message": message
+    }
+
+    for sec in range(
+        ANSWER_TIME,
+        0,
+        -1
+    ):
+
+        players_count = len(
+            session.players
+        )
+
+        answers_count = len(
+            session.answers
+        )
+
+        if answers_count >= players_count:
+
             break
+
+        await asyncio.sleep(1)
+
+    await finish_question(
+        session,
+        channel,
+        product
+    )
+
+# =========================================================
+# FINISH QUESTION
+# =========================================================
+
+async def finish_question(
+    session,
+    channel,
+    product
+):
+
+    real_price = product.real_price
 
     results = []
 
-    real_price = float(product["price"])
+    for uid in session.answers:
 
-    for uid in game.players:
+        answer = session.answers[uid]
 
-        if uid not in game.answers:
-
-            results.append({
-                "user_id": uid,
-                "answer": None,
-                "difference": 999999999
-            })
-
-            continue
-
-        answer = game.answers[uid]
-
-        diff = abs(real_price - answer)
+        difference = abs(
+            answer - real_price
+        )
 
         results.append({
             "user_id": uid,
             "answer": answer,
-            "difference": diff
+            "difference": difference
         })
 
     results.sort(
         key=lambda x: x["difference"]
     )
 
-    return results
-
-
-# =====================================================
-# SCORE SYSTEM
-# =====================================================
-
-def calculate_points(position):
-
-    table = {
-        1: 10,
-        2: 7,
-        3: 5,
-        4: 3
-    }
-
-    return table.get(position, 1)
-
-
-# =====================================================
-# ROUND RESULT
-# =====================================================
-
-async def show_round_result(
-    channel,
-    game,
-    product,
-    results
-):
-
-    embed = discord.Embed(
-        title="📊 نتائج الصورة",
-        color=discord.Color.gold()
-    )
-
-    embed.add_field(
-        name="💰 السعر الحقيقي",
-        value=f"${product['price']}",
-        inline=False
-    )
-
-    text = ""
-
-    position = 0
-
-    for row in results:
-
-        uid = row["user_id"]
-
-        if row["answer"] is None:
-
-            text += (
-                f"❌ <@{uid}> "
-                f"(لم يجب)\n"
-            )
-
-            continue
-
-        position += 1
-
-        points = calculate_points(
-            position
-        )
-
-        game.game_points[uid] += points
-
-        text += (
-            f"#{position} "
-            f"<@{uid}> "
-            f"(+{points}) | "
-            f"فرق: {row['difference']:.2f}\n"
-        )
-
-    embed.add_field(
-        name="🏆 الترتيب",
-        value=text[:1024],
-        inline=False
-    )
-
-    await channel.send(
-        embed=embed
-    )
-
-
-# =====================================================
-# PRODUCT DISPLAY
-# =====================================================
-
-async def send_product(
-    channel,
-    game,
-    product,
-    current_index,
-    total_images
-):
-
-    embed = discord.Embed(
-        title="🛒 تخمين السعر",
-        color=discord.Color.blue()
-    )
-
-    embed.description = (
-        f"الصورة {current_index}/{total_images}\n"
-        f"⏳ لديك 20 ثانية\n\n"
-        f"اكتب السعر المتوقع في الشات"
-    )
-
-    embed.set_image(
-        url=product["image"]
-    )
-
-    await channel.send(
-        embed=embed
-    )
-
-
-# =====================================================
-# GAME LOOP
-# =====================================================
-
-async def run_game(
-    channel,
-    game
-):
-
-    total_images = (
-        game.rounds_total *
-        game.images_per_round
-    )
-
-    image_number = 0
-
-    for round_number in range(
-        1,
-        game.rounds_total + 1
-    ):
-
-        game.current_round = round_number
-
-        round_embed = discord.Embed(
-            title=f"🎯 الجولة {round_number}",
-            description=(
-                f"{game.images_per_round} صور"
-            ),
-            color=discord.Color.green()
-        )
-
-        await channel.send(
-            embed=round_embed
-        )
-
-        for image_index in range(
-            1,
-            game.images_per_round + 1
-        ):
-
-            image_number += 1
-
-            product = await fetcher.get_random_product()
-
-            await send_product(
-                channel,
-                game,
-                product,
-                image_number,
-                total_images
-            )
-
-            results = await wait_for_answers(
-                channel,
-                game,
-                product
-            )
-
-            await show_round_result(
-                channel,
-                game,
-                product,
-                results
-            )
-
-            await asyncio.sleep(2)
-
-    await finish_game(
-        channel,
-        game
-                )
-
-
-
-
-# =====================================================
-# FINAL RESULTS
-# =====================================================
-
-async def finish_game(channel, game):
-
-    ranking = sorted(
-        game.game_points.items(),
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    embed = discord.Embed(
-        title="🏆 النتائج النهائية",
-        color=discord.Color.gold()
+    gained = calculate_points(
+        results
     )
 
     result_text = ""
@@ -890,286 +1019,392 @@ async def finish_game(channel, game):
     medals = [
         "🥇",
         "🥈",
-        "🥉"
+        "🥉",
+        "🏅"
     ]
 
-    for index, (user_id, score) in enumerate(ranking, start=1):
+    for idx, row in enumerate(results):
 
-        medal = (
-            medals[index - 1]
-            if index <= 3
-            else "🏅"
+        uid = row["user_id"]
+
+        pts = gained.get(
+            uid,
+            1
         )
+
+        session.players[uid][
+            "points"
+        ] += pts
+
+        if idx < len(medals):
+            medal = medals[idx]
+        else:
+            medal = "🎖️"
 
         result_text += (
-            f"{medal} <@{user_id}> "
-            f"— {score} نقطة\n"
+            f"{medal} "
+            f"<@{uid}> "
+            f"(+{pts})\n"
+            f"Difference: "
+            f"{row['difference']}\n\n"
         )
 
-        add_game_played(user_id)
+    for uid in session.players:
 
-        add_points(
-            user_id,
-            score
-        )
+        if uid not in session.answers:
 
-    embed.description = result_text
-
-    await channel.send(embed=embed)
-
-    if game.guild_id in active_games:
-        del active_games[game.guild_id]
-
-
-# =====================================================
-# PROFILE
-# =====================================================
-
-async def profile_embed(user):
-
-    ensure_player(user)
-
-    cursor.execute("""
-    SELECT
-    games_played,
-    wins,
-    second_places,
-    third_places,
-    total_points,
-    correct_answers,
-    wrong_answers,
-    best_score
-    FROM players
-    WHERE user_id=?
-    """, (
-        user.id,
-    ))
-
-    row = cursor.fetchone()
+            result_text += (
+                f"❌ <@{uid}> "
+                f"(No Answer)\n\n"
+            )
 
     embed = discord.Embed(
-        title=f"👤 {user}",
-        color=discord.Color.blue()
-    )
-
-    embed.add_field(
-        name="🎮 الألعاب",
-        value=row[0]
-    )
-
-    embed.add_field(
-        name="🏆 الانتصارات",
-        value=row[1]
-    )
-
-    embed.add_field(
-        name="🥈 المركز الثاني",
-        value=row[2]
-    )
-
-    embed.add_field(
-        name="🥉 المركز الثالث",
-        value=row[3]
-    )
-
-    embed.add_field(
-        name="⭐ النقاط",
-        value=row[4]
-    )
-
-    embed.add_field(
-        name="✅ الصحيحة",
-        value=row[5]
-    )
-
-    embed.add_field(
-        name="❌ الخاطئة",
-        value=row[6]
-    )
-
-    embed.add_field(
-        name="🔥 أفضل نتيجة",
-        value=row[7]
-    )
-
-    return embed
-
-
-# =====================================================
-# PREFIX COMMANDS
-# =====================================================
-
-@bot.command(name="game")
-async def game_prefix(ctx):
-
-    view = DifficultyView()
-
-    embed = discord.Embed(
-        title="🎮 Price Guess Pro",
-        description="اختر مستوى الصعوبة",
+        title="📊 Round Results",
         color=discord.Color.green()
     )
 
-    await ctx.send(
-        embed=embed,
-        view=view
+    embed.add_field(
+        name="Real Price",
+        value=f"${real_price}",
+        inline=False
     )
 
+    embed.add_field(
+        name="Ranking",
+        value=result_text[:1024],
+        inline=False
+    )
 
-@bot.command(name="stop")
-async def stop_prefix(ctx):
+    await channel.send(
+        embed=embed
+    )
 
-    gid = ctx.guild.id
+    await asyncio.sleep(3)
 
-    if gid not in active_games:
-        return await ctx.send(
-            "❌ لا توجد لعبة"
+# =========================================================
+# PLAY ALL PRODUCTS
+# =========================================================
+
+async def start_game(
+    session,
+    channel
+):
+
+    log_event(
+        f"Game Started "
+        f"{session.guild_id}"
+    )
+
+    total_images = 15
+
+    current = 1
+
+    while current <= total_images:
+
+        product = await get_random_product()
+
+        await question_timer(
+            session,
+            channel,
+            product,
+            current
         )
 
-    del active_games[gid]
+        current += 1
 
-    await ctx.send(
-        "🛑 تم إيقاف اللعبة"
+    await finish_game(
+        session,
+        channel
     )
 
+# =========================================================
+# GAME END
+# =========================================================
 
-@bot.command(name="profile")
-async def profile_prefix(ctx):
+async def finish_game(
+    session,
+    channel
+):
 
-    embed = await profile_embed(
-        ctx.author
-    )
-
-    await ctx.send(embed=embed)
-
-
-@bot.command(name="top")
-async def top_prefix(ctx):
-
-    cursor.execute("""
-    SELECT
-    username,
-    total_points
-    FROM players
-    ORDER BY total_points DESC
-    LIMIT 10
-    """)
-
-    rows = cursor.fetchall()
-
-    embed = discord.Embed(
-        title="🏆 أفضل 10 لاعبين",
-        color=discord.Color.gold()
+    ranking = sorted(
+        session.players.items(),
+        key=lambda x: x[1]["points"],
+        reverse=True
     )
 
     text = ""
 
-    for i, row in enumerate(rows, start=1):
+    medals = [
+        "🏆",
+        "🥈",
+        "🥉"
+    ]
+
+    for index, data in enumerate(
+        ranking
+    ):
+
+        uid = data[0]
+
+        points = data[1][
+            "points"
+        ]
+
+        if index < 3:
+            medal = medals[index]
+        else:
+            medal = "🎖️"
 
         text += (
-            f"{i}. "
-            f"{row[0]} "
-            f"({row[1]})\n"
+            f"{medal} "
+            f"<@{uid}> "
+            f"- {points} pts\n"
         )
 
-    embed.description = text
-
-    await ctx.send(embed=embed)
-
-
-@bot.command(name="stats")
-async def stats_prefix(ctx):
-
-    cursor.execute(
-        "SELECT COUNT(*) FROM players"
+    embed = discord.Embed(
+        title="🏁 Final Results",
+        description=text,
+        color=discord.Color.gold()
     )
 
-    players_count = cursor.fetchone()[0]
+    await channel.send(
+        embed=embed
+    )
+
+    ACTIVE_GAMES.pop(
+        session.guild_id,
+        None
+    )
+
+    CURRENT_QUESTION.pop(
+        session.guild_id,
+        None
+    )
+
+    log_event(
+        f"Game Finished "
+        f"{session.guild_id}"
+    )
+
+# =========================================================
+# MESSAGE ANSWERS
+# =========================================================
+
+@bot.event
+async def on_message(message):
+
+    if message.author.bot:
+        return
+
+    guild = message.guild
+
+    if guild:
+
+        if guild.id in ACTIVE_GAMES:
+
+            session = ACTIVE_GAMES[
+                guild.id
+            ]
+
+            if (
+                message.author.id
+                in session.players
+            ):
+
+                try:
+
+                    value = float(
+
+
+
+                                                message.content
+                    )
+
+                    if (
+                        message.author.id
+                        not in session.answers
+                    ):
+
+                        session.answers[
+                            message.author.id
+                        ] = value
+
+                        await message.add_reaction(
+                            "✅"
+                        )
+
+                except:
+                    pass
+
+    await bot.process_commands(
+        message
+    )
+
+# =========================================================
+# PART 3 END
+# =========================================================
+
+# =========================================================
+# PART 4
+# Commands
+# Profile
+# Top
+# Stats
+# Stop
+# Ready
+# =========================================================
+
+# ---------------------------------------------------------
+# PROFILE
+# ---------------------------------------------------------
+
+async def profile_embed(user):
+
+    PlayerData.ensure(user)
+
+    data = PlayerData.get(user.id)
 
     embed = discord.Embed(
-        title="📊 إحصائيات البوت",
+        title=f"👤 {user}",
         color=discord.Color.blurple()
     )
 
     embed.add_field(
-        name="👥 اللاعبين",
-        value=players_count
+        name="🎮 Games",
+        value=data["games_played"],
+        inline=True
     )
 
     embed.add_field(
-        name="🎮 الألعاب النشطة",
-        value=len(active_games)
+        name="🏆 Wins",
+        value=data["wins"],
+        inline=True
     )
 
-    await ctx.send(embed=embed)
-
-
-@bot.command(name="help")
-async def help_prefix(ctx):
-
-    embed = discord.Embed(
-        title="📖 المساعدة",
-        color=discord.Color.green()
+    embed.add_field(
+        name="🥈 Seconds",
+        value=data["second_places"],
+        inline=True
     )
 
-    embed.description = (
-        "!game\n"
-        "!stop\n"
-        "!profile\n"
-        "!top\n"
-        "!stats\n"
-        "!help"
+    embed.add_field(
+        name="🥉 Thirds",
+        value=data["third_places"],
+        inline=True
     )
 
-    await ctx.send(embed=embed)
+    embed.add_field(
+        name="⭐ Points",
+        value=data["total_points"],
+        inline=True
+    )
 
+    embed.add_field(
+        name="🔥 Best Score",
+        value=data["best_score"],
+        inline=True
+    )
 
-# =====================================================
-# SLASH COMMANDS
-# =====================================================
+    embed.add_field(
+        name="✅ Correct",
+        value=data["correct_answers"],
+        inline=True
+    )
 
-@tree.command(
+    embed.add_field(
+        name="❌ Wrong",
+        value=data["wrong_answers"],
+        inline=True
+    )
+
+    return embed
+
+# ---------------------------------------------------------
+# SLASH GAME
+# ---------------------------------------------------------
+
+@bot.tree.command(
     name="game",
-    description="بدء لعبة"
+    description="Start a game"
 )
 async def slash_game(
     interaction: discord.Interaction
 ):
 
-    view = DifficultyView()
-
-    embed = discord.Embed(
-        title="🎮 Price Guess Pro",
-        description="اختر مستوى الصعوبة"
+    await create_game(
+        interaction,
+        slash=True
     )
 
-    await interaction.response.send_message(
-        embed=embed,
-        view=view
+# ---------------------------------------------------------
+# PREFIX GAME
+# ---------------------------------------------------------
+
+@bot.command(name="game")
+async def prefix_game(ctx):
+
+    await create_game(
+        ctx,
+        slash=False
     )
 
+# ---------------------------------------------------------
+# STOP
+# ---------------------------------------------------------
 
-@tree.command(
+@bot.tree.command(
     name="stop",
-    description="إيقاف اللعبة"
+    description="Stop game"
 )
 async def slash_stop(
     interaction: discord.Interaction
 ):
 
-    gid = interaction.guild.id
+    guild_id = interaction.guild.id
 
-    if gid in active_games:
-        del active_games[gid]
+    if guild_id not in ACTIVE_GAMES:
 
-    await interaction.response.send_message(
-        "🛑 تم إيقاف اللعبة"
+        return await interaction.response.send_message(
+            "❌ لا توجد لعبة.",
+            ephemeral=True
+        )
+
+    ACTIVE_GAMES.pop(
+        guild_id,
+        None
     )
 
+    await interaction.response.send_message(
+        "🛑 تم إيقاف اللعبة."
+    )
 
-@tree.command(
+@bot.command(name="stop")
+async def prefix_stop(ctx):
+
+    guild_id = ctx.guild.id
+
+    if guild_id not in ACTIVE_GAMES:
+
+        return await ctx.send(
+            "❌ لا توجد لعبة."
+        )
+
+    ACTIVE_GAMES.pop(
+        guild_id,
+        None
+    )
+
+    await ctx.send(
+        "🛑 تم إيقاف اللعبة."
+    )
+
+# ---------------------------------------------------------
+# PROFILE
+# ---------------------------------------------------------
+
+@bot.tree.command(
     name="profile",
-    description="ملف اللاعب"
+    description="Player profile"
 )
 async def slash_profile(
     interaction: discord.Interaction
@@ -1183,112 +1418,281 @@ async def slash_profile(
         embed=embed
     )
 
+@bot.command(name="profile")
+async def prefix_profile(ctx):
 
-@tree.command(
+    embed = await profile_embed(
+        ctx.author
+    )
+
+    await ctx.send(
+        embed=embed
+    )
+
+# ---------------------------------------------------------
+# TOP
+# ---------------------------------------------------------
+
+@bot.tree.command(
     name="top",
-    description="المتصدرون"
+    description="Top players"
 )
 async def slash_top(
     interaction: discord.Interaction
 ):
 
-    cursor.execute("""
-    SELECT username,total_points
-    FROM players
-    ORDER BY total_points DESC
-    LIMIT 10
-    """)
-
-    rows = cursor.fetchall()
+    rows = db.fetchall(
+        """
+        SELECT *
+        FROM players
+        ORDER BY total_points DESC
+        LIMIT 10
+        """
+    )
 
     text = ""
 
-    for i, row in enumerate(rows, start=1):
+    rank = 1
+
+    for row in rows:
 
         text += (
-            f"{i}. {row[0]}"
-            f" ({row[1]})\n"
+            f"{rank}. "
+            f"{row['username']} "
+            f"({row['total_points']})\n"
         )
 
+        rank += 1
+
     embed = discord.Embed(
-        title="🏆 Top 10",
-        description=text
+        title="🏆 Top 10 Players",
+        description=text or "No Data",
+        color=discord.Color.gold()
     )
 
     await interaction.response.send_message(
         embed=embed
     )
 
+@bot.command(name="top")
+async def prefix_top(ctx):
 
-@tree.command(
+    rows = db.fetchall(
+        """
+        SELECT *
+        FROM players
+        ORDER BY total_points DESC
+        LIMIT 10
+        """
+    )
+
+    text = ""
+
+    rank = 1
+
+    for row in rows:
+
+        text += (
+            f"{rank}. "
+            f"{row['username']} "
+            f"({row['total_points']})\n"
+        )
+
+        rank += 1
+
+    embed = discord.Embed(
+        title="🏆 Top 10 Players",
+        description=text or "No Data",
+        color=discord.Color.gold()
+    )
+
+    await ctx.send(
+        embed=embed
+    )
+
+# ---------------------------------------------------------
+# STATS
+# ---------------------------------------------------------
+
+@bot.tree.command(
     name="stats",
-    description="إحصائيات البوت"
+    description="Bot stats"
 )
 async def slash_stats(
     interaction: discord.Interaction
 ):
 
-    cursor.execute(
-        "SELECT COUNT(*) FROM players"
+    players = db.fetchone(
+        "SELECT COUNT(*) c FROM players"
+    )["c"]
+
+    games = db.fetchone(
+        "SELECT COUNT(*) c FROM games"
+    )["c"]
+
+    embed = discord.Embed(
+        title="📊 Statistics",
+        color=discord.Color.green()
     )
 
-    count = cursor.fetchone()[0]
+    embed.add_field(
+        name="Players",
+        value=str(players)
+    )
+
+    embed.add_field(
+        name="Games",
+        value=str(games)
+    )
+
+    embed.add_field(
+        name="Servers",
+        value=str(len(bot.guilds))
+    )
 
     await interaction.response.send_message(
-        f"👥 اللاعبين: {count}\n"
-        f"🎮 الألعاب النشطة: {len(active_games)}"
+        embed=embed
     )
 
+@bot.command(name="stats")
+async def prefix_stats(ctx):
 
-@tree.command(
+    players = db.fetchone(
+        "SELECT COUNT(*) c FROM players"
+    )["c"]
+
+    games = db.fetchone(
+        "SELECT COUNT(*) c FROM games"
+    )["c"]
+
+    embed = discord.Embed(
+        title="📊 Statistics",
+        color=discord.Color.green()
+    )
+
+    embed.add_field(
+        name="Players",
+        value=str(players)
+    )
+
+    embed.add_field(
+        name="Games",
+        value=str(games)
+    )
+
+    embed.add_field(
+        name="Servers",
+        value=str(len(bot.guilds))
+    )
+
+    await ctx.send(
+        embed=embed
+    )
+
+# ---------------------------------------------------------
+# HELP
+# ---------------------------------------------------------
+
+HELP_TEXT = """
+🎮 Price Guess Pro
+
+/game
+!game
+
+/stop
+!stop
+
+/profile
+!profile
+
+/top
+!top
+
+/stats
+!stats
+
+/help
+!help
+"""
+
+@bot.tree.command(
     name="help",
-    description="المساعدة"
+    description="Help menu"
 )
 async def slash_help(
     interaction: discord.Interaction
 ):
 
-    await interaction.response.send_message(
-        "/game\n"
-        "/stop\n"
-        "/profile\n"
-        "/top\n"
-        "/stats\n"
-        "/help"
+    embed = discord.Embed(
+        title="📖 Help",
+        description=HELP_TEXT,
+        color=discord.Color.blurple()
     )
 
+    await interaction.response.send_message(
+        embed=embed
+    )
 
-# =====================================================
+@bot.command(name="help")
+async def prefix_help(ctx):
+
+    embed = discord.Embed(
+        title="📖 Help",
+        description=HELP_TEXT,
+        color=discord.Color.blurple()
+    )
+
+    await ctx.send(
+        embed=embed
+    )
+
+# ---------------------------------------------------------
 # READY
-# =====================================================
+# ---------------------------------------------------------
 
 @bot.event
 async def on_ready():
 
     try:
-        synced = await tree.sync()
+
+        synced = await bot.tree.sync()
 
         print(
             f"Synced {len(synced)} commands"
         )
 
     except Exception as e:
+
         print(e)
 
     print(
-        f"Logged in as {bot.user}"
+        f"Logged as {bot.user}"
     )
 
+    log_event(
+        "Bot Ready"
+    )
 
-# =====================================================
-# RUN
-# =====================================================
+# ---------------------------------------------------------
+# START
+# ---------------------------------------------------------
 
-bot.run(TOKEN)
-    
+if not DISCORD_TOKEN:
+
+    raise RuntimeError(
+        "DISCORD_TOKEN missing"
+    )
+
+bot.run(DISCORD_TOKEN)
+
+# =========================================================
+# END OF FILE
+# =========================================================
 
 
 
 
-    
-        
+                        
+
+                        
+
