@@ -1,21 +1,22 @@
-name: PriceGuessBot
+name: Product Game Bot
 
 on:
   workflow_dispatch:
+
   push:
     branches:
       - main
-  schedule:
-    - cron: "*/5 * * * *"
 
 jobs:
-  run-bot:
+  bot:
+
     runs-on: ubuntu-latest
 
     timeout-minutes: 360
 
     steps:
-      - name: Checkout Repository
+
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -27,18 +28,25 @@ jobs:
         run: |
           python -m pip install --upgrade pip
 
-      - name: Install Requirements
+      - name: Install Dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Create Folders
+      - name: Verify Files
         run: |
-          mkdir -p logs
-          mkdir -p data
+          ls -la
+          test -f bot.py
+          test -f config.json
+          test -f servers.json
+          test -f images_api.json
+          test -f sessions.json
+          test -f products_cache.json
 
-      - name: Start PriceGuessBot
+      - name: Run Bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           OWNER_USER_ID: ${{ secrets.OWNER_USER_ID }}
+          OWNER_CODE: ${{ secrets.OWNER_CODE }}
+
         run: |
           python bot.py
