@@ -1,50 +1,67 @@
 {
-  "bot_name": "Price Guess Pro",
-  "version": "1.0.0",
+  "game": {
+    "enabled": true,
+    "register_time": 30,
+    "rounds": 3,
+    "products_per_round": 3,
+    "min_players": 2,
 
-  "registration_time": 30,
-  "guess_time": 20,
+    "allow_answer_change": false,
+    "allow_multiple_answers": false,
+    "allow_join_after_register": false,
+    "allow_vote_after_end": false,
 
-  "min_players": 2,
-
-  "rounds": 3,
-  "images_per_round": 3,
-
-  "points": {
-    "first": 10,
-    "second": 7,
-    "third": 5,
-    "fourth": 3,
-    "others": 1,
-    "no_answer": 0
+    "auto_start_next_round": true,
+    "show_scores_after_round": true,
+    "round_delay_seconds": 5
   },
 
-  "database": {
-    "file": "price_guess.db",
-    "autosave": true,
-    "session_recovery": true
+  "miswag": {
+    "enabled": true,
+    "api_url": "https://miswag.com/api/v1/search",
+
+    "default_query": "الجمال والعناية",
+
+    "queries": [
+      "الجمال والعناية",
+      "العطور",
+      "المكياج",
+      "العناية بالبشرة",
+      "العناية بالشعر",
+      "الهواتف",
+      "الالكترونيات",
+      "الأجهزة المنزلية"
+    ],
+
+    "page": 1,
+    "per_page": 24,
+
+    "refresh_minutes": 30,
+    "avoid_duplicate_products": true
   },
 
-  "products": {
-    "source": "miswag",
-    "unique_products_per_game": true,
-    "allow_duplicates": false
+  "security": {
+    "anti_spam": true,
+    "anti_duplicate_answers": true,
+    "anti_answer_edit": true,
+    "anti_late_join": true,
+    "anti_late_vote": true
   },
 
-  "protection": {
-    "one_answer_only": true,
-    "block_answer_edit": true,
-    "block_late_join": true,
-    "block_late_leave": true,
-    "single_game_per_server": true
+  "session": {
+    "save_enabled": true,
+    "restore_after_restart": true,
+    "auto_save": true
   },
 
   "embeds": {
+    "title": "🛍️ Product Challenge",
+    "footer": "Powered By Miswag",
     "color": 3447003
   },
 
-  "logs": {
-    "enabled": true,
-    "folder": "logs"
+  "owner": {
+    "use_env_owner_id": true,
+    "use_env_owner_code": true
   }
 }
