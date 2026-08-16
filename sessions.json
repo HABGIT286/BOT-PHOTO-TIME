@@ -1,0 +1,29 @@
+{
+  "active_games": {},
+
+  "finished_games": {},
+
+  "players": {},
+
+  "answers": {},
+
+  "scores": {},
+
+  "products_history": {},
+
+  "statistics": {
+    "total_games": 0,
+    "total_rounds": 0,
+    "total_players": 0,
+    "total_answers": 0,
+    "total_correct_answers": 0
+  },
+
+  "settings": {
+    "auto_save": true,
+    "save_after_every_action": true,
+    "restore_after_restart": true,
+    "cleanup_finished_games": true,
+    "cleanup_after_hours": 24
+  }
+}
