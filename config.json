@@ -1,6 +1,6 @@
 {
   "bot_name": "Price Guess Pro",
-  "version": "1.0.0",
+  "version": "2.0.0",
 
   "owner_system": {
     "owner_from_env": true,
@@ -18,15 +18,15 @@
     "enabled": true,
     "allow_one_game_per_server": true,
 
-    "register_time_seconds": 30,
+    "register_time_seconds": 20,
     "guess_time_seconds": 20,
 
     "minimum_players": 2,
 
     "rounds_count": 3,
-    "images_per_round": 3,
+    "images_per_round": 5,
 
-    "total_images_per_game": 9,
+    "total_images_per_game": 15,
 
     "allow_join_after_register_close": false,
     "allow_leave_after_register_close": false,
@@ -68,31 +68,20 @@
 
   "answers": {
     "numbers_only": true,
-
     "one_answer_per_player": true,
-
     "allow_answer_edit": false,
-
     "allow_answer_replace": false,
-
     "allow_second_answer": false,
-
     "reject_duplicate_answer_attempts": true
   },
 
   "security": {
     "anti_spam": true,
-
     "anti_multi_answer": true,
-
     "anti_edit_answer": true,
-
     "anti_late_join": true,
-
     "anti_late_leave": true,
-
     "anti_game_duplicate": true,
-
     "anti_button_abuse": true
   },
 
@@ -166,7 +155,11 @@
   "miswag": {
     "enabled": true,
 
+    "api_url": "https://miswag.com/api/v1/search",
+
     "timeout": 30,
+
+    "per_page": 24,
 
     "query_rotation": [
       "الجمال والعناية",
@@ -183,10 +176,20 @@
 
     "avoid_duplicate_products": true,
 
+    "avoid_duplicate_images": true,
+
     "require_image": true,
 
     "require_price": true,
 
-    "require_title": true
+    "require_title": true,
+
+    "require_product_url": false,
+
+    "cache_products": true,
+
+    "refresh_when_empty": true,
+
+    "random_product": true
   }
 }
