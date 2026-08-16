@@ -1,11 +1,6 @@
 discord.py==2.7.1
 aiohttp==3.12.15
-aiosqlite==0.21.0
-beautifulsoup4==4.13.4
-lxml==6.0.1
+httpx==0.28.1
 python-dotenv==1.1.1
-orjson==3.11.3
-pydantic==2.11.7
-typing-extensions==4.15.0
 aiofiles==24.1.0
-requests==2.32.5
+orjson==3.11.3
