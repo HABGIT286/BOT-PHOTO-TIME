@@ -1,86 +1,50 @@
 {
-  "bot": {
-    "name": "Price Guess Pro",
-    "version": "1.0.0",
-    "prefix": "!",
-    "embed_color": 3447003,
-    "owners": []
-  },
+  "bot_name": "Price Guess Pro",
+  "version": "1.0.0",
 
-  "game": {
-    "min_players": 2,
-    "registration_time": 20,
-    "guess_time": 20,
-    "total_rounds": 3,
-    "images_per_round": 5,
-    "allow_multiple_games_per_server": false,
-    "auto_next_image_delay": 3
-  },
+  "registration_time": 30,
+  "guess_time": 20,
 
-  "difficulty": {
-    "easy": {
-      "min_price": 0,
-      "max_price": 100
-    },
-    "normal": {
-      "min_price": 0,
-      "max_price": 300
-    },
-    "hard": {
-      "min_price": 0,
-      "max_price": 500
-    }
-  },
+  "min_players": 2,
+
+  "rounds": 3,
+  "images_per_round": 3,
 
   "points": {
-    "first_place": 10,
-    "second_place": 7,
-    "third_place": 5,
-    "fourth_place": 3,
-    "other_players": 1,
+    "first": 10,
+    "second": 7,
+    "third": 5,
+    "fourth": 3,
+    "others": 1,
     "no_answer": 0
-  },
-
-  "products": {
-    "preferred_categories": [
-      "cosmetics",
-      "perfumes",
-      "shampoo",
-      "creams",
-      "canned_food",
-      "drinks",
-      "juices",
-      "chocolate",
-      "sweets",
-      "home_products"
-    ]
   },
 
   "database": {
     "file": "price_guess.db",
-    "auto_backup": true
+    "autosave": true,
+    "session_recovery": true
+  },
+
+  "products": {
+    "source": "miswag",
+    "unique_products_per_game": true,
+    "allow_duplicates": false
+  },
+
+  "protection": {
+    "one_answer_only": true,
+    "block_answer_edit": true,
+    "block_late_join": true,
+    "block_late_leave": true,
+    "single_game_per_server": true
+  },
+
+  "embeds": {
+    "color": 3447003
   },
 
   "logs": {
     "enabled": true,
-    "folder": "logs",
-    "save_answers": true,
-    "save_games": true,
-    "save_winners": true
-  },
-
-  "leaderboard": {
-    "top_limit": 10
-  },
-
-  "profile": {
-    "track_games": true,
-    "track_wins": true,
-    "track_accuracy": true
-  },
-
-  "images": {
-    "cache_enabled": true,
-    "cache_limit": 500
+    "folder": "logs"
   }
 }
