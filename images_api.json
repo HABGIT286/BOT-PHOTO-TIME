@@ -1,65 +1,206 @@
 {
-  "enabled": true,
-
   "provider": "miswag",
 
-  "api": {
-    "url": "https://miswag.com/api/v1/search",
-    "method": "POST",
-    "timeout": 30
-  },
+  "enabled": true,
 
-  "queries": [
-    "الجمال والعناية",
-    "العناية بالبشرة",
-    "العناية بالشعر",
-    "العطور",
-    "المكياج",
-    "الهواتف",
-    "الالكترونيات",
-    "الأجهزة المنزلية",
-    "الألعاب",
-    "الإكسسوارات"
+  "cache_products": true,
+
+  "prevent_duplicates": true,
+
+  "require_image": true,
+
+  "require_price": true,
+
+  "require_title": true,
+
+  "request_timeout": 30,
+
+  "max_products_cache": 1000,
+
+  "sources": [
+    {
+      "name": "beauty",
+
+      "query": "الجمال والعناية",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "الجمال والعناية",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "makeup",
+
+      "query": "المكياج",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "المكياج",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "perfumes",
+
+      "query": "العطور",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "العطور",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "cream",
+
+      "query": "الكريمات",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "الكريمات",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "shampoo",
+
+      "query": "الشامبو",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "الشامبو",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "shaving",
+
+      "query": "الحلاقة",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "الحلاقة",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "skin",
+
+      "query": "العناية بالبشرة",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "العناية بالبشرة",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "home",
+
+      "query": "المنتجات المنزلية",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "المنتجات المنزلية",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "food",
+
+      "query": "الأغذية",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "الأغذية",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    },
+
+    {
+      "name": "drinks",
+
+      "query": "المشروبات",
+
+      "api_url": "https://miswag.com/api/v1/search",
+
+      "method": "POST",
+
+      "payload": {
+        "query": "المشروبات",
+        "activeFilters": {},
+        "page": 1,
+        "perPage": 24
+      }
+    }
   ],
 
-  "request": {
-    "page": 1,
-    "per_page": 24
+  "product_rules": {
+    "must_have_title": true,
+    "must_have_image": true,
+    "must_have_price": true,
+    "must_have_url": true,
+    "allow_repeated_product_in_same_game": false,
+    "allow_repeated_image_in_same_game": false
   },
 
-  "response": {
-    "products_path": "data.hits",
-    "id": "id",
-    "title": "title.AR",
-    "image": "image",
-    "price": "price.value",
-    "currency": "price.currency",
-    "brand": "brand",
-    "url": "url"
-  },
-
-  "cache": {
-    "enabled": true,
-    "save_products": true,
-    "avoid_duplicates": true,
-    "max_products": 1000,
-    "refresh_minutes": 30
-  },
-
-  "game": {
+  "game_rules": {
     "rounds": 3,
-    "products_per_round": 3,
-    "register_time": 30,
-    "min_players": 2,
-    "one_answer_only": true,
-    "allow_answer_change": false,
-    "allow_join_after_register": false,
-    "allow_vote_after_end": false
-  },
-
-  "session": {
-    "persistent": true,
-    "restore_after_restart": true,
-    "save_file": "sessions.json"
+    "images_per_round": 3,
+    "total_images": 9
   }
 }
