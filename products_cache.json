@@ -1,0 +1,18 @@
+{
+  "last_update": 0,
+
+  "source": "miswag",
+
+  "query": "الجمال والعناية",
+
+  "products": [],
+
+  "used_products": [],
+
+  "cache_settings": {
+    "enabled": true,
+    "avoid_duplicates": true,
+    "refresh_minutes": 30,
+    "max_products": 1000
+  }
+}
