@@ -1,32 +1,44 @@
 {
   "provider": "miswag",
-
   "enabled": true,
 
-  "cache_products": true,
+  "api_url": "https://miswag.com/api/v1/search",
+  "api_key": "",
 
-  "prevent_duplicates": true,
-
-  "require_image": true,
-
-  "require_price": true,
-
-  "require_title": true,
-
+  "request_method": "POST",
   "request_timeout": 30,
 
-  "max_products_cache": 1000,
+  "headers": {
+    "accept": "application/json",
+    "accept-language": "ar",
+    "content-type": "application/json",
+    "origin": "https://miswag.com",
+    "referer": "https://miswag.com/search?q=%D8%A7%D9%84%D8%AC%D9%85%D8%A7%D9%84+%D9%88%D8%A7%D9%84%D8%B9%D9%86%D8%A7%D9%8A%D8%A9",
+    "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+  },
+
+  "authorization": {
+    "enabled": true,
+    "environment_variable": "MISWAG_AUTHORIZATION"
+  },
+
+  "categories": [
+    "الجمال والعناية",
+    "المكياج",
+    "العطور",
+    "الكريمات",
+    "الشامبو",
+    "الحلاقة",
+    "العناية بالبشرة",
+    "المنتجات المنزلية",
+    "الأغذية",
+    "المشروبات"
+  ],
 
   "sources": [
     {
       "name": "beauty",
-
       "query": "الجمال والعناية",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "الجمال والعناية",
         "activeFilters": {},
@@ -37,13 +49,7 @@
 
     {
       "name": "makeup",
-
       "query": "المكياج",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "المكياج",
         "activeFilters": {},
@@ -54,13 +60,7 @@
 
     {
       "name": "perfumes",
-
       "query": "العطور",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "العطور",
         "activeFilters": {},
@@ -71,13 +71,7 @@
 
     {
       "name": "cream",
-
       "query": "الكريمات",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "الكريمات",
         "activeFilters": {},
@@ -88,13 +82,7 @@
 
     {
       "name": "shampoo",
-
       "query": "الشامبو",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "الشامبو",
         "activeFilters": {},
@@ -105,13 +93,7 @@
 
     {
       "name": "shaving",
-
       "query": "الحلاقة",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "الحلاقة",
         "activeFilters": {},
@@ -122,13 +104,7 @@
 
     {
       "name": "skin",
-
       "query": "العناية بالبشرة",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "العناية بالبشرة",
         "activeFilters": {},
@@ -139,13 +115,7 @@
 
     {
       "name": "home",
-
       "query": "المنتجات المنزلية",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "المنتجات المنزلية",
         "activeFilters": {},
@@ -156,13 +126,7 @@
 
     {
       "name": "food",
-
       "query": "الأغذية",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "الأغذية",
         "activeFilters": {},
@@ -173,13 +137,7 @@
 
     {
       "name": "drinks",
-
       "query": "المشروبات",
-
-      "api_url": "https://miswag.com/api/v1/search",
-
-      "method": "POST",
-
       "payload": {
         "query": "المشروبات",
         "activeFilters": {},
@@ -189,18 +147,86 @@
     }
   ],
 
-  "product_rules": {
-    "must_have_title": true,
-    "must_have_image": true,
-    "must_have_price": true,
-    "must_have_url": true,
-    "allow_repeated_product_in_same_game": false,
-    "allow_repeated_image_in_same_game": false
+  "response": {
+    "success_field": "success",
+
+    "products_path": [
+      "data",
+      "hits"
+    ],
+
+    "fields": {
+      "title": [
+        "title",
+        "AR"
+      ],
+      "price": [
+        "price",
+        "value"
+      ],
+      "currency": [
+        "price",
+        "currency"
+      ],
+      "brand": [
+        "brand"
+      ],
+      "image": [
+        "image"
+      ],
+      "url": [
+        "url"
+      ]
+    }
   },
 
-  "game_rules": {
+  "product_rules": {
+    "require_title": true,
+    "require_image": true,
+    "require_price": true,
+    "require_url": true,
+
+    "allow_missing_brand": true,
+
+    "allow_repeated_product_in_same_game": false,
+    "allow_repeated_image_in_same_game": false,
+
+    "avoid_duplicate_products": true,
+    "avoid_duplicate_images": true
+  },
+
+  "cache": {
+    "enabled": true,
+    "max_products": 1000,
+    "refresh_when_empty": true,
+    "shuffle_products": true
+  },
+
+  "game": {
     "rounds": 3,
     "images_per_round": 3,
-    "total_images": 9
+    "total_images": 9,
+
+    "different_product_every_image": true,
+    "different_image_every_image": true,
+
+    "reset_used_products_when_new_game_starts": true,
+    "reset_used_images_when_new_game_starts": true
+  },
+
+  "price": {
+    "enabled": true,
+    "currency_from_api": true,
+    "default_currency": "IQD",
+
+    "minimum": 0,
+    "maximum": 10000000
+  },
+
+  "logging": {
+    "enabled": true,
+    "log_api_errors": true,
+    "log_product_fetch": true,
+    "log_invalid_products": true
   }
 }
