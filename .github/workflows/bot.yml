@@ -1,0 +1,18 @@
+name: Discord Music Bot
+
+python: "3.11"
+
+dependencies:
+  - "discord.py[voice]"
+  - "yt-dlp"
+  - "PyNaCl"
+
+system_dependencies:
+  - ffmpeg
+
+environment:
+  DISCORD_TOKEN: required
+  OWNER_ID: required
+
+run:
+  command: "python bot.py"
