@@ -1,0 +1,4443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>SOLO — My Gaming World</title>
+
+<style>
+
+/* =========================================================
+   SOLO
+   Single HTML
+   HTML + CSS + JS
+   ========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    -webkit-user-select:none;
+    user-select:none;
+
+    -webkit-touch-callout:none;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --accent:#00d4ff;
+    --gold:#ffd166;
+
+    --bg:#050507;
+
+    --glass:rgba(15,15,22,.58);
+    --glass2:rgba(255,255,255,.07);
+
+    --border:rgba(255,255,255,.13);
+
+    --text:#ffffff;
+    --muted:rgba(255,255,255,.68);
+
+    --radius:25px;
+
+    --shadow:
+        0 20px 60px rgba(0,0,0,.55);
+
+}
+
+html{
+    scroll-behavior:smooth;
+    overflow-x:hidden;
+}
+
+body{
+
+    min-height:100vh;
+
+    color:var(--text);
+
+    font-family:
+        Arial,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.45),
+            rgba(0,0,0,.72)
+        ),
+        url("A.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    overflow-x:hidden;
+
+}
+
+/* =========================================================
+   BACKGROUND VIDEO
+   ========================================================= */
+
+#backgroundVideo{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    z-index:-3;
+
+    display:none;
+
+}
+
+.background-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at 50% 10%,
+            rgba(139,92,246,.16),
+            transparent 35%
+        ),
+        linear-gradient(
+            rgba(0,0,0,.35),
+            rgba(0,0,0,.75)
+        );
+
+    z-index:-2;
+
+    pointer-events:none;
+
+}
+
+/* =========================================================
+   LOADER
+   ========================================================= */
+
+.loader{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#030305;
+
+    z-index:99999;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:
+        opacity .8s ease,
+        visibility .8s ease;
+
+}
+
+.loader.hide{
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+
+}
+
+.loader-logo{
+
+    width:125px;
+    height:125px;
+
+    border-radius:50%;
+
+    padding:4px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary),
+            var(--accent)
+        );
+
+    box-shadow:
+        0 0 30px rgba(139,92,246,.55),
+        0 0 80px rgba(236,72,153,.22);
+
+    animation:
+        loaderSpin 3s linear infinite;
+
+}
+
+.loader-logo-inner{
+
+    width:100%;
+    height:100%;
+
+    border-radius:50%;
+
+    background:#050507;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:25px;
+
+    font-weight:900;
+
+    letter-spacing:5px;
+
+}
+
+.loader-title{
+
+    margin-top:25px;
+
+    font-size:35px;
+
+    font-weight:900;
+
+    letter-spacing:7px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary),
+            var(--accent)
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+}
+
+.loader-line{
+
+    width:280px;
+    height:5px;
+
+    margin-top:25px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.loader-progress{
+
+    height:100%;
+    width:0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary),
+            var(--accent)
+        );
+
+    box-shadow:0 0 20px var(--primary);
+
+    transition:.2s;
+
+}
+
+.loader-percent{
+
+    margin-top:12px;
+
+    color:var(--muted);
+
+}
+
+@keyframes loaderSpin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:500;
+
+    width:100%;
+
+    padding:13px 20px;
+
+    background:
+        rgba(5,5,8,.65);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.topbar-inner{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+}
+
+.logo{
+
+    font-size:23px;
+
+    font-weight:900;
+
+    letter-spacing:4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+}
+
+.top-actions{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.icon-button{
+
+    width:43px;
+    height:43px;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+    background:rgba(255,255,255,.06);
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-size:18px;
+
+}
+
+.icon-button:hover{
+
+    transform:translateY(-3px);
+
+    border-color:var(--primary);
+
+    box-shadow:
+        0 10px 30px
+        rgba(139,92,246,.25);
+
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main{
+
+    width:100%;
+
+    max-width:1300px;
+
+    margin:auto;
+
+    padding:30px 18px 60px;
+
+}
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.profile{
+
+    text-align:center;
+
+    padding:35px 20px 25px;
+
+}
+
+.profile-picture-wrap{
+
+    display:inline-block;
+
+    padding:4px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary),
+            var(--accent)
+        );
+
+    box-shadow:
+        0 0 40px rgba(139,92,246,.35);
+
+    animation:
+        profileGlow 3s ease-in-out infinite;
+
+}
+
+.profile-picture{
+
+    width:145px;
+    height:145px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    display:block;
+
+    border:5px solid #07070a;
+
+}
+
+.profile-name{
+
+    margin-top:18px;
+
+    font-size:54px;
+
+    font-weight:900;
+
+    letter-spacing:8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary),
+            var(--accent)
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation:nameGlow 3s ease-in-out infinite;
+
+}
+
+.profile-description{
+
+    max-width:700px;
+
+    margin:12px auto;
+
+    color:var(--muted);
+
+    font-size:17px;
+
+    line-height:2;
+
+}
+
+@keyframes profileGlow{
+
+    0%,100%{
+        box-shadow:
+            0 0 35px
+            rgba(139,92,246,.35);
+    }
+
+    50%{
+        box-shadow:
+            0 0 65px
+            rgba(236,72,153,.5);
+    }
+
+}
+
+@keyframes nameGlow{
+
+    0%,100%{
+        filter:drop-shadow(
+            0 0 8px
+            rgba(139,92,246,.2)
+        );
+    }
+
+    50%{
+        filter:drop-shadow(
+            0 0 20px
+            rgba(236,72,153,.45)
+        );
+    }
+
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navigation{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin:10px auto 30px;
+
+}
+
+.nav-btn{
+
+    border:1px solid var(--border);
+
+    background:
+        rgba(10,10,15,.62);
+
+    backdrop-filter:blur(15px);
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+.nav-btn:hover{
+
+    transform:translateY(-3px);
+
+    border-color:var(--primary);
+
+}
+
+.nav-btn.active{
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    border-color:transparent;
+
+    box-shadow:
+        0 10px 35px
+        rgba(139,92,246,.35);
+
+}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section{
+
+    display:none;
+
+    animation:
+        sectionIn .5s ease;
+
+}
+
+.section.active{
+
+    display:block;
+
+}
+
+@keyframes sectionIn{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* =========================================================
+   GLASS CARD
+   ========================================================= */
+
+.glass{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:30px;
+
+    border-radius:var(--radius);
+
+    background:var(--glass);
+
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:var(--shadow);
+
+}
+
+.glass::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:300px;
+    height:300px;
+
+    top:-180px;
+    right:-120px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(139,92,246,.16),
+            transparent 70%
+        );
+
+    pointer-events:none;
+
+}
+
+.section-title{
+
+    text-align:center;
+
+    font-size:28px;
+
+    font-weight:900;
+
+    margin-bottom:25px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--gold),
+            var(--primary)
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+}
+
+/* =========================================================
+   ALBUM
+   ========================================================= */
+
+.album{
+
+    position:relative;
+
+    width:100%;
+
+    height:470px;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:#08080c;
+
+}
+
+.album-item{
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:0;
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+
+    transform:scale(1.05);
+
+}
+
+.album-item.active{
+
+    opacity:1;
+
+    transform:scale(1);
+
+}
+
+.album-item img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.album-item video{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.album-item::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 40%,
+            rgba(0,0,0,.85)
+        );
+
+}
+
+.album-caption{
+
+    position:absolute;
+
+    bottom:45px;
+
+    right:0;
+    left:0;
+
+    z-index:5;
+
+    text-align:center;
+
+    font-size:23px;
+
+    font-weight:900;
+
+    text-shadow:
+        0 5px 25px #000;
+
+}
+
+.album-dots{
+
+    position:absolute;
+
+    bottom:16px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+
+    gap:7px;
+
+    z-index:20;
+
+}
+
+.album-dot{
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.35);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.album-dot.active{
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 15px
+        var(--primary);
+
+    transform:scale(1.4);
+
+}
+
+/* =========================================================
+   GAMES
+   ========================================================= */
+
+.games-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:18px;
+
+}
+
+.game{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    text-align:center;
+
+    transition:.35s;
+
+}
+
+.game:hover{
+
+    transform:
+        translateY(-8px)
+        scale(1.02);
+
+    border-color:
+        rgba(139,92,246,.65);
+
+    box-shadow:
+        0 15px 45px
+        rgba(139,92,246,.2);
+
+}
+
+.game-icon{
+
+    width:70px;
+    height:70px;
+
+    margin:auto auto 14px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:31px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139,92,246,.3),
+            rgba(236,72,153,.25)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    box-shadow:
+        0 0 30px
+        rgba(139,92,246,.2);
+
+}
+
+.game-name{
+
+    font-size:18px;
+
+    font-weight:900;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+}
+
+/* =========================================================
+   MUSIC PLAYER
+   ========================================================= */
+
+.music{
+
+    margin-top:22px;
+
+}
+
+.music-main{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.music-cover{
+
+    width:70px;
+    height:70px;
+
+    border-radius:18px;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+}
+
+.music-info{
+
+    flex:1;
+
+}
+
+.music-title{
+
+    font-weight:900;
+
+    margin-bottom:6px;
+
+}
+
+.music-status{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+}
+
+.music-controls{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:15px;
+
+}
+
+.music-btn{
+
+    width:43px;
+    height:43px;
+
+    border-radius:50%;
+
+    border:1px solid var(--border);
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+.music-btn.main{
+
+    width:52px;
+    height:52px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    border:0;
+
+}
+
+.progress{
+
+    flex:1;
+
+    height:6px;
+
+    appearance:none;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.12);
+
+    cursor:pointer;
+
+}
+
+.progress::-webkit-slider-thumb{
+
+    appearance:none;
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        0 0 12px
+        var(--primary);
+
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+.about-text{
+
+    line-height:2.1;
+
+    color:rgba(255,255,255,.9);
+
+    font-size:17px;
+
+}
+
+.about-highlight{
+
+    color:var(--gold);
+
+    font-weight:900;
+
+}
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+.notes-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(230px,1fr));
+
+    gap:18px;
+
+}
+
+.note{
+
+    position:relative;
+
+    padding:22px;
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    min-height:150px;
+
+    animation:
+        noteFloat 5s ease-in-out infinite;
+
+}
+
+.note:nth-child(2){
+    animation-delay:.6s;
+}
+
+.note:nth-child(3){
+    animation-delay:1.2s;
+}
+
+.note-title{
+
+    font-weight:900;
+
+    color:var(--gold);
+
+    margin-bottom:10px;
+
+}
+
+.note-content{
+
+    color:rgba(255,255,255,.85);
+
+    line-height:1.8;
+
+    white-space:pre-wrap;
+
+}
+
+.note img{
+
+    max-width:100%;
+
+    max-height:200px;
+
+    margin-top:12px;
+
+    border-radius:15px;
+
+}
+
+.note audio{
+
+    width:100%;
+
+    margin-top:12px;
+
+}
+
+@keyframes noteFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-5px);
+    }
+
+}
+
+/* =========================================================
+   SHARED MESSAGE
+   ========================================================= */
+
+.message-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.message{
+
+    padding:18px 20px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    animation:
+        messageIn .5s ease;
+
+}
+
+.message-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:8px;
+
+}
+
+.message-user{
+
+    font-weight:900;
+
+    color:var(--primary);
+
+}
+
+.message-date{
+
+    font-size:11px;
+
+    color:var(--muted);
+
+}
+
+.message-text{
+
+    line-height:1.8;
+
+    color:rgba(255,255,255,.9);
+
+}
+
+.message img{
+
+    max-width:100%;
+
+    max-height:300px;
+
+    margin-top:12px;
+
+    border-radius:15px;
+
+}
+
+@keyframes messageIn{
+
+    from{
+        opacity:0;
+        transform:translateX(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
+
+.notification{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:flex-start;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    margin-bottom:12px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.notification-icon{
+
+    width:45px;
+    height:45px;
+
+    flex-shrink:0;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+}
+
+.notification-title{
+
+    font-weight:900;
+
+    margin-bottom:4px;
+
+}
+
+.notification-date{
+
+    font-size:11px;
+
+    color:var(--muted);
+
+}
+
+/* =========================================================
+   SETTINGS LOGIN
+   ========================================================= */
+
+.settings-login{
+
+    max-width:500px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.lock-icon{
+
+    width:80px;
+    height:80px;
+
+    margin:0 auto 20px;
+
+    border-radius:25px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 15px 45px
+        rgba(139,92,246,.3);
+
+}
+
+.password-input{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:15px 18px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        var(--border);
+
+    outline:none;
+
+    color:white;
+
+    background:
+        rgba(0,0,0,.3);
+
+    text-align:center;
+
+    font-size:16px;
+
+}
+
+.password-input:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:
+        0 0 20px
+        rgba(139,92,246,.18);
+
+}
+
+.primary-button{
+
+    width:100%;
+
+    margin-top:14px;
+
+    padding:15px;
+
+    border:0;
+
+    border-radius:15px;
+
+    color:white;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 12px 30px
+        rgba(139,92,246,.25);
+
+}
+
+/* =========================================================
+   SETTINGS PANEL
+   ========================================================= */
+
+.settings-panel{
+
+    display:none;
+
+}
+
+.settings-panel.open{
+
+    display:block;
+
+    animation:
+        sectionIn .5s ease;
+
+}
+
+.setting-group{
+
+    margin-bottom:25px;
+
+    padding-bottom:25px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.setting-title{
+
+    font-size:18px;
+
+    font-weight:900;
+
+    margin-bottom:14px;
+
+    color:var(--gold);
+
+}
+
+.setting-row{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}
+
+.setting-input,
+.setting-textarea{
+
+    width:100%;
+
+    padding:13px 15px;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(0,0,0,.28);
+
+    color:white;
+
+    outline:none;
+
+    font-family:inherit;
+
+}
+
+.setting-textarea{
+
+    min-height:120px;
+
+    resize:vertical;
+
+}
+
+.file-box{
+
+    position:relative;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    border:
+        1px dashed
+        rgba(139,92,246,.5);
+
+    background:
+        rgba(139,92,246,.05);
+
+    text-align:center;
+
+    cursor:pointer;
+
+}
+
+.file-box input{
+
+    width:100%;
+
+    cursor:pointer;
+
+}
+
+/* =========================================================
+   THEMES
+   ========================================================= */
+
+.theme-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(150px,1fr));
+
+    gap:15px;
+
+}
+
+.theme{
+
+    height:100px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    border:
+        2px solid
+        rgba(255,255,255,.08);
+
+    padding:8px;
+
+    transition:.3s;
+
+}
+
+.theme:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.theme.active{
+
+    border-color:white;
+
+    box-shadow:
+        0 0 25px
+        rgba(255,255,255,.2);
+
+}
+
+.theme-preview{
+
+    width:100%;
+    height:100%;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:center;
+
+    padding-bottom:10px;
+
+    font-weight:900;
+
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+
+    text-align:center;
+
+    padding:30px;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:850px){
+
+    .games-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .album{
+
+        height:350px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .profile-name{
+
+        font-size:38px;
+
+        letter-spacing:5px;
+
+    }
+
+    .profile-picture{
+
+        width:115px;
+        height:115px;
+
+    }
+
+    .glass{
+
+        padding:20px;
+
+    }
+
+    .games-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .album{
+
+        height:270px;
+
+    }
+
+    .music-main{
+
+        flex-wrap:wrap;
+
+    }
+
+    .music-info{
+
+        min-width:calc(100% - 90px);
+
+    }
+
+    .navigation{
+
+        gap:7px;
+
+    }
+
+    .nav-btn{
+
+        padding:10px 14px;
+
+        font-size:12px;
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     LOADER
+     ======================================================= -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-logo">
+
+        <div class="loader-logo-inner">
+            SOLO
+        </div>
+
+    </div>
+
+    <div class="loader-title">
+        SOLO
+    </div>
+
+    <div class="loader-line">
+
+        <div
+            class="loader-progress"
+            id="loaderProgress">
+        </div>
+
+    </div>
+
+    <div
+        class="loader-percent"
+        id="loaderPercent">
+        0%
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     BACKGROUND VIDEO
+     ======================================================= -->
+
+<video
+    id="backgroundVideo"
+    autoplay
+    muted
+    loop
+    playsinline>
+</video>
+
+<div class="background-overlay"></div>
+
+
+<!-- =======================================================
+     TOPBAR
+     ======================================================= -->
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <div class="logo">
+            SOLO
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="icon-button"
+                onclick="openSection('notifications')">
+                🔔
+            </button>
+
+            <button
+                class="icon-button"
+                onclick="openSection('settings')">
+                ⚙️
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
+<main>
+
+    <!-- PROFILE -->
+
+    <section class="profile">
+
+        <div class="profile-picture-wrap">
+
+            <img
+                id="profileImage"
+                class="profile-picture"
+                src="AA.jpg"
+                alt="SOLO">
+
+        </div>
+
+        <h1
+            id="profileName"
+            class="profile-name">
+            SOLO
+        </h1>
+
+        <p
+            id="profileDescription"
+            class="profile-description">
+
+            مرحباً بك في عالمي الصغير 🎮
+            هنا الألعاب، اللحظات الجميلة،
+            الموسيقى وكل الأشياء التي أحبها.
+
+        </p>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+
+        <button
+            class="nav-btn active"
+            data-section="home">
+            🏠 الرئيسية
+        </button>
+
+        <button
+            class="nav-btn"
+            data-section="about">
+            👤 عني
+        </button>
+
+        <button
+            class="nav-btn"
+            data-section="games">
+            🎮 ألعابي
+        </button>
+
+        <button
+            class="nav-btn"
+            data-section="notes">
+            📝 الملاحظات
+        </button>
+
+        <button
+            class="nav-btn"
+            data-section="messages">
+            💌 المراسلة
+        </button>
+
+        <button
+            class="nav-btn"
+            data-section="notifications">
+            🔔 الإشعارات
+        </button>
+
+        <button
+            class="nav-btn"
+            data-section="settings">
+            ⚙️ الإعدادات
+        </button>
+
+    </nav>
+
+
+    <!-- ===================================================
+         HOME
+         =================================================== -->
+
+    <section
+        class="section active"
+        id="home">
+
+        <div class="glass">
+
+            <h2 class="section-title">
+                ✦ عالمي الصغير ✦
+            </h2>
+
+            <div
+                class="album"
+                id="album">
+
+                <!-- 1 -->
+
+                <div
+                    class="album-item active">
+
+                    <img
+                        src="1.jpg"
+                        alt="Album 1">
+
+                </div>
+
+                <!-- 2 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="2.jpg"
+                        alt="Album 2">
+
+                </div>
+
+                <!-- 3 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="3.jpg"
+                        alt="Album 3">
+
+                </div>
+
+                <!-- 4 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="4.jpg"
+                        alt="Album 4">
+
+                </div>
+
+                <!-- 5 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="5.jpg"
+                        alt="Album 5">
+
+                </div>
+
+                <!-- 6 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="6.jpg"
+                        alt="Album 6">
+
+                </div>
+
+                <!-- 7 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="7.jpg"
+                        alt="Album 7">
+
+                </div>
+
+                <!-- 8 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="8.jpg"
+                        alt="Album 8">
+
+                </div>
+
+                <!-- 9 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="9.jpg"
+                        alt="Album 9">
+
+                </div>
+
+                <!-- 10 -->
+
+                <div class="album-item">
+
+                    <img
+                        src="10.jpg"
+                        alt="Album 10">
+
+                </div>
+
+
+                <div
+                    class="album-caption"
+                    id="albumCaption">
+
+                    SOLO GAMING WORLD 🎮
+
+                </div>
+
+                <div
+                    class="album-dots"
+                    id="albumDots">
+                </div>
+
+            </div>
+
+
+            <!-- MUSIC -->
+
+            <div class="music">
+
+                <div class="music-main">
+
+                    <img
+                        src="AA.jpg"
+                        class="music-cover"
+                        id="musicCover">
+
+                    <div class="music-info">
+
+                        <div
+                            class="music-title"
+                            id="musicTitle">
+
+                            أغنيتي المفضلة 🎵
+
+                        </div>
+
+                        <div
+                            class="music-status"
+                            id="musicStatus">
+
+                            متوقف
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="music-controls">
+
+                    <button
+                        class="music-btn"
+                        onclick="rewindMusic()">
+                        ↶
+                    </button>
+
+                    <button
+                        class="music-btn main"
+                        id="playButton"
+                        onclick="toggleMusic()">
+                        ▶
+                    </button>
+
+                    <button
+                        class="music-btn"
+                        onclick="forwardMusic()">
+                        ↷
+                    </button>
+
+                    <input
+                        class="progress"
+                        id="musicProgress"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="0">
+
+                </div>
+
+                <audio
+                    id="audioPlayer"
+                    src="1.mp3"
+                    preload="metadata">
+                </audio>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         ABOUT
+         =================================================== -->
+
+    <section
+        class="section"
+        id="about">
+
+        <div class="glass">
+
+            <h2 class="section-title">
+                ✦ عن SOLO ✦
+            </h2>
+
+            <div class="about-text">
+
+                <p>
+                    أهلاً بك في عالمي الصغير.
+                    أنا <span
+                    class="about-highlight">SOLO</span>،
+                    أحب الألعاب والموسيقى
+                    واللحظات التي تستحق أن تبقى.
+                </p>
+
+                <br>
+
+                <p>
+                    هذا الموقع مساحة خاصة بي،
+                    أشارك فيها ألعابي المفضلة،
+                    صوري، ملاحظاتي وأشياء جميلة
+                    يمكن أن تبقى بيني وبين الشخص
+                    المقرب مني.
+                </p>
+
+                <br>
+
+                <p>
+                    🎮 Gaming
+                    <br>
+                    🎵 Music
+                    <br>
+                    🖤 Memories
+                    <br>
+                    ✨ Our Little World
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         GAMES
+         =================================================== -->
+
+    <section
+        class="section"
+        id="games">
+
+        <div class="glass">
+
+            <h2 class="section-title">
+                🎮 ألعابي
+            </h2>
+
+            <div class="games-grid">
+
+                <div class="game">
+
+                    <div class="game-icon">
+                        ⚔️
+                    </div>
+
+                    <div class="game-name">
+                        Elden Ring
+                    </div>
+
+                </div>
+
+                <div class="game">
+
+                    <div class="game-icon">
+                        🗡️
+                    </div>
+
+                    <div class="game-name">
+                        Dark Souls
+                    </div>
+
+                </div>
+
+                <div class="game">
+
+                    <div class="game-icon">
+                        🥷
+                    </div>
+
+                    <div class="game-name">
+                        Sekiro
+                    </div>
+
+                </div>
+
+                <div class="game">
+
+                    <div class="game-icon">
+                        👊
+                    </div>
+
+                    <div class="game-name">
+                        Tekken
+                    </div>
+
+                </div>
+
+                <div class="game">
+
+                    <div class="game-icon">
+                        🔥
+                    </div>
+
+                    <div class="game-name">
+                        Street Fighter
+                    </div>
+
+                </div>
+
+                <div class="game">
+
+                    <div class="game-icon">
+                        🎯
+                    </div>
+
+                    <div class="game-name">
+                        Valorant
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         NOTES
+         =================================================== -->
+
+    <section
+        class="section"
+        id="notes">
+
+        <div class="glass">
+
+            <h2 class="section-title">
+                📝 ملاحظاتنا
+            </h2>
+
+            <div
+                class="notes-grid"
+                id="notesContainer">
+
+                <div class="note">
+
+                    <div class="note-title">
+                        💜 ملاحظة
+                    </div>
+
+                    <div class="note-content">
+                        هذه المساحة يمكن أن تحتوي
+                        على ذكرى أو رسالة أو شيء
+                        جميل بيننا.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         MESSAGES
+         =================================================== -->
+
+    <section
+        class="section"
+        id="messages">
+
+        <div class="glass">
+
+            <h2 class="section-title">
+                💌 المراسلة
+            </h2>
+
+            <div
+                class="message-list"
+                id="messageList">
+
+                <div class="message">
+
+                    <div class="message-header">
+
+                        <span class="message-user">
+                            SOLO
+                        </span>
+
+                        <span class="message-date">
+                            الآن
+                        </span>
+
+                    </div>
+
+                    <div class="message-text">
+
+                        مرحباً بك في مساحتنا الصغيرة 🤍
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         NOTIFICATIONS
+         =================================================== -->
+
+    <section
+        class="section"
+        id="notifications">
+
+        <div class="glass">
+
+            <h2 class="section-title">
+                🔔 الإشعارات
+            </h2>
+
+            <div id="notificationList">
+
+                <div class="notification">
+
+                    <div class="notification-icon">
+                        ✨
+                    </div>
+
+                    <div>
+
+                        <div class="notification-title">
+                            مرحباً SOLO
+                        </div>
+
+                        <div>
+                            هذا قسم الإشعارات المشتركة
+                            بين SOKO و SOLO.
+                        </div>
+
+                        <div class="notification-date">
+                            الآن
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SETTINGS
+         =================================================== -->
+
+    <section
+        class="section"
+        id="settings">
+
+        <!-- LOGIN -->
+
+        <div
+            class="glass settings-login"
+            id="settingsLogin">
+
+            <div class="lock-icon">
+                🔐
+            </div>
+
+            <h2 class="section-title">
+                الإعدادات الخاصة
+            </h2>
+
+            <p
+                style="color:var(--muted);line-height:1.8">
+
+                أدخل كلمة المرور للوصول
+                إلى إعدادات SOLO.
+
+            </p>
+
+            <input
+                id="passwordInput"
+                class="password-input"
+                type="password"
+                placeholder="كلمة المرور">
+
+            <button
+                class="primary-button"
+                onclick="loginSettings()">
+
+                🔓 فتح الإعدادات
+
+            </button>
+
+            <div
+                id="loginMessage"
+                style="
+                    margin-top:12px;
+                    color:#ff7b9c;
+                ">
+            </div>
+
+        </div>
+
+
+        <!-- PANEL -->
+
+        <div
+            class="glass settings-panel"
+            id="settingsPanel">
+
+            <h2 class="section-title">
+                ⚙️ لوحة تحكم SOLO
+            </h2>
+
+
+            <!-- PROFILE -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    👤 معلومات الموقع
+                </div>
+
+                <input
+                    id="settingName"
+                    class="setting-input"
+                    placeholder="اسم الموقع">
+
+                <br><br>
+
+                <textarea
+                    id="settingDescription"
+                    class="setting-textarea"
+                    placeholder="الوصف">
+                </textarea>
+
+                <br><br>
+
+                <div class="file-box">
+
+                    🖼️ تغيير الصورة المصغرة
+
+                    <input
+                        type="file"
+                        id="profileFile"
+                        accept="image/*">
+
+                </div>
+
+            </div>
+
+
+            <!-- ALBUM -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    🖼️ ألبوم الصور
+                </div>
+
+                <p
+                    style="
+                        color:var(--muted);
+                        margin-bottom:15px">
+
+                    يمكنك استبدال الصور العشرة
+                    بصورة أو GIF أو فيديو.
+
+                </p>
+
+                <div
+                    id="albumInputs">
+                </div>
+
+            </div>
+
+
+            <!-- BACKGROUND -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    🌌 الخلفية
+                </div>
+
+                <div class="file-box">
+
+                    اختر صورة أو فيديو للخلفية
+
+                    <input
+                        type="file"
+                        id="backgroundFile"
+                        accept="image/*,video/*">
+
+                </div>
+
+            </div>
+
+
+            <!-- MUSIC -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    🎵 الأغنية
+                </div>
+
+                <div class="file-box">
+
+                    اختر أغنية
+
+                    <input
+                        type="file"
+                        id="musicFile"
+                        accept="audio/*">
+
+                </div>
+
+            </div>
+
+
+            <!-- GAMES -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    🎮 أسماء الألعاب
+                </div>
+
+                <input
+                    class="setting-input"
+                    value="Elden Ring">
+
+                <br><br>
+
+                <input
+                    class="setting-input"
+                    value="Dark Souls">
+
+                <br><br>
+
+                <input
+                    class="setting-input"
+                    value="Sekiro">
+
+                <br><br>
+
+                <input
+                    class="setting-input"
+                    value="Tekken">
+
+                <br><br>
+
+                <input
+                    class="setting-input"
+                    value="Street Fighter">
+
+                <br><br>
+
+                <input
+                    class="setting-input"
+                    value="Valorant">
+
+            </div>
+
+
+            <!-- THEMES -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    🎨 القوالب
+                </div>
+
+                <div class="theme-grid">
+
+                    <div
+                        class="theme active"
+                        onclick="setTheme('purple')">
+
+                        <div
+                            class="theme-preview"
+                            style="
+                            background:
+                            linear-gradient(
+                            135deg,
+                            #8b5cf6,
+                            #ec4899
+                            );">
+
+                            SOLO
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="theme"
+                        onclick="setTheme('blue')">
+
+                        <div
+                            class="theme-preview"
+                            style="
+                            background:
+                            linear-gradient(
+                            135deg,
+                            #00d4ff,
+                            #2563eb
+                            );">
+
+                            SOLO
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="theme"
+                        onclick="setTheme('red')">
+
+                        <div
+                            class="theme-preview"
+                            style="
+                            background:
+                            linear-gradient(
+                            135deg,
+                            #ef4444,
+                            #7f1d1d
+                            );">
+
+                            SOLO
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="theme"
+                        onclick="setTheme('gold')">
+
+                        <div
+                            class="theme-preview"
+                            style="
+                            background:
+                            linear-gradient(
+                            135deg,
+                            #ffd166,
+                            #92400e
+                            );">
+
+                            SOLO
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="theme"
+                        onclick="setTheme('green')">
+
+                        <div
+                            class="theme-preview"
+                            style="
+                            background:
+                            linear-gradient(
+                            135deg,
+                            #10b981,
+                            #064e3b
+                            );">
+
+                            SOLO
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="setting-group">
+
+                <div class="setting-title">
+                    🔐 كلمة المرور
+                </div>
+
+                <input
+                    id="newPassword"
+                    class="setting-input"
+                    type="password"
+                    placeholder="كلمة المرور الجديدة">
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="saveSettings()">
+
+                💾 حفظ التغييرات
+
+            </button>
+
+
+            <button
+                class="primary-button"
+                style="
+                margin-top:10px;
+                background:
+                rgba(255,255,255,.08);"
+                onclick="logoutSettings()">
+
+                🔒 قفل الإعدادات
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    SOLO × SOKO
+    <br>
+    Made with 🤍
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   SOLO CORE
+   ========================================================= */
+
+const DEFAULT_DATA = {
+
+    profile:{
+        name:"SOLO",
+        description:
+        "مرحباً بك في عالمي الصغير 🎮 هنا الألعاب واللحظات الجميلة والموسيقى.",
+        image:"AA.jpg"
+    },
+
+    background:{
+        type:"image",
+        source:"A.jpg"
+    },
+
+    music:{
+        source:"1.mp3",
+        title:"أغنيتي المفضلة 🎵"
+    },
+
+    album:[
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg",
+        "6.jpg",
+        "7.jpg",
+        "8.jpg",
+        "9.jpg",
+        "10.jpg"
+    ],
+
+    games:[
+        "Elden Ring",
+        "Dark Souls",
+        "Sekiro",
+        "Tekken",
+        "Street Fighter",
+        "Valorant"
+    ],
+
+    notes:[],
+
+    sharedMessages:[],
+
+    notifications:[],
+
+    theme:"purple"
+
+};
+
+
+/* =========================================================
+   DATA
+   ========================================================= */
+
+let siteData =
+    JSON.parse(
+        localStorage.getItem("SOLO_DATA")
+    ) || DEFAULT_DATA;
+
+
+/*
+   ملاحظة:
+
+   هذا التخزين محلي للنسخة التجريبية.
+
+   عند ربط الموقع بـ GitHub API
+   أو Backend يمكن استبداله بطلبات
+   fetch إلى data.json.
+*/
+
+
+function saveLocalData(){
+
+    localStorage.setItem(
+        "SOLO_DATA",
+        JSON.stringify(siteData)
+    );
+
+}
+
+
+/* =========================================================
+   LOADER
+   ========================================================= */
+
+let loading = 0;
+
+const loaderTimer =
+    setInterval(()=>{
+
+        loading +=
+            Math.floor(
+                Math.random()*15
+            ) + 5;
+
+        if(loading > 100)
+            loading = 100;
+
+        document
+            .getElementById(
+                "loaderProgress"
+            )
+            .style.width =
+            loading + "%";
+
+        document
+            .getElementById(
+                "loaderPercent"
+            )
+            .textContent =
+            loading + "%";
+
+        if(loading >= 100){
+
+            clearInterval(loaderTimer);
+
+            setTimeout(()=>{
+
+                document
+                    .getElementById(
+                        "loader"
+                    )
+                    .classList.add("hide");
+
+            },500);
+
+        }
+
+    },120);
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+const navButtons =
+    document.querySelectorAll(
+        ".nav-btn"
+    );
+
+const sections =
+    document.querySelectorAll(
+        ".section"
+    );
+
+
+navButtons.forEach(button=>{
+
+    button.addEventListener(
+        "click",
+        ()=>{
+
+            const target =
+                button.dataset.section;
+
+            openSection(target);
+
+        }
+    );
+
+});
+
+
+function openSection(name){
+
+    navButtons.forEach(btn=>{
+
+        btn.classList.toggle(
+            "active",
+            btn.dataset.section === name
+        );
+
+    });
+
+
+    sections.forEach(section=>{
+
+        section.classList.toggle(
+            "active",
+            section.id === name
+        );
+
+    });
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+function renderProfile(){
+
+    document
+        .getElementById("profileName")
+        .textContent =
+        siteData.profile.name;
+
+
+    document
+        .getElementById("profileDescription")
+        .textContent =
+        siteData.profile.description;
+
+
+    document
+        .getElementById("profileImage")
+        .src =
+        siteData.profile.image;
+
+}
+
+
+renderProfile();
+
+
+/* =========================================================
+   ALBUM
+   ========================================================= */
+
+const album =
+    document.getElementById("album");
+
+let currentSlide = 0;
+
+function createAlbum(){
+
+    const old =
+        album.querySelectorAll(
+            ".album-item"
+        );
+
+    old.forEach(x=>x.remove());
+
+    const dots =
+        document.getElementById(
+            "albumDots"
+        );
+
+    dots.innerHTML="";
+
+
+    siteData.album
+        .forEach((source,index)=>{
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "album-item" +
+                (index===0
+                    ? " active"
+                    : "");
+
+
+            const lower =
+                source
+                .split("?")[0]
+                .toLowerCase();
+
+
+            if(
+                lower.endsWith(".mp4") ||
+                lower.endsWith(".webm") ||
+                lower.endsWith(".mov")
+            ){
+
+                const video =
+                    document.createElement(
+                        "video"
+                    );
+
+                video.src = source;
+
+                video.autoplay=true;
+                video.muted=true;
+                video.loop=true;
+                video.playsInline=true;
+
+                item.appendChild(video);
+
+            }else{
+
+                const img =
+                    document.createElement(
+                        "img"
+                    );
+
+                img.src=source;
+
+                item.appendChild(img);
+
+            }
+
+
+            album.appendChild(item);
+
+
+            const dot =
+                document.createElement(
+                    "div"
+                );
+
+            dot.className =
+                "album-dot" +
+                (index===0
+                    ? " active"
+                    : "");
+
+            dot.onclick =
+                ()=>goSlide(index);
+
+            dots.appendChild(dot);
+
+        });
+
+}
+
+
+function goSlide(index){
+
+    const slides =
+        album.querySelectorAll(
+            ".album-item"
+        );
+
+    const dots =
+        document.querySelectorAll(
+            ".album-dot"
+        );
+
+    if(!slides.length)
+        return;
+
+    slides[currentSlide]
+        ?.classList
+        .remove("active");
+
+    dots[currentSlide]
+        ?.classList
+        .remove("active");
+
+
+    currentSlide=index;
+
+
+    slides[currentSlide]
+        ?.classList
+        .add("active");
+
+    dots[currentSlide]
+        ?.classList
+        .add("active");
+
+}
+
+
+function nextSlide(){
+
+    const length =
+        siteData.album.length;
+
+    if(!length)
+        return;
+
+    goSlide(
+        (currentSlide+1)%length
+    );
+
+}
+
+
+createAlbum();
+
+setInterval(
+    nextSlide,
+    4000
+);
+
+
+/* =========================================================
+   MUSIC
+   ========================================================= */
+
+const audio =
+    document.getElementById(
+        "audioPlayer"
+    );
+
+const playButton =
+    document.getElementById(
+        "playButton"
+    );
+
+const progress =
+    document.getElementById(
+        "musicProgress"
+    );
+
+
+function loadMusic(){
+
+    audio.src =
+        siteData.music.source;
+
+    document
+        .getElementById(
+            "musicTitle"
+        )
+        .textContent =
+        siteData.music.title;
+
+}
+
+
+loadMusic();
+
+
+function toggleMusic(){
+
+    if(audio.paused){
+
+        audio.play()
+        .then(()=>{
+
+            playButton
+                .textContent="⏸";
+
+            document
+                .getElementById(
+                    "musicStatus"
+                )
+                .textContent =
+                "يعمل الآن 🎵";
+
+        })
+        .catch(()=>{
+
+            document
+                .getElementById(
+                    "musicStatus"
+                )
+                .textContent =
+                "اضغط مرة أخرى للتشغيل";
+
+        });
+
+    }else{
+
+        audio.pause();
+
+        playButton
+            .textContent="▶";
+
+        document
+            .getElementById(
+                "musicStatus"
+            )
+            .textContent =
+            "متوقف";
+
+    }
+
+}
+
+
+audio.addEventListener(
+    "timeupdate",
+    ()=>{
+
+        if(audio.duration){
+
+            progress.value =
+                (
+                    audio.currentTime /
+                    audio.duration
+                ) * 100;
+
+        }
+
+    }
+);
+
+
+progress.addEventListener(
+    "input",
+    ()=>{
+
+        if(audio.duration){
+
+            audio.currentTime =
+                (
+                    progress.value /
+                    100
+                ) * audio.duration;
+
+        }
+
+    }
+);
+
+
+audio.addEventListener(
+    "ended",
+    ()=>{
+
+        playButton
+            .textContent="▶";
+
+        document
+            .getElementById(
+                "musicStatus"
+            )
+            .textContent =
+            "انتهت الأغنية";
+
+    }
+);
+
+
+function rewindMusic(){
+
+    audio.currentTime =
+        Math.max(
+            0,
+            audio.currentTime-10
+        );
+
+}
+
+
+function forwardMusic(){
+
+    audio.currentTime =
+        Math.min(
+            audio.duration || 0,
+            audio.currentTime+10
+        );
+
+}
+
+
+/* =========================================================
+   SETTINGS PASSWORD
+   ========================================================= */
+
+const DEFAULT_PASSWORD =
+    "SOLO";
+
+
+function getPassword(){
+
+    return localStorage.getItem(
+        "SOLO_PASSWORD"
+    ) || DEFAULT_PASSWORD;
+
+}
+
+
+function loginSettings(){
+
+    const value =
+        document
+        .getElementById(
+            "passwordInput"
+        )
+        .value;
+
+
+    if(value === getPassword()){
+
+        document
+            .getElementById(
+                "settingsLogin"
+            )
+            .style.display="none";
+
+
+        document
+            .getElementById(
+                "settingsPanel"
+            )
+            .classList
+            .add("open");
+
+
+        loadSettings();
+
+    }else{
+
+        document
+            .getElementById(
+                "loginMessage"
+            )
+            .textContent =
+            "كلمة المرور غير صحيحة.";
+
+    }
+
+}
+
+
+function logoutSettings(){
+
+    document
+        .getElementById(
+            "settingsPanel"
+        )
+        .classList
+        .remove("open");
+
+
+    document
+        .getElementById(
+            "settingsLogin"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "passwordInput"
+        )
+        .value="";
+
+}
+
+
+/* =========================================================
+   ALBUM SETTINGS INPUTS
+   ========================================================= */
+
+function createAlbumInputs(){
+
+    const container =
+        document.getElementById(
+            "albumInputs"
+        );
+
+    container.innerHTML="";
+
+
+    for(
+        let i=0;
+        i<10;
+        i++
+    ){
+
+        const box =
+            document.createElement(
+                "div"
+            );
+
+        box.className =
+            "file-box";
+
+        box.style.marginBottom =
+            "10px";
+
+
+        box.innerHTML =
+            `
+            🖼️ الألبوم ${i+1}
+
+            <input
+                type="file"
+                accept="image/*,video/*"
+                data-album-index="${i}">
+            `;
+
+
+        container.appendChild(box);
+
+
+        const input =
+            box.querySelector(
+                "input"
+            );
+
+
+        input.addEventListener(
+            "change",
+            event=>{
+
+                const file =
+                    event.target.files[0];
+
+                if(!file)
+                    return;
+
+
+                const localURL =
+                    URL.createObjectURL(
+                        file
+                    );
+
+
+                /*
+                    للاستخدام الفوري داخل الصفحة.
+                    عند وجود Backend/GitHub upload
+                    يتم رفع الملف ثم حفظ الرابط.
+                */
+
+                siteData.album[i] =
+                    localURL;
+
+                saveLocalData();
+
+                createAlbum();
+
+            }
+        );
+
+    }
+
+}
+
+
+createAlbumInputs();
+
+
+/* =========================================================
+   SETTINGS LOAD
+   ========================================================= */
+
+function loadSettings(){
+
+    document
+        .getElementById(
+            "settingName"
+        )
+        .value =
+        siteData.profile.name;
+
+
+    document
+        .getElementById(
+            "settingDescription"
+        )
+        .value =
+        siteData.profile.description;
+
+}
+
+
+/* =========================================================
+   PROFILE IMAGE UPLOAD
+   ========================================================= */
+
+document
+.getElementById(
+    "profileFile"
+)
+.addEventListener(
+    "change",
+    event=>{
+
+        const file =
+            event.target.files[0];
+
+        if(!file)
+            return;
+
+
+        const url =
+            URL.createObjectURL(
+                file
+            );
+
+
+        siteData.profile.image =
+            url;
+
+        saveLocalData();
+
+        renderProfile();
+
+    }
+);
+
+
+/* =========================================================
+   BACKGROUND UPLOAD
+   ========================================================= */
+
+document
+.getElementById(
+    "backgroundFile"
+)
+.addEventListener(
+    "change",
+    event=>{
+
+        const file =
+            event.target.files[0];
+
+        if(!file)
+            return;
+
+
+        const url =
+            URL.createObjectURL(
+                file
+            );
+
+
+        siteData.background.source =
+            url;
+
+
+        if(file.type.startsWith("video/")){
+
+            siteData.background.type =
+                "video";
+
+        }else{
+
+            siteData.background.type =
+                "image";
+
+        }
+
+
+        saveLocalData();
+
+        renderBackground();
+
+    }
+);
+
+
+/* =========================================================
+   MUSIC UPLOAD
+   ========================================================= */
+
+document
+.getElementById(
+    "musicFile"
+)
+.addEventListener(
+    "change",
+    event=>{
+
+        const file =
+            event.target.files[0];
+
+        if(!file)
+            return;
+
+
+        siteData.music.source =
+            URL.createObjectURL(
+                file
+            );
+
+
+        siteData.music.title =
+            file.name;
+
+
+        saveLocalData();
+
+        loadMusic();
+
+    }
+);
+
+
+/* =========================================================
+   BACKGROUND RENDER
+   ========================================================= */
+
+function renderBackground(){
+
+    const video =
+        document.getElementById(
+            "backgroundVideo"
+        );
+
+
+    if(
+        siteData.background.type ===
+        "video"
+    ){
+
+        video.src =
+            siteData.background.source;
+
+        video.style.display =
+            "block";
+
+
+        document.body.style.background =
+            "#050507";
+
+        video.play()
+        .catch(()=>{});
+
+    }else{
+
+        video.pause();
+
+        video.removeAttribute(
+            "src"
+        );
+
+        video.style.display =
+            "none";
+
+
+        document.body.style.background =
+            `
+            linear-gradient(
+                rgba(0,0,0,.45),
+                rgba(0,0,0,.72)
+            ),
+            url("${siteData.background.source}")
+            `;
+
+        document.body.style
+            .backgroundSize="cover";
+
+        document.body.style
+            .backgroundPosition="center";
+
+        document.body.style
+            .backgroundAttachment="fixed";
+
+    }
+
+}
+
+
+renderBackground();
+
+
+/* =========================================================
+   SAVE SETTINGS
+   ========================================================= */
+
+function saveSettings(){
+
+    const name =
+        document
+        .getElementById(
+            "settingName"
+        )
+        .value
+        .trim();
+
+
+    const description =
+        document
+        .getElementById(
+            "settingDescription"
+        )
+        .value
+        .trim();
+
+
+    if(name){
+
+        siteData.profile.name =
+            name;
+
+    }
+
+
+    if(description){
+
+        siteData.profile.description =
+            description;
+
+    }
+
+
+    const newPassword =
+        document
+        .getElementById(
+            "newPassword"
+        )
+        .value
+        .trim();
+
+
+    if(newPassword){
+
+        localStorage.setItem(
+            "SOLO_PASSWORD",
+            newPassword
+        );
+
+        document
+            .getElementById(
+                "newPassword"
+            )
+            .value="";
+
+    }
+
+
+    saveLocalData();
+
+    renderProfile();
+
+    renderBackground();
+
+    createAlbum();
+
+    showSaveMessage();
+
+}
+
+
+function showSaveMessage(){
+
+    const button =
+        document.querySelector(
+            "#settingsPanel .primary-button"
+        );
+
+
+    const old =
+        button.textContent;
+
+
+    button.textContent =
+        "✓ تم حفظ التغييرات";
+
+
+    setTimeout(()=>{
+
+        button.textContent =
+            old;
+
+    },1800);
+
+}
+
+
+/* =========================================================
+   THEMES
+   ========================================================= */
+
+const THEMES={
+
+    purple:{
+        primary:"#8b5cf6",
+        secondary:"#ec4899",
+        accent:"#00d4ff"
+    },
+
+    blue:{
+        primary:"#00d4ff",
+        secondary:"#2563eb",
+        accent:"#8b5cf6"
+    },
+
+    red:{
+        primary:"#ef4444",
+        secondary:"#991b1b",
+        accent:"#ff006e"
+    },
+
+    gold:{
+        primary:"#ffd166",
+        secondary:"#b45309",
+        accent:"#fff1a8"
+    },
+
+    green:{
+        primary:"#10b981",
+        secondary:"#047857",
+        accent:"#22d3ee"
+    }
+
+};
+
+
+function setTheme(name){
+
+    const theme =
+        THEMES[name];
+
+    if(!theme)
+        return;
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--primary",
+            theme.primary
+        );
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--secondary",
+            theme.secondary
+        );
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--accent",
+            theme.accent
+        );
+
+
+    siteData.theme =
+        name;
+
+    saveLocalData();
+
+
+    document
+        .querySelectorAll(
+            ".theme"
+        )
+        .forEach((element,index)=>{
+
+            element.classList
+                .remove("active");
+
+            if(
+                ["purple",
+                 "blue",
+                 "red",
+                 "gold",
+                 "green"][index]
+                === name
+            ){
+
+                element.classList
+                    .add("active");
+
+            }
+
+        });
+
+}
+
+
+setTheme(
+    siteData.theme || "purple"
+);
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+function renderNotes(){
+
+    const container =
+        document.getElementById(
+            "notesContainer"
+        );
+
+
+    if(
+        !siteData.notes ||
+        !siteData.notes.length
+    ){
+
+        container.innerHTML=`
+            <div class="note">
+
+                <div class="note-title">
+                    📝 لا توجد ملاحظات
+                </div>
+
+                <div class="note-content">
+                    يمكنك إضافة ملاحظة
+                    من الإعدادات لاحقاً.
+                </div>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    siteData.notes.forEach(
+        note=>{
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+            element.className =
+                "note";
+
+
+            element.innerHTML =
+                `
+                <div class="note-title">
+                    ${escapeHTML(
+                        note.title ||
+                        "ملاحظة"
+                    )}
+                </div>
+
+                <div class="note-content">
+                    ${escapeHTML(
+                        note.text || ""
+                    )}
+                </div>
+                `;
+
+
+            if(note.image){
+
+                element.innerHTML +=
+                    `
+                    <img
+                    src="${note.image}">
+                    `;
+
+            }
+
+
+            if(note.audio){
+
+                element.innerHTML +=
+                    `
+                    <audio
+                    controls
+                    src="${note.audio}">
+                    </audio>
+                    `;
+
+            }
+
+
+            container.appendChild(
+                element
+            );
+
+        }
+    );
+
+}
+
+
+renderNotes();
+
+
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
+
+function renderNotifications(){
+
+    const container =
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    if(
+        !siteData.notifications ||
+        !siteData.notifications.length
+    ){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    [...siteData.notifications]
+    .reverse()
+    .forEach(notification=>{
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+        item.className =
+            "notification";
+
+
+        item.innerHTML =
+            `
+            <div class="notification-icon">
+                ${notification.icon || "🔔"}
+            </div>
+
+            <div>
+
+                <div class="notification-title">
+                    ${escapeHTML(
+                        notification.title ||
+                        "إشعار"
+                    )}
+                </div>
+
+                <div>
+                    ${escapeHTML(
+                        notification.text ||
+                        ""
+                    )}
+                </div>
+
+                <div class="notification-date">
+                    ${escapeHTML(
+                        notification.date ||
+                        ""
+                    )}
+                </div>
+
+            </div>
+            `;
+
+
+        container.appendChild(
+            item
+        );
+
+    });
+
+}
+
+
+renderNotifications();
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+function renderMessages(){
+
+    const container =
+        document.getElementById(
+            "messageList"
+        );
+
+
+    if(
+        !siteData.sharedMessages ||
+        !siteData.sharedMessages.length
+    ){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    [...siteData.sharedMessages]
+    .reverse()
+    .forEach(message=>{
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+        item.className =
+            "message";
+
+
+        item.innerHTML =
+            `
+            <div class="message-header">
+
+                <span class="message-user">
+                    ${escapeHTML(
+                        message.user ||
+                        "SOLO"
+                    )}
+                </span>
+
+                <span class="message-date">
+                    ${escapeHTML(
+                        message.date ||
+                        ""
+                    )}
+                </span>
+
+            </div>
+
+            <div class="message-text">
+                ${escapeHTML(
+                    message.text ||
+                    ""
+                )}
+            </div>
+            `;
+
+
+        if(message.image){
+
+            item.innerHTML +=
+                `
+                <img
+                src="${message.image}">
+                `;
+
+        }
+
+
+        container.appendChild(
+            item
+        );
+
+    });
+
+}
+
+
+renderMessages();
+
+
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   DISABLE CONTEXT MENU
+   ========================================================= */
+
+document.addEventListener(
+    "contextmenu",
+    event=>{
+        event.preventDefault();
+    }
+);
+
+
+/* =========================================================
+   DISABLE DRAG
+   ========================================================= */
+
+document.addEventListener(
+    "dragstart",
+    event=>{
+        event.preventDefault();
+    }
+);
+
+
+/* =========================================================
+   DISABLE COPY
+   ========================================================= */
+
+document.addEventListener(
+    "copy",
+    event=>{
+        event.preventDefault();
+    }
+);
+
+
+/* =========================================================
+   DISABLE CUT
+   ========================================================= */
+
+document.addEventListener(
+    "cut",
+    event=>{
+        event.preventDefault();
+    }
+);
+
+
+/* =========================================================
+   DISABLE SELECT
+   ========================================================= */
+
+document.addEventListener(
+    "selectstart",
+    event=>{
+        event.preventDefault();
+    }
+);
+
+
+/* =========================================================
+   MOBILE ZOOM
+   ========================================================= */
+
+let lastTouchEnd=0;
+
+document.addEventListener(
+    "touchend",
+    event=>{
+
+        const now =
+            Date.now();
+
+        if(
+            now-lastTouchEnd <= 300
+        ){
+
+            event.preventDefault();
+
+        }
+
+        lastTouchEnd=now;
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD PROTECTION
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            (event.ctrlKey ||
+             event.metaKey) &&
+            [
+                "c",
+                "x",
+                "u",
+                "s",
+                "a"
+            ].includes(
+                event.key.toLowerCase()
+            )
+        ){
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FINAL INIT
+   ========================================================= */
+
+window.addEventListener(
+    "load",
+    ()=>{
+
+        renderProfile();
+
+        renderBackground();
+
+        createAlbum();
+
+        loadMusic();
+
+        renderNotes();
+
+        renderMessages();
+
+        renderNotifications();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

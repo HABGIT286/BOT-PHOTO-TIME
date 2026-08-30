@@ -1,0 +1,269 @@
+{
+  "version": 1,
+  "updatedAt": "",
+
+  "SOKO": {
+    "name": "SOKO",
+    "password": "SOKO",
+
+    "profile": {
+      "file": "AA.jpg",
+      "type": "image"
+    },
+
+    "background": {
+      "file": "A.jpg",
+      "type": "image"
+    },
+
+    "music": {
+      "file": "1.mp3",
+      "type": "audio"
+    },
+
+    "album": [
+      {
+        "id": 1,
+        "file": "1.jpg",
+        "type": "image"
+      },
+      {
+        "id": 2,
+        "file": "2.jpg",
+        "type": "image"
+      },
+      {
+        "id": 3,
+        "file": "3.jpg",
+        "type": "image"
+      },
+      {
+        "id": 4,
+        "file": "4.jpg",
+        "type": "image"
+      },
+      {
+        "id": 5,
+        "file": "5.jpg",
+        "type": "image"
+      },
+      {
+        "id": 6,
+        "file": "6.jpg",
+        "type": "image"
+      },
+      {
+        "id": 7,
+        "file": "7.jpg",
+        "type": "image"
+      },
+      {
+        "id": 8,
+        "file": "8.jpg",
+        "type": "image"
+      },
+      {
+        "id": 9,
+        "file": "9.jpg",
+        "type": "image"
+      },
+      {
+        "id": 10,
+        "file": "10.jpg",
+        "type": "image"
+      }
+    ],
+
+    "games": [
+      {
+        "name": "Dark Souls",
+        "icon": "fa-solid fa-skull"
+      },
+      {
+        "name": "Elden Ring",
+        "icon": "fa-solid fa-ring"
+      },
+      {
+        "name": "Sekiro",
+        "icon": "fa-solid fa-khanda"
+      },
+      {
+        "name": "Tekken",
+        "icon": "fa-solid fa-hand-fist"
+      },
+      {
+        "name": "Street Fighter",
+        "icon": "fa-solid fa-bolt"
+      },
+      {
+        "name": "Roblox",
+        "icon": "fa-solid fa-cube"
+      }
+    ],
+
+    "description": "مرحباً بك في عالمي الصغير 🎮",
+
+    "social": {
+      "discord": "",
+      "tiktok": "",
+      "spotify": "",
+      "roblox": ""
+    },
+
+    "font": "Cairo",
+
+    "text": {
+      "color": "#00d4ff",
+      "effect": "glow",
+      "animation": "shine"
+    },
+
+    "theme": {
+      "name": "default",
+      "primary": "#00d4ff",
+      "secondary": "#7b2cbf",
+      "accent": "#ff006e"
+    },
+
+    "template": "template1",
+
+    "dailyNotes": []
+  },
+
+
+  "SOLO": {
+    "name": "SOLO",
+    "password": "SOLO",
+
+    "profile": {
+      "file": "AA.jpg",
+      "type": "image"
+    },
+
+    "background": {
+      "file": "A.jpg",
+      "type": "image"
+    },
+
+    "music": {
+      "file": "1.mp3",
+      "type": "audio"
+    },
+
+    "album": [
+      {
+        "id": 1,
+        "file": "1.jpg",
+        "type": "image"
+      },
+      {
+        "id": 2,
+        "file": "2.jpg",
+        "type": "image"
+      },
+      {
+        "id": 3,
+        "file": "3.jpg",
+        "type": "image"
+      },
+      {
+        "id": 4,
+        "file": "4.jpg",
+        "type": "image"
+      },
+      {
+        "id": 5,
+        "file": "5.jpg",
+        "type": "image"
+      },
+      {
+        "id": 6,
+        "file": "6.jpg",
+        "type": "image"
+      },
+      {
+        "id": 7,
+        "file": "7.jpg",
+        "type": "image"
+      },
+      {
+        "id": 8,
+        "file": "8.jpg",
+        "type": "image"
+      },
+      {
+        "id": 9,
+        "file": "9.jpg",
+        "type": "image"
+      },
+      {
+        "id": 10,
+        "file": "10.jpg",
+        "type": "image"
+      }
+    ],
+
+    "games": [
+      {
+        "name": "Dark Souls",
+        "icon": "fa-solid fa-skull"
+      },
+      {
+        "name": "Elden Ring",
+        "icon": "fa-solid fa-ring"
+      },
+      {
+        "name": "Sekiro",
+        "icon": "fa-solid fa-khanda"
+      },
+      {
+        "name": "Tekken",
+        "icon": "fa-solid fa-hand-fist"
+      },
+      {
+        "name": "Street Fighter",
+        "icon": "fa-solid fa-bolt"
+      },
+      {
+        "name": "Roblox",
+        "icon": "fa-solid fa-cube"
+      }
+    ],
+
+    "description": "مرحباً بك في عالمي الصغير 🎮",
+
+    "social": {
+      "discord": "",
+      "tiktok": "",
+      "spotify": "",
+      "roblox": ""
+    },
+
+    "font": "Cairo",
+
+    "text": {
+      "color": "#ff00cc",
+      "effect": "glow",
+      "animation": "shine"
+    },
+
+    "theme": {
+      "name": "default",
+      "primary": "#ff00cc",
+      "secondary": "#7b2cbf",
+      "accent": "#00d4ff"
+    },
+
+    "template": "template1",
+
+    "dailyNotes": []
+  },
+
+
+  "shared": {
+    "notifications": [],
+    "messages": [],
+    "notes": [],
+    "songs": []
+  }
+}

@@ -1,0 +1,4134 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+
+«»
+
+<title>SOKO — Gaming World</title><link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Orbitron:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&family=Changa:wght@300;400;500;600;700&family=Almarai:wght@300;400;700;800&family=Russo+One&family=Exo+2:wght@300;400;600;700;800&family=Audiowide&family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+rel="stylesheet"><link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+><style>
+
+/* =====================================================
+   SOKO GAMING WORLD
+   ALL CSS INSIDE THIS FILE
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    -webkit-user-select:none;
+    user-select:none;
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    min-height:100%;
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+}
+
+body{
+
+    --primary:#00d4ff;
+    --secondary:#7b2cbf;
+    --accent:#ff006e;
+    --gold:#ffd700;
+
+    --text:#ffffff;
+
+    --glass:rgba(8,10,20,.58);
+    --glass-light:rgba(255,255,255,.08);
+
+    font-family:"Cairo",sans-serif;
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    background:#05060c;
+
+}
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+#backgroundLayer{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-5;
+
+    overflow:hidden;
+
+    background:#05060c;
+
+}
+
+#backgroundImage{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    background-image:url("A.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+}
+
+#backgroundVideo{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:none;
+
+}
+
+.backgroundOverlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,0,0,.82),
+        rgba(5,5,15,.58),
+        rgba(0,0,0,.86)
+    );
+
+    backdrop-filter:blur(2px);
+
+}
+
+/* =====================================================
+   PARTICLES
+===================================================== */
+
+.particles{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-2;
+
+    pointer-events:none;
+
+    overflow:hidden;
+
+}
+
+.particle{
+
+    position:absolute;
+
+    width:5px;
+
+    height:5px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    box-shadow:
+
+    0 0 10px var(--primary),
+    0 0 20px var(--primary);
+
+    animation:particleMove linear infinite;
+
+}
+
+@keyframes particleMove{
+
+    from{
+
+        transform:translateY(110vh) scale(.5);
+
+        opacity:0;
+
+    }
+
+    20%{
+
+        opacity:.8;
+
+    }
+
+    to{
+
+        transform:translateY(-10vh) scale(1.5);
+
+        opacity:0;
+
+    }
+
+}
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+#loader{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    background:
+
+    radial-gradient(
+        circle at center,
+        #101529,
+        #05060c 70%
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    transition:.8s;
+
+}
+
+#loader.hide{
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+}
+
+.loaderCircle{
+
+    width:125px;
+
+    height:125px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    margin-bottom:25px;
+
+    border:3px solid transparent;
+
+    background:
+
+    linear-gradient(#080a12,#080a12) padding-box,
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent)
+    ) border-box;
+
+    animation:loaderRotate 3s linear infinite;
+
+}
+
+.loaderCircle span{
+
+    font-family:"Orbitron";
+
+    font-weight:900;
+
+    font-size:1.3rem;
+
+    color:white;
+
+}
+
+@keyframes loaderRotate{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+.loaderTitle{
+
+    font-family:"Orbitron";
+
+    font-size:2.2rem;
+
+    font-weight:900;
+
+    letter-spacing:5px;
+
+    background:
+
+    linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent),
+        var(--primary)
+    );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:gradientMove 4s linear infinite;
+
+}
+
+@keyframes gradientMove{
+
+    to{
+
+        background-position:300%;
+
+    }
+
+}
+
+.loaderBarBox{
+
+    width:min(320px,80vw);
+
+    height:7px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.1);
+
+    overflow:hidden;
+
+    margin-top:25px;
+
+}
+
+.loaderBar{
+
+    width:0%;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent)
+    );
+
+    transition:.2s;
+
+}
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.topBar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    height:55px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:rgba(0,0,0,.7);
+
+    backdrop-filter:blur(20px);
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.1);
+
+}
+
+.marquee{
+
+    white-space:nowrap;
+
+    font-family:"Orbitron";
+
+    font-weight:800;
+
+    letter-spacing:3px;
+
+    color:var(--primary);
+
+    animation:marqueeMove 18s linear infinite;
+
+}
+
+@keyframes marqueeMove{
+
+    from{
+
+        transform:translateX(-100%);
+
+    }
+
+    to{
+
+        transform:translateX(100%);
+
+    }
+
+}
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.app{
+
+    width:min(1250px,96vw);
+
+    margin:auto;
+
+    padding:25px 0 60px;
+
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile{
+
+    text-align:center;
+
+    padding:25px 15px;
+
+}
+
+.profileImageBox{
+
+    width:145px;
+
+    height:145px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    padding:4px;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent),
+        var(--gold)
+    );
+
+    box-shadow:
+
+    0 0 25px var(--primary),
+    0 0 55px rgba(123,44,191,.5);
+
+    animation:profileGlow 3s ease-in-out infinite;
+
+}
+
+@keyframes profileGlow{
+
+    50%{
+
+        transform:scale(1.04);
+
+        box-shadow:
+
+        0 0 40px var(--accent),
+        0 0 70px var(--secondary);
+
+    }
+
+}
+
+#profileImage{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    background:#111;
+
+}
+
+.clock{
+
+    font-family:"Orbitron";
+
+    font-size:1.4rem;
+
+    margin-top:15px;
+
+    color:var(--primary);
+
+    text-shadow:0 0 15px var(--primary);
+
+}
+
+.siteName{
+
+    margin-top:8px;
+
+    font-family:"Orbitron";
+
+    font-size:clamp(2.4rem,8vw,4.8rem);
+
+    font-weight:900;
+
+    letter-spacing:8px;
+
+    color:var(--primary);
+
+}
+
+.subtitle{
+
+    margin-top:8px;
+
+    opacity:.85;
+
+    letter-spacing:2px;
+
+}
+
+/* =====================================================
+   NAME EFFECTS
+===================================================== */
+
+.effect-glow{
+
+    text-shadow:
+
+    0 0 10px var(--primary),
+    0 0 25px var(--primary),
+    0 0 45px var(--secondary);
+
+}
+
+.effect-gradient{
+
+    background:
+
+    linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent),
+        var(--gold)
+    );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:gradientMove 4s linear infinite;
+
+}
+
+.effect-shine{
+
+    background:
+
+    linear-gradient(
+        110deg,
+        var(--primary) 20%,
+        white 40%,
+        var(--primary) 60%
+    );
+
+    background-size:250%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:shine 3s linear infinite;
+
+}
+
+@keyframes shine{
+
+    to{
+
+        background-position:250%;
+
+    }
+
+}
+
+.effect-pulse{
+
+    animation:namePulse 1.8s infinite;
+
+}
+
+@keyframes namePulse{
+
+    50%{
+
+        transform:scale(1.08);
+
+    }
+
+}
+
+.effect-float{
+
+    animation:nameFloat 3s ease-in-out infinite;
+
+}
+
+@keyframes nameFloat{
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+}
+
+.effect-neon{
+
+    animation:neon 1.5s infinite alternate;
+
+}
+
+@keyframes neon{
+
+    from{
+
+        text-shadow:0 0 5px var(--primary);
+
+    }
+
+    to{
+
+        text-shadow:
+
+        0 0 15px var(--primary),
+        0 0 35px var(--primary),
+        0 0 70px var(--accent);
+
+    }
+
+}
+
+.effect-wave{
+
+    animation:wave 2s ease-in-out infinite;
+
+}
+
+@keyframes wave{
+
+    50%{
+
+        letter-spacing:16px;
+
+    }
+
+}
+
+.effect-rainbow{
+
+    background:
+
+    linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        lime,
+        cyan,
+        blue,
+        violet,
+        red
+    );
+
+    background-size:400%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:gradientMove 5s linear infinite;
+
+}
+
+.effect-typing{
+
+    width:fit-content;
+
+    margin-left:auto;
+
+    margin-right:auto;
+
+    overflow:hidden;
+
+    border-left:3px solid var(--primary);
+
+    animation:typing 2s steps(8), blink .7s infinite;
+
+}
+
+@keyframes typing{
+
+    from{
+
+        width:0;
+
+    }
+
+}
+
+@keyframes blink{
+
+    50%{
+
+        border-color:transparent;
+
+    }
+
+}
+
+.effect-glitch{
+
+    animation:glitch .25s infinite;
+
+}
+
+@keyframes glitch{
+
+    0%{
+
+        transform:translate(0);
+
+    }
+
+    30%{
+
+        transform:translate(2px,-1px);
+
+    }
+
+    60%{
+
+        transform:translate(-2px,1px);
+
+    }
+
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.navigation{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin:20px 0;
+
+}
+
+.navButton{
+
+    border:none;
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-weight:700;
+
+    background:rgba(5,5,12,.65);
+
+    backdrop-filter:blur(15px);
+
+    border:
+
+    1px solid rgba(255,255,255,.12);
+
+    transition:.3s;
+
+}
+
+.navButton:hover,
+.navButton.active{
+
+    transform:translateY(-4px);
+
+    border-color:var(--primary);
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    box-shadow:
+
+    0 10px 30px rgba(0,212,255,.3);
+
+}
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section{
+
+    display:none;
+
+    animation:sectionShow .5s;
+
+}
+
+.section.active{
+
+    display:block;
+
+}
+
+@keyframes sectionShow{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+.glass{
+
+    background:var(--glass);
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    border:
+
+    1px solid rgba(255,255,255,.12);
+
+    border-radius:28px;
+
+    padding:25px;
+
+    box-shadow:
+
+    0 15px 60px rgba(0,0,0,.35);
+
+}
+
+.sectionTitle{
+
+    text-align:center;
+
+    font-size:1.9rem;
+
+    margin-bottom:25px;
+
+    color:var(--primary);
+
+}
+
+/* =====================================================
+   ALBUM
+===================================================== */
+
+.album{
+
+    position:relative;
+
+    height:450px;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:#000;
+
+}
+
+.albumMedia{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:0;
+
+    transition:opacity 1s;
+
+}
+
+.albumMedia.active{
+
+    opacity:1;
+
+}
+
+.albumText{
+
+    position:absolute;
+
+    bottom:45px;
+
+    right:0;
+
+    left:0;
+
+    z-index:5;
+
+    text-align:center;
+
+    font-size:1.5rem;
+
+    font-weight:900;
+
+    padding:15px;
+
+    background:
+
+    linear-gradient(
+        transparent,
+        rgba(0,0,0,.8)
+    );
+
+}
+
+.albumDots{
+
+    position:absolute;
+
+    bottom:15px;
+
+    right:0;
+
+    left:0;
+
+    z-index:10;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:8px;
+
+}
+
+.albumDot{
+
+    width:9px;
+
+    height:9px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:white;
+
+    opacity:.35;
+
+    cursor:pointer;
+
+}
+
+.albumDot.active{
+
+    opacity:1;
+
+    background:var(--primary);
+
+    box-shadow:0 0 12px var(--primary);
+
+}
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+.aboutText{
+
+    text-align:center;
+
+    line-height:2;
+
+    font-size:1.1rem;
+
+}
+
+/* =====================================================
+   GAMES
+===================================================== */
+
+.gamesGrid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(150px,1fr));
+
+    gap:15px;
+
+}
+
+.gameCard{
+
+    min-height:150px;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    background:rgba(255,255,255,.06);
+
+    border:
+
+    1px solid rgba(255,255,255,.1);
+
+    transition:.35s;
+
+}
+
+.gameCard:hover{
+
+    transform:
+
+    translateY(-8px)
+    scale(1.03);
+
+    background:rgba(255,255,255,.1);
+
+}
+
+.gameCard i{
+
+    font-size:2.5rem;
+
+    filter:
+
+    drop-shadow(0 0 15px currentColor);
+
+}
+
+/* =====================================================
+   MUSIC
+===================================================== */
+
+.musicCard{
+
+    display:grid;
+
+    grid-template-columns:auto 1fr;
+
+    gap:20px;
+
+    align-items:center;
+
+}
+
+.musicIcon{
+
+    width:80px;
+
+    height:80px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:2.5rem;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    animation:musicPulse 2s infinite;
+
+}
+
+@keyframes musicPulse{
+
+    50%{
+
+        box-shadow:
+
+        0 0 25px var(--primary);
+
+    }
+
+}
+
+.musicControls{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.musicButtons{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+.iconButton{
+
+    border:none;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:rgba(255,255,255,.1);
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    transition:.3s;
+
+}
+
+.iconButton:hover{
+
+    background:var(--primary);
+
+    transform:scale(1.1);
+
+}
+
+#musicProgress{
+
+    width:100%;
+
+    accent-color:var(--primary);
+
+}
+
+/* =====================================================
+   NOTES
+===================================================== */
+
+.notesGrid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:15px;
+
+}
+
+.noteCard{
+
+    min-height:170px;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:rgba(255,255,255,.07);
+
+    border:
+
+    1px solid rgba(255,255,255,.1);
+
+    padding:18px;
+
+    animation:noteFloat 5s ease-in-out infinite;
+
+}
+
+.noteCard img{
+
+    width:100%;
+
+    max-height:250px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    margin-top:10px;
+
+}
+
+.noteCard audio{
+
+    width:100%;
+
+    margin-top:12px;
+
+}
+
+.noteDate{
+
+    margin-top:10px;
+
+    opacity:.55;
+
+    font-size:.75rem;
+
+}
+
+@keyframes noteFloat{
+
+    50%{
+
+        transform:translateY(-5px);
+
+    }
+
+}
+
+/* =====================================================
+   MESSAGE FORM
+===================================================== */
+
+.formGrid{
+
+    display:grid;
+
+    gap:15px;
+
+}
+
+.input{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    padding:14px 18px;
+
+    border-radius:15px;
+
+    color:white;
+
+    font-family:inherit;
+
+    background:rgba(255,255,255,.08);
+
+    border:
+
+    1px solid rgba(255,255,255,.1);
+
+}
+
+textarea.input{
+
+    resize:vertical;
+
+    min-height:130px;
+
+}
+
+.primaryButton{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 22px;
+
+    border-radius:15px;
+
+    color:white;
+
+    font-family:inherit;
+
+    font-weight:800;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    transition:.3s;
+
+}
+
+.primaryButton:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+
+    0 10px 30px rgba(0,212,255,.3);
+
+}
+
+/* =====================================================
+   TEMPLATES
+===================================================== */
+
+.templatesGrid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(180px,1fr));
+
+    gap:15px;
+
+}
+
+.templateCard{
+
+    cursor:pointer;
+
+    min-height:140px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.08),
+        rgba(0,0,0,.25)
+    );
+
+    border:
+
+    1px solid rgba(255,255,255,.12);
+
+    transition:.35s;
+
+}
+
+.templateCard:hover{
+
+    transform:translateY(-7px);
+
+    border-color:var(--primary);
+
+}
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+.notificationList{
+
+    display:grid;
+
+    gap:12px;
+
+}
+
+.notification{
+
+    padding:16px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.07);
+
+    border-right:
+
+    4px solid var(--primary);
+
+}
+
+.notification small{
+
+    display:block;
+
+    margin-top:5px;
+
+    opacity:.6;
+
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:10000;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:15px;
+
+    background:rgba(0,0,0,.75);
+
+    backdrop-filter:blur(8px);
+
+}
+
+.modal.show{
+
+    display:flex;
+
+}
+
+.modalBox{
+
+    width:min(650px,95vw);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    padding:25px;
+
+    border-radius:25px;
+
+    background:#0b0e18;
+
+    border:
+
+    1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+
+    0 0 60px rgba(0,212,255,.2);
+
+}
+
+.modalHeader{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+.closeButton{
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:50%;
+
+    color:white;
+
+    cursor:pointer;
+
+    background:rgba(255,255,255,.1);
+
+}
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+.settingsTabs{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-bottom:20px;
+
+}
+
+.settingTab{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:10px 14px;
+
+    border-radius:12px;
+
+    color:white;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.settingGroup{
+
+    display:grid;
+
+    gap:12px;
+
+    margin-bottom:25px;
+
+}
+
+.settingLabel{
+
+    font-weight:800;
+
+    color:var(--primary);
+
+}
+
+.fileInput{
+
+    width:100%;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.06);
+
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+#toast{
+
+    position:fixed;
+
+    bottom:20px;
+
+    left:50%;
+
+    transform:translateX(-50%) translateY(150px);
+
+    z-index:999999;
+
+    padding:14px 25px;
+
+    border-radius:30px;
+
+    background:#111827;
+
+    border:
+
+    1px solid var(--primary);
+
+    box-shadow:
+
+    0 0 30px rgba(0,212,255,.25);
+
+    transition:.4s;
+
+}
+
+#toast.show{
+
+    transform:translateX(-50%) translateY(0);
+
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:700px){
+
+    .album{
+
+        height:280px;
+
+    }
+
+    .musicCard{
+
+        grid-template-columns:1fr;
+
+        text-align:center;
+
+    }
+
+    .musicIcon{
+
+        margin:auto;
+
+    }
+
+}
+
+</style></head><body><!-- ================= LOADER ================= --><div id="loader"><div class="loaderCircle">
+    <span>SOKO</span>
+</div>
+
+<div class="loaderTitle">
+    SOKO WORLD
+</div>
+
+<div class="loaderBarBox">
+    <div class="loaderBar" id="loaderBar"></div>
+</div>
+
+</div><!-- ================= BACKGROUND ================= --><div id="backgroundLayer"><div id="backgroundImage"></div>
+
+<video
+    id="backgroundVideo"
+    muted
+    loop
+    autoplay
+    playsinline
+></video>
+
+<div class="backgroundOverlay"></div>
+
+</div><div class="particles" id="particles"></div><!-- ================= TOP BAR ================= --><div class="topBar"><div class="marquee">
+    ★ SOKO GAMING WORLD ★ WELCOME TO MY SMALL UNIVERSE ★ GAMES • MUSIC • FRIENDS • MEMORIES ★
+</div>
+
+</div><!-- ================= APP ================= --><div class="app"><!-- PROFILE -->
+
+<header class="profile">
+
+    <div class="profileImageBox">
+
+        <img
+            id="profileImage"
+            src="AA.jpg"
+            alt="SOKO"
+        >
+
+    </div>
+
+    <div
+        class="clock"
+        id="clock"
+    >
+        00:00:00
+    </div>
+
+    <h1
+        id="siteName"
+        class="siteName effect-glow"
+    >
+        SOKO
+    </h1>
+
+    <div
+        id="subtitle"
+        class="subtitle"
+    >
+        Gaming • Souls • Fighting Games
+    </div>
+
+</header>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navigation">
+
+    <button
+        class="navButton active"
+        data-section="home"
+    >
+        <i class="fa-solid fa-house"></i>
+        الرئيسية
+    </button>
+
+    <button
+        class="navButton"
+        data-section="about"
+    >
+        <i class="fa-solid fa-user"></i>
+        عالمي
+    </button>
+
+    <button
+        class="navButton"
+        data-section="games"
+    >
+        <i class="fa-solid fa-gamepad"></i>
+        الألعاب
+    </button>
+
+    <button
+        class="navButton"
+        data-section="music"
+    >
+        <i class="fa-solid fa-music"></i>
+        الموسيقى
+    </button>
+
+    <button
+        class="navButton"
+        data-section="notes"
+    >
+        <i class="fa-solid fa-note-sticky"></i>
+        الملاحظات
+    </button>
+
+    <button
+        class="navButton"
+        data-section="message"
+    >
+        <i class="fa-solid fa-paper-plane"></i>
+        مراسلة
+    </button>
+
+    <button
+        class="navButton"
+        data-section="templates"
+    >
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        القوالب
+    </button>
+
+    <button
+        class="navButton"
+        data-section="notifications"
+    >
+        <i class="fa-solid fa-bell"></i>
+        الإشعارات
+    </button>
+
+    <button
+        class="navButton"
+        id="openSettings"
+    >
+        <i class="fa-solid fa-gear"></i>
+        الإعدادات
+    </button>
+
+</nav>
+
+
+<!-- HOME -->
+
+<section
+    class="section active"
+    id="home"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-images"></i>
+            معرض عالمي
+        </h2>
+
+        <div
+            class="album"
+            id="album"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section
+    class="section"
+    id="about"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-heart"></i>
+            مرحباً بك في عالمي
+        </h2>
+
+        <p
+            class="aboutText"
+            id="description"
+        >
+            مرحباً بك في عالمي الصغير 🎮✨
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- GAMES -->
+
+<section
+    class="section"
+    id="games"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-gamepad"></i>
+            ألعابي المفضلة
+        </h2>
+
+        <div
+            class="gamesGrid"
+            id="gamesGrid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- MUSIC -->
+
+<section
+    class="section"
+    id="music"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-music"></i>
+            موسيقاي
+        </h2>
+
+        <div class="musicCard">
+
+            <div class="musicIcon">
+                <i class="fa-solid fa-headphones"></i>
+            </div>
+
+            <div class="musicControls">
+
+                <strong
+                    id="musicName"
+                >
+                    My Favorite Song
+                </strong>
+
+                <div class="musicButtons">
+
+                    <button
+                        class="iconButton"
+                        id="backMusic"
+                    >
+                        <i class="fa-solid fa-backward"></i>
+                    </button>
+
+                    <button
+                        class="iconButton"
+                        id="playMusic"
+                    >
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+
+                    <button
+                        class="iconButton"
+                        id="forwardMusic"
+                    >
+                        <i class="fa-solid fa-forward"></i>
+                    </button>
+
+                </div>
+
+                <input
+                    type="range"
+                    id="musicProgress"
+                    min="0"
+                    max="100"
+                    value="0"
+                >
+
+            </div>
+
+        </div>
+
+        <audio
+            id="audio"
+            src="1.mp3"
+        ></audio>
+
+    </div>
+
+</section>
+
+
+<!-- NOTES -->
+
+<section
+    class="section"
+    id="notes"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-note-sticky"></i>
+            ملاحظاتنا وذكرياتنا
+        </h2>
+
+        <div
+            class="notesGrid"
+            id="notesGrid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- MESSAGE -->
+
+<section
+    class="section"
+    id="message"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-paper-plane"></i>
+            أرسل رسالة
+        </h2>
+
+        <div class="formGrid">
+
+            <input
+                id="senderName"
+                class="input"
+                placeholder="اكتب اسمك"
+            >
+
+            <textarea
+                id="senderMessage"
+                class="input"
+                placeholder="اكتب رسالتك هنا..."
+            ></textarea>
+
+            <button
+                class="primaryButton"
+                id="sendMessage"
+            >
+                <i class="fa-solid fa-paper-plane"></i>
+                إرسال الرسالة
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TEMPLATES -->
+
+<section
+    class="section"
+    id="templates"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            قوالب الموقع
+        </h2>
+
+        <div
+            class="templatesGrid"
+            id="templatesGrid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section
+    class="section"
+    id="notifications"
+>
+
+    <div class="glass">
+
+        <h2 class="sectionTitle">
+            <i class="fa-solid fa-bell"></i>
+            إشعاراتنا المشتركة
+        </h2>
+
+        <div
+            class="notificationList"
+            id="notificationList"
+        ></div>
+
+    </div>
+
+</section>
+
+</div><!-- ================= SETTINGS PASSWORD MODAL ================= --><div
+    class="modal"
+    id="passwordModal"
+><div class="modalBox">
+
+    <div class="modalHeader">
+
+        <h2>
+            <i class="fa-solid fa-lock"></i>
+            الإعدادات محمية
+        </h2>
+
+        <button
+            class="closeButton"
+            onclick="closeModal('passwordModal')"
+        >
+            ✕
+        </button>
+
+    </div>
+
+    <div class="formGrid">
+
+        <input
+            id="passwordInput"
+            type="password"
+            class="input"
+            placeholder="أدخل كلمة المرور"
+        >
+
+        <button
+            class="primaryButton"
+            id="checkPassword"
+        >
+            فتح الإعدادات
+        </button>
+
+    </div>
+
+</div>
+
+</div><!-- ================= SETTINGS MODAL ================= --><div
+    class="modal"
+    id="settingsModal"
+><div class="modalBox">
+
+    <div class="modalHeader">
+
+        <h2>
+            <i class="fa-solid fa-sliders"></i>
+            إعدادات SOKO
+        </h2>
+
+        <button
+            class="closeButton"
+            onclick="closeModal('settingsModal')"
+        >
+            ✕
+        </button>
+
+    </div>
+
+
+    <!-- GENERAL -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            الاسم
+        </div>
+
+        <input
+            id="settingName"
+            class="input"
+        >
+
+    </div>
+
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            الوصف
+        </div>
+
+        <textarea
+            id="settingDescription"
+            class="input"
+        ></textarea>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            صورة البروفايل
+        </div>
+
+        <input
+            type="file"
+            accept="image/*"
+            class="fileInput"
+            id="profileFile"
+        >
+
+    </div>
+
+
+    <!-- BACKGROUND -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            الخلفية
+        </div>
+
+        <select
+            id="backgroundType"
+            class="input"
+        >
+
+            <option value="image">
+                صورة / GIF
+            </option>
+
+            <option value="video">
+                فيديو
+            </option>
+
+        </select>
+
+        <input
+            type="file"
+            accept="image/*,video/*"
+            class="fileInput"
+            id="backgroundFile"
+        >
+
+    </div>
+
+
+    <!-- MUSIC -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            تغيير الأغنية
+        </div>
+
+        <input
+            type="file"
+            accept="audio/*"
+            class="fileInput"
+            id="musicFile"
+        >
+
+    </div>
+
+
+    <!-- FONT -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            الخط
+        </div>
+
+        <select
+            id="fontSelect"
+            class="input"
+        >
+
+            <option>Cairo</option>
+            <option>Orbitron</option>
+            <option>Tajawal</option>
+            <option>Changa</option>
+            <option>Almarai</option>
+            <option>Russo One</option>
+            <option>Exo 2</option>
+            <option>Audiowide</option>
+            <option>Rajdhani</option>
+            <option>Space Grotesk</option>
+
+        </select>
+
+    </div>
+
+
+    <!-- COLOR -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            لون الاسم
+        </div>
+
+        <input
+            type="color"
+            id="nameColor"
+            value="#00d4ff"
+        >
+
+    </div>
+
+
+    <!-- EFFECT -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            تأثير الاسم
+        </div>
+
+        <select
+            id="effectSelect"
+            class="input"
+        >
+
+            <option value="glow">Glow</option>
+            <option value="gradient">Gradient</option>
+            <option value="shine">Shine</option>
+            <option value="pulse">Pulse</option>
+            <option value="float">Float</option>
+            <option value="neon">Neon</option>
+            <option value="wave">Wave</option>
+            <option value="rainbow">Rainbow</option>
+            <option value="typing">Typing</option>
+            <option value="glitch">Glitch</option>
+
+        </select>
+
+    </div>
+
+
+    <!-- NOTE -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            إضافة ملاحظة مشتركة
+        </div>
+
+        <textarea
+            id="newNoteText"
+            class="input"
+            placeholder="رسالة أو ملاحظة..."
+        ></textarea>
+
+        <input
+            type="file"
+            accept="image/*,audio/*"
+            class="fileInput"
+            id="newNoteFile"
+        >
+
+        <button
+            class="primaryButton"
+            id="addNote"
+        >
+            إضافة للطرفين
+        </button>
+
+    </div>
+
+
+    <!-- WEBHOOK -->
+
+    <div class="settingGroup">
+
+        <div class="settingLabel">
+            Discord Webhook
+        </div>
+
+        <input
+            id="webhookInput"
+            class="input"
+            placeholder="ضع رابط Webhook هنا"
+        >
+
+    </div>
+
+
+    <button
+        class="primaryButton"
+        id="saveSettings"
+    >
+        <i class="fa-solid fa-floppy-disk"></i>
+        حفظ جميع التغييرات
+    </button>
+
+</div>
+
+</div><div id="toast"></div><script>
+
+/* =====================================================
+   SOKO JAVASCRIPT
+===================================================== */
+
+
+/* =====================================================
+   DEFAULT DATA
+===================================================== */
+
+const DEFAULT_DATA = {
+
+    id:"SOKO",
+
+    password:"SOKO",
+
+    name:"SOKO",
+
+    subtitle:"Gaming • Souls • Fighting Games",
+
+    description:
+    "مرحباً بك في عالمي الصغير 🎮✨ مكان يجمع الألعاب والذكريات واللحظات الجميلة.",
+
+    profileImage:"AA.jpg",
+
+    background:{
+
+        type:"image",
+
+        src:"A.jpg"
+
+    },
+
+    music:{
+
+        src:"1.mp3",
+
+        name:"My Favorite Song"
+
+    },
+
+    style:{
+
+        font:"Cairo",
+
+        textColor:"#00d4ff",
+
+        effect:"glow",
+
+        template:"template1"
+
+    },
+
+    album:[
+
+        {
+            src:"1.jpg",
+            title:"Gaming World",
+            type:"image"
+        },
+
+        {
+            src:"2.jpg",
+            title:"My Favorite Games",
+            type:"image"
+        },
+
+        {
+            src:"3.jpg",
+            title:"Souls Experience",
+            type:"image"
+        },
+
+        {
+            src:"4.jpg",
+            title:"Fighting Spirit",
+            type:"image"
+        },
+
+        {
+            src:"5.jpg",
+            title:"Epic Moments",
+            type:"image"
+        },
+
+        {
+            src:"6.jpg",
+            title:"Play Hard",
+            type:"image"
+        },
+
+        {
+            src:"7.jpg",
+            title:"Never Give Up",
+            type:"image"
+        },
+
+        {
+            src:"8.jpg",
+            title:"Gaming Memories",
+            type:"image"
+        },
+
+        {
+            src:"9.jpg",
+            title:"SOKO Universe",
+            type:"image"
+        },
+
+        {
+            src:"10.jpg",
+            title:"Welcome To My World",
+            type:"image"
+        },
+
+        {
+            src:"1.gif",
+            title:"Animated Memory",
+            type:"image"
+        },
+
+        {
+            src:"1.mp4",
+            title:"My Gaming Video",
+            type:"video"
+        }
+
+    ],
+
+    games:[
+
+        {
+            name:"Elden Ring",
+            icon:"fa-dragon",
+            color:"#ffd700"
+        },
+
+        {
+            name:"Dark Souls",
+            icon:"fa-fire",
+            color:"#ff6b35"
+        },
+
+        {
+            name:"Sekiro",
+            icon:"fa-khanda",
+            color:"#ff0033"
+        },
+
+        {
+            name:"Tekken",
+            icon:"fa-hand-fist",
+            color:"#00d4ff"
+        },
+
+        {
+            name:"Street Fighter",
+            icon:"fa-bolt",
+            color:"#a855f7"
+        },
+
+        {
+            name:"Mortal Kombat",
+            icon:"fa-skull",
+            color:"#00ff88"
+        }
+
+    ],
+
+    social:{},
+
+    notes:[],
+
+    webhook:""
+
+};
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+const STORAGE_KEY = "SOKO_SITE_DATA_V1";
+
+const SHARED_KEY = "SOKO_SOLO_SHARED_V1";
+
+
+let siteData =
+JSON.parse(localStorage.getItem(STORAGE_KEY))
+|| structuredClone(DEFAULT_DATA);
+
+
+let sharedData =
+JSON.parse(localStorage.getItem(SHARED_KEY))
+|| {
+
+    notifications:[],
+
+    notes:[]
+
+};
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function saveSite(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(siteData)
+    );
+
+}
+
+
+function saveShared(){
+
+    localStorage.setItem(
+        SHARED_KEY,
+        JSON.stringify(sharedData)
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(message){
+
+    const box =
+    document.getElementById("toast");
+
+    box.textContent = message;
+
+    box.classList.add("show");
+
+    setTimeout(()=>{
+
+        box.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+function openModal(id){
+
+    document
+    .getElementById(id)
+    .classList.add("show");
+
+}
+
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   PARTICLES
+===================================================== */
+
+function createParticles(){
+
+    const container =
+    document.getElementById("particles");
+
+    for(let i=0;i<35;i++){
+
+        const particle =
+        document.createElement("span");
+
+        particle.className="particle";
+
+        particle.style.left =
+        Math.random()*100+"%";
+
+        particle.style.animationDuration =
+        7+Math.random()*12+"s";
+
+        particle.style.animationDelay =
+        Math.random()*10+"s";
+
+        particle.style.opacity =
+        Math.random();
+
+        container.appendChild(particle);
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOCK
+===================================================== */
+
+function updateClock(){
+
+    const now=new Date();
+
+    document
+    .getElementById("clock")
+    .textContent=
+
+    now.toLocaleTimeString(
+        "ar-IQ"
+    );
+
+}
+
+
+setInterval(updateClock,1000);
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+document
+.querySelectorAll(".navButton[data-section]")
+.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        const target=
+        button.dataset.section;
+
+        document
+        .querySelectorAll(".navButton")
+        .forEach(x=>x.classList.remove("active"));
+
+        button.classList.add("active");
+
+        document
+        .querySelectorAll(".section")
+        .forEach(section=>{
+
+            section.classList.remove("active");
+
+        });
+
+        document
+        .getElementById(target)
+        .classList.add("active");
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    });
+
+});
+
+
+/* =====================================================
+   RENDER SITE
+===================================================== */
+
+function renderSite(){
+
+    document.title =
+    siteData.name+" — Gaming World";
+
+
+    document
+    .getElementById("siteName")
+    .textContent=
+    siteData.name;
+
+
+    document
+    .getElementById("subtitle")
+    .textContent=
+    siteData.subtitle;
+
+
+    document
+    .getElementById("description")
+    .textContent=
+    siteData.description;
+
+
+    document
+    .getElementById("profileImage")
+    .src=
+    siteData.profileImage;
+
+
+    document
+    .getElementById("siteName")
+    .style.color=
+    siteData.style.textColor;
+
+
+    document.body.style.fontFamily =
+    `"${siteData.style.font}", sans-serif`;
+
+
+    const name =
+    document.getElementById("siteName");
+
+
+    name.className=
+    "siteName effect-"+
+    siteData.style.effect;
+
+
+    applyBackground();
+
+
+    renderAlbum();
+
+
+    renderGames();
+
+
+    renderMusic();
+
+
+    renderNotes();
+
+
+    renderTemplates();
+
+
+    renderNotifications();
+
+}
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+function applyBackground(){
+
+    const image=
+    document.getElementById("backgroundImage");
+
+    const video=
+    document.getElementById("backgroundVideo");
+
+
+    if(siteData.background.type==="video"){
+
+        image.style.display="none";
+
+        video.style.display="block";
+
+        video.src=
+        siteData.background.src;
+
+        video.play()
+        .catch(()=>{});
+
+    }
+
+    else{
+
+        video.pause();
+
+        video.style.display="none";
+
+        image.style.display="block";
+
+        image.style.backgroundImage=
+        `url("${siteData.background.src}")`;
+
+    }
+
+}
+
+
+/* =====================================================
+   ALBUM
+===================================================== */
+
+let currentAlbum=0;
+
+let albumInterval=null;
+
+
+function renderAlbum(){
+
+    const album=
+    document.getElementById("album");
+
+    album.innerHTML="";
+
+
+    siteData.album.forEach((item,index)=>{
+
+        let media;
+
+
+        if(item.type==="video"){
+
+            media=
+            document.createElement("video");
+
+            media.muted=true;
+
+            media.loop=true;
+
+            media.playsInline=true;
+
+            media.autoplay=true;
+
+            media.src=item.src;
+
+        }
+
+        else{
+
+            media=
+            document.createElement("img");
+
+            media.src=item.src;
+
+        }
+
+
+        media.className=
+        "albumMedia"+
+        (index===0?" active":"");
+
+
+        album.appendChild(media);
+
+    });
+
+
+    const text=
+    document.createElement("div");
+
+    text.className="albumText";
+
+    text.id="albumText";
+
+    text.textContent=
+    siteData.album[0]?.title||"";
+
+    album.appendChild(text);
+
+
+    const dots=
+    document.createElement("div");
+
+    dots.className="albumDots";
+
+
+    siteData.album.forEach((_,index)=>{
+
+        const dot=
+        document.createElement("button");
+
+        dot.className=
+        "albumDot"+
+        (index===0?" active":"");
+
+        dot.onclick=
+        ()=>showAlbum(index);
+
+        dots.appendChild(dot);
+
+    });
+
+
+    album.appendChild(dots);
+
+
+    clearInterval(albumInterval);
+
+
+    albumInterval=
+    setInterval(()=>{
+
+        showAlbum(
+            (currentAlbum+1)
+            %
+            siteData.album.length
+        );
+
+    },5000);
+
+}
+
+
+function showAlbum(index){
+
+    currentAlbum=index;
+
+
+    const media=
+    document
+    .querySelectorAll(".albumMedia");
+
+
+    const dots=
+    document
+    .querySelectorAll(".albumDot");
+
+
+    media.forEach(x=>
+    x.classList.remove("active"));
+
+    dots.forEach(x=>
+    x.classList.remove("active"));
+
+
+    media[index]
+    ?.classList.add("active");
+
+
+    dots[index]
+    ?.classList.add("active");
+
+
+    document
+    .getElementById("albumText")
+    .textContent=
+    siteData.album[index]?.title||"";
+
+}
+
+
+/* =====================================================
+   GAMES
+===================================================== */
+
+function renderGames(){
+
+    const grid=
+    document.getElementById("gamesGrid");
+
+    grid.innerHTML="";
+
+
+    siteData.games.forEach(game=>{
+
+        const card=
+        document.createElement("div");
+
+        card.className="gameCard";
+
+
+        card.innerHTML=`
+
+            <i
+                class="fa-solid ${game.icon}"
+                style="color:${game.color}"
+            ></i>
+
+            <strong>
+                ${game.name}
+            </strong>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================================
+   MUSIC
+===================================================== */
+
+const audio=
+document.getElementById("audio");
+
+
+function renderMusic(){
+
+    audio.src=
+    siteData.music.src;
+
+
+    document
+    .getElementById("musicName")
+    .textContent=
+    siteData.music.name;
+
+}
+
+
+document
+.getElementById("playMusic")
+.addEventListener("click",()=>{
+
+    if(audio.paused){
+
+        audio.play();
+
+        document
+        .getElementById("playMusic")
+        .innerHTML=
+        '<i class="fa-solid fa-pause"></i>';
+
+    }
+
+    else{
+
+        audio.pause();
+
+        document
+        .getElementById("playMusic")
+        .innerHTML=
+        '<i class="fa-solid fa-play"></i>';
+
+    }
+
+});
+
+
+document
+.getElementById("backMusic")
+.addEventListener("click",()=>{
+
+    audio.currentTime=
+    Math.max(
+        0,
+        audio.currentTime-10
+    );
+
+});
+
+
+document
+.getElementById("forwardMusic")
+.addEventListener("click",()=>{
+
+    audio.currentTime+=10;
+
+});
+
+
+audio.addEventListener(
+"timeupdate",
+()=>{
+
+    if(audio.duration){
+
+        document
+        .getElementById("musicProgress")
+        .value=
+
+        audio.currentTime
+        /
+        audio.duration
+        *
+        100;
+
+    }
+
+});
+
+
+document
+.getElementById("musicProgress")
+.addEventListener("input",e=>{
+
+    if(audio.duration){
+
+        audio.currentTime=
+
+        e.target.value
+        /
+        100
+        *
+        audio.duration;
+
+    }
+
+});
+
+
+/* =====================================================
+   NOTES
+===================================================== */
+
+function renderNotes(){
+
+    const grid=
+    document.getElementById("notesGrid");
+
+    grid.innerHTML="";
+
+
+    const notes=[
+
+        ...siteData.notes,
+
+        ...sharedData.notes
+
+    ];
+
+
+    if(notes.length===0){
+
+        grid.innerHTML=
+        "<p style='text-align:center;opacity:.7'>لا توجد ملاحظات حالياً ✨</p>";
+
+        return;
+
+    }
+
+
+    notes.forEach(note=>{
+
+        const card=
+        document.createElement("div");
+
+        card.className="noteCard";
+
+
+        let media="";
+
+
+        if(note.fileType==="image"){
+
+            media=
+            `<img src="${note.file}">`;
+
+        }
+
+
+        if(note.fileType==="audio"){
+
+            media=
+            `<audio controls src="${note.file}"></audio>`;
+
+        }
+
+
+        card.innerHTML=`
+
+            <strong>
+                ${note.text||""}
+            </strong>
+
+            ${media}
+
+            <div class="noteDate">
+                ${note.date}
+            </div>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================================
+   TEMPLATES
+===================================================== */
+
+const templates=[
+
+    ["template1","Neon Glass","#00d4ff","#7b2cbf"],
+
+    ["template2","Purple Galaxy","#a855f7","#ec4899"],
+
+    ["template3","Cyber Blue","#00d4ff","#2563eb"],
+
+    ["template4","Red Flame","#ff4655","#ff6b35"],
+
+    ["template5","Golden Royal","#ffd700","#ff8c00"],
+
+    ["template6","Dark Void","#94a3b8","#111827"],
+
+    ["template7","Pink Anime","#ff69b4","#a855f7"],
+
+    ["template8","Emerald","#00ff88","#10b981"],
+
+    ["template9","Ice Crystal","#67e8f9","#60a5fa"],
+
+    ["template10","Ultimate Gaming","#ff006e","#7b2cbf"]
+
+];
+
+
+function renderTemplates(){
+
+    const grid=
+    document.getElementById("templatesGrid");
+
+    grid.innerHTML="";
+
+
+    templates.forEach(template=>{
+
+        const card=
+        document.createElement("div");
+
+        card.className="templateCard";
+
+        card.style.background=
+
+        `linear-gradient(
+            135deg,
+            ${template[2]},
+            ${template[3]}
+        )`;
+
+
+        card.innerHTML=`
+
+            <h3>
+                ${template[1]}
+            </h3>
+
+            <p>
+                انقر لتطبيق القالب
+            </p>
+
+        `;
+
+
+        card.onclick=()=>{
+
+            document.documentElement
+            .style
+            .setProperty(
+                "--primary",
+                template[2]
+            );
+
+
+            document.documentElement
+            .style
+            .setProperty(
+                "--secondary",
+                template[3]
+            );
+
+
+            siteData.style.template=
+            template[0];
+
+
+            saveSite();
+
+
+            toast(
+                "تم تطبيق القالب ✨"
+            );
+
+        };
+
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+function renderNotifications(){
+
+    const list=
+    document.getElementById(
+        "notificationList"
+    );
+
+    list.innerHTML="";
+
+
+    if(
+        sharedData.notifications.length===0
+    ){
+
+        list.innerHTML=
+        "<p style='text-align:center;opacity:.7'>لا توجد إشعارات حالياً</p>";
+
+        return;
+
+    }
+
+
+    sharedData.notifications
+    .slice()
+    .reverse()
+    .forEach(item=>{
+
+        const notification=
+        document.createElement("div");
+
+        notification.className=
+        "notification";
+
+
+        notification.innerHTML=`
+
+            <strong>
+                ${item.text}
+            </strong>
+
+            <small>
+                ${item.date}
+            </small>
+
+        `;
+
+
+        list.appendChild(notification);
+
+    });
+
+}
+
+
+function addNotification(text){
+
+    sharedData
+    .notifications
+    .push({
+
+        text,
+
+        date:
+        new Date()
+        .toLocaleString("ar-IQ")
+
+    });
+
+
+    saveShared();
+
+
+    renderNotifications();
+
+}
+
+
+/* =====================================================
+   SEND MESSAGE
+===================================================== */
+
+document
+.getElementById("sendMessage")
+.addEventListener("click",async()=>{
+
+    const name=
+    document
+    .getElementById("senderName")
+    .value
+    .trim();
+
+
+    const message=
+    document
+    .getElementById("senderMessage")
+    .value
+    .trim();
+
+
+    if(!name||!message){
+
+        toast(
+            "أدخل اسمك ورسالتك أولاً"
+        );
+
+        return;
+
+    }
+
+
+    const date=
+    new Date()
+    .toLocaleString("ar-IQ");
+
+
+    addNotification(
+
+        `💌 رسالة جديدة من ${name}: ${message}`
+
+    );
+
+
+    if(siteData.webhook){
+
+        try{
+
+            await fetch(
+
+                siteData.webhook,
+
+                {
+
+                    method:"POST",
+
+                    headers:{
+
+                        "Content-Type":
+                        "application/json"
+
+                    },
+
+                    body:
+                    JSON.stringify({
+
+                        embeds:[{
+
+                            title:
+                            "💌 رسالة جديدة إلى SOKO",
+
+                            description:
+                            message,
+
+                            fields:[
+
+                                {
+
+                                    name:"👤 المرسل",
+
+                                    value:name
+
+                                },
+
+                                {
+
+                                    name:"📅 التاريخ",
+
+                                    value:date
+
+                                }
+
+                            ],
+
+                            color:0x00d4ff
+
+                        }]
+
+                    })
+
+                }
+
+            );
+
+        }
+
+        catch(error){
+
+            console.log(error);
+
+        }
+
+    }
+
+
+    document
+    .getElementById("senderName")
+    .value="";
+
+
+    document
+    .getElementById("senderMessage")
+    .value="";
+
+
+    toast(
+        "تم إرسال رسالتك بنجاح 💌"
+    );
+
+});
+
+
+/* =====================================================
+   SETTINGS PASSWORD
+===================================================== */
+
+document
+.getElementById("openSettings")
+.addEventListener("click",()=>{
+
+    openModal(
+        "passwordModal"
+    );
+
+});
+
+
+document
+.getElementById("checkPassword")
+.addEventListener("click",()=>{
+
+    const password=
+    document
+    .getElementById("passwordInput")
+    .value;
+
+
+    if(password==="SOKO"){
+
+        closeModal(
+            "passwordModal"
+        );
+
+
+        loadSettingsValues();
+
+
+        openModal(
+            "settingsModal"
+        );
+
+    }
+
+    else{
+
+        toast(
+            "كلمة المرور غير صحيحة"
+        );
+
+    }
+
+});
+
+
+/* =====================================================
+   LOAD SETTINGS
+===================================================== */
+
+function loadSettingsValues(){
+
+    document
+    .getElementById("settingName")
+    .value=
+    siteData.name;
+
+
+    document
+    .getElementById("settingDescription")
+    .value=
+    siteData.description;
+
+
+    document
+    .getElementById("fontSelect")
+    .value=
+    siteData.style.font;
+
+
+    document
+    .getElementById("nameColor")
+    .value=
+    siteData.style.textColor;
+
+
+    document
+    .getElementById("effectSelect")
+    .value=
+    siteData.style.effect;
+
+
+    document
+    .getElementById("webhookInput")
+    .value=
+    siteData.webhook;
+
+}
+
+
+/* =====================================================
+   FILE TO BASE64
+===================================================== */
+
+function fileToDataURL(file){
+
+    return new Promise(resolve=>{
+
+        const reader=
+        new FileReader();
+
+
+        reader.onload=
+        ()=>resolve(reader.result);
+
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+document
+.getElementById("saveSettings")
+.addEventListener("click",async()=>{
+
+    siteData.name=
+
+    document
+    .getElementById("settingName")
+    .value
+    .trim()
+    ||
+    "SOKO";
+
+
+    siteData.description=
+
+    document
+    .getElementById("settingDescription")
+    .value;
+
+
+    siteData.style.font=
+
+    document
+    .getElementById("fontSelect")
+    .value;
+
+
+    siteData.style.textColor=
+
+    document
+    .getElementById("nameColor")
+    .value;
+
+
+    siteData.style.effect=
+
+    document
+    .getElementById("effectSelect")
+    .value;
+
+
+    siteData.webhook=
+
+    document
+    .getElementById("webhookInput")
+    .value
+    .trim();
+
+
+    const profileFile=
+
+    document
+    .getElementById("profileFile")
+    .files[0];
+
+
+    if(profileFile){
+
+        siteData.profileImage=
+
+        await fileToDataURL(
+            profileFile
+        );
+
+    }
+
+
+    const backgroundFile=
+
+    document
+    .getElementById("backgroundFile")
+    .files[0];
+
+
+    if(backgroundFile){
+
+        siteData.background={
+
+            type:
+
+            document
+            .getElementById("backgroundType")
+            .value,
+
+            src:
+
+            await fileToDataURL(
+                backgroundFile
+            )
+
+        };
+
+    }
+
+
+    const musicFile=
+
+    document
+    .getElementById("musicFile")
+    .files[0];
+
+
+    if(musicFile){
+
+        siteData.music.src=
+
+        await fileToDataURL(
+            musicFile
+        );
+
+
+        siteData.music.name=
+        musicFile.name;
+
+    }
+
+
+    saveSite();
+
+
+    addNotification(
+
+        `⚙️ قام ${siteData.name} بتحديث إعدادات موقعه`
+
+    );
+
+
+    renderSite();
+
+
+    closeModal(
+        "settingsModal"
+    );
+
+
+    toast(
+        "تم حفظ الإعدادات بنجاح ✨"
+    );
+
+});
+
+
+/* =====================================================
+   ADD SHARED NOTE
+===================================================== */
+
+document
+.getElementById("addNote")
+.addEventListener("click",async()=>{
+
+    const text=
+    document
+    .getElementById("newNoteText")
+    .value;
+
+
+    const file=
+    document
+    .getElementById("newNoteFile")
+    .files[0];
+
+
+    let fileData=null;
+
+    let fileType=null;
+
+
+    if(file){
+
+        fileData=
+
+        await fileToDataURL(file);
+
+
+        if(file.type.startsWith("image")){
+
+            fileType="image";
+
+        }
+
+        else if(file.type.startsWith("audio")){
+
+            fileType="audio";
+
+        }
+
+    }
+
+
+    if(!text&&!file){
+
+        toast(
+            "أضف رسالة أو ملف أولاً"
+        );
+
+        return;
+
+    }
+
+
+    sharedData.notes.push({
+
+        text,
+
+        file:fileData,
+
+        fileType,
+
+        owner:"SOKO",
+
+        date:
+
+        new Date()
+        .toLocaleString("ar-IQ")
+
+    });
+
+
+    saveShared();
+
+
+    addNotification(
+
+        "💞 قام SOKO بإضافة ذكرى جديدة مشتركة"
+
+    );
+
+
+    renderNotes();
+
+
+    document
+    .getElementById("newNoteText")
+    .value="";
+
+
+    document
+    .getElementById("newNoteFile")
+    .value="";
+
+
+    toast(
+        "تمت إضافة الملاحظة للطرفين 💞"
+    );
+
+});
+
+
+/* =====================================================
+   PAGE VISIT NOTIFICATION
+===================================================== */
+
+function notifyVisit(){
+
+    const key=
+    "SOKO_VISIT_"+
+    new Date()
+    .toDateString();
+
+
+    if(sessionStorage.getItem(key)){
+
+        return;
+
+    }
+
+
+    sessionStorage
+    .setItem(key,"1");
+
+
+    if(siteData.webhook){
+
+        fetch(
+
+            siteData.webhook,
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":
+                    "application/json"
+
+                },
+
+                body:
+
+                JSON.stringify({
+
+                    embeds:[{
+
+                        title:
+                        "👋 دخول جديد",
+
+                        description:
+                        "لقد دخل شخص إلى موقع SOKO",
+
+                        color:0x00d4ff,
+
+                        timestamp:
+                        new Date()
+                        .toISOString()
+
+                    }]
+
+                })
+
+            }
+
+        )
+        .catch(()=>{});
+
+    }
+
+}
+
+
+/* =====================================================
+   PREVENT COPY
+===================================================== */
+
+document
+.addEventListener(
+"contextmenu",
+e=>e.preventDefault()
+);
+
+
+document
+.addEventListener(
+"selectstart",
+e=>e.preventDefault()
+);
+
+
+document
+.addEventListener(
+"dragstart",
+e=>e.preventDefault()
+);
+
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+window
+.addEventListener("load",()=>{
+
+    let progress=0;
+
+    const interval=
+    setInterval(()=>{
+
+        progress+=
+        8+Math.random()*15;
+
+
+        if(progress>=100){
+
+            progress=100;
+
+            clearInterval(interval);
+
+
+            setTimeout(()=>{
+
+                document
+                .getElementById("loader")
+                .classList.add("hide");
+
+            },400);
+
+        }
+
+
+        document
+        .getElementById("loaderBar")
+        .style.width=
+        progress+"%";
+
+    },180);
+
+});
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+createParticles();
+
+updateClock();
+
+renderSite();
+
+notifyVisit();
+
+</script></body>
+</html>

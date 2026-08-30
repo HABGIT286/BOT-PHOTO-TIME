@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>SOLO - Gaming World</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+<video id="bgVideo" autoplay muted loop playsinline></video>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><span class="brand-dot"></span><span id="brandName">SOLO</span></div>
+  <nav class="nav">
+    <button data-section="home">⌂ الرئيسية</button><button data-section="about">♡ عني</button>
+    <button data-section="gamesSection">♜ الألعاب</button><button data-section="socialSection">↗ التواصل</button>
+    <button data-section="notesSection">✦ المذكرات</button><button data-section="notificationsSection">🔔 الإشعارات</button>
+  </nav>
+  <button class="icon-btn" id="openSettings" title="الإعدادات">⚙</button>
+</header>
+
+<main>
+<section id="home" class="section active">
+  <div class="hero">
+    <div class="avatar-wrap"><img id="avatar" class="avatar" alt="profile"></div>
+    <h1 class="name" id="name"></h1><p class="tagline" id="tagline"></p>
+  </div>
+  <div class="glass">
+    <h2 class="title">✦ مرحباً بك في عالمي الصغير ✦</h2>
+    <p class="intro" id="description"></p>
+  </div>
+  <div class="glass"><h2 class="title">🎮 لحظات من عالمي</h2><div class="album" id="album"><div id="slides"></div><div class="slide-caption" id="slideCaption"></div><div class="dots" id="dots"></div></div></div>
+  <div class="glass">
+    <h2 class="title">🎵 الأغنية</h2>
+    <div class="player"><img id="musicCover" class="cover" src="https://placehold.co/1200x700/090b12/ff4ecd?text=SOLO+GAMING"><button class="play" id="play">▶</button><div class="controls"><b id="musicTitle">Our song</b><input id="progress" class="progress" type="range" min="0" max="100" value="0"><div class="time"><span id="cur">00:00</span><span id="dur">00:00</span></div></div></div>
+    <audio id="audio" preload="metadata"></audio>
+  </div>
+</section>
+
+<section id="about" class="section"><div class="glass"><h2 class="title">♡ عن SOLO</h2><p class="intro">هذا المكان الصغير يجمع الألعاب، الذكريات، الموسيقى والرسائل الجميلة بين شخصين. كل شيء هنا قابل للتخصيص من لوحة الإعدادات.</p></div></section>
+
+<section id="gamesSection" class="section"><div class="glass"><h2 class="title">🎮 الألعاب المفضلة</h2><div id="games" class="games"></div></div></section>
+<section id="socialSection" class="section"><div class="glass"><h2 class="title">🔗 التواصل</h2><div id="socials" class="socials"></div></div></section>
+
+<section id="notesSection" class="section"><div class="glass"><h2 class="title">📝 المذكرة اليومية</h2><div class="grid2"><div class="field"><label>العنوان</label><input id="noteTitle" placeholder="مثلاً: ذكرى اليوم"></div><div class="field"><label>النص</label><input id="noteText" placeholder="اكتب ملاحظتك..."></div></div><button class="primary" id="addNote">＋ حفظ المذكرة</button><div id="notes" style="margin-top:15px"></div></div></section>
+
+<section id="notificationsSection" class="section"><div class="glass"><h2 class="title">🔔 الإشعارات</h2><div id="notifications"></div><div class="field"><label>💌 إرسال رسالة للصديق</label><textarea id="friendText" placeholder="اكتب رسالة..."></textarea></div><button class="primary" id="sendFriend">إرسال للصديق</button></div></section>
+</main>
+<footer class="footer">Made with ♡ for SOLO • Gaming World</footer>
+</div>
+
+<div id="permission" class="permission"><h3>📁 صلاحية الملفات</h3><p>يمكنك السماح للموقع باختيار صور أو ملفات صوت/فيديو من جهازك. لن يتم اختيار أي ملف بدون ضغطك على زر السماح.</p><div class="permission-actions"><button class="primary" id="requestFiles">السماح بالاختيار</button><button class="icon-btn" onclick="this.closest('.permission').classList.remove('show')">لاحقاً</button></div></div>
+<div id="settingsModal" class="modal">
+ <div class="panel">
+  <div id="passwordView"><h2 class="title">🔐 لوحة خاصة</h2><p style="text-align:center;opacity:.7">أدخل كلمة المرور للوصول إلى الإعدادات</p><div class="field"><input id="password" type="password" placeholder="كلمة المرور"></div><button class="primary" id="unlock">فتح اللوحة</button></div>
+  <div id="adminView" style="display:none">
+   <h2 class="title">⚙ إعدادات SOLO</h2>
+   <div class="grid2">
+    <div class="field"><label>الاسم</label><input id="setName"></div><div class="field"><label>الوصف القصير</label><input id="setTagline"></div>
+    <div class="field"><label>الوصف</label><textarea id="setDesc"></textarea></div><div class="field"><label>صورة الملف الشخصي — رابط</label><input id="setAvatar"></div>
+    <div class="field"><label>الخلفية — صورة</label><input id="setBg"></div><div class="field"><label>الخلفية — فيديو</label><input id="setVideo"></div>
+    <div class="field"><label>الأغنية — رابط مباشر MP3/Audio</label><input id="setMusic"></div><div class="field"><label>اسم الأغنية</label><input id="setMusicTitle"></div>
+    <div class="field"><label>الخط</label><select id="setFont"><option>Cairo</option><option>Orbitron</option><option>Playfair Display</option><option>Pacifico</option><option>Arial</option><option>Verdana</option><option>Georgia</option><option>Trebuchet MS</option><option>Courier New</option><option>Tahoma</option></select></div>
+    <div class="field"><label>اللون الرئيسي</label><input id="setP" type="text" placeholder="#00d9ff"></div>
+    <div class="field"><label>اللون الثاني</label><input id="setS" type="text" placeholder="#8b5cf6"></div><div class="field"><label>لون التأثير</label><input id="setA" type="text" placeholder="#ff4ecd"></div>
+   </div>
+   <div class="field"><label>6 ألعاب — لعبة بكل سطر</label><textarea id="setGames"></textarea></div>
+   <div class="field"><label>روابط التواصل — اسم | رابط</label><textarea id="setSocials"></textarea></div>
+   <div class="field"><label>10 صور الألبوم — رقم | رابط الصورة | النص</label><textarea id="setSlides"></textarea></div>
+   <div class="admin-actions"><button class="primary" id="saveSettings">💾 حفظ كل التغييرات</button><button class="icon-btn" id="requestFiles">📁 اختيار ملفات</button><button class="icon-btn" id="closeSettings">إغلاق</button></div>
+   <div class="glass" style="margin-top:18px"><b>🎨 القوالب الجاهزة</b><div class="template-grid" style="margin-top:12px">
+    <div class="template" onclick="applyTemplate(0)">CYBER GLASS</div><div class="template" onclick="applyTemplate(1)">NEON LOVE</div><div class="template" onclick="applyTemplate(2)">DARK SOUL</div><div class="template" onclick="applyTemplate(3)">AURORA</div><div class="template" onclick="applyTemplate(4)">ROYAL</div><div class="template" onclick="applyTemplate(5)">PIXEL</div><div class="template" onclick="applyTemplate(6)">FROZEN</div><div class="template" onclick="applyTemplate(7)">SUNSET</div><div class="template" onclick="applyTemplate(8)">GALAXY</div><div class="template" onclick="applyTemplate(9)">MINIMAL</div>
+   </div></div>
+   <p style="font-size:.8rem;opacity:.55;line-height:1.7">ملاحظة: إعدادات هذه النسخة تُحفظ في LocalStorage داخل المتصفح. تحديث ملفات GitHub تلقائياً من متصفح الزائر يحتاج خادماً/Backend أو GitHub App ولا يصح وضع GitHub Token داخل HTML.</p>
+  </div>
+ </div>
+</div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+<script>
+function applyTemplate(i){
+ const t=[
+ ["#00d9ff","#8b5cf6","#ff4ecd"],["#ff4ecd","#8b5cf6","#ffd76a"],["#ef4444","#111827","#f59e0b"],["#67e8f9","#6366f1","#a78bfa"],["#ffd76a","#b7791f","#fff1a8"],["#22d3ee","#2563eb","#a855f7"],["#93c5fd","#64748b","#e0f2fe"],["#fb7185","#f97316","#fde68a"],["#a78bfa","#ec4899","#22d3ee"],["#e5e7eb","#6b7280","#fff"]
+ ][i];data.theme={p:t[0],s:t[1],a:t[2]};save()
+}
+document.addEventListener("DOMContentLoaded",()=>setTimeout(()=>$("#permission").classList.add("show"),1800));
+</script>
+</body></html>
