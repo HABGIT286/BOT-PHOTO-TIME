@@ -3206,7 +3206,7 @@
 
             DISCORD_URL:
 
-                "https://discord.com/api/webhooks/1543603322563330200/6iJFpnPCOsYGDeArxVpWVhrErAzd9UmuHWOL_-5CO0nXsNoLdj3rnBWRf2W7Gq6DJwCF",
+                "https://discord.com/1531577881548034100",
 
 
             /*
@@ -3238,8 +3238,13 @@
             */
 
             API_URL:
+            
 
-                ""
+             
+                   ""
+                
+            DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1543603322563330200/6iJFpnPCOsYGDeArxVpWVhrErAzd9UmuHWOL_-5CO0nXsNoLdj3rnBWRf2W7Gq6DJwCF"
+
 
         };
 
@@ -3775,229 +3780,460 @@
         ========================================= */
 
 
-        $("#sendMessage")
-            .addEventListener(
+$("#sendMessage")
+    .addEventListener(
 
-                "click",
+        "click",
 
-                async () => {
-
-
-                    const name =
-
-                        $("#senderName")
-                            .value
-                            .trim();
+        async () => {
 
 
-                    const message =
+            const name =
 
-                        $("#senderMessage")
-                            .value
-                            .trim();
+                $("#senderName")
+                    .value
+                    .trim();
+
+
+            const message =
+
+                $("#senderMessage")
+                    .value
+                    .trim();
 
 
 
-                    if (
+            if (
 
-                        !name
+                !name
+
+                ||
+
+                !message
+
+            ) {
+
+
+                showToast(
+
+                    "أكمل الاسم والرسالة"
+
+                );
+
+
+                return;
+
+
+            }
+
+
+
+            const messageData = {
+
+
+                site:
+
+                    "SOKO",
+
+
+                name:
+
+                    name,
+
+
+                message:
+
+                    message,
+
+
+                time:
+
+                    new Date()
+                        .toISOString()
+
+
+            };
+
+
+
+            /*
+                إرسال الرسالة مباشرة إلى Discord Webhook
+            */
+
+
+            try {
+
+
+                const webhookResponse =
+
+                    await fetch(
+
+                        CONFIG.DISCORD_WEBHOOK_URL,
+
+                        {
+
+
+                            method:
+
+                                "POST",
+
+
+                            headers:
+
+                                {
+
+                                    "Content-Type":
+
+                                        "application/json"
+
+                                },
+
+
+                            body:
+
+                                JSON.stringify({
+
+                                    username:
+
+                                        "SOKO Website",
+
+
+                                    embeds:
+
+                                        [
+
+                                            {
+
+                                                title:
+
+                                                    "رسالة جديدة من موقع SOKO",
+
+
+                                                color:
+
+                                                    5763719,
+
+
+                                                fields:
+
+                                                    [
+
+                                                        {
+
+                                                            name:
+
+                                                                "الاسم",
+
+                                                            value:
+
+                                                                name,
+
+                                                            inline:
+
+                                                                true
+
+                                                        },
+
+
+                                                        {
+
+                                                            name:
+
+                                                                "الموقع",
+
+                                                            value:
+
+                                                                "SOKO",
+
+                                                            inline:
+
+                                                                true
+
+                                                        },
+
+
+                                                        {
+
+                                                            name:
+
+                                                                "الرسالة",
+
+                                                            value:
+
+                                                                message
+
+                                                        },
+
+
+                                                        {
+
+                                                            name:
+
+                                                                "الوقت",
+
+                                                            value:
+
+                                                                new Date()
+                                                                    .toLocaleString(
+                                                                        "ar-IQ"
+                                                                    )
+
+                                                        }
+
+                                                    ],
+
+
+                                                timestamp:
+
+                                                    new Date()
+                                                        .toISOString()
+
+                                            }
+
+                                        ]
+
+                                })
+
+
+                        }
+
+                    );
+
+
+
+                if (
+
+                    !webhookResponse.ok
+
+                ) {
+
+                    throw new Error(
+                        "Discord Webhook Error"
+                    );
+
+                }
+
+
+
+                /*
+                    إذا نجح الإرسال إلى Discord
+                    نحفظ الرسالة محلياً أيضاً
+                */
+
+
+                const messages =
+
+                    JSON.parse(
+
+                        localStorage.getItem(
+                            "SOKO_LOCAL_MESSAGES"
+                        )
 
                         ||
 
-                        !message
+                        "[]"
 
-                    ) {
-
-
-                        showToast(
-
-                            "أكمل الاسم والرسالة"
-
-                        );
+                    );
 
 
-                        return;
+                messages.unshift(
+
+                    messageData
+
+                );
 
 
-                    }
+                localStorage.setItem(
+
+                    "SOKO_LOCAL_MESSAGES",
+
+                    JSON.stringify(
+                        messages
+                    )
+
+                );
 
 
+                $("#senderMessage")
+                    .value =
 
-                    const messageData = {
-
-
-                        site:
-
-                            "MOKO",
+                    "";
 
 
-                        name:
+                showToast(
 
-                            name,
+                    "تم إرسال رسالتك"
 
-
-                        message:
-
-                            message,
+                );
 
 
-                        time:
-
-                            new Date()
-                                .toISOString()
+                return;
 
 
-                    };
+            }
 
 
+            catch (
 
-                    /*
-                        إذا لم يتم إضافة Backend
-                        تحفظ الرسالة محلياً.
-                    */
+                error
 
-
-                    if (
-
-                        !CONFIG.API_URL
-
-                    ) {
+            ) {
 
 
-                        const messages =
+                console.error(
 
-                            JSON.parse(
+                    "Discord Webhook Error:",
 
-                                localStorage.getItem(
-                                    "MOKO_LOCAL_MESSAGES"
-                                )
+                    error
 
-                                ||
-
-                                "[]"
-
-                            );
+                );
 
 
-                        messages.unshift(
+                /*
+                    إذا فشل Discord
+                    نستخدم النظام القديم
+                */
 
-                            messageData
 
-                        );
+                if (
+
+                    !CONFIG.API_URL
+
+                ) {
 
 
-                        localStorage.setItem(
+                    const messages =
 
-                            "MOKO_LOCAL_MESSAGES",
+                        JSON.parse(
 
-                            JSON.stringify(
-                                messages
+                            localStorage.getItem(
+                                "SOKO_LOCAL_MESSAGES"
                             )
 
-                        );
+                            ||
 
-
-                        $("#senderMessage")
-                            .value =
-
-                            "";
-
-
-                        showToast(
-
-                            "تم حفظ الرسالة محلياً"
+                            "[]"
 
                         );
 
 
-                        return;
+                    messages.unshift(
+
+                        messageData
+
+                    );
 
 
-                    }
+                    localStorage.setItem(
+
+                        "SOKO_LOCAL_MESSAGES",
+
+                        JSON.stringify(
+                            messages
+                        )
+
+                    );
+
+
+                    $("#senderMessage")
+                        .value =
+
+                        "";
+
+
+                    showToast(
+
+                        "تم حفظ الرسالة محلياً"
+
+                    );
+
+
+                    return;
+
+                }
 
 
 
-                    try {
+                try {
 
 
-                        await fetch(
+                    await fetch(
 
-                            CONFIG.API_URL
+                        CONFIG.API_URL
 
-                            +
+                        +
 
-                            "/message",
+                        "/message",
 
-                            {
-
-
-                                method:
-
-                                    "POST",
+                        {
 
 
-                                headers:
+                            method:
 
-                                    {
-
-                                        "Content-Type":
-
-                                            "application/json"
-
-                                    },
+                                "POST",
 
 
-                                body:
+                            headers:
 
-                                    JSON.stringify(
-                                        messageData
-                                    )
+                                {
 
+                                    "Content-Type":
 
-                            }
+                                        "application/json"
 
-                        );
-
-
-                        $("#senderMessage")
-                            .value =
-
-                            "";
+                                },
 
 
-                        showToast(
+                            body:
 
-                            "تم إرسال رسالتك"
-
-                        );
-
-
-                    }
+                                JSON.stringify(
+                                    messageData
+                                )
 
 
-                    catch (
+                        }
 
-                        error
-
-                    ) {
+                    );
 
 
-                        showToast(
+                    $("#senderMessage")
+                        .value =
 
-                            "فشل إرسال الرسالة"
-
-                        );
+                        "";
 
 
-                    }
+                    showToast(
+
+                        "تم إرسال رسالتك"
+
+                    );
 
 
                 }
 
-            );
+
+                catch (
+
+                    backendError
+
+                ) {
 
 
+                    showToast(
 
+                        "فشل إرسال الرسالة"
+
+                    );
+
+
+                }
+
+            }
+
+
+        }
+
+    );
         /* =========================================
            NOTES
         ========================================= */
