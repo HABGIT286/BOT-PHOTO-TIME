@@ -1,4134 +1,4816 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8"><meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 
-«»
+    <meta charset="UTF-8">
 
-<title>SOKO — Gaming World</title><link
-href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Orbitron:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&family=Changa:wght@300;400;500;600;700&family=Almarai:wght@300;400;700;800&family=Russo+One&family=Exo+2:wght@300;400;600;700;800&family=Audiowide&family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-rel="stylesheet"><link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-><style>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-/* =====================================================
-   SOKO GAMING WORLD
-   ALL CSS INSIDE THIS FILE
-===================================================== */
+    <title>MOKO | My Small World</title>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
-    -webkit-user-select:none;
-    user-select:none;
+    <style>
 
-    -webkit-tap-highlight-color:transparent;
-}
+        /* =========================================
+           MOKO WEBSITE
+           ALL IN ONE HTML FILE
+        ========================================= */
 
-html{
-    min-height:100%;
-    overflow-x:hidden;
-    scroll-behavior:smooth;
-}
+        :root {
 
-body{
+            --primary: #9da3ad;
+            --secondary: #eef1f5;
 
-    --primary:#00d4ff;
-    --secondary:#7b2cbf;
-    --accent:#ff006e;
-    --gold:#ffd700;
+            --primary-rgb: 157, 163, 173;
 
-    --text:#ffffff;
+            --background-overlay:
+                rgba(7, 9, 14, 0.70);
 
-    --glass:rgba(8,10,20,.58);
-    --glass-light:rgba(255,255,255,.08);
+            --background-overlay-2:
+                rgba(15, 18, 26, 0.45);
 
-    font-family:"Cairo",sans-serif;
+            --glass:
+                rgba(18, 21, 29, 0.55);
 
-    color:var(--text);
+            --glass-strong:
+                rgba(12, 15, 22, 0.72);
 
-    min-height:100vh;
+            --border:
+                rgba(255, 255, 255, 0.18);
 
-    overflow-x:hidden;
+            --text:
+                #ffffff;
 
-    background:#05060c;
+            --muted:
+                #bfc5cf;
 
-}
+            --glow:
+                rgba(var(--primary-rgb), 0.55);
 
-/* =====================================================
-   BACKGROUND
-===================================================== */
+            --shadow:
+                0 20px 70px rgba(0, 0, 0, 0.55);
 
-#backgroundLayer{
+        }
 
-    position:fixed;
 
-    inset:0;
+        /* =========================================
+           RESET
+        ========================================= */
 
-    z-index:-5;
+        * {
 
-    overflow:hidden;
+            margin: 0;
+            padding: 0;
 
-    background:#05060c;
+            box-sizing: border-box;
 
-}
+        }
 
-#backgroundImage{
 
-    position:absolute;
+        html {
 
-    inset:0;
+            scroll-behavior: smooth;
 
-    width:100%;
+        }
 
-    height:100%;
 
-    object-fit:cover;
+        body {
 
-    background-image:url("A.jpg");
+            min-height: 100vh;
 
-    background-size:cover;
+            color: var(--text);
 
-    background-position:center;
+            font-family:
 
-}
+                "Trebuchet MS",
+                "Segoe UI",
+                Tahoma,
+                Arial,
+                sans-serif;
 
-#backgroundVideo{
+            background:
 
-    position:absolute;
+                linear-gradient(
+                    120deg,
+                    var(--background-overlay),
+                    var(--background-overlay-2)
+                ),
 
-    inset:0;
+                url("A.jpg");
 
-    width:100%;
+            background-size: cover;
 
-    height:100%;
+            background-position: center;
 
-    object-fit:cover;
+            background-attachment: fixed;
 
-    display:none;
+            overflow-x: hidden;
 
-}
+            -webkit-tap-highlight-color: transparent;
 
-.backgroundOverlay{
+            user-select: none;
 
-    position:absolute;
+            -webkit-user-select: none;
 
-    inset:0;
+            -moz-user-select: none;
 
-    background:
-    linear-gradient(
-        135deg,
-        rgba(0,0,0,.82),
-        rgba(5,5,15,.58),
-        rgba(0,0,0,.86)
-    );
+            -webkit-touch-callout: none;
 
-    backdrop-filter:blur(2px);
+        }
 
-}
 
-/* =====================================================
-   PARTICLES
-===================================================== */
+        /* =========================================
+           INPUTS CAN BE USED
+        ========================================= */
 
-.particles{
+        input,
+        textarea {
 
-    position:fixed;
+            user-select: text;
 
-    inset:0;
+            -webkit-user-select: text;
 
-    z-index:-2;
+        }
 
-    pointer-events:none;
 
-    overflow:hidden;
+        button,
+        input,
+        textarea {
 
-}
+            font: inherit;
 
-.particle{
+        }
 
-    position:absolute;
 
-    width:5px;
+        button {
 
-    height:5px;
+            cursor: pointer;
 
-    border-radius:50%;
+        }
 
-    background:var(--primary);
 
-    box-shadow:
+        a {
 
-    0 0 10px var(--primary),
-    0 0 20px var(--primary);
+            text-decoration: none;
 
-    animation:particleMove linear infinite;
+            color: inherit;
 
-}
+        }
 
-@keyframes particleMove{
 
-    from{
+        /* =========================================
+           SCROLLBAR
+        ========================================= */
 
-        transform:translateY(110vh) scale(.5);
+        ::-webkit-scrollbar {
 
-        opacity:0;
+            width: 8px;
 
-    }
+        }
 
-    20%{
 
-        opacity:.8;
+        ::-webkit-scrollbar-track {
 
-    }
+            background: rgba(0, 0, 0, 0.25);
 
-    to{
+        }
 
-        transform:translateY(-10vh) scale(1.5);
 
-        opacity:0;
+        ::-webkit-scrollbar-thumb {
 
-    }
+            background: var(--primary);
 
-}
+            border-radius: 20px;
 
-/* =====================================================
-   LOADER
-===================================================== */
+        }
 
-#loader{
 
-    position:fixed;
+        /* =========================================
+           BACKGROUND PARTICLES
+        ========================================= */
 
-    inset:0;
+        .particles {
 
-    z-index:99999;
+            position: fixed;
 
-    background:
+            inset: 0;
 
-    radial-gradient(
-        circle at center,
-        #101529,
-        #05060c 70%
-    );
+            pointer-events: none;
 
-    display:flex;
+            overflow: hidden;
 
-    align-items:center;
+            z-index: -1;
 
-    justify-content:center;
+        }
 
-    flex-direction:column;
 
-    transition:.8s;
+        .particle {
 
-}
+            position: absolute;
 
-#loader.hide{
+            width: 4px;
 
-    opacity:0;
+            height: 4px;
 
-    visibility:hidden;
+            border-radius: 50%;
 
-    pointer-events:none;
+            background: var(--primary);
 
-}
+            box-shadow:
 
-.loaderCircle{
+                0 0 8px var(--primary),
 
-    width:125px;
+                0 0 20px var(--primary);
 
-    height:125px;
+            opacity: 0.6;
 
-    border-radius:50%;
+            animation:
 
-    display:flex;
+                particleFloat 8s infinite ease-in-out;
 
-    align-items:center;
+        }
 
-    justify-content:center;
 
-    position:relative;
+        @keyframes particleFloat {
 
-    margin-bottom:25px;
+            0% {
 
-    border:3px solid transparent;
+                transform:
+                    translateY(0)
+                    translateX(0);
 
-    background:
+                opacity: 0.2;
 
-    linear-gradient(#080a12,#080a12) padding-box,
+            }
 
-    linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary),
-        var(--accent)
-    ) border-box;
+            50% {
 
-    animation:loaderRotate 3s linear infinite;
+                transform:
+                    translateY(-80px)
+                    translateX(30px);
 
-}
+                opacity: 1;
 
-.loaderCircle span{
+            }
 
-    font-family:"Orbitron";
+            100% {
 
-    font-weight:900;
+                transform:
+                    translateY(-160px)
+                    translateX(-20px);
 
-    font-size:1.3rem;
+                opacity: 0;
 
-    color:white;
+            }
 
-}
+        }
 
-@keyframes loaderRotate{
 
-    to{
+        /* =========================================
+           MAIN APP
+        ========================================= */
 
-        transform:rotate(360deg);
+        .app {
 
-    }
+            width: min(1200px, 95vw);
 
-}
+            margin: auto;
 
-.loaderTitle{
+            padding:
 
-    font-family:"Orbitron";
+                18px
+                0
+                60px;
 
-    font-size:2.2rem;
+        }
 
-    font-weight:900;
 
-    letter-spacing:5px;
+        /* =========================================
+           GLASS CARD
+        ========================================= */
 
-    background:
+        .glass {
 
-    linear-gradient(
-        90deg,
-        var(--primary),
-        var(--secondary),
-        var(--accent),
-        var(--primary)
-    );
+            position: relative;
 
-    background-size:300%;
+            background: var(--glass);
 
-    -webkit-background-clip:text;
+            border:
 
-    color:transparent;
+                1px solid
+                var(--border);
 
-    animation:gradientMove 4s linear infinite;
+            border-radius: 28px;
 
-}
+            backdrop-filter:
+                blur(20px);
 
-@keyframes gradientMove{
+            -webkit-backdrop-filter:
+                blur(20px);
 
-    to{
+            box-shadow:
 
-        background-position:300%;
+                var(--shadow),
 
-    }
+                0 0 35px
+                var(--glow);
 
-}
+            overflow: hidden;
 
-.loaderBarBox{
+        }
 
-    width:min(320px,80vw);
 
-    height:7px;
+        .glass::before {
 
-    border-radius:20px;
+            content: "";
 
-    background:rgba(255,255,255,.1);
+            position: absolute;
 
-    overflow:hidden;
+            inset: 0;
 
-    margin-top:25px;
+            pointer-events: none;
 
-}
+            border-radius: inherit;
 
-.loaderBar{
+            padding: 1px;
 
-    width:0%;
+            background:
 
-    height:100%;
+                linear-gradient(
+                    130deg,
 
-    background:
+                    transparent,
 
-    linear-gradient(
-        90deg,
-        var(--primary),
-        var(--secondary),
-        var(--accent)
-    );
+                    var(--primary),
 
-    transition:.2s;
+                    transparent,
 
-}
+                    var(--secondary),
 
-/* =====================================================
-   TOP BAR
-===================================================== */
+                    transparent
+                );
 
-.topBar{
+            -webkit-mask:
 
-    position:sticky;
+                linear-gradient(
+                    #000 0 0
+                ) content-box,
 
-    top:0;
+                linear-gradient(
+                    #000 0 0
+                );
 
-    z-index:1000;
+            -webkit-mask-composite: xor;
 
-    height:55px;
+            mask-composite: exclude;
 
-    display:flex;
+            opacity: 0.9;
 
-    align-items:center;
+        }
 
-    justify-content:center;
 
-    overflow:hidden;
+        /* =========================================
+           HEADER
+        ========================================= */
 
-    background:rgba(0,0,0,.7);
+        .header {
 
-    backdrop-filter:blur(20px);
+            position: sticky;
 
-    border-bottom:
+            top: 10px;
 
-    1px solid rgba(255,255,255,.1);
+            z-index: 1000;
 
-}
+            display: flex;
 
-.marquee{
+            align-items: center;
 
-    white-space:nowrap;
+            gap: 18px;
 
-    font-family:"Orbitron";
+            padding:
 
-    font-weight:800;
+                13px
+                18px;
 
-    letter-spacing:3px;
+        }
 
-    color:var(--primary);
 
-    animation:marqueeMove 18s linear infinite;
+        .brand {
 
-}
+            display: flex;
 
-@keyframes marqueeMove{
+            align-items: center;
 
-    from{
+            gap: 12px;
 
-        transform:translateX(-100%);
+            min-width: max-content;
 
-    }
+        }
 
-    to{
 
-        transform:translateX(100%);
+        .brand-image {
 
-    }
+            width: 46px;
 
-}
+            height: 46px;
 
-/* =====================================================
-   MAIN CONTAINER
-===================================================== */
+            object-fit: cover;
 
-.app{
+            border-radius: 15px;
 
-    width:min(1250px,96vw);
+            border:
 
-    margin:auto;
+                1px solid
+                var(--border);
 
-    padding:25px 0 60px;
+            box-shadow:
 
-}
+                0 0 22px
+                var(--glow);
 
-/* =====================================================
-   PROFILE
-===================================================== */
+        }
 
-.profile{
 
-    text-align:center;
+        .brand-name {
 
-    padding:25px 15px;
+            font-size: 1.25rem;
 
-}
+            font-weight: 900;
 
-.profileImageBox{
+            letter-spacing: 4px;
 
-    width:145px;
+            text-shadow:
 
-    height:145px;
+                0 0 15px
+                var(--glow);
 
-    margin:auto;
+        }
 
-    border-radius:50%;
 
-    padding:4px;
+        .navigation {
 
-    background:
+            display: flex;
 
-    linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary),
-        var(--accent),
-        var(--gold)
-    );
+            flex-wrap: wrap;
 
-    box-shadow:
+            gap: 7px;
 
-    0 0 25px var(--primary),
-    0 0 55px rgba(123,44,191,.5);
+            margin-right: auto;
 
-    animation:profileGlow 3s ease-in-out infinite;
+        }
 
-}
 
-@keyframes profileGlow{
+        .nav-button {
 
-    50%{
+            border:
 
-        transform:scale(1.04);
+                1px solid
+                transparent;
 
-        box-shadow:
+            color: var(--text);
 
-        0 0 40px var(--accent),
-        0 0 70px var(--secondary);
+            background:
 
-    }
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-}
+            padding:
 
-#profileImage{
+                10px
+                13px;
 
-    width:100%;
+            border-radius: 15px;
 
-    height:100%;
+            transition:
 
-    object-fit:cover;
+                0.3s
+                ease;
 
-    border-radius:50%;
+        }
 
-    background:#111;
 
-}
+        .nav-button:hover {
 
-.clock{
+            transform:
 
-    font-family:"Orbitron";
+                translateY(-3px);
 
-    font-size:1.4rem;
+            border-color:
 
-    margin-top:15px;
+                var(--border);
 
-    color:var(--primary);
+            background:
 
-    text-shadow:0 0 15px var(--primary);
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.13
+                );
 
-}
+            box-shadow:
 
-.siteName{
+                0 0 22px
+                var(--glow);
 
-    margin-top:8px;
+        }
 
-    font-family:"Orbitron";
 
-    font-size:clamp(2.4rem,8vw,4.8rem);
+        .nav-button.active {
 
-    font-weight:900;
+            background:
 
-    letter-spacing:8px;
+                linear-gradient(
+                    135deg,
 
-    color:var(--primary);
+                    var(--primary),
 
-}
+                    var(--secondary)
+                );
 
-.subtitle{
+            color: #101216;
 
-    margin-top:8px;
+            font-weight: 900;
 
-    opacity:.85;
+            box-shadow:
 
-    letter-spacing:2px;
+                0 0 25px
+                var(--glow);
 
-}
+        }
 
-/* =====================================================
-   NAME EFFECTS
-===================================================== */
 
-.effect-glow{
+        /* =========================================
+           TABS
+        ========================================= */
 
-    text-shadow:
+        .tab {
 
-    0 0 10px var(--primary),
-    0 0 25px var(--primary),
-    0 0 45px var(--secondary);
+            display: none;
 
-}
+            animation:
 
-.effect-gradient{
+                tabAnimation
+                0.55s
+                ease;
 
-    background:
+        }
 
-    linear-gradient(
-        90deg,
-        var(--primary),
-        var(--secondary),
-        var(--accent),
-        var(--gold)
-    );
 
-    background-size:300%;
+        .tab.active {
 
-    -webkit-background-clip:text;
+            display: block;
 
-    color:transparent;
+        }
 
-    animation:gradientMove 4s linear infinite;
 
-}
+        @keyframes tabAnimation {
 
-.effect-shine{
+            from {
 
-    background:
+                opacity: 0;
 
-    linear-gradient(
-        110deg,
-        var(--primary) 20%,
-        white 40%,
-        var(--primary) 60%
-    );
+                transform:
 
-    background-size:250%;
+                    translateY(20px)
+                    scale(0.98);
 
-    -webkit-background-clip:text;
+            }
 
-    color:transparent;
+            to {
 
-    animation:shine 3s linear infinite;
+                opacity: 1;
 
-}
+                transform:
 
-@keyframes shine{
+                    translateY(0)
+                    scale(1);
 
-    to{
+            }
 
-        background-position:250%;
+        }
 
-    }
 
-}
+        /* =========================================
+           HOME
+        ========================================= */
 
-.effect-pulse{
+        .home-container {
 
-    animation:namePulse 1.8s infinite;
+            margin-top: 22px;
 
-}
+            padding: 28px;
 
-@keyframes namePulse{
+        }
 
-    50%{
 
-        transform:scale(1.08);
+        .home-grid {
 
-    }
+            display: grid;
 
-}
+            grid-template-columns:
 
-.effect-float{
+                1fr
+                1.35fr;
 
-    animation:nameFloat 3s ease-in-out infinite;
+            gap: 22px;
 
-}
+            align-items: center;
 
-@keyframes nameFloat{
+        }
 
-    50%{
 
-        transform:translateY(-10px);
+        /* =========================================
+           PROFILE
+        ========================================= */
 
-    }
+        .profile-card {
 
-}
+            padding: 28px;
 
-.effect-neon{
+            text-align: center;
 
-    animation:neon 1.5s infinite alternate;
+        }
 
-}
 
-@keyframes neon{
+        .avatar {
 
-    from{
+            width: 160px;
 
-        text-shadow:0 0 5px var(--primary);
+            height: 160px;
 
-    }
+            border-radius: 50%;
 
-    to{
+            object-fit: cover;
 
-        text-shadow:
+            border:
 
-        0 0 15px var(--primary),
-        0 0 35px var(--primary),
-        0 0 70px var(--accent);
+                2px solid
+                var(--primary);
 
-    }
+            box-shadow:
 
-}
+                0 0 25px
+                var(--glow),
 
-.effect-wave{
+                0 0 60px
+                var(--glow);
 
-    animation:wave 2s ease-in-out infinite;
+            animation:
 
-}
+                avatarPulse
+                3s
+                infinite
+                ease-in-out;
 
-@keyframes wave{
+        }
 
-    50%{
 
-        letter-spacing:16px;
+        @keyframes avatarPulse {
 
-    }
+            50% {
 
-}
+                transform:
+                    scale(1.04);
 
-.effect-rainbow{
+                box-shadow:
 
-    background:
+                    0 0 30px
+                    var(--glow),
 
-    linear-gradient(
-        90deg,
-        red,
-        orange,
-        yellow,
-        lime,
-        cyan,
-        blue,
-        violet,
-        red
-    );
+                    0 0 80px
+                    var(--glow);
 
-    background-size:400%;
+            }
 
-    -webkit-background-clip:text;
+        }
 
-    color:transparent;
 
-    animation:gradientMove 5s linear infinite;
+        .profile-small-title {
 
-}
+            margin-top: 18px;
 
-.effect-typing{
+            color: var(--primary);
 
-    width:fit-content;
+            letter-spacing: 4px;
 
-    margin-left:auto;
+            font-size: 0.85rem;
 
-    margin-right:auto;
+        }
 
-    overflow:hidden;
 
-    border-left:3px solid var(--primary);
+        .profile-name {
 
-    animation:typing 2s steps(8), blink .7s infinite;
+            margin:
 
-}
+                8px
+                0;
 
-@keyframes typing{
+            font-size:
 
-    from{
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
 
-        width:0;
+            letter-spacing: 8px;
 
-    }
+            font-weight: 900;
 
-}
+            animation:
 
-@keyframes blink{
+                titleGlow
+                2.5s
+                infinite
+                ease-in-out;
 
-    50%{
+        }
 
-        border-color:transparent;
 
-    }
+        @keyframes titleGlow {
 
-}
+            0% {
 
-.effect-glitch{
+                text-shadow:
 
-    animation:glitch .25s infinite;
+                    0 0 8px
+                    var(--glow);
 
-}
+            }
 
-@keyframes glitch{
+            50% {
 
-    0%{
+                text-shadow:
 
-        transform:translate(0);
+                    0 0 20px
+                    var(--glow),
 
-    }
+                    0 0 55px
+                    var(--glow);
 
-    30%{
+            }
 
-        transform:translate(2px,-1px);
+            100% {
 
-    }
+                text-shadow:
 
-    60%{
+                    0 0 8px
+                    var(--glow);
 
-        transform:translate(-2px,1px);
+            }
 
-    }
+        }
 
-}
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
+        .profile-description {
 
-.navigation{
+            color: var(--muted);
 
-    display:flex;
+            line-height: 1.8;
 
-    justify-content:center;
+        }
 
-    flex-wrap:wrap;
 
-    gap:10px;
+        /* =========================================
+           SOCIAL ICONS
+        ========================================= */
 
-    margin:20px 0;
+        .social-icons {
 
-}
+            display: flex;
 
-.navButton{
+            justify-content: center;
 
-    border:none;
+            gap: 12px;
 
-    color:white;
+            margin-top: 22px;
 
-    padding:12px 20px;
+        }
 
-    border-radius:30px;
 
-    cursor:pointer;
+        .social-icon {
 
-    font-family:inherit;
+            width: 48px;
 
-    font-weight:700;
+            height: 48px;
 
-    background:rgba(5,5,12,.65);
+            display: grid;
 
-    backdrop-filter:blur(15px);
+            place-items: center;
 
-    border:
+            border-radius: 16px;
 
-    1px solid rgba(255,255,255,.12);
+            font-size: 1.35rem;
 
-    transition:.3s;
+            border:
 
-}
+                1px solid
+                var(--border);
 
-.navButton:hover,
-.navButton.active{
+            background:
 
-    transform:translateY(-4px);
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
 
-    border-color:var(--primary);
+            transition:
 
-    background:
+                0.3s
+                ease;
 
-    linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-    );
+        }
 
-    box-shadow:
 
-    0 10px 30px rgba(0,212,255,.3);
+        .social-icon:hover {
 
-}
+            transform:
 
-/* =====================================================
-   SECTIONS
-===================================================== */
+                translateY(-5px)
+                rotate(4deg);
 
-.section{
+            background:
 
-    display:none;
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.15
+                );
 
-    animation:sectionShow .5s;
+            box-shadow:
 
-}
+                0 0 28px
+                var(--glow);
 
-.section.active{
+        }
 
-    display:block;
 
-}
+        /* =========================================
+           PROFILE SWITCH
+        ========================================= */
 
-@keyframes sectionShow{
+        .profile-switches {
 
-    from{
+            display: flex;
 
-        opacity:0;
+            justify-content: center;
 
-        transform:translateY(20px);
+            gap: 10px;
 
-    }
+            margin-top: 22px;
 
-    to{
+            flex-wrap: wrap;
 
-        opacity:1;
+        }
 
-        transform:none;
 
-    }
+        .profile-switch {
 
-}
+            padding:
 
-.glass{
+                12px
+                20px;
 
-    background:var(--glass);
+            border-radius: 15px;
 
-    backdrop-filter:blur(22px);
+            border:
 
-    -webkit-backdrop-filter:blur(22px);
+                1px solid
+                var(--border);
 
-    border:
+            background:
 
-    1px solid rgba(255,255,255,.12);
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-    border-radius:28px;
+            font-weight: 900;
 
-    padding:25px;
+            transition:
 
-    box-shadow:
+                0.3s;
 
-    0 15px 60px rgba(0,0,0,.35);
+        }
 
-}
 
-.sectionTitle{
+        .profile-switch:hover {
 
-    text-align:center;
+            transform:
 
-    font-size:1.9rem;
+                translateY(-4px);
 
-    margin-bottom:25px;
+            box-shadow:
 
-    color:var(--primary);
+                0 0 30px
+                var(--glow);
 
-}
+        }
 
-/* =====================================================
-   ALBUM
-===================================================== */
 
-.album{
+        .profile-switch.current {
 
-    position:relative;
+            background:
 
-    height:450px;
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
 
-    border-radius:22px;
+            color: #111;
 
-    overflow:hidden;
+        }
 
-    background:#000;
 
-}
+        /* =========================================
+           WELCOME SIDE
+        ========================================= */
 
-.albumMedia{
+        .welcome-card {
 
-    position:absolute;
+            padding: 25px;
 
-    inset:0;
+        }
 
-    width:100%;
 
-    height:100%;
+        .welcome-title {
 
-    object-fit:cover;
+            font-size:
 
-    opacity:0;
+                clamp(
+                    2rem,
+                    4vw,
+                    3.5rem
+                );
 
-    transition:opacity 1s;
+            margin-bottom: 10px;
 
-}
+        }
 
-.albumMedia.active{
 
-    opacity:1;
+        .welcome-text {
 
-}
+            color: var(--muted);
 
-.albumText{
+            line-height: 1.9;
 
-    position:absolute;
+        }
 
-    bottom:45px;
 
-    right:0;
+        /* =========================================
+           ALBUM
+        ========================================= */
 
-    left:0;
+        .album {
 
-    z-index:5;
+            display: grid;
 
-    text-align:center;
+            grid-template-columns:
 
-    font-size:1.5rem;
+                repeat(
+                    5,
+                    1fr
+                );
 
-    font-weight:900;
+            gap: 9px;
 
-    padding:15px;
+            margin:
 
-    background:
+                22px
+                0;
 
-    linear-gradient(
-        transparent,
-        rgba(0,0,0,.8)
-    );
+        }
 
-}
 
-.albumDots{
+        .album-image {
 
-    position:absolute;
+            width: 100%;
 
-    bottom:15px;
+            aspect-ratio: 1;
 
-    right:0;
+            object-fit: cover;
 
-    left:0;
+            border-radius: 15px;
 
-    z-index:10;
+            border:
 
-    display:flex;
+                1px solid
+                var(--border);
 
-    justify-content:center;
+            transition:
 
-    gap:8px;
+                0.4s;
 
-}
+            animation:
 
-.albumDot{
+                imageFloat
+                5s
+                infinite
+                ease-in-out;
 
-    width:9px;
+        }
 
-    height:9px;
 
-    border-radius:50%;
+        .album-image:nth-child(2n) {
 
-    border:none;
+            animation-delay:
+                -1.5s;
 
-    background:white;
+        }
 
-    opacity:.35;
 
-    cursor:pointer;
+        .album-image:nth-child(3n) {
 
-}
+            animation-delay:
+                -3s;
 
-.albumDot.active{
+        }
 
-    opacity:1;
 
-    background:var(--primary);
+        @keyframes imageFloat {
 
-    box-shadow:0 0 12px var(--primary);
+            50% {
 
-}
+                transform:
 
-/* =====================================================
-   ABOUT
-===================================================== */
+                    translateY(-8px)
+                    scale(1.04);
 
-.aboutText{
+                box-shadow:
 
-    text-align:center;
+                    0 0 25px
+                    var(--glow);
 
-    line-height:2;
+            }
 
-    font-size:1.1rem;
+        }
 
-}
 
-/* =====================================================
-   GAMES
-===================================================== */
+        .album-image:hover {
 
-.gamesGrid{
+            transform:
 
-    display:grid;
+                scale(1.12);
 
-    grid-template-columns:
+            position: relative;
 
-    repeat(auto-fit,minmax(150px,1fr));
+            z-index: 5;
 
-    gap:15px;
+        }
 
-}
 
-.gameCard{
+        /* =========================================
+           MUSIC
+        ========================================= */
 
-    min-height:150px;
+        .music-player {
 
-    border-radius:20px;
+            display: flex;
 
-    padding:20px;
+            align-items: center;
 
-    display:flex;
+            gap: 15px;
 
-    flex-direction:column;
+            padding: 15px;
 
-    align-items:center;
+            border-radius: 20px;
 
-    justify-content:center;
+            border:
 
-    gap:12px;
+                1px solid
+                var(--border);
 
-    background:rgba(255,255,255,.06);
+            background:
 
-    border:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-    1px solid rgba(255,255,255,.1);
+        }
 
-    transition:.35s;
 
-}
+        .music-icon {
 
-.gameCard:hover{
+            font-size: 1.8rem;
 
-    transform:
+            color: var(--primary);
 
-    translateY(-8px)
-    scale(1.03);
+            animation:
 
-    background:rgba(255,255,255,.1);
+                musicSpin
+                4s
+                linear
+                infinite;
 
-}
+        }
 
-.gameCard i{
 
-    font-size:2.5rem;
+        @keyframes musicSpin {
 
-    filter:
+            to {
 
-    drop-shadow(0 0 15px currentColor);
+                transform:
+                    rotate(360deg);
 
-}
+            }
 
-/* =====================================================
-   MUSIC
-===================================================== */
+        }
 
-.musicCard{
 
-    display:grid;
+        .music-content {
 
-    grid-template-columns:auto 1fr;
+            flex: 1;
 
-    gap:20px;
+        }
 
-    align-items:center;
 
-}
+        .music-name {
 
-.musicIcon{
+            display: block;
 
-    width:80px;
+            margin-bottom: 8px;
 
-    height:80px;
+            font-weight: 900;
 
-    border-radius:20px;
+            letter-spacing: 2px;
 
-    display:flex;
+        }
 
-    align-items:center;
 
-    justify-content:center;
+        audio {
 
-    font-size:2.5rem;
+            width: 100%;
 
-    background:
+        }
 
-    linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-    );
 
-    animation:musicPulse 2s infinite;
+        /* =========================================
+           SECTIONS
+        ========================================= */
 
-}
+        .section {
 
-@keyframes musicPulse{
+            margin-top: 22px;
 
-    50%{
+            padding: 28px;
 
-        box-shadow:
+        }
 
-        0 0 25px var(--primary);
 
-    }
+        .section-title {
 
-}
+            display: flex;
 
-.musicControls{
+            align-items: center;
 
-    display:flex;
+            gap: 10px;
 
-    flex-direction:column;
+            margin-bottom: 22px;
 
-    gap:12px;
+            font-size: 1.7rem;
 
-}
+            letter-spacing: 2px;
 
-.musicButtons{
+        }
 
-    display:flex;
 
-    gap:10px;
+        .section-title i {
 
-    flex-wrap:wrap;
+            color: var(--primary);
 
-}
+        }
 
-.iconButton{
 
-    border:none;
+        /* =========================================
+           ABOUT
+        ========================================= */
 
-    cursor:pointer;
+        .about-card {
 
-    color:white;
+            padding: 25px;
 
-    background:rgba(255,255,255,.1);
+            border-radius: 22px;
 
-    width:42px;
+            border:
 
-    height:42px;
+                1px solid
+                var(--border);
 
-    border-radius:50%;
+            background:
 
-    transition:.3s;
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-}
+        }
 
-.iconButton:hover{
 
-    background:var(--primary);
+        .about-row {
 
-    transform:scale(1.1);
+            padding:
 
-}
+                15px
+                0;
 
-#musicProgress{
+            border-bottom:
 
-    width:100%;
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.1
+                );
 
-    accent-color:var(--primary);
+            font-size: 1.1rem;
 
-}
+            font-weight: 800;
 
-/* =====================================================
-   NOTES
-===================================================== */
+            letter-spacing: 1px;
 
-.notesGrid{
+        }
 
-    display:grid;
 
-    grid-template-columns:
+        .about-row:last-child {
 
-    repeat(auto-fit,minmax(220px,1fr));
+            border-bottom: none;
 
-    gap:15px;
+        }
 
-}
 
-.noteCard{
+        .about-label {
 
-    min-height:170px;
+            color: var(--primary);
 
-    border-radius:20px;
+            margin-left: 10px;
 
-    overflow:hidden;
+        }
 
-    position:relative;
 
-    background:rgba(255,255,255,.07);
+        /* =========================================
+           GAMES
+        ========================================= */
 
-    border:
+        .games-grid {
 
-    1px solid rgba(255,255,255,.1);
+            display: grid;
 
-    padding:18px;
+            grid-template-columns:
 
-    animation:noteFloat 5s ease-in-out infinite;
+                repeat(
+                    auto-fit,
+                    minmax(210px, 1fr)
+                );
 
-}
+            gap: 15px;
 
-.noteCard img{
+        }
 
-    width:100%;
 
-    max-height:250px;
+        .game-card {
 
-    object-fit:cover;
+            padding: 22px;
 
-    border-radius:12px;
+            border-radius: 22px;
 
-    margin-top:10px;
+            border:
 
-}
+                1px solid
+                var(--border);
 
-.noteCard audio{
+            background:
 
-    width:100%;
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-    margin-top:12px;
+            transition:
 
-}
+                0.35s;
 
-.noteDate{
+        }
 
-    margin-top:10px;
 
-    opacity:.55;
+        .game-card:hover {
 
-    font-size:.75rem;
+            transform:
 
-}
+                translateY(-7px)
+                scale(1.02);
 
-@keyframes noteFloat{
+            box-shadow:
 
-    50%{
+                0 0 30px
+                var(--glow);
 
-        transform:translateY(-5px);
+        }
 
-    }
 
-}
+        .game-card i {
 
-/* =====================================================
-   MESSAGE FORM
-===================================================== */
+            font-size: 2.2rem;
 
-.formGrid{
+            color: var(--primary);
 
-    display:grid;
+            margin-bottom: 14px;
 
-    gap:15px;
+        }
 
-}
 
-.input{
+        .game-card h3 {
 
-    width:100%;
+            font-size: 1.05rem;
 
-    border:none;
+        }
 
-    outline:none;
 
-    padding:14px 18px;
+        /* =========================================
+           CONTACT
+        ========================================= */
 
-    border-radius:15px;
+        .contact-grid {
 
-    color:white;
+            display: grid;
 
-    font-family:inherit;
+            grid-template-columns:
 
-    background:rgba(255,255,255,.08);
+                repeat(
+                    3,
+                    1fr
+                );
 
-    border:
+            gap: 16px;
 
-    1px solid rgba(255,255,255,.1);
+        }
 
-}
 
-textarea.input{
+        .contact-card {
 
-    resize:vertical;
+            padding: 30px;
 
-    min-height:130px;
+            text-align: center;
 
-}
+            border-radius: 24px;
 
-.primaryButton{
+            border:
 
-    border:none;
+                1px solid
+                var(--border);
 
-    cursor:pointer;
+            background:
 
-    padding:14px 22px;
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-    border-radius:15px;
+            transition:
 
-    color:white;
+                0.35s;
 
-    font-family:inherit;
+        }
 
-    font-weight:800;
 
-    background:
+        .contact-card:hover {
 
-    linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-    );
+            transform:
 
-    transition:.3s;
+                translateY(-7px);
 
-}
+            box-shadow:
 
-.primaryButton:hover{
+                0 0 35px
+                var(--glow);
 
-    transform:translateY(-3px);
+        }
 
-    box-shadow:
 
-    0 10px 30px rgba(0,212,255,.3);
+        .contact-card i {
 
-}
+            display: block;
 
-/* =====================================================
-   TEMPLATES
-===================================================== */
+            font-size: 3rem;
 
-.templatesGrid{
+            color: var(--primary);
 
-    display:grid;
+            margin-bottom: 15px;
 
-    grid-template-columns:
+        }
 
-    repeat(auto-fit,minmax(180px,1fr));
 
-    gap:15px;
+        /* =========================================
+           FORMS
+        ========================================= */
 
-}
+        .form {
 
-.templateCard{
+            max-width: 800px;
 
-    cursor:pointer;
+            display: grid;
 
-    min-height:140px;
+            gap: 14px;
 
-    padding:18px;
+        }
 
-    border-radius:20px;
 
-    background:
+        .input {
 
-    linear-gradient(
-        135deg,
-        rgba(255,255,255,.08),
-        rgba(0,0,0,.25)
-    );
+            width: 100%;
 
-    border:
+            padding: 16px;
 
-    1px solid rgba(255,255,255,.12);
+            color: white;
 
-    transition:.35s;
+            border:
 
-}
+                1px solid
+                var(--border);
 
-.templateCard:hover{
+            border-radius: 17px;
 
-    transform:translateY(-7px);
+            outline: none;
 
-    border-color:var(--primary);
+            background:
 
-}
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.25
+                );
 
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
+            transition:
 
-.notificationList{
+                0.3s;
 
-    display:grid;
+        }
 
-    gap:12px;
 
-}
+        .input:focus {
 
-.notification{
+            border-color:
 
-    padding:16px;
+                var(--primary);
 
-    border-radius:16px;
+            box-shadow:
 
-    background:rgba(255,255,255,.07);
+                0 0 20px
+                var(--glow);
 
-    border-right:
+        }
 
-    4px solid var(--primary);
 
-}
+        textarea.input {
 
-.notification small{
+            min-height: 170px;
 
-    display:block;
+            resize: vertical;
 
-    margin-top:5px;
+        }
 
-    opacity:.6;
 
-}
+        .main-button {
 
-/* =====================================================
-   MODAL
-===================================================== */
+            border: none;
 
-.modal{
+            padding: 16px;
 
-    position:fixed;
+            border-radius: 17px;
 
-    inset:0;
+            color: #111;
 
-    z-index:10000;
+            font-weight: 900;
 
-    display:none;
+            letter-spacing: 2px;
 
-    align-items:center;
+            background:
 
-    justify-content:center;
+                linear-gradient(
+                    135deg,
 
-    padding:15px;
+                    var(--primary),
 
-    background:rgba(0,0,0,.75);
+                    var(--secondary)
+                );
 
-    backdrop-filter:blur(8px);
+            transition:
 
-}
+                0.3s;
 
-.modal.show{
+            box-shadow:
 
-    display:flex;
+                0 0 25px
+                var(--glow);
 
-}
+        }
 
-.modalBox{
 
-    width:min(650px,95vw);
+        .main-button:hover {
 
-    max-height:90vh;
+            transform:
 
-    overflow-y:auto;
+                translateY(-4px)
+                scale(1.02);
 
-    padding:25px;
+        }
 
-    border-radius:25px;
 
-    background:#0b0e18;
+        /* =========================================
+           THEMES
+        ========================================= */
 
-    border:
+        .themes-grid {
 
-    1px solid rgba(255,255,255,.15);
+            display: grid;
 
-    box-shadow:
+            grid-template-columns:
 
-    0 0 60px rgba(0,212,255,.2);
+                repeat(
+                    auto-fit,
+                    minmax(150px, 1fr)
+                );
 
-}
+            gap: 13px;
 
-.modalHeader{
+        }
 
-    display:flex;
 
-    align-items:center;
+        .theme-button {
 
-    justify-content:space-between;
+            padding: 18px;
 
-    margin-bottom:20px;
+            border-radius: 18px;
 
-}
+            color: white;
 
-.closeButton{
+            text-align: right;
 
-    width:38px;
+            border:
 
-    height:38px;
+                1px solid
+                var(--border);
 
-    border:none;
+            background:
 
-    border-radius:50%;
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
 
-    color:white;
+            transition:
 
-    cursor:pointer;
+                0.3s;
 
-    background:rgba(255,255,255,.1);
+        }
 
-}
 
-/* =====================================================
-   SETTINGS
-===================================================== */
+        .theme-button:hover {
 
-.settingsTabs{
+            transform:
 
-    display:flex;
+                translateY(-5px);
 
-    flex-wrap:wrap;
+            box-shadow:
 
-    gap:8px;
+                0 0 25px
+                var(--glow);
 
-    margin-bottom:20px;
+        }
 
-}
 
-.settingTab{
+        .theme-colors {
 
-    border:none;
+            display: flex;
 
-    cursor:pointer;
+            gap: 7px;
 
-    padding:10px 14px;
+            margin-bottom: 10px;
 
-    border-radius:12px;
+        }
 
-    color:white;
 
-    background:rgba(255,255,255,.08);
+        .theme-color {
 
-}
+            width: 18px;
 
-.settingGroup{
+            height: 18px;
 
-    display:grid;
+            border-radius: 50%;
 
-    gap:12px;
+        }
 
-    margin-bottom:25px;
 
-}
+        /* =========================================
+           NOTES
+        ========================================= */
 
-.settingLabel{
+        .notes-grid {
 
-    font-weight:800;
+            display: grid;
 
-    color:var(--primary);
+            grid-template-columns:
 
-}
+                1fr
+                1fr;
 
-.fileInput{
+            gap: 20px;
 
-    width:100%;
+        }
 
-    padding:10px;
 
-    border-radius:12px;
+        .notes-feed {
 
-    background:rgba(255,255,255,.06);
+            display: grid;
 
-}
+            gap: 10px;
 
-/* =====================================================
-   TOAST
-===================================================== */
+            max-height: 450px;
 
-#toast{
+            overflow-y: auto;
 
-    position:fixed;
+        }
 
-    bottom:20px;
 
-    left:50%;
+        .note-item {
 
-    transform:translateX(-50%) translateY(150px);
+            padding: 16px;
 
-    z-index:999999;
+            border-radius: 18px;
 
-    padding:14px 25px;
+            border:
 
-    border-radius:30px;
+                1px solid
+                var(--border);
 
-    background:#111827;
+            background:
 
-    border:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
 
-    1px solid var(--primary);
+        }
 
-    box-shadow:
 
-    0 0 30px rgba(0,212,255,.25);
+        .note-time {
 
-    transition:.4s;
+            display: block;
 
-}
+            margin-top: 8px;
 
-#toast.show{
+            font-size: 0.8rem;
 
-    transform:translateX(-50%) translateY(0);
+            color: var(--muted);
 
-}
+        }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
 
-@media(max-width:700px){
+        /* =========================================
+           TOAST
+        ========================================= */
 
-    .album{
+        .toast {
 
-        height:280px;
+            position: fixed;
 
-    }
+            left: 20px;
 
-    .musicCard{
+            bottom: 20px;
 
-        grid-template-columns:1fr;
+            z-index: 9999;
 
-        text-align:center;
+            padding:
 
-    }
+                15px
+                20px;
 
-    .musicIcon{
+            border-radius: 17px;
 
-        margin:auto;
+            color: white;
 
-    }
+            background:
 
-}
+                rgba(
+                    10,
+                    12,
+                    18,
+                    0.9
+                );
 
-</style></head><body><!-- ================= LOADER ================= --><div id="loader"><div class="loaderCircle">
-    <span>SOKO</span>
-</div>
+            border:
 
-<div class="loaderTitle">
-    SOKO WORLD
-</div>
+                1px solid
+                var(--border);
 
-<div class="loaderBarBox">
-    <div class="loaderBar" id="loaderBar"></div>
-</div>
+            box-shadow:
 
-</div><!-- ================= BACKGROUND ================= --><div id="backgroundLayer"><div id="backgroundImage"></div>
+                0 0 30px
+                var(--glow);
 
-<video
-    id="backgroundVideo"
-    muted
-    loop
-    autoplay
-    playsinline
-></video>
+            transform:
 
-<div class="backgroundOverlay"></div>
+                translateY(150px);
 
-</div><div class="particles" id="particles"></div><!-- ================= TOP BAR ================= --><div class="topBar"><div class="marquee">
-    ★ SOKO GAMING WORLD ★ WELCOME TO MY SMALL UNIVERSE ★ GAMES • MUSIC • FRIENDS • MEMORIES ★
-</div>
+            opacity: 0;
 
-</div><!-- ================= APP ================= --><div class="app"><!-- PROFILE -->
+            transition:
 
-<header class="profile">
+                0.35s;
 
-    <div class="profileImageBox">
+        }
 
-        <img
-            id="profileImage"
-            src="AA.jpg"
-            alt="SOKO"
-        >
 
-    </div>
+        .toast.show {
+
+            transform:
+                translateY(0);
+
+            opacity: 1;
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (
+            max-width: 850px
+        ) {
+
+            .header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .navigation {
+
+                width: 100%;
+
+                margin-right: 0;
+
+            }
+
+
+            .home-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .notes-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (
+            max-width: 650px
+        ) {
+
+            .app {
+
+                width: 96vw;
+
+            }
+
+
+            .header {
+
+                padding: 13px;
+
+            }
+
+
+            .nav-button {
+
+                flex: 1;
+
+                font-size: 0.78rem;
+
+                padding: 10px 7px;
+
+            }
+
+
+            .home-container {
+
+                padding: 14px;
+
+            }
+
+
+            .section {
+
+                padding: 20px;
+
+            }
+
+
+            .album {
+
+                grid-template-columns:
+
+                    repeat(
+                        5,
+                        1fr
+                    );
+
+            }
+
+
+            .contact-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .profile-name {
+
+                font-size: 3.5rem;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- PARTICLES -->
 
     <div
-        class="clock"
-        id="clock"
+        class="particles"
+        id="particles"
+    ></div>
+
+
+    <main
+        class="app"
     >
-        00:00:00
-    </div>
-
-    <h1
-        id="siteName"
-        class="siteName effect-glow"
-    >
-        SOKO
-    </h1>
-
-    <div
-        id="subtitle"
-        class="subtitle"
-    >
-        Gaming • Souls • Fighting Games
-    </div>
-
-</header>
 
 
-<!-- NAVIGATION -->
+        <!-- =====================================
+             HEADER
+        ====================================== -->
 
-<nav class="navigation">
-
-    <button
-        class="navButton active"
-        data-section="home"
-    >
-        <i class="fa-solid fa-house"></i>
-        الرئيسية
-    </button>
-
-    <button
-        class="navButton"
-        data-section="about"
-    >
-        <i class="fa-solid fa-user"></i>
-        عالمي
-    </button>
-
-    <button
-        class="navButton"
-        data-section="games"
-    >
-        <i class="fa-solid fa-gamepad"></i>
-        الألعاب
-    </button>
-
-    <button
-        class="navButton"
-        data-section="music"
-    >
-        <i class="fa-solid fa-music"></i>
-        الموسيقى
-    </button>
-
-    <button
-        class="navButton"
-        data-section="notes"
-    >
-        <i class="fa-solid fa-note-sticky"></i>
-        الملاحظات
-    </button>
-
-    <button
-        class="navButton"
-        data-section="message"
-    >
-        <i class="fa-solid fa-paper-plane"></i>
-        مراسلة
-    </button>
-
-    <button
-        class="navButton"
-        data-section="templates"
-    >
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        القوالب
-    </button>
-
-    <button
-        class="navButton"
-        data-section="notifications"
-    >
-        <i class="fa-solid fa-bell"></i>
-        الإشعارات
-    </button>
-
-    <button
-        class="navButton"
-        id="openSettings"
-    >
-        <i class="fa-solid fa-gear"></i>
-        الإعدادات
-    </button>
-
-</nav>
-
-
-<!-- HOME -->
-
-<section
-    class="section active"
-    id="home"
->
-
-    <div class="glass">
-
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-images"></i>
-            معرض عالمي
-        </h2>
-
-        <div
-            class="album"
-            id="album"
-        ></div>
-
-    </div>
-
-</section>
-
-
-<!-- ABOUT -->
-
-<section
-    class="section"
-    id="about"
->
-
-    <div class="glass">
-
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-heart"></i>
-            مرحباً بك في عالمي
-        </h2>
-
-        <p
-            class="aboutText"
-            id="description"
+        <header
+            class="header glass"
         >
-            مرحباً بك في عالمي الصغير 🎮✨
-        </p>
-
-    </div>
-
-</section>
 
 
-<!-- GAMES -->
+            <div
+                class="brand"
+            >
 
-<section
-    class="section"
-    id="games"
->
+                <img
+                    src="AA.jpg"
+                    class="brand-image"
+                    alt="MOKO"
+                >
 
-    <div class="glass">
+                <span
+                    class="brand-name"
+                >
 
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-gamepad"></i>
-            ألعابي المفضلة
-        </h2>
+                    MOKO
 
-        <div
-            class="gamesGrid"
-            id="gamesGrid"
-        ></div>
+                </span>
 
-    </div>
-
-</section>
-
-
-<!-- MUSIC -->
-
-<section
-    class="section"
-    id="music"
->
-
-    <div class="glass">
-
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-music"></i>
-            موسيقاي
-        </h2>
-
-        <div class="musicCard">
-
-            <div class="musicIcon">
-                <i class="fa-solid fa-headphones"></i>
             </div>
 
-            <div class="musicControls">
 
-                <strong
-                    id="musicName"
+            <nav
+                class="navigation"
+            >
+
+                <button
+                    class="nav-button active"
+                    data-tab="home"
                 >
-                    My Favorite Song
-                </strong>
 
-                <div class="musicButtons">
+                    <i class="fa-solid fa-house"></i>
 
-                    <button
-                        class="iconButton"
-                        id="backMusic"
+                    HOME
+
+                </button>
+
+
+                <button
+                    class="nav-button"
+                    data-tab="dov"
+                >
+
+                    <i class="fa-solid fa-user"></i>
+
+                    DOV
+
+                </button>
+
+
+                <button
+                    class="nav-button"
+                    data-tab="games"
+                >
+
+                    <i class="fa-solid fa-gamepad"></i>
+
+                    GAMES
+
+                </button>
+
+
+                <button
+                    class="nav-button"
+                    data-tab="contact"
+                >
+
+                    <i class="fa-solid fa-share-nodes"></i>
+
+                    CONTACT
+
+                </button>
+
+
+                <button
+                    class="nav-button"
+                    data-tab="message"
+                >
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    MESSAGE
+
+                </button>
+
+
+                <button
+                    class="nav-button"
+                    data-tab="themes"
+                >
+
+                    <i class="fa-solid fa-palette"></i>
+
+                    THEMES
+
+                </button>
+
+
+                <button
+                    class="nav-button"
+                    data-tab="notes"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    NOTES
+
+                </button>
+
+
+            </nav>
+
+
+        </header>
+
+
+
+        <!-- =====================================
+             HOME
+        ====================================== -->
+
+        <section
+            id="home"
+            class="tab active"
+        >
+
+
+            <div
+                class="home-container glass"
+            >
+
+
+                <div
+                    class="home-grid"
+                >
+
+
+                    <!-- PROFILE -->
+
+                    <div
+                        class="profile-card glass"
                     >
-                        <i class="fa-solid fa-backward"></i>
-                    </button>
 
-                    <button
-                        class="iconButton"
-                        id="playMusic"
-                    >
-                        <i class="fa-solid fa-play"></i>
-                    </button>
 
-                    <button
-                        class="iconButton"
-                        id="forwardMusic"
+                        <img
+                            src="AA.jpg"
+                            class="avatar"
+                            alt="MOKO"
+                        >
+
+
+                        <div
+                            class="profile-small-title"
+                        >
+
+                            MY SMALL WORLD
+
+                        </div>
+
+
+                        <h1
+                            class="profile-name"
+                        >
+
+                            MOKO
+
+                        </h1>
+
+
+                        <p
+                            class="profile-description"
+                        >
+
+                            مرحباً بك في عالمي الصغير
+
+                        </p>
+
+
+                        <!-- SOCIAL ICONS -->
+
+                        <div
+                            class="social-icons"
+                        >
+
+
+                            <a
+                                href="#"
+                                class="social-icon discord-link"
+                                title="Discord"
+                            >
+
+                                <i
+                                    class="fa-brands fa-discord"
+                                ></i>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="social-icon tiktok-link"
+                                title="TikTok"
+                            >
+
+                                <i
+                                    class="fa-brands fa-tiktok"
+                                ></i>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="social-icon spotify-link"
+                                title="Spotify"
+                            >
+
+                                <i
+                                    class="fa-brands fa-spotify"
+                                ></i>
+
+                            </a>
+
+
+                        </div>
+
+
+                        <!-- SWITCH PROFILES -->
+
+                        <div
+                            class="profile-switches"
+                        >
+
+
+                            <a
+                                href="index.html"
+                                class="profile-switch current"
+                            >
+
+                                <i
+                                    class="fa-solid fa-user"
+                                ></i>
+
+                                MOKO
+
+                            </a>
+
+
+                            <a
+                                href="solo.html"
+                                class="profile-switch"
+                            >
+
+                                <i
+                                    class="fa-solid fa-user-group"
+                                ></i>
+
+                                SOLO
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- WELCOME -->
+
+                    <div
+                        class="welcome-card glass"
                     >
-                        <i class="fa-solid fa-forward"></i>
-                    </button>
+
+
+                        <h2
+                            class="welcome-title"
+                        >
+
+                            أهلاً بك في عالمي الصغير
+
+                        </h2>
+
+
+                        <p
+                            class="welcome-text"
+                        >
+
+                            هذا عالمي الشخصي.
+                            مكان يجمع الصور والموسيقى والألعاب
+                            وكل ما أحبه بطريقة زجاجية
+                            مضيئة وفخمة.
+
+                        </p>
+
+
+
+                        <!-- ALBUM -->
+
+                        <div
+                            class="album"
+                        >
+
+
+                            <img
+                                src="1.jpg"
+                                class="album-image"
+                                alt="Image 1"
+                            >
+
+
+                            <img
+                                src="2.jpg"
+                                class="album-image"
+                                alt="Image 2"
+                            >
+
+
+                            <img
+                                src="3.jpg"
+                                class="album-image"
+                                alt="Image 3"
+                            >
+
+
+                            <img
+                                src="4.jpg"
+                                class="album-image"
+                                alt="Image 4"
+                            >
+
+
+                            <img
+                                src="5.jpg"
+                                class="album-image"
+                                alt="Image 5"
+                            >
+
+
+                            <img
+                                src="6.jpg"
+                                class="album-image"
+                                alt="Image 6"
+                            >
+
+
+                            <img
+                                src="7.jpg"
+                                class="album-image"
+                                alt="Image 7"
+                            >
+
+
+                            <img
+                                src="8.jpg"
+                                class="album-image"
+                                alt="Image 8"
+                            >
+
+
+                            <img
+                                src="9.jpg"
+                                class="album-image"
+                                alt="Image 9"
+                            >
+
+
+                            <img
+                                src="10.jpg"
+                                class="album-image"
+                                alt="Image 10"
+                            >
+
+
+                        </div>
+
+
+
+                        <!-- MUSIC -->
+
+                        <div
+                            class="music-player"
+                        >
+
+
+                            <i
+                                class="fa-solid fa-music music-icon"
+                            ></i>
+
+
+                            <div
+                                class="music-content"
+                            >
+
+
+                                <span
+                                    class="music-name"
+                                >
+
+                                    MOKO
+
+                                </span>
+
+
+                                <audio
+                                    controls
+                                    src="JJ.mp3"
+                                ></audio>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
 
                 </div>
 
-                <input
-                    type="range"
-                    id="musicProgress"
-                    min="0"
-                    max="100"
-                    value="0"
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             DOV
+        ====================================== -->
+
+        <section
+            id="dov"
+            class="tab"
+        >
+
+
+            <div
+                class="section glass"
+            >
+
+
+                <h2
+                    class="section-title"
                 >
 
+                    <i
+                        class="fa-solid fa-user"
+                    ></i>
+
+                    DOV
+
+                </h2>
+
+
+                <div
+                    class="about-card"
+                >
+
+
+                    <div
+                        class="about-row"
+                    >
+
+                        <span
+                            class="about-label"
+                        >
+
+                            NAME:
+
+                        </span>
+
+                        MOKO
+
+                    </div>
+
+
+                    <div
+                        class="about-row"
+                    >
+
+                        <span
+                            class="about-label"
+                        >
+
+                            AYG:
+
+                        </span>
+
+                        2010
+
+                    </div>
+
+
+                    <div
+                        class="about-row"
+                    >
+
+                        <span
+                            class="about-label"
+                        >
+
+                            LIVE:
+
+                        </span>
+
+                        IQ
+
+                    </div>
+
+
+                    <div
+                        class="about-row"
+                    >
+
+                        <span
+                            class="about-label"
+                        >
+
+                            HOBBY:
+
+                        </span>
+
+                        PLAYING GAMING
+
+                    </div>
+
+
+                    <div
+                        class="about-row"
+                    >
+
+                        <span
+                            class="about-label"
+                        >
+
+                            LOVE:
+
+                        </span>
+
+                        GOD
+
+                    </div>
+
+
+                </div>
+
+
             </div>
 
-        </div>
 
-        <audio
-            id="audio"
-            src="1.mp3"
-        ></audio>
-
-    </div>
-
-</section>
+        </section>
 
 
-<!-- NOTES -->
 
-<section
-    class="section"
-    id="notes"
->
+        <!-- =====================================
+             GAMES
+        ====================================== -->
 
-    <div class="glass">
-
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-note-sticky"></i>
-            ملاحظاتنا وذكرياتنا
-        </h2>
-
-        <div
-            class="notesGrid"
-            id="notesGrid"
-        ></div>
-
-    </div>
-
-</section>
+        <section
+            id="games"
+            class="tab"
+        >
 
 
-<!-- MESSAGE -->
-
-<section
-    class="section"
-    id="message"
->
-
-    <div class="glass">
-
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-paper-plane"></i>
-            أرسل رسالة
-        </h2>
-
-        <div class="formGrid">
-
-            <input
-                id="senderName"
-                class="input"
-                placeholder="اكتب اسمك"
+            <div
+                class="section glass"
             >
 
-            <textarea
-                id="senderMessage"
-                class="input"
-                placeholder="اكتب رسالتك هنا..."
-            ></textarea>
 
-            <button
-                class="primaryButton"
-                id="sendMessage"
-            >
-                <i class="fa-solid fa-paper-plane"></i>
-                إرسال الرسالة
-            </button>
+                <h2
+                    class="section-title"
+                >
 
-        </div>
+                    <i
+                        class="fa-solid fa-gamepad"
+                    ></i>
 
-    </div>
+                    GAMES
 
-</section>
+                </h2>
 
 
-<!-- TEMPLATES -->
+                <div
+                    class="games-grid"
+                >
 
-<section
-    class="section"
-    id="templates"
->
 
-    <div class="glass">
+                    <div class="game-card">
 
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            قوالب الموقع
-        </h2>
+                        <i class="fa-solid fa-car"></i>
 
-        <div
-            class="templatesGrid"
-            id="templatesGrid"
-        ></div>
+                        <h3>Grand Theft Auto V</h3>
 
-    </div>
+                    </div>
 
-</section>
 
+                    <div class="game-card">
 
-<!-- NOTIFICATIONS -->
+                        <i class="fa-solid fa-cubes"></i>
 
-<section
-    class="section"
-    id="notifications"
->
+                        <h3>Minecraft</h3>
 
-    <div class="glass">
+                    </div>
 
-        <h2 class="sectionTitle">
-            <i class="fa-solid fa-bell"></i>
-            إشعاراتنا المشتركة
-        </h2>
 
-        <div
-            class="notificationList"
-            id="notificationList"
-        ></div>
+                    <div class="game-card">
 
-    </div>
+                        <i class="fa-solid fa-bolt"></i>
 
-</section>
+                        <h3>Fortnite</h3>
 
-</div><!-- ================= SETTINGS PASSWORD MODAL ================= --><div
-    class="modal"
-    id="passwordModal"
-><div class="modalBox">
+                    </div>
 
-    <div class="modalHeader">
 
-        <h2>
-            <i class="fa-solid fa-lock"></i>
-            الإعدادات محمية
-        </h2>
+                    <div class="game-card">
 
-        <button
-            class="closeButton"
-            onclick="closeModal('passwordModal')"
-        >
-            ✕
-        </button>
+                        <i class="fa-solid fa-hat-cowboy"></i>
 
-    </div>
+                        <h3>Red Dead Redemption 2</h3>
 
-    <div class="formGrid">
+                    </div>
 
-        <input
-            id="passwordInput"
-            type="password"
-            class="input"
-            placeholder="أدخل كلمة المرور"
-        >
 
-        <button
-            class="primaryButton"
-            id="checkPassword"
-        >
-            فتح الإعدادات
-        </button>
+                    <div class="game-card">
 
-    </div>
+                        <i class="fa-solid fa-crosshairs"></i>
 
-</div>
+                        <h3>Call of Duty</h3>
 
-</div><!-- ================= SETTINGS MODAL ================= --><div
-    class="modal"
-    id="settingsModal"
-><div class="modalBox">
+                    </div>
 
-    <div class="modalHeader">
 
-        <h2>
-            <i class="fa-solid fa-sliders"></i>
-            إعدادات SOKO
-        </h2>
+                    <div class="game-card">
 
-        <button
-            class="closeButton"
-            onclick="closeModal('settingsModal')"
-        >
-            ✕
-        </button>
+                        <i class="fa-solid fa-city"></i>
 
-    </div>
+                        <h3>Cyberpunk 2077</h3>
 
+                    </div>
 
-    <!-- GENERAL -->
 
-    <div class="settingGroup">
+                    <div class="game-card">
 
-        <div class="settingLabel">
-            الاسم
-        </div>
+                        <i class="fa-solid fa-shield-halved"></i>
 
-        <input
-            id="settingName"
-            class="input"
-        >
+                        <h3>Valorant</h3>
 
-    </div>
+                    </div>
 
 
-    <div class="settingGroup">
+                    <div class="game-card">
 
-        <div class="settingLabel">
-            الوصف
-        </div>
+                        <i class="fa-solid fa-dragon"></i>
 
-        <textarea
-            id="settingDescription"
-            class="input"
-        ></textarea>
+                        <h3>Elden Ring</h3>
 
-    </div>
+                    </div>
 
 
-    <!-- PROFILE -->
+                    <div class="game-card">
 
-    <div class="settingGroup">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
 
-        <div class="settingLabel">
-            صورة البروفايل
-        </div>
+                        <h3>The Witcher 3</h3>
 
-        <input
-            type="file"
-            accept="image/*"
-            class="fileInput"
-            id="profileFile"
-        >
+                    </div>
 
-    </div>
 
+                    <div class="game-card">
 
-    <!-- BACKGROUND -->
+                        <i class="fa-solid fa-flag-checkered"></i>
 
-    <div class="settingGroup">
+                        <h3>Forza Horizon 5</h3>
 
-        <div class="settingLabel">
-            الخلفية
-        </div>
+                    </div>
 
-        <select
-            id="backgroundType"
-            class="input"
-        >
 
-            <option value="image">
-                صورة / GIF
-            </option>
+                </div>
 
-            <option value="video">
-                فيديو
-            </option>
 
-        </select>
-
-        <input
-            type="file"
-            accept="image/*,video/*"
-            class="fileInput"
-            id="backgroundFile"
-        >
-
-    </div>
-
-
-    <!-- MUSIC -->
-
-    <div class="settingGroup">
-
-        <div class="settingLabel">
-            تغيير الأغنية
-        </div>
-
-        <input
-            type="file"
-            accept="audio/*"
-            class="fileInput"
-            id="musicFile"
-        >
-
-    </div>
-
-
-    <!-- FONT -->
-
-    <div class="settingGroup">
-
-        <div class="settingLabel">
-            الخط
-        </div>
-
-        <select
-            id="fontSelect"
-            class="input"
-        >
-
-            <option>Cairo</option>
-            <option>Orbitron</option>
-            <option>Tajawal</option>
-            <option>Changa</option>
-            <option>Almarai</option>
-            <option>Russo One</option>
-            <option>Exo 2</option>
-            <option>Audiowide</option>
-            <option>Rajdhani</option>
-            <option>Space Grotesk</option>
-
-        </select>
-
-    </div>
-
-
-    <!-- COLOR -->
-
-    <div class="settingGroup">
-
-        <div class="settingLabel">
-            لون الاسم
-        </div>
-
-        <input
-            type="color"
-            id="nameColor"
-            value="#00d4ff"
-        >
-
-    </div>
-
-
-    <!-- EFFECT -->
-
-    <div class="settingGroup">
-
-        <div class="settingLabel">
-            تأثير الاسم
-        </div>
-
-        <select
-            id="effectSelect"
-            class="input"
-        >
-
-            <option value="glow">Glow</option>
-            <option value="gradient">Gradient</option>
-            <option value="shine">Shine</option>
-            <option value="pulse">Pulse</option>
-            <option value="float">Float</option>
-            <option value="neon">Neon</option>
-            <option value="wave">Wave</option>
-            <option value="rainbow">Rainbow</option>
-            <option value="typing">Typing</option>
-            <option value="glitch">Glitch</option>
-
-        </select>
-
-    </div>
-
-
-    <!-- NOTE -->
-
-    <div class="settingGroup">
-
-        <div class="settingLabel">
-            إضافة ملاحظة مشتركة
-        </div>
-
-        <textarea
-            id="newNoteText"
-            class="input"
-            placeholder="رسالة أو ملاحظة..."
-        ></textarea>
-
-        <input
-            type="file"
-            accept="image/*,audio/*"
-            class="fileInput"
-            id="newNoteFile"
-        >
-
-        <button
-            class="primaryButton"
-            id="addNote"
-        >
-            إضافة للطرفين
-        </button>
-
-    </div>
-
-
-    <!-- WEBHOOK -->
-
-    <div class="settingGroup">
-
-        <div class="settingLabel">
-            Discord Webhook
-        </div>
-
-        <input
-            id="webhookInput"
-            class="input"
-            placeholder="ضع رابط Webhook هنا"
-        >
-
-    </div>
-
-
-    <button
-        class="primaryButton"
-        id="saveSettings"
-    >
-        <i class="fa-solid fa-floppy-disk"></i>
-        حفظ جميع التغييرات
-    </button>
-
-</div>
-
-</div><div id="toast"></div><script>
-
-/* =====================================================
-   SOKO JAVASCRIPT
-===================================================== */
-
-
-/* =====================================================
-   DEFAULT DATA
-===================================================== */
-
-const DEFAULT_DATA = {
-
-    id:"SOKO",
-
-    password:"SOKO",
-
-    name:"SOKO",
-
-    subtitle:"Gaming • Souls • Fighting Games",
-
-    description:
-    "مرحباً بك في عالمي الصغير 🎮✨ مكان يجمع الألعاب والذكريات واللحظات الجميلة.",
-
-    profileImage:"AA.jpg",
-
-    background:{
-
-        type:"image",
-
-        src:"A.jpg"
-
-    },
-
-    music:{
-
-        src:"1.mp3",
-
-        name:"My Favorite Song"
-
-    },
-
-    style:{
-
-        font:"Cairo",
-
-        textColor:"#00d4ff",
-
-        effect:"glow",
-
-        template:"template1"
-
-    },
-
-    album:[
-
-        {
-            src:"1.jpg",
-            title:"Gaming World",
-            type:"image"
-        },
-
-        {
-            src:"2.jpg",
-            title:"My Favorite Games",
-            type:"image"
-        },
-
-        {
-            src:"3.jpg",
-            title:"Souls Experience",
-            type:"image"
-        },
-
-        {
-            src:"4.jpg",
-            title:"Fighting Spirit",
-            type:"image"
-        },
-
-        {
-            src:"5.jpg",
-            title:"Epic Moments",
-            type:"image"
-        },
-
-        {
-            src:"6.jpg",
-            title:"Play Hard",
-            type:"image"
-        },
-
-        {
-            src:"7.jpg",
-            title:"Never Give Up",
-            type:"image"
-        },
-
-        {
-            src:"8.jpg",
-            title:"Gaming Memories",
-            type:"image"
-        },
-
-        {
-            src:"9.jpg",
-            title:"SOKO Universe",
-            type:"image"
-        },
-
-        {
-            src:"10.jpg",
-            title:"Welcome To My World",
-            type:"image"
-        },
-
-        {
-            src:"1.gif",
-            title:"Animated Memory",
-            type:"image"
-        },
-
-        {
-            src:"1.mp4",
-            title:"My Gaming Video",
-            type:"video"
-        }
-
-    ],
-
-    games:[
-
-        {
-            name:"Elden Ring",
-            icon:"fa-dragon",
-            color:"#ffd700"
-        },
-
-        {
-            name:"Dark Souls",
-            icon:"fa-fire",
-            color:"#ff6b35"
-        },
-
-        {
-            name:"Sekiro",
-            icon:"fa-khanda",
-            color:"#ff0033"
-        },
-
-        {
-            name:"Tekken",
-            icon:"fa-hand-fist",
-            color:"#00d4ff"
-        },
-
-        {
-            name:"Street Fighter",
-            icon:"fa-bolt",
-            color:"#a855f7"
-        },
-
-        {
-            name:"Mortal Kombat",
-            icon:"fa-skull",
-            color:"#00ff88"
-        }
-
-    ],
-
-    social:{},
-
-    notes:[],
-
-    webhook:""
-
-};
-
-
-/* =====================================================
-   STORAGE
-===================================================== */
-
-const STORAGE_KEY = "SOKO_SITE_DATA_V1";
-
-const SHARED_KEY = "SOKO_SOLO_SHARED_V1";
-
-
-let siteData =
-JSON.parse(localStorage.getItem(STORAGE_KEY))
-|| structuredClone(DEFAULT_DATA);
-
-
-let sharedData =
-JSON.parse(localStorage.getItem(SHARED_KEY))
-|| {
-
-    notifications:[],
-
-    notes:[]
-
-};
-
-
-/* =====================================================
-   SAVE
-===================================================== */
-
-function saveSite(){
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(siteData)
-    );
-
-}
-
-
-function saveShared(){
-
-    localStorage.setItem(
-        SHARED_KEY,
-        JSON.stringify(sharedData)
-    );
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function toast(message){
-
-    const box =
-    document.getElementById("toast");
-
-    box.textContent = message;
-
-    box.classList.add("show");
-
-    setTimeout(()=>{
-
-        box.classList.remove("show");
-
-    },3000);
-
-}
-
-
-/* =====================================================
-   MODALS
-===================================================== */
-
-function openModal(id){
-
-    document
-    .getElementById(id)
-    .classList.add("show");
-
-}
-
-
-function closeModal(id){
-
-    document
-    .getElementById(id)
-    .classList.remove("show");
-
-}
-
-
-/* =====================================================
-   PARTICLES
-===================================================== */
-
-function createParticles(){
-
-    const container =
-    document.getElementById("particles");
-
-    for(let i=0;i<35;i++){
-
-        const particle =
-        document.createElement("span");
-
-        particle.className="particle";
-
-        particle.style.left =
-        Math.random()*100+"%";
-
-        particle.style.animationDuration =
-        7+Math.random()*12+"s";
-
-        particle.style.animationDelay =
-        Math.random()*10+"s";
-
-        particle.style.opacity =
-        Math.random();
-
-        container.appendChild(particle);
-
-    }
-
-}
-
-
-/* =====================================================
-   CLOCK
-===================================================== */
-
-function updateClock(){
-
-    const now=new Date();
-
-    document
-    .getElementById("clock")
-    .textContent=
-
-    now.toLocaleTimeString(
-        "ar-IQ"
-    );
-
-}
-
-
-setInterval(updateClock,1000);
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-document
-.querySelectorAll(".navButton[data-section]")
-.forEach(button=>{
-
-    button.addEventListener("click",()=>{
-
-        const target=
-        button.dataset.section;
-
-        document
-        .querySelectorAll(".navButton")
-        .forEach(x=>x.classList.remove("active"));
-
-        button.classList.add("active");
-
-        document
-        .querySelectorAll(".section")
-        .forEach(section=>{
-
-            section.classList.remove("active");
-
-        });
-
-        document
-        .getElementById(target)
-        .classList.add("active");
-
-        window.scrollTo({
-
-            top:0,
-
-            behavior:"smooth"
-
-        });
-
-    });
-
-});
-
-
-/* =====================================================
-   RENDER SITE
-===================================================== */
-
-function renderSite(){
-
-    document.title =
-    siteData.name+" — Gaming World";
-
-
-    document
-    .getElementById("siteName")
-    .textContent=
-    siteData.name;
-
-
-    document
-    .getElementById("subtitle")
-    .textContent=
-    siteData.subtitle;
-
-
-    document
-    .getElementById("description")
-    .textContent=
-    siteData.description;
-
-
-    document
-    .getElementById("profileImage")
-    .src=
-    siteData.profileImage;
-
-
-    document
-    .getElementById("siteName")
-    .style.color=
-    siteData.style.textColor;
-
-
-    document.body.style.fontFamily =
-    `"${siteData.style.font}", sans-serif`;
-
-
-    const name =
-    document.getElementById("siteName");
-
-
-    name.className=
-    "siteName effect-"+
-    siteData.style.effect;
-
-
-    applyBackground();
-
-
-    renderAlbum();
-
-
-    renderGames();
-
-
-    renderMusic();
-
-
-    renderNotes();
-
-
-    renderTemplates();
-
-
-    renderNotifications();
-
-}
-
-
-/* =====================================================
-   BACKGROUND
-===================================================== */
-
-function applyBackground(){
-
-    const image=
-    document.getElementById("backgroundImage");
-
-    const video=
-    document.getElementById("backgroundVideo");
-
-
-    if(siteData.background.type==="video"){
-
-        image.style.display="none";
-
-        video.style.display="block";
-
-        video.src=
-        siteData.background.src;
-
-        video.play()
-        .catch(()=>{});
-
-    }
-
-    else{
-
-        video.pause();
-
-        video.style.display="none";
-
-        image.style.display="block";
-
-        image.style.backgroundImage=
-        `url("${siteData.background.src}")`;
-
-    }
-
-}
-
-
-/* =====================================================
-   ALBUM
-===================================================== */
-
-let currentAlbum=0;
-
-let albumInterval=null;
-
-
-function renderAlbum(){
-
-    const album=
-    document.getElementById("album");
-
-    album.innerHTML="";
-
-
-    siteData.album.forEach((item,index)=>{
-
-        let media;
-
-
-        if(item.type==="video"){
-
-            media=
-            document.createElement("video");
-
-            media.muted=true;
-
-            media.loop=true;
-
-            media.playsInline=true;
-
-            media.autoplay=true;
-
-            media.src=item.src;
-
-        }
-
-        else{
-
-            media=
-            document.createElement("img");
-
-            media.src=item.src;
-
-        }
-
-
-        media.className=
-        "albumMedia"+
-        (index===0?" active":"");
-
-
-        album.appendChild(media);
-
-    });
-
-
-    const text=
-    document.createElement("div");
-
-    text.className="albumText";
-
-    text.id="albumText";
-
-    text.textContent=
-    siteData.album[0]?.title||"";
-
-    album.appendChild(text);
-
-
-    const dots=
-    document.createElement("div");
-
-    dots.className="albumDots";
-
-
-    siteData.album.forEach((_,index)=>{
-
-        const dot=
-        document.createElement("button");
-
-        dot.className=
-        "albumDot"+
-        (index===0?" active":"");
-
-        dot.onclick=
-        ()=>showAlbum(index);
-
-        dots.appendChild(dot);
-
-    });
-
-
-    album.appendChild(dots);
-
-
-    clearInterval(albumInterval);
-
-
-    albumInterval=
-    setInterval(()=>{
-
-        showAlbum(
-            (currentAlbum+1)
-            %
-            siteData.album.length
-        );
-
-    },5000);
-
-}
-
-
-function showAlbum(index){
-
-    currentAlbum=index;
-
-
-    const media=
-    document
-    .querySelectorAll(".albumMedia");
-
-
-    const dots=
-    document
-    .querySelectorAll(".albumDot");
-
-
-    media.forEach(x=>
-    x.classList.remove("active"));
-
-    dots.forEach(x=>
-    x.classList.remove("active"));
-
-
-    media[index]
-    ?.classList.add("active");
-
-
-    dots[index]
-    ?.classList.add("active");
-
-
-    document
-    .getElementById("albumText")
-    .textContent=
-    siteData.album[index]?.title||"";
-
-}
-
-
-/* =====================================================
-   GAMES
-===================================================== */
-
-function renderGames(){
-
-    const grid=
-    document.getElementById("gamesGrid");
-
-    grid.innerHTML="";
-
-
-    siteData.games.forEach(game=>{
-
-        const card=
-        document.createElement("div");
-
-        card.className="gameCard";
-
-
-        card.innerHTML=`
-
-            <i
-                class="fa-solid ${game.icon}"
-                style="color:${game.color}"
-            ></i>
-
-            <strong>
-                ${game.name}
-            </strong>
-
-        `;
-
-
-        grid.appendChild(card);
-
-    });
-
-}
-
-
-/* =====================================================
-   MUSIC
-===================================================== */
-
-const audio=
-document.getElementById("audio");
-
-
-function renderMusic(){
-
-    audio.src=
-    siteData.music.src;
-
-
-    document
-    .getElementById("musicName")
-    .textContent=
-    siteData.music.name;
-
-}
-
-
-document
-.getElementById("playMusic")
-.addEventListener("click",()=>{
-
-    if(audio.paused){
-
-        audio.play();
-
-        document
-        .getElementById("playMusic")
-        .innerHTML=
-        '<i class="fa-solid fa-pause"></i>';
-
-    }
-
-    else{
-
-        audio.pause();
-
-        document
-        .getElementById("playMusic")
-        .innerHTML=
-        '<i class="fa-solid fa-play"></i>';
-
-    }
-
-});
-
-
-document
-.getElementById("backMusic")
-.addEventListener("click",()=>{
-
-    audio.currentTime=
-    Math.max(
-        0,
-        audio.currentTime-10
-    );
-
-});
-
-
-document
-.getElementById("forwardMusic")
-.addEventListener("click",()=>{
-
-    audio.currentTime+=10;
-
-});
-
-
-audio.addEventListener(
-"timeupdate",
-()=>{
-
-    if(audio.duration){
-
-        document
-        .getElementById("musicProgress")
-        .value=
-
-        audio.currentTime
-        /
-        audio.duration
-        *
-        100;
-
-    }
-
-});
-
-
-document
-.getElementById("musicProgress")
-.addEventListener("input",e=>{
-
-    if(audio.duration){
-
-        audio.currentTime=
-
-        e.target.value
-        /
-        100
-        *
-        audio.duration;
-
-    }
-
-});
-
-
-/* =====================================================
-   NOTES
-===================================================== */
-
-function renderNotes(){
-
-    const grid=
-    document.getElementById("notesGrid");
-
-    grid.innerHTML="";
-
-
-    const notes=[
-
-        ...siteData.notes,
-
-        ...sharedData.notes
-
-    ];
-
-
-    if(notes.length===0){
-
-        grid.innerHTML=
-        "<p style='text-align:center;opacity:.7'>لا توجد ملاحظات حالياً ✨</p>";
-
-        return;
-
-    }
-
-
-    notes.forEach(note=>{
-
-        const card=
-        document.createElement("div");
-
-        card.className="noteCard";
-
-
-        let media="";
-
-
-        if(note.fileType==="image"){
-
-            media=
-            `<img src="${note.file}">`;
-
-        }
-
-
-        if(note.fileType==="audio"){
-
-            media=
-            `<audio controls src="${note.file}"></audio>`;
-
-        }
-
-
-        card.innerHTML=`
-
-            <strong>
-                ${note.text||""}
-            </strong>
-
-            ${media}
-
-            <div class="noteDate">
-                ${note.date}
             </div>
 
-        `;
+
+        </section>
 
 
-        grid.appendChild(card);
 
-    });
+        <!-- =====================================
+             CONTACT
+        ====================================== -->
 
-}
-
-
-/* =====================================================
-   TEMPLATES
-===================================================== */
-
-const templates=[
-
-    ["template1","Neon Glass","#00d4ff","#7b2cbf"],
-
-    ["template2","Purple Galaxy","#a855f7","#ec4899"],
-
-    ["template3","Cyber Blue","#00d4ff","#2563eb"],
-
-    ["template4","Red Flame","#ff4655","#ff6b35"],
-
-    ["template5","Golden Royal","#ffd700","#ff8c00"],
-
-    ["template6","Dark Void","#94a3b8","#111827"],
-
-    ["template7","Pink Anime","#ff69b4","#a855f7"],
-
-    ["template8","Emerald","#00ff88","#10b981"],
-
-    ["template9","Ice Crystal","#67e8f9","#60a5fa"],
-
-    ["template10","Ultimate Gaming","#ff006e","#7b2cbf"]
-
-];
+        <section
+            id="contact"
+            class="tab"
+        >
 
 
-function renderTemplates(){
-
-    const grid=
-    document.getElementById("templatesGrid");
-
-    grid.innerHTML="";
+            <div
+                class="section glass"
+            >
 
 
-    templates.forEach(template=>{
+                <h2
+                    class="section-title"
+                >
 
-        const card=
-        document.createElement("div");
+                    <i
+                        class="fa-solid fa-share-nodes"
+                    ></i>
 
-        card.className="templateCard";
+                    CONTACT
 
-        card.style.background=
-
-        `linear-gradient(
-            135deg,
-            ${template[2]},
-            ${template[3]}
-        )`;
+                </h2>
 
 
-        card.innerHTML=`
-
-            <h3>
-                ${template[1]}
-            </h3>
-
-            <p>
-                انقر لتطبيق القالب
-            </p>
-
-        `;
+                <div
+                    class="contact-grid"
+                >
 
 
-        card.onclick=()=>{
+                    <a
+                        href="#"
+                        class="contact-card discord-link"
+                    >
 
-            document.documentElement
-            .style
-            .setProperty(
-                "--primary",
-                template[2]
-            );
+                        <i
+                            class="fa-brands fa-discord"
+                        ></i>
 
+                        <h3>
 
-            document.documentElement
-            .style
-            .setProperty(
-                "--secondary",
-                template[3]
-            );
+                            Discord
 
+                        </h3>
 
-            siteData.style.template=
-            template[0];
+                    </a>
 
 
-            saveSite();
+
+                    <a
+                        href="#"
+                        class="contact-card tiktok-link"
+                    >
+
+                        <i
+                            class="fa-brands fa-tiktok"
+                        ></i>
+
+                        <h3>
+
+                            TikTok
+
+                        </h3>
+
+                    </a>
 
 
-            toast(
-                "تم تطبيق القالب ✨"
-            );
+
+                    <a
+                        href="#"
+                        class="contact-card spotify-link"
+                    >
+
+                        <i
+                            class="fa-brands fa-spotify"
+                        ></i>
+
+                        <h3>
+
+                            Spotify
+
+                        </h3>
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
+
+        <section
+            id="message"
+            class="tab"
+        >
+
+
+            <div
+                class="section glass"
+            >
+
+
+                <h2
+                    class="section-title"
+                >
+
+                    <i
+                        class="fa-solid fa-paper-plane"
+                    ></i>
+
+                    MESSAGE
+
+                </h2>
+
+
+                <div
+                    class="form"
+                >
+
+
+                    <input
+                        type="text"
+                        id="senderName"
+                        class="input"
+                        placeholder="Your name"
+                        maxlength="60"
+                    >
+
+
+                    <textarea
+                        id="senderMessage"
+                        class="input"
+                        placeholder="Write your message..."
+                        maxlength="1500"
+                    ></textarea>
+
+
+                    <button
+                        class="main-button"
+                        id="sendMessage"
+                    >
+
+                        SEND MESSAGE
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             THEMES
+        ====================================== -->
+
+        <section
+            id="themes"
+            class="tab"
+        >
+
+
+            <div
+                class="section glass"
+            >
+
+
+                <h2
+                    class="section-title"
+                >
+
+                    <i
+                        class="fa-solid fa-palette"
+                    ></i>
+
+                    THEMES
+
+                </h2>
+
+
+                <div
+                    class="themes-grid"
+                >
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#7c8188"
+                        data-secondary="#e4e8ee"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#7c8188"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#e4e8ee"
+                            ></span>
+
+                        </div>
+
+                        رصاصي
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#ff3b4f"
+                        data-secondary="#36d978"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#ff3b4f"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#36d978"
+                            ></span>
+
+                        </div>
+
+                        أحمر × أخضر
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#9d6bff"
+                        data-secondary="#55dfff"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#9d6bff"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#55dfff"
+                            ></span>
+
+                        </div>
+
+                        بنفسجي × سماوي
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#2adf84"
+                        data-secondary="#f4df4e"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#2adf84"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#f4df4e"
+                            ></span>
+
+                        </div>
+
+                        أخضر × أصفر
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#ff73b8"
+                        data-secondary="#b078ff"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#ff73b8"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#b078ff"
+                            ></span>
+
+                        </div>
+
+                        وردي × بنفسجي
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#caff39"
+                        data-secondary="#ff4d4d"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#caff39"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#ff4d4d"
+                            ></span>
+
+                        </div>
+
+                        ليموني × أحمر
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#151515"
+                        data-secondary="#4ce6ff"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#151515"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#4ce6ff"
+                            ></span>
+
+                        </div>
+
+                        أسود × سماوي
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#ff9a3d"
+                        data-secondary="#ffffff"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#ff9a3d"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#ffffff"
+                            ></span>
+
+                        </div>
+
+                        برتقالي × أبيض
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#8c8f54"
+                        data-secondary="#f4f3e9"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#8c8f54"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#f4f3e9"
+                            ></span>
+
+                        </div>
+
+                        كاكي × أبيض
+
+                    </button>
+
+
+
+                    <button
+                        class="theme-button"
+                        data-primary="#7f1d3d"
+                        data-secondary="#ffd44d"
+                    >
+
+                        <div class="theme-colors">
+
+                            <span
+                                class="theme-color"
+                                style="background:#7f1d3d"
+                            ></span>
+
+                            <span
+                                class="theme-color"
+                                style="background:#ffd44d"
+                            ></span>
+
+                        </div>
+
+                        رماني × أصفر
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             NOTES
+        ====================================== -->
+
+        <section
+            id="notes"
+            class="tab"
+        >
+
+
+            <div
+                class="section glass"
+            >
+
+
+                <h2
+                    class="section-title"
+                >
+
+                    <i
+                        class="fa-solid fa-bell"
+                    ></i>
+
+                    NOTES & NOTIFICATIONS
+
+                </h2>
+
+
+                <div
+                    class="notes-grid"
+                >
+
+
+                    <div
+                        class="form"
+                    >
+
+
+                        <textarea
+                            id="noteText"
+                            class="input"
+                            placeholder="اكتب ملاحظة..."
+                        ></textarea>
+
+
+                        <button
+                            class="main-button"
+                            id="publishNote"
+                        >
+
+                            PUBLISH NOTE
+
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div
+                        class="notes-feed"
+                        id="notesFeed"
+                    ></div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <footer>
+
+            © MOKO — MY SMALL WORLD
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+
+        /* =========================================
+           CONFIGURATION
+        ========================================= */
+
+
+        const CONFIG = {
+
+
+            /*
+                ضع رابط Discord الخاص بك هنا لاحقاً.
+
+                مثال:
+
+                discord:
+                "https://discord.com/users/..."
+            */
+
+            DISCORD_URL:
+
+                "#",
+
+
+            /*
+                ضع رابط TikTok هنا.
+            */
+
+            TIKTOK_URL:
+
+                "#",
+
+
+            /*
+                ضع رابط Spotify هنا.
+            */
+
+            SPOTIFY_URL:
+
+                "#",
+
+
+            /*
+                هذا الرابط مخصص لاحقاً لـ Backend.
+
+                لا تضع Discord Webhook السري
+                مباشرة في HTML.
+
+                إذا وضعته هنا سيتمكن أي شخص
+                من استخراج الرابط واستخدامه.
+            */
+
+            API_URL:
+
+                ""
 
         };
 
 
-        grid.appendChild(card);
 
-    });
-
-}
-
-
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
-
-function renderNotifications(){
-
-    const list=
-    document.getElementById(
-        "notificationList"
-    );
-
-    list.innerHTML="";
+        /* =========================================
+           SHORTCUT
+        ========================================= */
 
 
-    if(
-        sharedData.notifications.length===0
-    ){
+        const $ = selector =>
 
-        list.innerHTML=
-        "<p style='text-align:center;opacity:.7'>لا توجد إشعارات حالياً</p>";
-
-        return;
-
-    }
+            document.querySelector(selector);
 
 
-    sharedData.notifications
-    .slice()
-    .reverse()
-    .forEach(item=>{
 
-        const notification=
-        document.createElement("div");
-
-        notification.className=
-        "notification";
+        /* =========================================
+           TOAST
+        ========================================= */
 
 
-        notification.innerHTML=`
-
-            <strong>
-                ${item.text}
-            </strong>
-
-            <small>
-                ${item.date}
-            </small>
-
-        `;
+        function showToast(message) {
 
 
-        list.appendChild(notification);
+            const toast =
 
-    });
-
-}
+                $("#toast");
 
 
-function addNotification(text){
+            toast.textContent =
 
-    sharedData
-    .notifications
-    .push({
-
-        text,
-
-        date:
-        new Date()
-        .toLocaleString("ar-IQ")
-
-    });
+                message;
 
 
-    saveShared();
+            toast.classList.add(
+
+                "show"
+
+            );
 
 
-    renderNotifications();
+            setTimeout(
 
-}
-
-
-/* =====================================================
-   SEND MESSAGE
-===================================================== */
-
-document
-.getElementById("sendMessage")
-.addEventListener("click",async()=>{
-
-    const name=
-    document
-    .getElementById("senderName")
-    .value
-    .trim();
+                () => {
 
 
-    const message=
-    document
-    .getElementById("senderMessage")
-    .value
-    .trim();
+                    toast.classList.remove(
+
+                        "show"
+
+                    );
 
 
-    if(!name||!message){
+                },
 
-        toast(
-            "أدخل اسمك ورسالتك أولاً"
+                3000
+
+            );
+
+
+        }
+
+
+
+        /* =========================================
+           DISABLE COPY
+        ========================================= */
+
+
+        document.addEventListener(
+
+            "copy",
+
+            event => {
+
+
+                event.preventDefault();
+
+
+                showToast(
+
+                    "Text copying is disabled"
+
+                );
+
+
+            }
+
         );
 
-        return;
 
-    }
+        document.addEventListener(
 
+            "dragstart",
 
-    const date=
-    new Date()
-    .toLocaleString("ar-IQ");
+            event => {
 
 
-    addNotification(
-
-        `💌 رسالة جديدة من ${name}: ${message}`
-
-    );
+                event.preventDefault();
 
 
-    if(siteData.webhook){
+            }
 
-        try{
+        );
 
-            await fetch(
 
-                siteData.webhook,
 
-                {
+        /* =========================================
+           NAVIGATION
+        ========================================= */
 
-                    method:"POST",
 
-                    headers:{
+        const navigationButtons =
 
-                        "Content-Type":
-                        "application/json"
+            document.querySelectorAll(
 
-                    },
+                ".nav-button"
 
-                    body:
-                    JSON.stringify({
+            );
 
-                        embeds:[{
 
-                            title:
-                            "💌 رسالة جديدة إلى SOKO",
+        const tabs =
 
-                            description:
-                            message,
+            document.querySelectorAll(
 
-                            fields:[
+                ".tab"
 
-                                {
+            );
 
-                                    name:"👤 المرسل",
 
-                                    value:name
 
-                                },
+        navigationButtons.forEach(
 
-                                {
+            button => {
 
-                                    name:"📅 التاريخ",
 
-                                    value:date
+                button.addEventListener(
 
-                                }
+                    "click",
 
-                            ],
+                    () => {
 
-                            color:0x00d4ff
 
-                        }]
+                        const tabId =
 
-                    })
+                            button.dataset.tab;
+
+
+
+                        navigationButtons.forEach(
+
+                            item => {
+
+
+                                item.classList.remove(
+
+                                    "active"
+
+                                );
+
+
+                            }
+
+                        );
+
+
+                        tabs.forEach(
+
+                            tab => {
+
+
+                                tab.classList.remove(
+
+                                    "active"
+
+                                );
+
+
+                            }
+
+                        );
+
+
+                        button.classList.add(
+
+                            "active"
+
+                        );
+
+
+                        document
+                            .getElementById(
+                                tabId
+                            )
+                            .classList
+                            .add(
+                                "active"
+                            );
+
+
+                        window.scrollTo({
+
+                            top: 0,
+
+                            behavior:
+                                "smooth"
+
+                        });
+
+
+                    }
+
+                );
+
+
+            }
+
+        );
+
+
+
+        /* =========================================
+           SOCIAL LINKS
+        ========================================= */
+
+
+        document
+            .querySelectorAll(
+                ".discord-link"
+            )
+            .forEach(
+
+                element => {
+
+
+                    element.href =
+
+                        CONFIG.DISCORD_URL;
+
 
                 }
 
             );
 
-        }
-
-        catch(error){
-
-            console.log(error);
-
-        }
-
-    }
-
-
-    document
-    .getElementById("senderName")
-    .value="";
-
-
-    document
-    .getElementById("senderMessage")
-    .value="";
-
-
-    toast(
-        "تم إرسال رسالتك بنجاح 💌"
-    );
-
-});
-
-
-/* =====================================================
-   SETTINGS PASSWORD
-===================================================== */
-
-document
-.getElementById("openSettings")
-.addEventListener("click",()=>{
-
-    openModal(
-        "passwordModal"
-    );
-
-});
-
-
-document
-.getElementById("checkPassword")
-.addEventListener("click",()=>{
-
-    const password=
-    document
-    .getElementById("passwordInput")
-    .value;
-
-
-    if(password==="SOKO"){
-
-        closeModal(
-            "passwordModal"
-        );
-
-
-        loadSettingsValues();
-
-
-        openModal(
-            "settingsModal"
-        );
-
-    }
-
-    else{
-
-        toast(
-            "كلمة المرور غير صحيحة"
-        );
-
-    }
-
-});
-
-
-/* =====================================================
-   LOAD SETTINGS
-===================================================== */
-
-function loadSettingsValues(){
-
-    document
-    .getElementById("settingName")
-    .value=
-    siteData.name;
-
-
-    document
-    .getElementById("settingDescription")
-    .value=
-    siteData.description;
-
-
-    document
-    .getElementById("fontSelect")
-    .value=
-    siteData.style.font;
-
-
-    document
-    .getElementById("nameColor")
-    .value=
-    siteData.style.textColor;
-
-
-    document
-    .getElementById("effectSelect")
-    .value=
-    siteData.style.effect;
-
-
-    document
-    .getElementById("webhookInput")
-    .value=
-    siteData.webhook;
-
-}
-
-
-/* =====================================================
-   FILE TO BASE64
-===================================================== */
-
-function fileToDataURL(file){
-
-    return new Promise(resolve=>{
-
-        const reader=
-        new FileReader();
-
-
-        reader.onload=
-        ()=>resolve(reader.result);
-
-
-        reader.readAsDataURL(file);
-
-    });
-
-}
-
-
-/* =====================================================
-   SAVE SETTINGS
-===================================================== */
-
-document
-.getElementById("saveSettings")
-.addEventListener("click",async()=>{
-
-    siteData.name=
-
-    document
-    .getElementById("settingName")
-    .value
-    .trim()
-    ||
-    "SOKO";
-
-
-    siteData.description=
-
-    document
-    .getElementById("settingDescription")
-    .value;
-
-
-    siteData.style.font=
-
-    document
-    .getElementById("fontSelect")
-    .value;
-
-
-    siteData.style.textColor=
-
-    document
-    .getElementById("nameColor")
-    .value;
-
-
-    siteData.style.effect=
-
-    document
-    .getElementById("effectSelect")
-    .value;
-
-
-    siteData.webhook=
-
-    document
-    .getElementById("webhookInput")
-    .value
-    .trim();
-
-
-    const profileFile=
-
-    document
-    .getElementById("profileFile")
-    .files[0];
-
-
-    if(profileFile){
-
-        siteData.profileImage=
-
-        await fileToDataURL(
-            profileFile
-        );
-
-    }
-
-
-    const backgroundFile=
-
-    document
-    .getElementById("backgroundFile")
-    .files[0];
-
-
-    if(backgroundFile){
-
-        siteData.background={
-
-            type:
-
-            document
-            .getElementById("backgroundType")
-            .value,
-
-            src:
-
-            await fileToDataURL(
-                backgroundFile
-            )
-
-        };
-
-    }
-
-
-    const musicFile=
-
-    document
-    .getElementById("musicFile")
-    .files[0];
-
-
-    if(musicFile){
-
-        siteData.music.src=
-
-        await fileToDataURL(
-            musicFile
-        );
-
-
-        siteData.music.name=
-        musicFile.name;
-
-    }
-
-
-    saveSite();
-
-
-    addNotification(
-
-        `⚙️ قام ${siteData.name} بتحديث إعدادات موقعه`
-
-    );
-
-
-    renderSite();
-
-
-    closeModal(
-        "settingsModal"
-    );
-
-
-    toast(
-        "تم حفظ الإعدادات بنجاح ✨"
-    );
-
-});
-
-
-/* =====================================================
-   ADD SHARED NOTE
-===================================================== */
-
-document
-.getElementById("addNote")
-.addEventListener("click",async()=>{
-
-    const text=
-    document
-    .getElementById("newNoteText")
-    .value;
-
-
-    const file=
-    document
-    .getElementById("newNoteFile")
-    .files[0];
-
-
-    let fileData=null;
-
-    let fileType=null;
-
-
-    if(file){
-
-        fileData=
-
-        await fileToDataURL(file);
-
-
-        if(file.type.startsWith("image")){
-
-            fileType="image";
-
-        }
-
-        else if(file.type.startsWith("audio")){
-
-            fileType="audio";
-
-        }
-
-    }
-
-
-    if(!text&&!file){
-
-        toast(
-            "أضف رسالة أو ملف أولاً"
-        );
-
-        return;
-
-    }
-
-
-    sharedData.notes.push({
-
-        text,
-
-        file:fileData,
-
-        fileType,
-
-        owner:"SOKO",
-
-        date:
-
-        new Date()
-        .toLocaleString("ar-IQ")
-
-    });
-
-
-    saveShared();
-
-
-    addNotification(
-
-        "💞 قام SOKO بإضافة ذكرى جديدة مشتركة"
-
-    );
-
-
-    renderNotes();
-
-
-    document
-    .getElementById("newNoteText")
-    .value="";
-
-
-    document
-    .getElementById("newNoteFile")
-    .value="";
-
-
-    toast(
-        "تمت إضافة الملاحظة للطرفين 💞"
-    );
-
-});
-
-
-/* =====================================================
-   PAGE VISIT NOTIFICATION
-===================================================== */
-
-function notifyVisit(){
-
-    const key=
-    "SOKO_VISIT_"+
-    new Date()
-    .toDateString();
-
-
-    if(sessionStorage.getItem(key)){
-
-        return;
-
-    }
-
-
-    sessionStorage
-    .setItem(key,"1");
-
-
-    if(siteData.webhook){
-
-        fetch(
-
-            siteData.webhook,
-
-            {
-
-                method:"POST",
-
-                headers:{
-
-                    "Content-Type":
-                    "application/json"
-
-                },
-
-                body:
-
-                JSON.stringify({
-
-                    embeds:[{
-
-                        title:
-                        "👋 دخول جديد",
-
-                        description:
-                        "لقد دخل شخص إلى موقع SOKO",
-
-                        color:0x00d4ff,
-
-                        timestamp:
-                        new Date()
-                        .toISOString()
-
-                    }]
-
-                })
-
-            }
-
-        )
-        .catch(()=>{});
-
-    }
-
-}
-
-
-/* =====================================================
-   PREVENT COPY
-===================================================== */
-
-document
-.addEventListener(
-"contextmenu",
-e=>e.preventDefault()
-);
-
-
-document
-.addEventListener(
-"selectstart",
-e=>e.preventDefault()
-);
-
-
-document
-.addEventListener(
-"dragstart",
-e=>e.preventDefault()
-);
-
-
-/* =====================================================
-   LOADER
-===================================================== */
-
-window
-.addEventListener("load",()=>{
-
-    let progress=0;
-
-    const interval=
-    setInterval(()=>{
-
-        progress+=
-        8+Math.random()*15;
-
-
-        if(progress>=100){
-
-            progress=100;
-
-            clearInterval(interval);
-
-
-            setTimeout(()=>{
-
-                document
-                .getElementById("loader")
-                .classList.add("hide");
-
-            },400);
-
-        }
 
 
         document
-        .getElementById("loaderBar")
-        .style.width=
-        progress+"%";
+            .querySelectorAll(
+                ".tiktok-link"
+            )
+            .forEach(
 
-    },180);
-
-});
+                element => {
 
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
+                    element.href =
 
-createParticles();
+                        CONFIG.TIKTOK_URL;
 
-updateClock();
 
-renderSite();
+                }
 
-notifyVisit();
+            );
 
-</script></body>
+
+
+        document
+            .querySelectorAll(
+                ".spotify-link"
+            )
+            .forEach(
+
+                element => {
+
+
+                    element.href =
+
+                        CONFIG.SPOTIFY_URL;
+
+
+                }
+
+            );
+
+
+
+        /* =========================================
+           VISITOR IDENTIFIER
+           
+           معرف عشوائي ثابت داخل المتصفح.
+           
+           ليس بصمة جهاز خفية.
+        ========================================= */
+
+
+        const VISITOR_KEY =
+
+            "MOKO_VISITOR_ID";
+
+
+        let visitorId =
+
+            localStorage.getItem(
+                VISITOR_KEY
+            );
+
+
+
+        if (
+
+            !visitorId
+
+        ) {
+
+
+            if (
+
+                crypto.randomUUID
+
+            ) {
+
+
+                visitorId =
+
+                    crypto.randomUUID();
+
+
+            }
+
+
+            else {
+
+
+                visitorId =
+
+                    Math.random()
+                        .toString(36)
+                        .substring(2)
+
+                    +
+
+                    Date.now();
+
+
+            }
+
+
+            localStorage.setItem(
+
+                VISITOR_KEY,
+
+                visitorId
+
+            );
+
+
+        }
+
+
+
+        /* =========================================
+           VISIT COUNT
+        ========================================= */
+
+
+        const visitCountKey =
+
+            "MOKO_VISIT_COUNT_"
+
+            +
+
+            visitorId;
+
+
+
+        let visitCount =
+
+            Number(
+
+                localStorage.getItem(
+                    visitCountKey
+                )
+
+                ||
+
+                0
+
+            );
+
+
+
+        visitCount++;
+
+
+        localStorage.setItem(
+
+            visitCountKey,
+
+            visitCount
+
+        );
+
+
+
+        console.log(
+
+            "MOKO Visitor ID:",
+
+            visitorId
+
+        );
+
+
+        console.log(
+
+            "Visit Count:",
+
+            visitCount
+
+        );
+
+
+
+        /* =========================================
+           SEND VISIT TO API
+        ========================================= */
+
+
+        async function sendVisitNotification() {
+
+
+            if (
+
+                !CONFIG.API_URL
+
+            ) {
+
+
+                return;
+
+
+            }
+
+
+            try {
+
+
+                await fetch(
+
+                    CONFIG.API_URL
+
+                    +
+
+                    "/visit",
+
+                    {
+
+
+                        method:
+
+                            "POST",
+
+
+                        headers:
+
+                            {
+
+                                "Content-Type":
+
+                                    "application/json"
+
+                            },
+
+
+                        body:
+
+                            JSON.stringify({
+
+                                site:
+
+                                    "MOKO",
+
+                                visitorId:
+
+                                    visitorId,
+
+                                visitCount:
+
+                                    visitCount,
+
+                                time:
+
+                                    new Date()
+                                        .toISOString()
+
+                            })
+
+
+                    }
+
+                );
+
+
+            }
+
+
+            catch (
+
+                error
+
+            ) {
+
+
+                console.log(
+
+                    "Visit notification error"
+
+                );
+
+
+            }
+
+
+        }
+
+
+        sendVisitNotification();
+
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+
+        $("#sendMessage")
+            .addEventListener(
+
+                "click",
+
+                async () => {
+
+
+                    const name =
+
+                        $("#senderName")
+                            .value
+                            .trim();
+
+
+                    const message =
+
+                        $("#senderMessage")
+                            .value
+                            .trim();
+
+
+
+                    if (
+
+                        !name
+
+                        ||
+
+                        !message
+
+                    ) {
+
+
+                        showToast(
+
+                            "أكمل الاسم والرسالة"
+
+                        );
+
+
+                        return;
+
+
+                    }
+
+
+
+                    const messageData = {
+
+
+                        site:
+
+                            "MOKO",
+
+
+                        name:
+
+                            name,
+
+
+                        message:
+
+                            message,
+
+
+                        time:
+
+                            new Date()
+                                .toISOString()
+
+
+                    };
+
+
+
+                    /*
+                        إذا لم يتم إضافة Backend
+                        تحفظ الرسالة محلياً.
+                    */
+
+
+                    if (
+
+                        !CONFIG.API_URL
+
+                    ) {
+
+
+                        const messages =
+
+                            JSON.parse(
+
+                                localStorage.getItem(
+                                    "MOKO_LOCAL_MESSAGES"
+                                )
+
+                                ||
+
+                                "[]"
+
+                            );
+
+
+                        messages.unshift(
+
+                            messageData
+
+                        );
+
+
+                        localStorage.setItem(
+
+                            "MOKO_LOCAL_MESSAGES",
+
+                            JSON.stringify(
+                                messages
+                            )
+
+                        );
+
+
+                        $("#senderMessage")
+                            .value =
+
+                            "";
+
+
+                        showToast(
+
+                            "تم حفظ الرسالة محلياً"
+
+                        );
+
+
+                        return;
+
+
+                    }
+
+
+
+                    try {
+
+
+                        await fetch(
+
+                            CONFIG.API_URL
+
+                            +
+
+                            "/message",
+
+                            {
+
+
+                                method:
+
+                                    "POST",
+
+
+                                headers:
+
+                                    {
+
+                                        "Content-Type":
+
+                                            "application/json"
+
+                                    },
+
+
+                                body:
+
+                                    JSON.stringify(
+                                        messageData
+                                    )
+
+
+                            }
+
+                        );
+
+
+                        $("#senderMessage")
+                            .value =
+
+                            "";
+
+
+                        showToast(
+
+                            "تم إرسال رسالتك"
+
+                        );
+
+
+                    }
+
+
+                    catch (
+
+                        error
+
+                    ) {
+
+
+                        showToast(
+
+                            "فشل إرسال الرسالة"
+
+                        );
+
+
+                    }
+
+
+                }
+
+            );
+
+
+
+        /* =========================================
+           NOTES
+        ========================================= */
+
+
+        const NOTES_KEY =
+
+            "MOKO_SOLO_SHARED_NOTES";
+
+
+
+        function getNotes() {
+
+
+            try {
+
+
+                return JSON.parse(
+
+                    localStorage.getItem(
+                        NOTES_KEY
+                    )
+
+                    ||
+
+                    "[]"
+
+                );
+
+
+            }
+
+
+            catch (
+
+                error
+
+            ) {
+
+
+                return [];
+
+
+            }
+
+
+        }
+
+
+
+        function escapeHTML(
+
+            text
+
+        ) {
+
+
+            const element =
+
+                document.createElement(
+                    "div"
+                );
+
+
+            element.textContent =
+
+                text;
+
+
+            return element.innerHTML;
+
+
+        }
+
+
+
+        function renderNotes() {
+
+
+            const notes =
+
+                getNotes();
+
+
+            const feed =
+
+                $("#notesFeed");
+
+
+            feed.innerHTML =
+
+                "";
+
+
+
+            if (
+
+                notes.length === 0
+
+            ) {
+
+
+                feed.innerHTML =
+
+                    `
+
+                    <div class="note-item">
+
+                        لا توجد ملاحظات حالياً
+
+                    </div>
+
+                    `;
+
+
+                return;
+
+
+            }
+
+
+
+            notes.forEach(
+
+                note => {
+
+
+                    const item =
+
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+
+                        "note-item";
+
+
+                    item.innerHTML =
+
+                        `
+
+                        <div>
+
+                            ${escapeHTML(
+                                note.text
+                            )}
+
+                        </div>
+
+                        <span
+                            class="note-time"
+                        >
+
+                            ${new Date(
+                                note.time
+                            ).toLocaleString()}
+
+                            —
+
+                            ${escapeHTML(
+                                note.site
+                            )}
+
+                        </span>
+
+                        `;
+
+
+                    feed.appendChild(
+
+                        item
+
+                    );
+
+
+                }
+
+            );
+
+
+        }
+
+
+
+        $("#publishNote")
+            .addEventListener(
+
+                "click",
+
+                () => {
+
+
+                    const text =
+
+                        $("#noteText")
+                            .value
+                            .trim();
+
+
+
+                    if (
+
+                        !text
+
+                    ) {
+
+
+                        showToast(
+
+                            "اكتب الملاحظة أولاً"
+
+                        );
+
+
+                        return;
+
+
+                    }
+
+
+
+                    const notes =
+
+                        getNotes();
+
+
+
+                    const newNote = {
+
+
+                        text:
+
+                            text,
+
+
+                        site:
+
+                            "MOKO",
+
+
+                        time:
+
+                            new Date()
+                                .toISOString()
+
+
+                    };
+
+
+
+                    notes.unshift(
+
+                        newNote
+
+                    );
+
+
+                    localStorage.setItem(
+
+                        NOTES_KEY,
+
+                        JSON.stringify(
+                            notes
+                        )
+
+                    );
+
+
+                    $("#noteText")
+                        .value =
+
+                        "";
+
+
+                    renderNotes();
+
+
+                    showToast(
+
+                        "تم نشر الملاحظة"
+
+                    );
+
+
+                    /*
+                        إرسال مباشر بين الصفحات
+                        المفتوحة بنفس المتصفح.
+                    */
+
+
+                    if (
+
+                        window.sharedNotesChannel
+
+                    ) {
+
+
+                        window.sharedNotesChannel.postMessage(
+
+                            {
+
+                                type:
+
+                                    "new_note"
+
+                            }
+
+                        );
+
+
+                    }
+
+
+                }
+
+            );
+
+
+
+        renderNotes();
+
+
+
+        /* =========================================
+           BROADCAST CHANNEL
+        ========================================= */
+
+
+        if (
+
+            "BroadcastChannel"
+
+            in
+
+            window
+
+        ) {
+
+
+            window.sharedNotesChannel =
+
+                new BroadcastChannel(
+
+                    "MOKO_SOLO_NOTES_CHANNEL"
+
+                );
+
+
+            window
+                .sharedNotesChannel
+                .onmessage =
+
+                event => {
+
+
+                    if (
+
+                        event.data.type
+
+                        ===
+
+                        "new_note"
+
+                    ) {
+
+
+                        renderNotes();
+
+
+                        showToast(
+
+                            "تم نشر ملاحظة جديدة"
+
+                        );
+
+
+                    }
+
+
+                };
+
+
+        }
+
+
+
+        /*
+            تحديث الملاحظات عند تغير
+            LocalStorage من الصفحة الأخرى.
+        */
+
+
+        window.addEventListener(
+
+            "storage",
+
+            event => {
+
+
+                if (
+
+                    event.key
+
+                    ===
+
+                    NOTES_KEY
+
+                ) {
+
+
+                    renderNotes();
+
+
+                    showToast(
+
+                        "يوجد تحديث جديد"
+
+                    );
+
+
+                }
+
+
+            }
+
+        );
+
+
+
+        /* =========================================
+           THEMES
+        ========================================= */
+
+
+        const THEME_KEY =
+
+            "MOKO_SOLO_THEME";
+
+
+
+        function hexToRGB(
+
+            hex
+
+        ) {
+
+
+            hex =
+
+                hex.replace(
+                    "#",
+                    ""
+                );
+
+
+            if (
+
+                hex.length === 3
+
+            ) {
+
+
+                hex =
+
+                    hex
+                        .split("")
+                        .map(
+
+                            value =>
+
+                                value
+                                +
+                                value
+
+                        )
+                        .join("");
+
+
+            }
+
+
+            const number =
+
+                parseInt(
+                    hex,
+                    16
+                );
+
+
+            return
+
+                (
+
+                    (number >> 16)
+
+                    &
+
+                    255
+
+                )
+
+                +
+
+                ", "
+
+                +
+
+                (
+
+                    (number >> 8)
+
+                    &
+
+                    255
+
+                )
+
+                +
+
+                ", "
+
+                +
+
+                (
+
+                    number
+
+                    &
+
+                    255
+
+                );
+
+
+        }
+
+
+
+        function applyTheme(
+
+            primary,
+
+            secondary
+
+        ) {
+
+
+            document
+                .documentElement
+                .style
+                .setProperty(
+
+                    "--primary",
+
+                    primary
+
+                );
+
+
+            document
+                .documentElement
+                .style
+                .setProperty(
+
+                    "--secondary",
+
+                    secondary
+
+                );
+
+
+            document
+                .documentElement
+                .style
+                .setProperty(
+
+                    "--primary-rgb",
+
+                    hexToRGB(
+                        primary
+                    )
+
+                );
+
+
+            localStorage.setItem(
+
+                THEME_KEY,
+
+                JSON.stringify({
+
+                    primary:
+
+                        primary,
+
+                    secondary:
+
+                        secondary
+
+                })
+
+            );
+
+
+        }
+
+
+
+        document
+            .querySelectorAll(
+                ".theme-button"
+            )
+            .forEach(
+
+                button => {
+
+
+                    button.addEventListener(
+
+                        "click",
+
+                        () => {
+
+
+                            const primary =
+
+                                button.dataset.primary;
+
+
+                            const secondary =
+
+                                button.dataset.secondary;
+
+
+
+                            applyTheme(
+
+                                primary,
+
+                                secondary
+
+                            );
+
+
+                            showToast(
+
+                                "تم تطبيق الثيم"
+
+                            );
+
+
+                        }
+
+                    );
+
+
+                }
+
+            );
+
+
+
+        try {
+
+
+            const savedTheme =
+
+                JSON.parse(
+
+                    localStorage.getItem(
+                        THEME_KEY
+                    )
+
+                );
+
+
+            if (
+
+                savedTheme
+
+            ) {
+
+
+                applyTheme(
+
+                    savedTheme.primary,
+
+                    savedTheme.secondary
+
+                );
+
+
+            }
+
+
+        }
+
+
+        catch (
+
+            error
+
+        ) {
+
+        }
+
+
+
+        /* =========================================
+           PARTICLES
+        ========================================= */
+
+
+        const particlesContainer =
+
+            $("#particles");
+
+
+
+        for (
+
+            let i = 0;
+
+            i < 35;
+
+            i++
+
+        ) {
+
+
+            const particle =
+
+                document.createElement(
+                    "span"
+                );
+
+
+            particle.className =
+
+                "particle";
+
+
+            particle.style.left =
+
+                Math.random()
+
+                *
+
+                100
+
+                +
+
+                "%";
+
+
+            particle.style.top =
+
+                Math.random()
+
+                *
+
+                100
+
+                +
+
+                "%";
+
+
+            particle.style.animationDelay =
+
+                Math.random()
+
+                *
+
+                -8
+
+                +
+
+                "s";
+
+
+            particle.style.animationDuration =
+
+                5
+
+                +
+
+                Math.random()
+
+                *
+
+                7
+
+                +
+
+                "s";
+
+
+            particlesContainer.appendChild(
+
+                particle
+
+            );
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
 </html>
