@@ -1,95 +1,67 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>MOKO | My Small World</title>
-
-<!-- FONTS -->
-
-<link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
->
-
-<link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
->
-
-<link
-    href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=Changa:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800;900&display=swap"
-    rel="stylesheet"
->
-
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
->
-
-<style>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MOKO | My Small World</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link
+href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=Changa:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+rel="stylesheet"><link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><style>
 
 /* =====================================================
-   MOKO — ADVANCED LUXURY UI
+   MOKO LUXURY DESIGN SYSTEM
 ===================================================== */
 
-:root {
+:root{
 
-    --primary: #9da3ad;
+    --primary:#9da3ad;
+    --secondary:#eef1f5;
+    --primary-rgb:157,163,173;
 
-    --secondary: #eef1f5;
+    --text:#ffffff;
+    --muted:#bfc5cf;
 
-    --primary-rgb: 157, 163, 173;
+    --background-overlay:rgba(7,9,14,.70);
+    --background-overlay-2:rgba(15,18,26,.45);
 
-    --background-overlay:
-        rgba(7, 9, 14, 0.70);
+    --glass-opacity:.55;
+    --glass-blur:20px;
+    --card-radius:28px;
 
-    --background-overlay-2:
-        rgba(15, 18, 26, 0.45);
-
-    --glass:
-        rgba(18, 21, 29, 0.55);
-
-    --glass-strong:
-        rgba(12, 15, 22, 0.72);
-
-    --border:
-        rgba(255,255,255,0.18);
-
-    --text:
-        #ffffff;
-
-    --muted:
-        #bfc5cf;
+    --border:rgba(255,255,255,.18);
 
     --glow:
-        rgba(var(--primary-rgb),0.55);
+        rgba(
+            var(--primary-rgb),
+            .45
+        );
 
     --icon-glow:
-        rgba(var(--primary-rgb),0.75);
+        rgba(
+            var(--primary-rgb),
+            .80
+        );
 
     --shadow:
-        0 20px 70px rgba(0,0,0,0.55);
+        0 20px 70px rgba(0,0,0,.55);
 
-    --glass-blur:
-        20px;
+    --icon-strength:1;
 
-    --glass-opacity:
-        0.55;
+    --inner-light:.35;
 
-    --card-radius:
-        28px;
+    --animation-speed:1;
 
-    --icon-strength:
-        1;
+    --hover-lift:-7px;
+
+    --arabic-font:"El Messiri";
+    --english-font:"Manrope";
+
+    --font-weight:600;
+
+    --letter-spacing:0px;
+
+    --vignette:.30;
+
+    --particle-opacity:.65;
+
+    --ambient-opacity:.15;
 
 }
 
@@ -98,35 +70,24 @@
    RESET
 ===================================================== */
 
-* {
-
+*{
     margin:0;
-
     padding:0;
-
     box-sizing:border-box;
-
 }
 
-
-html {
-
+html{
     scroll-behavior:smooth;
-
 }
 
-
-body {
+body{
 
     min-height:100vh;
 
     color:var(--text);
 
     font-family:
-        "El Messiri",
-        "Segoe UI",
-        Tahoma,
-        Arial,
+        var(--arabic-font),
         sans-serif;
 
     background:
@@ -140,9 +101,7 @@ body {
         url("A.jpg");
 
     background-size:cover;
-
     background-position:center;
-
     background-attachment:fixed;
 
     overflow-x:hidden;
@@ -150,48 +109,91 @@ body {
     -webkit-tap-highlight-color:transparent;
 
     user-select:none;
-
     -webkit-user-select:none;
-
-    -moz-user-select:none;
 
     -webkit-touch-callout:none;
 
+    transition:
+        background-color .5s ease,
+        color .5s ease;
 }
 
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-2;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 20%,
+            var(--glow),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(
+                var(--primary-rgb),
+                .12
+            ),
+            transparent 38%
+        );
+
+    opacity:var(--ambient-opacity);
+
+    transition:
+        opacity .6s ease;
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    background:
+
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,var(--vignette))
+        );
+
+}
 
 input,
-textarea {
-
+textarea{
     user-select:text;
-
     -webkit-user-select:text;
-
 }
-
 
 button,
 input,
-textarea {
-
+textarea{
     font:inherit;
-
 }
 
-
-button {
-
+button{
     cursor:pointer;
-
 }
 
-
-a {
-
-    text-decoration:none;
-
+a{
     color:inherit;
-
+    text-decoration:none;
 }
 
 
@@ -199,29 +201,27 @@ a {
    SCROLLBAR
 ===================================================== */
 
-::-webkit-scrollbar {
-
-    width:8px;
-
+::-webkit-scrollbar{
+    width:7px;
 }
 
-
-::-webkit-scrollbar-track {
-
-    background:rgba(0,0,0,0.25);
-
+::-webkit-scrollbar-track{
+    background:rgba(0,0,0,.25);
 }
 
+::-webkit-scrollbar-thumb{
 
-::-webkit-scrollbar-thumb {
-
-    background:var(--primary);
+    background:
+        linear-gradient(
+            180deg,
+            var(--primary),
+            var(--secondary)
+        );
 
     border-radius:20px;
 
     box-shadow:
-        0 0 10px var(--glow);
-
+        0 0 12px var(--glow);
 }
 
 
@@ -229,7 +229,7 @@ a {
    PARTICLES
 ===================================================== */
 
-.particles {
+.particles{
 
     position:fixed;
 
@@ -243,26 +243,22 @@ a {
 
 }
 
-
-.particle {
+.particle{
 
     position:absolute;
 
-    width:4px;
-
-    height:4px;
+    width:3px;
+    height:3px;
 
     border-radius:50%;
 
     background:var(--primary);
 
     box-shadow:
+        0 0 7px var(--primary),
+        0 0 18px var(--glow);
 
-        0 0 8px var(--primary),
-
-        0 0 20px var(--primary);
-
-    opacity:.6;
+    opacity:var(--particle-opacity);
 
     animation:
         particleFloat
@@ -272,129 +268,30 @@ a {
 
 }
 
+@keyframes particleFloat{
 
-@keyframes particleFloat {
-
-    0% {
-
+    0%{
         transform:
-            translateY(0)
-            translateX(0);
+            translate3d(0,0,0)
+            scale(.7);
 
-        opacity:.2;
-
+        opacity:.1;
     }
 
-    50% {
-
+    50%{
         transform:
-            translateY(-80px)
-            translateX(30px);
+            translate3d(30px,-90px,0)
+            scale(1.3);
 
         opacity:1;
-
     }
 
-    100% {
-
+    100%{
         transform:
-            translateY(-160px)
-            translateX(-20px);
+            translate3d(-20px,-170px,0)
+            scale:.4;
 
         opacity:0;
-
-    }
-
-}
-
-
-/* =====================================================
-   RGB SYSTEM
-===================================================== */
-
-body.rgb-mode {
-
-    --glow:
-        rgba(
-            var(--rgb-r),
-            var(--rgb-g),
-            var(--rgb-b),
-            .7
-        );
-
-}
-
-
-.rgb-border {
-
-    position:relative;
-
-}
-
-
-.rgb-border::after {
-
-    content:"";
-
-    position:absolute;
-
-    inset:-2px;
-
-    border-radius:inherit;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff0055,
-            #00ffff,
-            #7c00ff,
-            #00ff88,
-            #ffff00,
-            #ff0055
-        );
-
-    background-size:400% 400%;
-
-    animation:
-        rgbMove
-        7s
-        linear
-        infinite;
-
-    z-index:-1;
-
-    opacity:0;
-
-    transition:.3s;
-
-}
-
-
-body.rgb-mode .rgb-border::after {
-
-    opacity:.8;
-
-}
-
-
-@keyframes rgbMove {
-
-    0% {
-
-        background-position:0% 50%;
-
-    }
-
-    50% {
-
-        background-position:100% 50%;
-
-    }
-
-    100% {
-
-        background-position:0% 50%;
-
     }
 
 }
@@ -404,7 +301,7 @@ body.rgb-mode .rgb-border::after {
    APP
 ===================================================== */
 
-.app {
+.app{
 
     width:min(1200px,95vw);
 
@@ -419,14 +316,30 @@ body.rgb-mode .rgb-border::after {
 
 
 /* =====================================================
-   GLASS
+   GLASS CORE
 ===================================================== */
 
-.glass {
+.glass{
 
     position:relative;
 
     background:
+        linear-gradient(
+            135deg,
+            rgba(
+                255,
+                255,
+                255,
+                calc(var(--glass-opacity) * .14)
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                calc(var(--glass-opacity) * .035)
+            )
+        ),
+
         rgba(
             18,
             21,
@@ -448,24 +361,23 @@ body.rgb-mode .rgb-border::after {
         blur(var(--glass-blur));
 
     box-shadow:
-
-        var(--shadow),
-
-        0 0 35px
-        var(--glow);
+        var(--shadow);
 
     overflow:hidden;
 
     transition:
-        background .35s ease,
-        border-radius .35s ease,
-        box-shadow .35s ease,
-        border-color .35s ease;
+        transform .5s cubic-bezier(.2,.8,.2,1),
+        background .5s ease,
+        border-radius .5s ease,
+        box-shadow .5s ease,
+        border-color .5s ease;
 
 }
 
 
-.glass::before {
+/* Soft internal reflection */
+
+.glass::before{
 
     content:"";
 
@@ -477,45 +389,169 @@ body.rgb-mode .rgb-border::after {
 
     border-radius:inherit;
 
-    padding:1px;
-
     background:
 
         linear-gradient(
-            130deg,
-            transparent,
-            var(--primary),
-            transparent,
-            var(--secondary),
-            transparent
+            115deg,
+            rgba(255,255,255,.14),
+            transparent 18%,
+            transparent 70%,
+            rgba(255,255,255,.04)
         );
 
-    -webkit-mask:
-
-        linear-gradient(#000 0 0)
-        content-box,
-
-        linear-gradient(#000 0 0);
-
-    -webkit-mask-composite:xor;
-
-    mask-composite:exclude;
-
-    opacity:.9;
+    opacity:.65;
 
 }
 
 
-body.no-card-glow .glass {
+/* Soft INNER edge lighting — no RGB border */
 
-    box-shadow:var(--shadow);
+.glass::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:1px;
+
+    pointer-events:none;
+
+    border-radius:inherit;
+
+    box-shadow:
+
+        inset 0 1px 0
+        rgba(255,255,255,.12),
+
+        inset 1px 0 0
+        rgba(
+            var(--primary-rgb),
+            var(--inner-light)
+        ),
+
+        inset -1px 0 0
+        rgba(
+            var(--secondary-rgb,255,255,255),
+            .10
+        ),
+
+        inset 0 -1px 0
+        rgba(0,0,0,.18);
+
+    opacity:.95;
+
+    transition:
+        opacity .5s ease,
+        box-shadow .5s ease;
 
 }
 
 
-body.no-card-glow .glass::before {
+/* =====================================================
+   CARD STYLES
+===================================================== */
 
-    opacity:.35;
+body.card-crystal .glass{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.025)
+        );
+
+    border-color:
+        rgba(255,255,255,.28);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.40),
+        inset 0 1px 0 rgba(255,255,255,.15);
+
+}
+
+body.card-obsidian .glass{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(5,7,12,.80),
+            rgba(22,25,34,.48)
+        );
+
+    border-color:
+        rgba(255,255,255,.13);
+
+    box-shadow:
+        0 25px 90px rgba(0,0,0,.70);
+
+}
+
+body.card-frost .glass{
+
+    background:
+        rgba(210,220,235,.10);
+
+    backdrop-filter:
+        blur(42px);
+
+    -webkit-backdrop-filter:
+        blur(42px);
+
+    border-color:
+        rgba(255,255,255,.22);
+
+}
+
+body.card-pearl .glass{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.16),
+            rgba(255,255,255,.045)
+        );
+
+    border-color:
+        rgba(255,255,255,.30);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.45),
+        inset 0 0 35px rgba(255,255,255,.025);
+
+}
+
+body.card-liquid .glass{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(
+                var(--primary-rgb),
+                .13
+            ),
+            rgba(255,255,255,.035)
+        );
+
+    box-shadow:
+        0 25px 90px rgba(0,0,0,.50),
+        inset 0 0 35px
+        rgba(
+            var(--primary-rgb),
+            .10
+        );
+
+}
+
+body.card-minimal .glass{
+
+    background:
+        rgba(15,18,25,.58);
+
+    border-color:
+        rgba(255,255,255,.10);
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.42);
 
 }
 
@@ -524,7 +560,7 @@ body.no-card-glow .glass::before {
    HEADER
 ===================================================== */
 
-.header {
+.header{
 
     position:sticky;
 
@@ -544,8 +580,7 @@ body.no-card-glow .glass::before {
 
 }
 
-
-.brand {
+.brand{
 
     display:flex;
 
@@ -557,11 +592,9 @@ body.no-card-glow .glass::before {
 
 }
 
-
-.brand-image {
+.brand-image{
 
     width:46px;
-
     height:46px;
 
     object-fit:cover;
@@ -573,8 +606,7 @@ body.no-card-glow .glass::before {
         var(--border);
 
     box-shadow:
-        0 0 22px
-        var(--glow);
+        0 0 22px var(--glow);
 
     animation:
         iconBreath
@@ -584,22 +616,21 @@ body.no-card-glow .glass::before {
 
 }
 
-
-.brand-name {
+.brand-name{
 
     font-family:
-        "Orbitron",
+        var(--english-font),
         sans-serif;
 
     font-size:1.25rem;
 
-    font-weight:900;
+    font-weight:800;
 
     letter-spacing:4px;
 
     animation:
         luxuryBlink
-        2.7s
+        3s
         infinite
         ease-in-out;
 
@@ -610,7 +641,7 @@ body.no-card-glow .glass::before {
    NAVIGATION
 ===================================================== */
 
-.navigation {
+.navigation{
 
     display:flex;
 
@@ -622,8 +653,7 @@ body.no-card-glow .glass::before {
 
 }
 
-
-.nav-button {
+.nav-button{
 
     position:relative;
 
@@ -636,75 +666,55 @@ body.no-card-glow .glass::before {
     color:var(--text);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.045);
 
     padding:
-        10px
-        13px;
+        10px 13px;
 
     border-radius:15px;
 
     transition:
-        .35s
-        cubic-bezier(.2,.8,.2,1);
+        transform .4s cubic-bezier(.2,.8,.2,1),
+        background .4s ease,
+        box-shadow .4s ease,
+        border-color .4s ease;
 
 }
 
-
-.nav-button i {
+.nav-button i{
 
     color:var(--primary);
 
-    margin-left:4px;
-
-    filter:
-        drop-shadow(
-            0 0
-            calc(7px * var(--icon-strength))
-            var(--icon-glow)
-        );
-
-    animation:
-        iconBreath
-        3.8s
-        ease-in-out
-        infinite;
+    margin-left:5px;
 
 }
 
-
-.nav-button:hover {
+.nav-button:hover{
 
     transform:
         translateY(-3px);
 
     border-color:
-        var(--border);
-
-    background:
         rgba(
-            255,
-            255,
-            255,
-            .13
+            var(--primary-rgb),
+            .30
         );
 
+    background:
+        rgba(255,255,255,.10);
+
     box-shadow:
-        0 0 22px
-        var(--glow);
+        0 8px 30px
+        rgba(
+            var(--primary-rgb),
+            .15
+        );
 
 }
 
-
-.nav-button.active {
+.nav-button.active{
 
     background:
-
         linear-gradient(
             135deg,
             var(--primary),
@@ -715,15 +725,13 @@ body.no-card-glow .glass::before {
 
     font-weight:900;
 
+    border-color:transparent;
+
     box-shadow:
-
         0 0 25px
-        var(--glow),
-
-        0 0 55px
         rgba(
             var(--primary-rgb),
-            .25
+            .35
         );
 
     transform:
@@ -731,176 +739,136 @@ body.no-card-glow .glass::before {
 
 }
 
-
-.nav-button.active i {
-
-    color:#101216;
-
-    filter:none;
-
+.nav-button.active i{
+    color:#111;
 }
 
-
-.nav-button::after {
+.nav-button::before{
 
     content:"";
 
     position:absolute;
 
-    width:70px;
+    top:0;
+    left:-100%;
 
-    height:70px;
+    width:70%;
 
-    border-radius:50%;
+    height:100%;
 
     background:
-        rgba(255,255,255,.45);
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
 
-    transform:
-        translate(-50%,-50%)
-        scale(0);
-
-    opacity:0;
-
-    pointer-events:none;
+    transform:skewX(-20deg);
 
 }
 
-
-.nav-button.ripple::after {
+.nav-button.active::before{
 
     animation:
-        navRipple
-        .6s
-        ease-out;
+        navShine
+        1.1s
+        ease;
 
 }
 
+@keyframes navShine{
 
-@keyframes navRipple {
-
-    from {
-
-        transform:
-            translate(-50%,-50%)
-            scale(0);
-
-        opacity:.65;
-
+    from{
+        left:-100%;
     }
 
-    to {
+    to{
+        left:150%;
+    }
 
+}
+
+.nav-button.nav-pulse{
+
+    animation:
+        navPulse
+        .55s
+        ease;
+
+}
+
+@keyframes navPulse{
+
+    40%{
         transform:
-            translate(-50%,-50%)
-            scale(5);
+            translateY(-3px)
+            scale(1.05);
+    }
 
-        opacity:0;
-
+    100%{
+        transform:
+            translateY(-2px)
+            scale(1);
     }
 
 }
 
 
 /* =====================================================
-   TAB TRANSITION
+   TABS
 ===================================================== */
 
-.tab {
-
+.tab{
     display:none;
-
 }
 
-
-.tab.active {
+.tab.active{
 
     display:block;
 
     animation:
         tabEnter
-        .6s
+        calc(.65s / var(--animation-speed))
         cubic-bezier(.2,.8,.2,1);
 
 }
 
+@keyframes tabEnter{
 
-@keyframes tabEnter {
-
-    0% {
-
+    0%{
         opacity:0;
-
         transform:
-            translateY(25px)
-            scale(.97)
-            rotateX(3deg);
-
-        filter:
-            blur(5px);
-
+            translateY(24px)
+            scale(.975);
+        filter:blur(7px);
     }
 
-    60% {
-
+    60%{
         opacity:1;
-
         transform:
             translateY(-3px)
-            scale(1.005)
-            rotateX(0);
-
-        filter:
-            blur(0);
-
+            scale(1.005);
+        filter:blur(0);
     }
 
-    100% {
-
+    100%{
         opacity:1;
-
         transform:
             translateY(0)
             scale(1);
-
-    }
-
-}
-
-
-.tab-leaving {
-
-    animation:
-        tabLeave
-        .25s
-        ease
-        forwards;
-
-}
-
-
-@keyframes tabLeave {
-
-    to {
-
-        opacity:0;
-
-        transform:
-            translateY(-10px)
-            scale(.98);
-
-        filter:blur(4px);
-
     }
 
 }
 
 
 /* =====================================================
-   GLOBAL ICON LIGHT
+   ICON SYSTEM
 ===================================================== */
 
-i {
+i{
+
+    color:var(--primary);
 
     text-shadow:
 
@@ -912,141 +880,226 @@ i {
         calc(12px * var(--icon-strength))
         rgba(
             var(--primary-rgb),
-            .35
+            .30
         );
-
-}
-
-
-@keyframes iconBreath {
-
-    0%,
-    100% {
-
-        filter:
-            drop-shadow(
-                0 0 4px
-                var(--icon-glow)
-            );
-
-        opacity:.88;
-
-    }
-
-    50% {
-
-        filter:
-
-            drop-shadow(
-                0 0 9px
-                var(--icon-glow)
-            )
-
-            drop-shadow(
-                0 0 20px
-                var(--icon-glow)
-            );
-
-        opacity:1;
-
-    }
-
-}
-
-
-.social-icon,
-.contact-card i,
-.game-card i,
-.section-title i,
-.music-icon,
-.home-stat i {
 
     animation:
         iconBreath
-        3.8s
+        4s
         ease-in-out
         infinite;
 
 }
 
+@keyframes iconBreath{
+
+    0%,
+    100%{
+
+        filter:
+            drop-shadow(
+                0 0
+                calc(4px * var(--icon-strength))
+                var(--icon-glow)
+            );
+
+        opacity:.90;
+
+    }
+
+    50%{
+
+        filter:
+            drop-shadow(
+                0 0
+                calc(8px * var(--icon-strength))
+                var(--icon-glow)
+            )
+            drop-shadow(
+                0 0
+                calc(17px * var(--icon-strength))
+                rgba(
+                    var(--primary-rgb),
+                    .45
+                )
+            );
+
+        opacity:1;
+
+    }
+
+}
+
 
 /* =====================================================
-   LUXURY FONT
+   TYPOGRAPHY
 ===================================================== */
 
-.profile-name,
-.welcome-title,
-.section-title,
-.hero-main-title {
+body{
+
+    font-weight:
+        var(--font-weight);
+
+    letter-spacing:
+        var(--letter-spacing);
+
+}
+
+.brand-name,
+.live-clock,
+.hero-subtitle,
+.music-name,
+.nav-button{
 
     font-family:
-        "El Messiri",
+        var(--english-font),
         sans-serif;
 
 }
 
+.profile-name,
+.welcome-title,
+.section-title,
+.hero-main-title{
 
-.luxury-blink {
+    font-family:
+        var(--arabic-font),
+        sans-serif;
 
-    animation:
-        luxuryBlink
-        2.4s
-        infinite
-        ease-in-out;
+}
+
+@keyframes luxuryBlink{
+
+    0%,
+    100%{
+        opacity:.88;
+        text-shadow:
+            0 0 5px var(--glow);
+    }
+
+    50%{
+        opacity:1;
+        text-shadow:
+            0 0 12px var(--glow),
+            0 0 28px var(--glow);
+    }
 
 }
 
 
-@keyframes luxuryBlink {
+/* =====================================================
+   TEXT EFFECTS
+===================================================== */
 
-    0% {
+body.text-soft .profile-name,
+body.text-soft .welcome-title,
+body.text-soft .section-title,
+body.text-soft .hero-main-title{
 
-        opacity:.88;
+    text-shadow:
+        0 0 9px var(--glow);
 
-        text-shadow:
-            0 0 5px
-            var(--glow);
+}
 
+body.text-luxury .profile-name,
+body.text-luxury .welcome-title,
+body.text-luxury .section-title,
+body.text-luxury .hero-main-title{
+
+    background:
+        linear-gradient(
+            120deg,
+            var(--text),
+            var(--primary),
+            var(--secondary),
+            var(--text)
+        );
+
+    background-size:220% auto;
+
+    color:transparent;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    animation:
+        textLuxury
+        4s
+        ease-in-out
+        infinite;
+
+}
+
+@keyframes textLuxury{
+
+    0%,
+    100%{
+        background-position:0% center;
     }
 
-    25% {
+    50%{
+        background-position:100% center;
+    }
 
+}
+
+body.text-neon .profile-name,
+body.text-neon .welcome-title,
+body.text-neon .section-title,
+body.text-neon .hero-main-title{
+
+    text-shadow:
+        0 0 5px var(--primary),
+        0 0 15px var(--primary),
+        0 0 35px var(--primary);
+
+}
+
+body.text-metal .profile-name,
+body.text-metal .welcome-title,
+body.text-metal .section-title,
+body.text-metal .hero-main-title{
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #8b929d,
+            #ffffff,
+            #636b77
+        );
+
+    color:transparent;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+}
+
+body.text-breathe .profile-name,
+body.text-breathe .welcome-title,
+body.text-breathe .section-title,
+body.text-breathe .hero-main-title{
+
+    animation:
+        textBreathe
+        3.5s
+        ease-in-out
+        infinite;
+
+}
+
+@keyframes textBreathe{
+
+    0%,
+    100%{
+        opacity:.85;
+        transform:scale(1);
+    }
+
+    50%{
         opacity:1;
-
-        text-shadow:
-            0 0 10px var(--glow),
-            0 0 22px var(--glow);
-
-    }
-
-    50% {
-
-        opacity:.92;
-
-        text-shadow:
-            0 0 5px
-            var(--glow);
-
-    }
-
-    70% {
-
-        opacity:1;
-
-        text-shadow:
-            0 0 18px var(--glow),
-            0 0 45px var(--glow);
-
-    }
-
-    100% {
-
-        opacity:.88;
-
-        text-shadow:
-            0 0 5px
-            var(--glow);
-
+        transform:scale(1.015);
     }
 
 }
@@ -1056,7 +1109,7 @@ i {
    HOME
 ===================================================== */
 
-.home-container {
+.home-container{
 
     margin-top:22px;
 
@@ -1064,8 +1117,7 @@ i {
 
 }
 
-
-.home-grid {
+.home-grid{
 
     display:grid;
 
@@ -1079,12 +1131,7 @@ i {
 
 }
 
-
-/* =====================================================
-   PROFILE
-===================================================== */
-
-.profile-card {
+.profile-card{
 
     padding:28px;
 
@@ -1092,11 +1139,9 @@ i {
 
 }
 
-
-.avatar {
+.avatar{
 
     width:160px;
-
     height:160px;
 
     border-radius:50%;
@@ -1109,42 +1154,41 @@ i {
 
     box-shadow:
 
-        0 0 25px
-        var(--glow),
-
+        0 0 25px var(--glow),
         0 0 60px
-        var(--glow);
+        rgba(
+            var(--primary-rgb),
+            .25
+        );
 
     animation:
         avatarPulse
-        3s
+        3.5s
         infinite
         ease-in-out;
 
 }
 
+@keyframes avatarPulse{
 
-@keyframes avatarPulse {
+    50%{
 
-    50% {
-
-        transform:
-            scale(1.04);
+        transform:scale(1.035);
 
         box-shadow:
 
-            0 0 30px
-            var(--glow),
-
+            0 0 30px var(--glow),
             0 0 80px
-            var(--glow);
+            rgba(
+                var(--primary-rgb),
+                .30
+            );
 
     }
 
 }
 
-
-.profile-small-title {
+.profile-small-title{
 
     margin-top:18px;
 
@@ -1152,21 +1196,14 @@ i {
 
     letter-spacing:4px;
 
-    font-size:.85rem;
-
-    animation:
-        luxuryBlink
-        3s
-        infinite;
+    font-size:.82rem;
 
 }
 
-
-.profile-name {
+.profile-name{
 
     margin:
-        8px
-        0;
+        8px 0;
 
     font-size:
         clamp(
@@ -1181,43 +1218,29 @@ i {
 
     animation:
         titleGlow
-        2.5s
+        3s
         infinite
         ease-in-out;
 
 }
 
+@keyframes titleGlow{
 
-@keyframes titleGlow {
-
-    0% {
-
+    0%,
+    100%{
         text-shadow:
-            0 0 8px
-            var(--glow);
-
+            0 0 8px var(--glow);
     }
 
-    50% {
-
+    50%{
         text-shadow:
-            0 0 20px var(--glow),
-            0 0 55px var(--glow);
-
-    }
-
-    100% {
-
-        text-shadow:
-            0 0 8px
-            var(--glow);
-
+            0 0 18px var(--glow),
+            0 0 50px var(--glow);
     }
 
 }
 
-
-.profile-description {
+.profile-description{
 
     color:var(--muted);
 
@@ -1225,12 +1248,7 @@ i {
 
 }
 
-
-/* =====================================================
-   SOCIAL
-===================================================== */
-
-.social-icons {
+.social-icons{
 
     display:flex;
 
@@ -1242,11 +1260,9 @@ i {
 
 }
 
-
-.social-icon {
+.social-icon{
 
     width:48px;
-
     height:48px;
 
     display:grid;
@@ -1262,45 +1278,32 @@ i {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .06
-        );
+        rgba(255,255,255,.055);
 
-    transition:.3s ease;
+    transition:
+        .35s cubic-bezier(.2,.8,.2,1);
 
 }
 
-
-.social-icon:hover {
+.social-icon:hover{
 
     transform:
         translateY(-5px)
-        rotate(4deg)
         scale(1.06);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .15
-        );
+        rgba(255,255,255,.12);
 
     box-shadow:
-        0 0 28px
-        var(--glow);
+        0 12px 35px
+        rgba(
+            var(--primary-rgb),
+            .22
+        );
 
 }
 
-
-/* =====================================================
-   PROFILE SWITCH
-===================================================== */
-
-.profile-switches {
+.profile-switches{
 
     display:flex;
 
@@ -1314,12 +1317,10 @@ i {
 
 }
 
-
-.profile-switch {
+.profile-switch{
 
     padding:
-        12px
-        20px;
+        12px 20px;
 
     border-radius:15px;
 
@@ -1328,33 +1329,25 @@ i {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.05);
 
     font-weight:900;
 
-    transition:.3s;
+    transition:.35s;
 
 }
 
-
-.profile-switch:hover {
+.profile-switch:hover{
 
     transform:
         translateY(-4px);
 
     box-shadow:
-        0 0 30px
-        var(--glow);
+        0 0 25px var(--glow);
 
 }
 
-
-.profile-switch.current {
+.profile-switch.current{
 
     background:
         linear-gradient(
@@ -1372,14 +1365,11 @@ i {
    WELCOME
 ===================================================== */
 
-.welcome-card {
-
+.welcome-card{
     padding:25px;
-
 }
 
-
-.welcome-title {
+.welcome-title{
 
     font-size:
         clamp(
@@ -1390,15 +1380,9 @@ i {
 
     margin-bottom:10px;
 
-    animation:
-        luxuryBlink
-        3s
-        infinite;
-
 }
 
-
-.welcome-text {
+.welcome-text{
 
     color:var(--muted);
 
@@ -1408,15 +1392,13 @@ i {
 
 
 /* =====================================================
-   HERO CENTER
+   HERO
 ===================================================== */
 
-.hero-center {
+.hero-center{
 
     margin:
-        0
-        0
-        22px;
+        0 0 22px;
 
     padding:24px;
 
@@ -1430,28 +1412,27 @@ i {
         linear-gradient(
             135deg,
             rgba(255,255,255,.07),
-            rgba(255,255,255,.025)
+            rgba(255,255,255,.02)
         );
 
     text-align:center;
 
     position:relative;
 
+    overflow:hidden;
+
 }
 
-
-.hero-center::after {
+.hero-center::after{
 
     content:"";
 
     position:absolute;
 
-    width:160px;
-
-    height:160px;
+    width:180px;
+    height:180px;
 
     left:50%;
-
     top:50%;
 
     transform:
@@ -1461,16 +1442,15 @@ i {
 
     background:var(--glow);
 
-    filter:blur(70px);
+    filter:blur(75px);
 
-    opacity:.18;
+    opacity:.15;
 
     pointer-events:none;
 
 }
 
-
-.hero-main-title {
+.hero-main-title{
 
     position:relative;
 
@@ -1485,15 +1465,9 @@ i {
 
     font-weight:900;
 
-    animation:
-        luxuryBlink
-        2.5s
-        infinite;
-
 }
 
-
-.hero-subtitle {
+.hero-subtitle{
 
     position:relative;
 
@@ -1503,10 +1477,11 @@ i {
 
     margin-top:7px;
 
+    letter-spacing:1px;
+
 }
 
-
-.home-stats {
+.home-stats{
 
     display:grid;
 
@@ -1519,8 +1494,7 @@ i {
 
 }
 
-
-.home-stat {
+.home-stat{
 
     position:relative;
 
@@ -1535,19 +1509,11 @@ i {
         var(--border);
 
     background:
-        rgba(
-            0,
-            0,
-            0,
-            .20
-        );
+        rgba(0,0,0,.20);
 
 }
 
-
-.home-stat i {
-
-    color:var(--primary);
+.home-stat i{
 
     font-size:1.3rem;
 
@@ -1555,8 +1521,7 @@ i {
 
 }
 
-
-.home-stat strong {
+.home-stat strong{
 
     display:block;
 
@@ -1564,8 +1529,7 @@ i {
 
 }
 
-
-.home-stat span {
+.home-stat span{
 
     display:block;
 
@@ -1577,15 +1541,14 @@ i {
 
 }
 
-
-.live-clock {
+.live-clock{
 
     margin-top:16px;
 
     color:var(--primary);
 
     font-family:
-        "Orbitron",
+        var(--english-font),
         sans-serif;
 
     letter-spacing:2px;
@@ -1599,7 +1562,7 @@ i {
    ALBUM
 ===================================================== */
 
-.album {
+.album{
 
     display:grid;
 
@@ -1608,14 +1571,11 @@ i {
 
     gap:9px;
 
-    margin:
-        22px
-        0;
+    margin:22px 0;
 
 }
 
-
-.album-image {
+.album-image{
 
     width:100%;
 
@@ -1629,56 +1589,50 @@ i {
         1px solid
         var(--border);
 
-    transition:.4s;
+    transition:
+        .5s cubic-bezier(.2,.8,.2,1);
 
     animation:
         imageFloat
-        5s
+        6s
         infinite
         ease-in-out;
 
 }
 
-
-.album-image:nth-child(2n) {
-
+.album-image:nth-child(2n){
     animation-delay:-1.5s;
-
 }
 
-
-.album-image:nth-child(3n) {
-
+.album-image:nth-child(3n){
     animation-delay:-3s;
-
 }
 
+@keyframes imageFloat{
 
-@keyframes imageFloat {
-
-    50% {
-
+    50%{
         transform:
-            translateY(-8px)
-            scale(1.04);
+            translateY(-6px)
+            scale(1.025);
 
         box-shadow:
-            0 0 25px
-            var(--glow);
-
+            0 0 22px var(--glow);
     }
 
 }
 
-
-.album-image:hover {
+.album-image:hover{
 
     transform:
-        scale(1.12);
+        scale(1.09);
 
     position:relative;
 
     z-index:5;
+
+    box-shadow:
+        0 20px 45px
+        rgba(0,0,0,.45);
 
 }
 
@@ -1687,7 +1641,7 @@ i {
    MUSIC
 ===================================================== */
 
-.music-player {
+.music-player{
 
     display:flex;
 
@@ -1704,17 +1658,11 @@ i {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.05);
 
 }
 
-
-.music-icon {
+.music-icon{
 
     font-size:1.8rem;
 
@@ -1722,33 +1670,25 @@ i {
 
     animation:
         musicSpin
-        4s
+        6s
         linear
         infinite;
 
 }
 
+@keyframes musicSpin{
 
-@keyframes musicSpin {
-
-    to {
-
-        transform:
-            rotate(360deg);
-
+    to{
+        transform:rotate(360deg);
     }
 
 }
 
-
-.music-content {
-
+.music-content{
     flex:1;
-
 }
 
-
-.music-name {
+.music-name{
 
     display:block;
 
@@ -1756,19 +1696,15 @@ i {
 
     font-weight:900;
 
-    letter-spacing:2px;
+    letter-spacing:1px;
 
 }
 
-
-audio {
-
+audio{
     width:100%;
-
 }
 
-
-.music-controls {
+.music-controls{
 
     display:flex;
 
@@ -1778,43 +1714,34 @@ audio {
 
 }
 
-
-.music-control-button {
+.music-control-button{
 
     border:
         1px solid
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .07
-        );
+        rgba(255,255,255,.07);
 
     color:white;
 
     border-radius:12px;
 
     padding:
-        8px
-        13px;
+        8px 13px;
 
     transition:.3s;
 
 }
 
-
-.music-control-button:hover {
+.music-control-button:hover{
 
     background:var(--primary);
 
     color:#111;
 
     box-shadow:
-        0 0 20px
-        var(--glow);
+        0 0 20px var(--glow);
 
 }
 
@@ -1823,7 +1750,7 @@ audio {
    SECTIONS
 ===================================================== */
 
-.section {
+.section{
 
     margin-top:22px;
 
@@ -1831,8 +1758,7 @@ audio {
 
 }
 
-
-.section-title {
+.section-title{
 
     display:flex;
 
@@ -1848,11 +1774,8 @@ audio {
 
 }
 
-
-.section-title i {
-
+.section-title i{
     color:var(--primary);
-
 }
 
 
@@ -1860,7 +1783,7 @@ audio {
    ABOUT
 ===================================================== */
 
-.about-card {
+.about-card{
 
     padding:25px;
 
@@ -1871,48 +1794,29 @@ audio {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.05);
 
 }
 
+.about-row{
 
-.about-row {
-
-    padding:
-        15px
-        0;
+    padding:15px 0;
 
     border-bottom:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .1
-        );
+        rgba(255,255,255,.10);
 
     font-size:1.1rem;
 
     font-weight:800;
 
-    letter-spacing:1px;
-
 }
 
-
-.about-row:last-child {
-
+.about-row:last-child{
     border-bottom:none;
-
 }
 
-
-.about-label {
+.about-label{
 
     color:var(--primary);
 
@@ -1925,7 +1829,7 @@ audio {
    GAMES
 ===================================================== */
 
-.games-grid {
+.games-grid{
 
     display:grid;
 
@@ -1939,8 +1843,7 @@ audio {
 
 }
 
-
-.game-card {
+.game-card{
 
     padding:22px;
 
@@ -1951,45 +1854,43 @@ audio {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.05);
 
-    transition:.35s;
+    transition:
+        .45s cubic-bezier(.2,.8,.2,1);
 
 }
 
-
-.game-card:hover {
+.game-card:hover{
 
     transform:
-        translateY(-7px)
+        translateY(var(--hover-lift))
         scale(1.02);
 
     box-shadow:
-        0 0 30px
-        var(--glow);
+        0 20px 45px
+        rgba(
+            var(--primary-rgb),
+            .16
+        );
 
 }
 
-
-.game-card i {
+.game-card i{
 
     font-size:2.2rem;
-
-    color:var(--primary);
 
     margin-bottom:14px;
 
 }
 
+.game-card h3{
 
-.game-card h3 {
+    font-family:
+        var(--english-font),
+        sans-serif;
 
-    font-size:1.05rem;
+    font-size:1rem;
 
 }
 
@@ -1998,7 +1899,7 @@ audio {
    CONTACT
 ===================================================== */
 
-.contact-grid {
+.contact-grid{
 
     display:grid;
 
@@ -2009,8 +1910,7 @@ audio {
 
 }
 
-
-.contact-card {
+.contact-card{
 
     padding:30px;
 
@@ -2023,37 +1923,32 @@ audio {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.05);
 
-    transition:.35s;
+    transition:
+        .45s cubic-bezier(.2,.8,.2,1);
 
 }
 
-
-.contact-card:hover {
+.contact-card:hover{
 
     transform:
-        translateY(-7px);
+        translateY(var(--hover-lift));
 
     box-shadow:
-        0 0 35px
-        var(--glow);
+        0 20px 50px
+        rgba(
+            var(--primary-rgb),
+            .18
+        );
 
 }
 
-
-.contact-card i {
+.contact-card i{
 
     display:block;
 
     font-size:3rem;
-
-    color:var(--primary);
 
     margin-bottom:15px;
 
@@ -2064,7 +1959,7 @@ audio {
    FORMS
 ===================================================== */
 
-.form {
+.form{
 
     max-width:800px;
 
@@ -2074,8 +1969,7 @@ audio {
 
 }
 
-
-.input {
+.input{
 
     width:100%;
 
@@ -2092,19 +1986,13 @@ audio {
     outline:none;
 
     background:
-        rgba(
-            0,
-            0,
-            0,
-            .25
-        );
+        rgba(0,0,0,.25);
 
-    transition:.3s;
+    transition:.35s;
 
 }
 
-
-.input::placeholder {
+.input::placeholder{
 
     color:
         rgba(
@@ -2116,29 +2004,26 @@ audio {
 
 }
 
-
-.input:focus {
+.input:focus{
 
     border-color:
         var(--primary);
 
     box-shadow:
         0 0 20px
-        var(--glow);
+        rgba(
+            var(--primary-rgb),
+            .22
+        );
 
 }
 
-
-textarea.input {
-
+textarea.input{
     min-height:170px;
-
     resize:vertical;
-
 }
 
-
-.main-button {
+.main-button{
 
     border:none;
 
@@ -2159,25 +2044,34 @@ textarea.input {
             var(--secondary)
         );
 
-    transition:.3s;
+    transition:
+        .35s cubic-bezier(.2,.8,.2,1);
 
     box-shadow:
         0 0 25px
-        var(--glow);
+        rgba(
+            var(--primary-rgb),
+            .22
+        );
 
 }
 
-
-.main-button:hover {
+.main-button:hover{
 
     transform:
         translateY(-4px)
-        scale(1.02);
+        scale(1.01);
+
+    box-shadow:
+        0 12px 35px
+        rgba(
+            var(--primary-rgb),
+            .25
+        );
 
 }
 
-
-.main-button:disabled {
+.main-button:disabled{
 
     opacity:.55;
 
@@ -2189,10 +2083,10 @@ textarea.input {
 
 
 /* =====================================================
-   THEME GRID
+   THEMES
 ===================================================== */
 
-.themes-grid {
+.themes-grid{
 
     display:grid;
 
@@ -2206,8 +2100,7 @@ textarea.input {
 
 }
 
-
-.theme-button {
+.theme-button{
 
     padding:18px;
 
@@ -2222,19 +2115,13 @@ textarea.input {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .06
-        );
+        rgba(255,255,255,.06);
 
-    transition:.3s;
+    transition:.35s;
 
 }
 
-
-.theme-button:hover {
+.theme-button:hover{
 
     transform:
         translateY(-5px);
@@ -2245,8 +2132,7 @@ textarea.input {
 
 }
 
-
-.theme-colors {
+.theme-colors{
 
     display:flex;
 
@@ -2256,11 +2142,9 @@ textarea.input {
 
 }
 
-
-.theme-color {
+.theme-color{
 
     width:18px;
-
     height:18px;
 
     border-radius:50%;
@@ -2276,20 +2160,18 @@ textarea.input {
    NOTES
 ===================================================== */
 
-.notes-grid {
+.notes-grid{
 
     display:grid;
 
     grid-template-columns:
-        1fr
-        1fr;
+        1fr 1fr;
 
     gap:20px;
 
 }
 
-
-.notes-feed {
+.notes-feed{
 
     display:grid;
 
@@ -2301,8 +2183,7 @@ textarea.input {
 
 }
 
-
-.note-item {
+.note-item{
 
     padding:16px;
 
@@ -2313,17 +2194,11 @@ textarea.input {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
+        rgba(255,255,255,.05);
 
 }
 
-
-.note-time {
+.note-time{
 
     display:block;
 
@@ -2337,25 +2212,168 @@ textarea.input {
 
 
 /* =====================================================
-   CUSTOMIZE
+   CUSTOM CONTROL CENTER
 ===================================================== */
 
-.custom-grid {
+.custom-hero{
+
+    padding:25px;
+
+    margin-bottom:18px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(
+                var(--primary-rgb),
+                .13
+            ),
+            rgba(255,255,255,.035)
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+}
+
+.custom-hero h3{
+
+    font-size:1.5rem;
+
+    margin-bottom:8px;
+
+}
+
+.custom-hero p{
+
+    color:var(--muted);
+
+    line-height:1.8;
+
+}
+
+.control-tabs{
+
+    display:flex;
+
+    gap:8px;
+
+    overflow-x:auto;
+
+    padding:5px;
+
+    margin-bottom:18px;
+
+    scrollbar-width:none;
+
+}
+
+.control-tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.control-tab{
+
+    flex:0 0 auto;
+
+    border:
+        1px solid
+        var(--border);
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.045);
+
+    border-radius:14px;
+
+    padding:
+        10px 15px;
+
+    transition:.3s;
+
+}
+
+.control-tab:hover{
+
+    color:var(--text);
+
+    background:
+        rgba(255,255,255,.09);
+
+}
+
+.control-tab.active{
+
+    color:#111;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 0 20px
+        rgba(
+            var(--primary-rgb),
+            .20
+        );
+
+}
+
+.control-panel{
+    display:none;
+}
+
+.control-panel.active{
+
+    display:block;
+
+    animation:
+        panelEnter
+        .45s
+        ease;
+
+}
+
+@keyframes panelEnter{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(12px);
+        filter:blur(4px);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0);
+        filter:blur(0);
+    }
+
+}
+
+.control-grid{
 
     display:grid;
 
     grid-template-columns:
         repeat(
             auto-fit,
-            minmax(250px,1fr)
+            minmax(235px,1fr)
         );
 
-    gap:16px;
+    gap:14px;
 
 }
 
-
-.custom-card {
+.control-card{
 
     position:relative;
 
@@ -2368,31 +2386,30 @@ textarea.input {
         var(--border);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .045
-        );
+        rgba(255,255,255,.045);
 
     transition:.35s;
 
 }
 
-
-.custom-card:hover {
+.control-card:hover{
 
     transform:
-        translateY(-4px);
+        translateY(-3px);
+
+    background:
+        rgba(255,255,255,.07);
 
     box-shadow:
-        0 0 25px
-        var(--glow);
+        0 12px 35px
+        rgba(
+            var(--primary-rgb),
+            .10
+        );
 
 }
 
-
-.custom-card h3 {
+.control-card h3{
 
     display:flex;
 
@@ -2400,21 +2417,81 @@ textarea.input {
 
     gap:9px;
 
-    margin-bottom:15px;
-
-    font-size:1.05rem;
+    margin-bottom:8px;
 
 }
 
+.control-card h3 i{
+    color:var(--primary);
+}
 
-.custom-card h3 i {
+.control-card p{
+
+    color:var(--muted);
+
+    font-size:.88rem;
+
+    line-height:1.7;
+
+    margin-bottom:14px;
+
+}
+
+.choice-button{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    border:
+        1px solid
+        var(--border);
+
+    color:var(--text);
+
+    background:
+        rgba(0,0,0,.18);
+
+    border-radius:14px;
+
+    padding:
+        12px 14px;
+
+    transition:.3s;
+
+}
+
+.choice-button:hover{
+
+    border-color:
+        rgba(
+            var(--primary-rgb),
+            .35
+        );
+
+    background:
+        rgba(255,255,255,.08);
+
+    transform:
+        translateY(-2px);
+
+}
+
+.choice-button span:last-child{
 
     color:var(--primary);
 
+    font-size:.8rem;
+
 }
 
-
-.custom-row {
+.control-row{
 
     display:flex;
 
@@ -2424,74 +2501,41 @@ textarea.input {
 
     gap:12px;
 
-    margin-top:12px;
+    margin-top:13px;
 
 }
 
-
-.custom-row label {
+.control-label{
 
     color:var(--muted);
 
-    font-size:.9rem;
+    font-size:.88rem;
 
 }
 
+.range-wrap{
 
-.custom-select {
+    display:grid;
 
-    min-width:145px;
+    gap:7px;
 
-    color:white;
-
-    background:
-        rgba(
-            0,
-            0,
-            0,
-            .4
-        );
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:12px;
-
-    padding:
-        9px
-        10px;
-
-    outline:none;
+    margin-top:14px;
 
 }
 
+.range-label{
 
-.custom-select option {
+    display:flex;
 
-    background:#101218;
+    justify-content:space-between;
 
-    color:white;
+    color:var(--muted);
 
-}
-
-
-.color-picker {
-
-    width:55px;
-
-    height:38px;
-
-    border:none;
-
-    background:transparent;
-
-    cursor:pointer;
+    font-size:.82rem;
 
 }
 
-
-.range {
+.range{
 
     width:100%;
 
@@ -2499,8 +2543,143 @@ textarea.input {
 
 }
 
+.value-badge{
 
-.switch {
+    min-width:45px;
+
+    text-align:center;
+
+    color:var(--primary);
+
+    font-family:
+        var(--english-font),
+        sans-serif;
+
+    font-size:.78rem;
+
+}
+
+.color-preview{
+
+    width:100%;
+
+    height:85px;
+
+    border-radius:20px;
+
+    border:
+        1px solid
+        var(--border);
+
+    margin-top:13px;
+
+    background:
+        var(--primary);
+
+    box-shadow:
+        inset 0 0 30px rgba(255,255,255,.10),
+        0 0 25px var(--glow);
+
+}
+
+.preset-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(145px,1fr)
+        );
+
+    gap:10px;
+
+}
+
+.preset{
+
+    min-height:90px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    color:white;
+
+    background:
+        rgba(255,255,255,.045);
+
+    padding:14px;
+
+    text-align:right;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+}
+
+.preset::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        var(--preset);
+
+    opacity:.12;
+
+}
+
+.preset:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.01);
+
+    box-shadow:
+        0 0 25px
+        var(--glow);
+
+}
+
+.preset strong{
+
+    position:relative;
+
+    z-index:2;
+
+    display:block;
+
+}
+
+.preset small{
+
+    position:relative;
+
+    z-index:2;
+
+    color:var(--muted);
+
+    display:block;
+
+    margin-top:7px;
+
+}
+
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+.switch{
 
     position:relative;
 
@@ -2508,29 +2687,22 @@ textarea.input {
 
     height:29px;
 
+    flex:0 0 auto;
+
 }
 
-
-.switch input {
-
+.switch input{
     display:none;
-
 }
 
-
-.slider {
+.slider{
 
     position:absolute;
 
     inset:0;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .15
-        );
+        rgba(255,255,255,.13);
 
     border:
         1px solid
@@ -2542,19 +2714,16 @@ textarea.input {
 
 }
 
-
-.slider::before {
+.slider::before{
 
     content:"";
 
     position:absolute;
 
     width:21px;
-
     height:21px;
 
     left:3px;
-
     top:3px;
 
     border-radius:50%;
@@ -2565,19 +2734,17 @@ textarea.input {
 
 }
 
+.switch input:checked + .slider{
 
-.switch input:checked + .slider {
-
-    background:var(--primary);
+    background:
+        var(--primary);
 
     box-shadow:
-        0 0 20px
-        var(--glow);
+        0 0 20px var(--glow);
 
 }
 
-
-.switch input:checked + .slider::before {
+.switch input:checked + .slider::before{
 
     transform:
         translateX(25px);
@@ -2587,40 +2754,464 @@ textarea.input {
 }
 
 
-.preview-box {
+/* =====================================================
+   COLOR STUDIO
+===================================================== */
 
-    min-height:100px;
+.color-studio{
 
     display:grid;
 
-    place-items:center;
+    grid-template-columns:
+        minmax(240px,300px)
+        1fr;
+
+    gap:22px;
+
+    align-items:center;
+
+}
+
+.color-wheel{
+
+    width:min(280px,70vw);
+
+    aspect-ratio:1;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    position:relative;
+
+    background:
+        conic-gradient(
+            #ff0000,
+            #ffff00,
+            #00ff00,
+            #00ffff,
+            #0000ff,
+            #ff00ff,
+            #ff0000
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(
+            var(--primary-rgb),
+            .22
+        );
+
+    cursor:crosshair;
+
+    touch-action:none;
+
+}
+
+.color-wheel::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:17%;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffffff,
+            transparent 72%
+        );
+
+    mix-blend-mode:screen;
+
+    opacity:.9;
+
+}
+
+.color-wheel::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            transparent 0 20%,
+            rgba(0,0,0,.08) 70%,
+            rgba(0,0,0,.25)
+        );
+
+}
+
+.wheel-pointer{
+
+    position:absolute;
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    border:
+        3px solid white;
+
+    box-shadow:
+        0 0 0 2px rgba(0,0,0,.45),
+        0 0 20px rgba(255,255,255,.75);
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:5;
+
+}
+
+.hue-bar{
+
+    width:100%;
+    height:18px;
 
     border-radius:20px;
 
-    margin-top:15px;
+    background:
+        linear-gradient(
+            90deg,
+            #ff0000,
+            #ffff00,
+            #00ff00,
+            #00ffff,
+            #0000ff,
+            #ff00ff,
+            #ff0000
+        );
+
+    appearance:none;
+
+    outline:none;
+
+}
+
+.hue-bar::-webkit-slider-thumb{
+
+    appearance:none;
+
+    width:23px;
+    height:23px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    border:
+        2px solid
+        rgba(0,0,0,.45);
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,.75);
+
+}
+
+.color-value{
+
+    margin-top:14px;
+
+    padding:13px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-family:
+        var(--english-font),
+        sans-serif;
+
+    font-weight:800;
+
+    background:
+        rgba(0,0,0,.22);
+
+    border:
+        1px solid
+        var(--border);
+
+}
+
+
+/* =====================================================
+   MODAL — GLASS CHOICE
+===================================================== */
+
+.choice-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:50000;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.52);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+}
+
+.choice-overlay.show{
+
+    display:flex;
+
+    animation:
+        overlayIn
+        .25s
+        ease;
+
+}
+
+@keyframes overlayIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+
+.choice-modal{
+
+    width:min(720px,95vw);
+
+    max-height:85vh;
+
+    overflow:auto;
+
+    padding:22px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(25,29,39,.90),
+            rgba(11,14,20,.84)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.20);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.65),
+        0 0 60px
+        rgba(
+            var(--primary-rgb),
+            .15
+        );
+
+    backdrop-filter:
+        blur(30px);
+
+    -webkit-backdrop-filter:
+        blur(30px);
+
+    animation:
+        modalIn
+        .45s
+        cubic-bezier(.2,.8,.2,1);
+
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(30px)
+            scale(.94);
+        filter:blur(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+        filter:blur(0);
+    }
+
+}
+
+.modal-head{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:18px;
+
+}
+
+.modal-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:1.25rem;
+
+}
+
+.modal-title i{
+    color:var(--primary);
+}
+
+.modal-close{
+
+    width:38px;
+    height:38px;
+
+    border-radius:12px;
 
     border:
         1px solid
         var(--border);
 
     background:
+        rgba(255,255,255,.06);
+
+    color:white;
+
+}
+
+.modal-options{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(150px,1fr)
+        );
+
+    gap:10px;
+
+}
+
+.modal-option{
+
+    min-height:100px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    color:white;
+
+    padding:14px;
+
+    text-align:right;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+}
+
+.modal-option:hover{
+
+    transform:
+        translateY(-4px);
+
+    border-color:
         rgba(
-            255,
-            255,
-            255,
-            .04
+            var(--primary-rgb),
+            .45
+        );
+
+    background:
+        rgba(255,255,255,.09);
+
+    box-shadow:
+        0 12px 35px
+        rgba(
+            var(--primary-rgb),
+            .12
         );
 
 }
 
+.modal-option.selected{
 
-.font-preview {
+    border-color:
+        var(--primary);
 
-    font-size:1.5rem;
+    box-shadow:
+        0 0 25px
+        rgba(
+            var(--primary-rgb),
+            .20
+        );
 
-    font-weight:900;
+}
 
-    text-align:center;
+.modal-option-icon{
+
+    font-size:1.35rem;
+
+    margin-bottom:9px;
+
+}
+
+.modal-option strong{
+
+    display:block;
+
+}
+
+.modal-option small{
+
+    display:block;
+
+    margin-top:6px;
+
+    color:var(--muted);
+
+    line-height:1.5;
 
 }
 
@@ -2629,7 +3220,7 @@ textarea.input {
    CLICK EFFECTS
 ===================================================== */
 
-.click-effect {
+.click-effect{
 
     position:fixed;
 
@@ -2637,396 +3228,164 @@ textarea.input {
 
     z-index:99999;
 
+    left:0;
+    top:0;
+
     transform:
         translate(-50%,-50%);
 
 }
 
-
-.click-ripple {
-
-    width:30px;
-
-    height:30px;
-
-    border:
-        2px solid
-        var(--primary);
-
-    border-radius:50%;
-
-    box-shadow:
-        0 0 15px
-        var(--glow);
-
-    animation:
-        clickRipple
-        .7s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes clickRipple {
-
-    from {
-
-        width:20px;
-
-        height:20px;
-
-        opacity:1;
-
-    }
-
-    to {
-
-        width:150px;
-
-        height:150px;
-
-        opacity:0;
-
-    }
-
-}
-
-
-.click-ring {
-
-    width:30px;
-
-    height:30px;
-
-    border:
-        3px solid
-        var(--primary);
-
-    border-radius:50%;
-
-    animation:
-        clickRing
-        .8s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes clickRing {
-
-    to {
-
-        width:180px;
-
-        height:180px;
-
-        opacity:0;
-
-        transform:
-            translate(-50%,-50%)
-            rotate(180deg);
-
-    }
-
-}
-
-
-.click-burst {
-
-    width:10px;
-
-    height:10px;
-
-    background:var(--primary);
-
-    border-radius:50%;
-
-    box-shadow:
-        0 0 20px
-        var(--glow);
-
-    animation:
-        clickBurst
-        .7s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes clickBurst {
-
-    to {
-
-        transform:
-            translate(-50%,-50%)
-            scale(12);
-
-        opacity:0;
-
-    }
-
-}
-
-
-.click-glow {
-
-    width:70px;
-
-    height:70px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            var(--primary),
-            transparent 70%
-        );
-
-    animation:
-        clickGlow
-        .8s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes clickGlow {
-
-    to {
-
-        transform:
-            translate(-50%,-50%)
-            scale(3);
-
-        opacity:0;
-
-    }
-
-}
-
-
-.click-shock {
+.fx-ring{
 
     width:20px;
-
     height:20px;
 
     border:
         2px solid
-        var(--secondary);
-
-    border-radius:50%;
-
-    animation:
-        shock
-        .6s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes shock {
-
-    50% {
-
-        opacity:1;
-
-    }
-
-    100% {
-
-        width:220px;
-
-        height:220px;
-
-        opacity:0;
-
-    }
-
-}
-
-
-.click-dot {
-
-    width:12px;
-
-    height:12px;
-
-    border-radius:50%;
-
-    background:var(--primary);
-
-    box-shadow:
-        0 0 30px
         var(--primary);
 
+    border-radius:50%;
+
+    box-shadow:
+        0 0 15px var(--glow);
+
     animation:
-        dotClick
-        .55s
+        fxRing
+        .65s
         ease-out
         forwards;
 
 }
 
+@keyframes fxRing{
 
-@keyframes dotClick {
-
-    to {
-
-        transform:
-            translate(-50%,-50%)
-            scale(9);
-
+    to{
+        width:150px;
+        height:150px;
         opacity:0;
-
     }
 
 }
 
+.fx-double{
 
-.click-pulse {
-
-    width:50px;
-
-    height:50px;
-
-    border-radius:50%;
+    width:20px;
+    height:20px;
 
     border:
         2px solid
         var(--primary);
 
-    animation:
-        pulseClick
-        .65s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes pulseClick {
-
-    50% {
-
-        box-shadow:
-            0 0 50px
-            var(--glow);
-
-    }
-
-    100% {
-
-        transform:
-            translate(-50%,-50%)
-            scale(2.5);
-
-        opacity:0;
-
-    }
-
-}
-
-
-.click-scan {
-
-    width:100px;
-
-    height:3px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--primary),
-            transparent
-        );
+    border-radius:50%;
 
     box-shadow:
-        0 0 20px
-        var(--glow);
+        0 0 15px var(--glow);
 
     animation:
-        scanClick
-        .65s
+        fxDouble
+        .75s
         ease-out
         forwards;
 
 }
 
-
-@keyframes scanClick {
-
-    from {
-
-        width:0;
-
-        opacity:1;
-
-    }
-
-    to {
-
-        width:220px;
-
-        opacity:0;
-
-    }
-
-}
-
-
-.click-star {
-
-    width:30px;
-
-    height:30px;
-
-    position:relative;
-
-}
-
-
-.click-star::before,
-.click-star::after {
+.fx-double::after{
 
     content:"";
 
     position:absolute;
 
-    inset:50%;
+    inset:12px;
+
+    border:
+        1px solid
+        var(--secondary);
+
+    border-radius:50%;
+
+}
+
+@keyframes fxDouble{
+
+    to{
+        transform:
+            scale(7)
+            rotate(180deg);
+
+        opacity:0;
+    }
+
+}
+
+.fx-spark{
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
 
     background:var(--primary);
 
     box-shadow:
-        0 0 20px
-        var(--glow);
+        0 0 15px var(--primary);
+
+    animation:
+        fxSpark
+        .65s
+        ease-out
+        forwards;
 
 }
 
+@keyframes fxSpark{
 
-.click-star::before {
+    to{
+        transform:
+            scale(16);
+
+        opacity:0;
+    }
+
+}
+
+.fx-cross{
+
+    width:50px;
+    height:50px;
+
+}
+
+.fx-cross::before,
+.fx-cross::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 18px var(--glow);
+
+}
+
+.fx-cross::before{
 
     width:4px;
-
-    height:40px;
+    height:70px;
 
     transform:
         translate(-50%,-50%);
 
 }
 
+.fx-cross::after{
 
-.click-star::after {
-
-    width:40px;
-
+    width:70px;
     height:4px;
 
     transform:
@@ -3034,167 +3393,243 @@ textarea.input {
 
 }
 
-
-.click-star {
+.fx-cross{
 
     animation:
-        starClick
+        fxCross
         .7s
         ease-out
         forwards;
 
 }
 
+@keyframes fxCross{
 
-@keyframes starClick {
-
-    to {
-
+    to{
         transform:
             translate(-50%,-50%)
-            scale(3)
-            rotate(90deg);
+            rotate(90deg)
+            scale(1.8);
 
         opacity:0;
-
     }
 
 }
 
+.fx-heart{
 
-/* =====================================================
-   FONT EFFECTS
-===================================================== */
+    color:var(--primary);
 
-.font-glow {
+    font-size:25px;
 
     text-shadow:
-        0 0 7px
-        var(--glow),
-        0 0 22px
-        var(--glow);
+        0 0 20px var(--glow);
+
+    animation:
+        fxHeart
+        .8s
+        ease-out
+        forwards;
 
 }
 
+@keyframes fxHeart{
 
-.font-neon {
+    to{
+        transform:
+            translate(-50%,-120px)
+            scale(1.8);
 
-    text-shadow:
-        0 0 4px var(--primary),
-        0 0 12px var(--primary),
-        0 0 30px var(--primary);
+        opacity:0;
+    }
 
 }
 
+.fx-star{
 
-.font-shimmer {
+    width:35px;
+    height:35px;
 
     background:
         linear-gradient(
-            90deg,
-            var(--text),
-            var(--primary),
-            white,
-            var(--primary),
-            var(--text)
-        );
+            45deg,
+            transparent 35%,
+            var(--primary) 36% 64%,
+            transparent 65%
+        ),
 
-    background-size:300% auto;
-
-    color:transparent;
-
-    -webkit-background-clip:text;
-
-    background-clip:text;
-
-    animation:
-        shimmerText
-        3s
-        linear
-        infinite;
-
-}
-
-
-@keyframes shimmerText {
-
-    to {
-
-        background-position:
-            300% center;
-
-    }
-
-}
-
-
-.font-rgb {
-
-    animation:
-        rgbText
-        4s
-        linear
-        infinite;
-
-}
-
-
-@keyframes rgbText {
-
-    0% {
-
-        color:#ff4d6d;
-
-        text-shadow:
-            0 0 20px #ff4d6d;
-
-    }
-
-    33% {
-
-        color:#50e3ff;
-
-        text-shadow:
-            0 0 20px #50e3ff;
-
-    }
-
-    66% {
-
-        color:#b76cff;
-
-        text-shadow:
-            0 0 20px #b76cff;
-
-    }
-
-    100% {
-
-        color:#ff4d6d;
-
-        text-shadow:
-            0 0 20px #ff4d6d;
-
-    }
-
-}
-
-
-.font-metal {
-
-    background:
         linear-gradient(
-            180deg,
-            white,
-            #7f8794,
-            white
+            -45deg,
+            transparent 35%,
+            var(--primary) 36% 64%,
+            transparent 65%
         );
 
-    color:transparent;
+    filter:
+        drop-shadow(
+            0 0 12px var(--glow)
+        );
 
-    -webkit-background-clip:text;
+    animation:
+        fxStar
+        .7s
+        ease-out
+        forwards;
 
-    background-clip:text;
+}
+
+@keyframes fxStar{
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotate(180deg)
+            scale(3);
+
+        opacity:0;
+    }
+
+}
+
+.fx-wave{
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+
+    border:
+        3px solid
+        var(--primary);
+
+    animation:
+        fxWave
+        .8s
+        ease-out
+        forwards;
+
+}
+
+@keyframes fxWave{
+
+    to{
+        width:200px;
+        height:200px;
+        border-width:1px;
+        opacity:0;
+    }
+
+}
+
+.fx-orbit{
+
+    width:40px;
+    height:40px;
+
+    border:
+        2px solid
+        transparent;
+
+    border-top-color:
+        var(--primary);
+
+    border-right-color:
+        var(--secondary);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 18px var(--glow);
+
+    animation:
+        fxOrbit
+        .7s
+        ease-out
+        forwards;
+
+}
+
+@keyframes fxOrbit{
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotate(360deg)
+            scale(3);
+
+        opacity:0;
+    }
+
+}
+
+.fx-flash{
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 15px #fff,
+        0 0 40px var(--primary),
+        0 0 80px var(--primary);
+
+    animation:
+        fxFlash
+        .4s
+        ease-out
+        forwards;
+
+}
+
+@keyframes fxFlash{
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            scale(12);
+
+        opacity:0;
+    }
+
+}
+
+.fx-diamond{
+
+    width:25px;
+    height:25px;
+
+    border:
+        2px solid
+        var(--primary);
+
+    transform:
+        translate(-50%,-50%)
+        rotate(45deg);
+
+    box-shadow:
+        0 0 20px var(--glow);
+
+    animation:
+        fxDiamond
+        .75s
+        ease-out
+        forwards;
+
+}
+
+@keyframes fxDiamond{
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotate(225deg)
+            scale(4);
+
+        opacity:0;
+    }
 
 }
 
@@ -3203,7 +3638,7 @@ textarea.input {
    TOAST
 ===================================================== */
 
-.toast {
+.toast{
 
     position:fixed;
 
@@ -3211,34 +3646,32 @@ textarea.input {
 
     bottom:20px;
 
-    z-index:9999;
+    z-index:60000;
 
     padding:
-        15px
-        20px;
+        14px 19px;
 
     border-radius:17px;
 
     color:white;
 
     background:
-        rgba(
-            10,
-            12,
-            18,
-            .92
-        );
+        rgba(10,12,18,.90);
 
     border:
         1px solid
         var(--border);
 
     box-shadow:
-        0 0 30px
-        var(--glow);
+        0 15px 45px rgba(0,0,0,.40),
+        0 0 25px
+        rgba(
+            var(--primary-rgb),
+            .15
+        );
 
     transform:
-        translateY(150px);
+        translateY(130px);
 
     opacity:0;
 
@@ -3246,8 +3679,7 @@ textarea.input {
 
 }
 
-
-.toast.show {
+.toast.show{
 
     transform:
         translateY(0);
@@ -3261,7 +3693,7 @@ textarea.input {
    FOOTER
 ===================================================== */
 
-footer {
+footer{
 
     text-align:center;
 
@@ -3269,16 +3701,20 @@ footer {
 
     color:var(--muted);
 
+    font-family:
+        var(--english-font),
+        sans-serif;
+
 }
 
 
 /* =====================================================
-   MOBILE
+   RESPONSIVE
 ===================================================== */
 
-@media(max-width:850px) {
+@media(max-width:850px){
 
-    .header {
+    .header{
 
         align-items:flex-start;
 
@@ -3286,8 +3722,7 @@ footer {
 
     }
 
-
-    .navigation {
+    .navigation{
 
         width:100%;
 
@@ -3295,15 +3730,19 @@ footer {
 
     }
 
-
-    .home-grid {
+    .home-grid{
 
         grid-template-columns:1fr;
 
     }
 
+    .notes-grid{
 
-    .notes-grid {
+        grid-template-columns:1fr;
+
+    }
+
+    .color-studio{
 
         grid-template-columns:1fr;
 
@@ -3311,80 +3750,53 @@ footer {
 
 }
 
+@media(max-width:650px){
 
-@media(max-width:650px) {
-
-    .app {
-
+    .app{
         width:96vw;
-
     }
 
-
-    .header {
-
+    .header{
         padding:13px;
-
     }
 
-
-    .nav-button {
+    .nav-button{
 
         flex:1;
 
-        font-size:.78rem;
+        font-size:.72rem;
 
         padding:
-            10px
-            7px;
+            9px 6px;
 
     }
 
-
-    .home-container {
-
+    .home-container{
         padding:14px;
-
     }
 
-
-    .section {
-
+    .section{
         padding:20px;
-
     }
 
-
-    .album {
-
+    .album{
         grid-template-columns:
             repeat(5,1fr);
-
     }
 
-
-    .contact-grid {
-
+    .contact-grid{
         grid-template-columns:1fr;
-
     }
 
-
-    .profile-name {
-
+    .profile-name{
         font-size:3.5rem;
-
     }
 
-
-    .home-stats {
-
+    .home-stats{
         grid-template-columns:1fr;
-
     }
 
-
-    .music-player {
+    .music-player{
 
         align-items:flex-start;
 
@@ -3392,409 +3804,129 @@ footer {
 
     }
 
-
-    .music-content {
-
+    .music-content{
         width:100%;
-
     }
 
-
-    .custom-row {
-
-        align-items:flex-start;
-
-        flex-direction:column;
-
+    .control-grid{
+        grid-template-columns:1fr;
     }
 
-
-    .custom-select {
-
-        width:100%;
-
+    .color-wheel{
+        width:240px;
     }
 
 }
 
-</style>
 
-</head>
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
 
+body.reduced-motion *{
 
-<body>
+    animation-duration:.01ms !important;
 
+    animation-iteration-count:1 !important;
 
-<div
-    class="particles"
-    id="particles"
-></div>
+    transition-duration:.01ms !important;
 
+    scroll-behavior:auto !important;
 
-<main class="app">
+}
 
-
-<!-- =====================================================
+</style></head><body><div class="particles" id="particles"></div><main class="app"><!-- =====================================================
      HEADER
-===================================================== -->
-
-<header class="header glass rgb-border">
-
-
-<div class="brand">
-
-<img
-    src="AA.jpg"
-    class="brand-image"
-    alt="MOKO"
->
+===================================================== --><header class="header glass"><div class="brand"><img
+src="AA.jpg"
+class="brand-image"
+alt="MOKO">
 
 <span class="brand-name">
-
 MOKO
-
-</span>
-
-</div>
-
-
-<nav class="navigation">
-
-
-<button
-    class="nav-button active"
-    data-tab="home"
->
-
+</span></div><nav class="navigation"><button class="nav-button active" data-tab="home">
 <i class="fa-solid fa-house"></i>
-
 HOME
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="dov"
->
-
+</button><button class="nav-button" data-tab="dov">
 <i class="fa-solid fa-user"></i>
-
 DOV
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="games"
->
-
+</button><button class="nav-button" data-tab="games">
 <i class="fa-solid fa-gamepad"></i>
-
 GAMES
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="contact"
->
-
+</button><button class="nav-button" data-tab="contact">
 <i class="fa-solid fa-share-nodes"></i>
-
 CONTACT
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="message"
->
-
+</button><button class="nav-button" data-tab="message">
 <i class="fa-solid fa-paper-plane"></i>
-
 MESSAGE
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="themes"
->
-
+</button><button class="nav-button" data-tab="themes">
 <i class="fa-solid fa-palette"></i>
-
 THEMES
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="notes"
->
-
+</button><button class="nav-button" data-tab="notes">
 <i class="fa-solid fa-bell"></i>
-
 NOTES
-
-</button>
-
-
-<button
-    class="nav-button"
-    data-tab="customize"
->
-
+</button><button class="nav-button" data-tab="customize">
 <i class="fa-solid fa-wand-magic-sparkles"></i>
-
 CUSTOMIZE
-
-</button>
-
-
-</nav>
-
-</header>
-
-
-<!-- =====================================================
+</button></nav></header><!-- =====================================================
      HOME
-===================================================== -->
-
-<section
-    id="home"
-    class="tab active"
->
-
-
-<div class="home-container glass">
-
-
-<div class="home-grid">
-
-
-<div class="profile-card glass">
-
-
-<img
-    src="AA.jpg"
-    class="avatar"
-    alt="MOKO"
->
-
+===================================================== --><section id="home" class="tab active"><div class="home-container glass"><div class="home-grid"><div class="profile-card glass"><img
+src="AA.jpg"
+class="avatar"
+alt="MOKO">
 
 <div class="profile-small-title">
-
 MY SMALL WORLD
-
-</div>
-
-
-<h1 class="profile-name">
-
+</div><h1 class="profile-name">
 MOKO
-
-</h1>
-
-
-<p class="profile-description">
-
+</h1><p class="profile-description">
 مرحباً بك في عالمي الصغير
-
-</p>
-
-
-<div class="social-icons">
-
-
-<a
-    href="#"
-    class="social-icon discord-link"
->
-
+</p><div class="social-icons"><a href="#" class="social-icon discord-link">
 <i class="fa-brands fa-discord"></i>
-
-</a>
-
-
-<a
-    href="#"
-    class="social-icon tiktok-link"
->
-
+</a><a href="#" class="social-icon tiktok-link">
 <i class="fa-brands fa-tiktok"></i>
-
-</a>
-
-
-<a
-    href="#"
-    class="social-icon spotify-link"
->
-
+</a><a href="#" class="social-icon spotify-link">
 <i class="fa-brands fa-spotify"></i>
-
-</a>
-
-
-</div>
-
-
-<div class="profile-switches">
-
-
-<a
-    href="index.html"
-    class="profile-switch current"
->
+</a></div><div class="profile-switches"><a
+href="index.html"
+class="profile-switch current">
 
 <i class="fa-solid fa-user"></i>
-
 MOKO
 
-</a>
-
-
-<a
-    href="solo.html"
-    class="profile-switch"
->
+</a><a
+href="solo.html"
+class="profile-switch">
 
 <i class="fa-solid fa-user-group"></i>
-
 SOLO
 
-</a>
-
-
-</div>
-
-
-</div>
-
-
-<div class="welcome-card glass">
-
-
-<div class="hero-center">
-
-
-<h2 class="hero-main-title">
-
+</a></div></div><div class="welcome-card glass"><div class="hero-center"><h2 class="hero-main-title">
 MOKO
-
-</h2>
-
-
-<p class="hero-subtitle">
-
+</h2><p class="hero-subtitle">
 MY SMALL WORLD • PERSONAL SPACE
-
-</p>
-
-
-<div class="home-stats">
-
-
-<div class="home-stat">
-
+</p><div class="home-stats"><div class="home-stat">
 <i class="fa-solid fa-eye"></i>
-
-<strong id="homeVisitCount">
-
-1
-
-</strong>
-
-<span>
-
-VISITS
-
-</span>
-
-</div>
-
-
-<div class="home-stat">
-
+<strong id="homeVisitCount">1</strong>
+<span>VISITS</span>
+</div><div class="home-stat">
 <i class="fa-solid fa-circle"></i>
-
-<strong>
-
-ONLINE
-
-</strong>
-
-<span>
-
-STATUS
-
-</span>
-
-</div>
-
-
-<div class="home-stat">
-
+<strong>ONLINE</strong>
+<span>STATUS</span>
+</div><div class="home-stat">
 <i class="fa-solid fa-heart"></i>
-
-<strong>
-
-MOKO
-
-</strong>
-
-<span>
-
-WORLD
-
-</span>
-
-</div>
-
-
-</div>
-
-
-<div
-    class="live-clock"
-    id="liveClock"
->
-
+<strong>MOKO</strong>
+<span>WORLD</span>
+</div></div><div class="live-clock" id="liveClock">
 --:--:--
-
-</div>
-
-
-</div>
-
-
-<h2 class="welcome-title">
-
+</div></div><h2 class="welcome-title">
 أهلاً بك في عالمي الصغير
-
-</h2>
-
-
-<p class="welcome-text">
-
+</h2><p class="welcome-text">
 هذا عالمي الشخصي.
 مكان يجمع الصور والموسيقى والألعاب
 وكل ما أحبه بطريقة زجاجية
 مضيئة وفخمة.
-
-</p>
-
-
-<div class="album">
-
-
-<img src="1.jpg" class="album-image">
+</p><div class="album"><img src="1.jpg" class="album-image">
 <img src="2.jpg" class="album-image">
 <img src="3.jpg" class="album-image">
 <img src="4.jpg" class="album-image">
@@ -3803,1399 +3935,960 @@ WORLD
 <img src="7.jpg" class="album-image">
 <img src="8.jpg" class="album-image">
 <img src="9.jpg" class="album-image">
-<img src="10.jpg" class="album-image">
+<img src="10.jpg" class="album-image"></div><div class="music-player"><i class="fa-solid fa-music music-icon"></i>
 
-</div>
-
-
-<div class="music-player">
-
-
-<i class="fa-solid fa-music music-icon"></i>
-
-
-<div class="music-content">
-
-
-<span class="music-name">
-
+<div class="music-content"><span class="music-name">
 MOKO — JJ.mp3
+</span><audio id="mokoAudio" controls preload="metadata"><source
+src="./JJ.mp3"
+type="audio/mpeg">
 
-</span>
-
-
-<audio
-    id="mokoAudio"
-    controls
-    preload="metadata"
->
-
-<source
-    src="./JJ.mp3"
-    type="audio/mpeg"
->
-
-</audio>
-
-
-<div class="music-controls">
-
-
-<button
-    type="button"
-    class="music-control-button"
-    id="playMusic"
->
+</audio><div class="music-controls"><button
+type="button"
+class="music-control-button"
+id="playMusic">
 
 <i class="fa-solid fa-play"></i>
-
 PLAY
 
-</button>
-
-
-<button
-    type="button"
-    class="music-control-button"
-    id="pauseMusic"
->
+</button><button
+type="button"
+class="music-control-button"
+id="pauseMusic">
 
 <i class="fa-solid fa-pause"></i>
-
 PAUSE
 
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
+</button></div></div></div></div></div></div></section><!-- =====================================================
      DOV
-===================================================== -->
-
-<section
-    id="dov"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
+===================================================== --><section id="dov" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-user"></i>
-
 DOV
-
-</h2>
-
-
-<div class="about-card">
-
-
-<div class="about-row">
-
-<span class="about-label">
-NAME:
-</span>
-
+</h2><div class="about-card"><div class="about-row">
+<span class="about-label">NAME:</span>
 MOKO
-
-</div>
-
-
-<div class="about-row">
-
-<span class="about-label">
-AYG:
-</span>
-
+</div><div class="about-row">
+<span class="about-label">AYG:</span>
 2010
-
-</div>
-
-
-<div class="about-row">
-
-<span class="about-label">
-LIVE:
-</span>
-
+</div><div class="about-row">
+<span class="about-label">LIVE:</span>
 IQ
-
-</div>
-
-
-<div class="about-row">
-
-<span class="about-label">
-HOBBY:
-</span>
-
+</div><div class="about-row">
+<span class="about-label">HOBBY:</span>
 PLAYING GAMING
-
-</div>
-
-
-<div class="about-row">
-
-<span class="about-label">
-LOVE:
-</span>
-
+</div><div class="about-row">
+<span class="about-label">LOVE:</span>
 GOD
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
+</div></div></div></section><!-- =====================================================
      GAMES
-===================================================== -->
-
-<section
-    id="games"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
+===================================================== --><section id="games" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-gamepad"></i>
-
 GAMES
-
-</h2>
-
-
-<div class="games-grid">
-
-
-<div class="game-card">
+</h2><div class="games-grid"><div class="game-card">
 <i class="fa-solid fa-car"></i>
 <h3>Grand Theft Auto V</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-cubes"></i>
 <h3>Minecraft</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-bolt"></i>
 <h3>Fortnite</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-hat-cowboy"></i>
 <h3>Red Dead Redemption 2</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-crosshairs"></i>
 <h3>Call of Duty</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-city"></i>
 <h3>Cyberpunk 2077</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-shield-halved"></i>
 <h3>Valorant</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-dragon"></i>
 <h3>Elden Ring</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-wand-magic-sparkles"></i>
 <h3>The Witcher 3</h3>
-</div>
-
-
-<div class="game-card">
+</div><div class="game-card">
 <i class="fa-solid fa-flag-checkered"></i>
 <h3>Forza Horizon 5</h3>
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
+</div></div></div></section><!-- =====================================================
      CONTACT
-===================================================== -->
-
-<section
-    id="contact"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
+===================================================== --><section id="contact" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-share-nodes"></i>
-
 CONTACT
+</h2><div class="contact-grid"><a href="#" class="contact-card discord-link"><i class="fa-brands fa-discord"></i>
 
-</h2>
+<h3>Discord</h3></a><a href="#" class="contact-card tiktok-link"><i class="fa-brands fa-tiktok"></i>
 
+<h3>TikTok</h3></a><a href="#" class="contact-card spotify-link"><i class="fa-brands fa-spotify"></i>
 
-<div class="contact-grid">
-
-
-<a
-    href="#"
-    class="contact-card discord-link"
->
-
-<i class="fa-brands fa-discord"></i>
-
-<h3>Discord</h3>
-
-</a>
-
-
-<a
-    href="#"
-    class="contact-card tiktok-link"
->
-
-<i class="fa-brands fa-tiktok"></i>
-
-<h3>TikTok</h3>
-
-</a>
-
-
-<a
-    href="#"
-    class="contact-card spotify-link"
->
-
-<i class="fa-brands fa-spotify"></i>
-
-<h3>Spotify</h3>
-
-</a>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
+<h3>Spotify</h3></a></div></div></section><!-- =====================================================
      MESSAGE
-===================================================== -->
-
-<section
-    id="message"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
+===================================================== --><section id="message" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-paper-plane"></i>
-
 MESSAGE
-
-</h2>
-
-
-<div class="form">
-
-
-<input
-    type="text"
-    id="senderName"
-    class="input"
-    placeholder="Your name"
-    maxlength="60"
->
-
+</h2><div class="form"><input
+type="text"
+id="senderName"
+class="input"
+placeholder="Your name"
+maxlength="60">
 
 <textarea
-    id="senderMessage"
-    class="input"
-    placeholder="Write your message..."
-    maxlength="1500"
-></textarea>
-
-
-<button
-    class="main-button"
-    id="sendMessage"
-    type="button"
->
+id="senderMessage"
+class="input"
+placeholder="Write your message..."
+maxlength="1500"></textarea><button
+class="main-button"
+id="sendMessage"
+type="button">
 
 SEND MESSAGE
 
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
+</button></div></div></section><!-- =====================================================
      THEMES
-===================================================== -->
-
-<section
-    id="themes"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
+===================================================== --><section id="themes" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-palette"></i>
-
 THEMES
-
-</h2>
-
-
-<div class="themes-grid">
-
-
-<button class="theme-button"
+</h2><div class="themes-grid"><button class="theme-button"
 data-primary="#7c8188"
 data-secondary="#e4e8ee">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#7c8188"></span>
 
-<span
-class="theme-color"
-style="background:#7c8188"
-></span>
+<span class="theme-color"
+style="background:#e4e8ee"></span>
 
-<span
-class="theme-color"
-style="background:#e4e8ee"
-></span>
+</div>رصاصي
 
-</div>
-
-رصاصي
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#ff3b4f"
 data-secondary="#36d978">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#ff3b4f"></span>
 
-<span
-class="theme-color"
-style="background:#ff3b4f"
-></span>
+<span class="theme-color"
+style="background:#36d978"></span>
 
-<span
-class="theme-color"
-style="background:#36d978"
-></span>
+</div>أحمر × أخضر
 
-</div>
-
-أحمر × أخضر
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#9d6bff"
 data-secondary="#55dfff">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#9d6bff"></span>
 
-<span
-class="theme-color"
-style="background:#9d6bff"
-></span>
+<span class="theme-color"
+style="background:#55dfff"></span>
 
-<span
-class="theme-color"
-style="background:#55dfff"
-></span>
+</div>بنفسجي × سماوي
 
-</div>
-
-بنفسجي × سماوي
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#2adf84"
 data-secondary="#f4df4e">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#2adf84"></span>
 
-<span
-class="theme-color"
-style="background:#2adf84"
-></span>
+<span class="theme-color"
+style="background:#f4df4e"></span>
 
-<span
-class="theme-color"
-style="background:#f4df4e"
-></span>
+</div>أخضر × أصفر
 
-</div>
-
-أخضر × أصفر
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#ff73b8"
 data-secondary="#b078ff">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#ff73b8"></span>
 
-<span
-class="theme-color"
-style="background:#ff73b8"
-></span>
+<span class="theme-color"
+style="background:#b078ff"></span>
 
-<span
-class="theme-color"
-style="background:#b078ff"
-></span>
+</div>وردي × بنفسجي
 
-</div>
-
-وردي × بنفسجي
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#caff39"
 data-secondary="#ff4d4d">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#caff39"></span>
 
-<span
-class="theme-color"
-style="background:#caff39"
-></span>
+<span class="theme-color"
+style="background:#ff4d4d"></span>
 
-<span
-class="theme-color"
-style="background:#ff4d4d"
-></span>
+</div>ليموني × أحمر
 
-</div>
-
-ليموني × أحمر
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#151515"
 data-secondary="#4ce6ff">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#151515"></span>
 
-<span
-class="theme-color"
-style="background:#151515"
-></span>
+<span class="theme-color"
+style="background:#4ce6ff"></span>
 
-<span
-class="theme-color"
-style="background:#4ce6ff"
-></span>
+</div>أسود × سماوي
 
-</div>
-
-أسود × سماوي
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#ff9a3d"
 data-secondary="#ffffff">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#ff9a3d"></span>
 
-<span
-class="theme-color"
-style="background:#ff9a3d"
-></span>
+<span class="theme-color"
+style="background:#ffffff"></span>
 
-<span
-class="theme-color"
-style="background:#ffffff"
-></span>
+</div>برتقالي × أبيض
 
-</div>
-
-برتقالي × أبيض
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#8c8f54"
 data-secondary="#f4f3e9">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#8c8f54"></span>
 
-<span
-class="theme-color"
-style="background:#8c8f54"
-></span>
+<span class="theme-color"
+style="background:#f4f3e9"></span>
 
-<span
-class="theme-color"
-style="background:#f4f3e9"
-></span>
+</div>كاكي × أبيض
 
-</div>
-
-كاكي × أبيض
-
-</button>
-
-
-<button class="theme-button"
+</button><button class="theme-button"
 data-primary="#7f1d3d"
 data-secondary="#ffd44d">
 
-<div class="theme-colors">
+<div class="theme-colors"><span class="theme-color"
+style="background:#7f1d3d"></span>
 
-<span
-class="theme-color"
-style="background:#7f1d3d"
-></span>
+<span class="theme-color"
+style="background:#ffd44d"></span>
 
-<span
-class="theme-color"
-style="background:#ffd44d"
-></span>
+</div>رماني × أصفر
 
-</div>
-
-رماني × أصفر
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
+</button></div></div></section><!-- =====================================================
      NOTES
-===================================================== -->
-
-<section
-    id="notes"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
+===================================================== --><section id="notes" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-bell"></i>
-
 NOTES & NOTIFICATIONS
-
-</h2>
-
-
-<div class="notes-grid">
-
-
-<div class="form">
-
-
-<textarea
-    id="noteText"
-    class="input"
-    placeholder="اكتب ملاحظة..."
-></textarea>
-
-
-<button
-    class="main-button"
-    id="publishNote"
-    type="button"
->
+</h2><div class="notes-grid"><div class="form"><textarea
+id="noteText"
+class="input"
+placeholder="اكتب ملاحظة..."></textarea><button
+class="main-button"
+id="publishNote"
+type="button">
 
 PUBLISH NOTE
 
+</button></div><div
+class="notes-feed"
+id="notesFeed"></div></div></div></section><!-- =====================================================
+     CUSTOMIZE
+===================================================== --><section id="customize" class="tab"><div class="section glass"><div class="custom-hero"><h3>
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+MOKO LUXURY CONTROL
+</h3><p>
+هنا تقدر تتحكم بتفاصيل شكل الموقع.
+كل اختيار يطبق مباشرة ويحفظ تلقائياً.
+</p></div><div class="control-tabs"><button
+class="control-tab active"
+data-panel="presets">
+PRESETS
 </button>
 
-
-</div>
-
-
-<div
-    class="notes-feed"
-    id="notesFeed"
-></div>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
-     CUSTOMIZE
-===================================================== -->
-
-<section
-    id="customize"
-    class="tab"
->
-
-
-<div class="section glass">
-
-
-<h2 class="section-title">
-
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-
-CUSTOMIZE MOKO
-
-</h2>
-
-
-<div class="custom-grid">
-
-
-<!-- RGB -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-rainbow"></i>
-
-RGB LIGHTING
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-تشغيل RGB
-
-</label>
-
-
-<label class="switch">
-
-<input
-    type="checkbox"
-    id="rgbToggle"
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-سرعة RGB
-
-</label>
-
-<select
-    class="custom-select"
-    id="rgbSpeed"
->
-
-<option value="slow">
-بطيء
-</option>
-
-<option value="normal">
-متوسط
-</option>
-
-<option value="fast">
-سريع
-</option>
-
-</select>
-
-</div>
-
-
-</div>
-
-
-<!-- CARD LIGHT -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-gem"></i>
-
-CARD LIGHT
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-إضاءة الحواف
-
-</label>
-
-
-<label class="switch">
-
-<input
-    type="checkbox"
-    id="cardGlowToggle"
-    checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-قوة الإضاءة
-
-</label>
-
-<input
-    class="range"
-    type="range"
-    id="glowStrength"
-    min="0"
-    max="1"
-    step=".05"
-    value=".55"
->
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-شكل الكارد
-
-</label>
-
-<select
-    class="custom-select"
-    id="cardStyle"
->
-
-<option value="normal">
-Luxury Glass
-</option>
-
-<option value="soft">
-Soft Glass
-</option>
-
-<option value="crystal">
-Crystal
-</option>
-
-<option value="dark">
-Dark Glass
-</option>
-
-<option value="neon">
-Neon Glass
-</option>
-
-<option value="frost">
-Frosted Glass
-</option>
-
-</select>
-
-</div>
-
-
-</div>
-
-
-<!-- FONT -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-font"></i>
-
-FONTS
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-الخط
-
-</label>
-
-<select
-    class="custom-select"
-    id="fontSelect"
->
-
-<option value="El Messiri">
-El Messiri
-</option>
-
-<option value="Cairo">
-Cairo
-</option>
-
-<option value="Tajawal">
-Tajawal
-</option>
-
-<option value="Changa">
-Changa
-</option>
-
-<option value="Noto Kufi Arabic">
-Noto Kufi Arabic
-</option>
-
-<option value="IBM Plex Sans Arabic">
-IBM Plex Sans Arabic
-</option>
-
-</select>
-
-</div>
-
-
-<div class="preview-box">
-
-<div
-    class="font-preview"
-    id="fontPreview"
->
-
-MOKO — عالمي الصغير
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<!-- FONT COLOR -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-fill-drip"></i>
-
-FONT COLOR
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-لون الخط
-
-</label>
-
-
-<input
-    type="color"
-    class="color-picker"
-    id="fontColor"
-    value="#ffffff"
->
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-لون رئيسي
-
-</label>
-
-
-<input
-    type="color"
-    class="color-picker"
-    id="primaryColor"
-    value="#9da3ad"
->
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-لون ثانوي
-
-</label>
-
-
-<input
-    type="color"
-    class="color-picker"
-    id="secondaryColor"
-    value="#eef1f5"
->
-
-</div>
-
-
-</div>
-
-
-<!-- FONT EFFECT -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-sparkles"></i>
-
-FONT EFFECT
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-تأثير النص
-
-</label>
-
-
-<select
-    class="custom-select"
-    id="fontEffect"
->
-
-<option value="normal">
-Normal
-</option>
-
-<option value="glow">
-Glow
-</option>
-
-<option value="neon">
-Neon
-</option>
-
-<option value="shimmer">
-Shimmer
-</option>
-
-<option value="rgb">
-RGB
-</option>
-
-<option value="metal">
-Metal
-</option>
-
-</select>
-
-</div>
-
-
-</div>
-
-
-<!-- ICON -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-icons"></i>
-
-ICON LIGHT
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-إضاءة الأيقونات
-
-</label>
-
-
-<label class="switch">
-
-<input
-    type="checkbox"
-    id="iconGlowToggle"
-    checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-قوة اللمعة
-
-</label>
-
-<input
-    class="range"
-    type="range"
-    id="iconStrength"
-    min="0"
-    max="2"
-    step=".1"
-    value="1"
->
-
-</div>
-
-
-</div>
-
-
-<!-- CLICK -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-hand-pointer"></i>
-
-CLICK EFFECT
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-نمط النقر
-
-</label>
-
-
-<select
-    class="custom-select"
-    id="clickEffect"
->
-
-<option value="ripple">
-01 — Ripple
-</option>
-
-<option value="ring">
-02 — Neon Ring
-</option>
-
-<option value="burst">
-03 — Glow Burst
-</option>
-
-<option value="glow">
-04 — Light Glow
-</option>
-
-<option value="shock">
-05 — Shockwave
-</option>
-
-<option value="dot">
-06 — Energy Dot
-</option>
-
-<option value="pulse">
-07 — Pulse
-</option>
-
-<option value="scan">
-08 — Light Scan
-</option>
-
-<option value="star">
-09 — Star
-</option>
-
-<option value="none">
-10 — Disabled
-</option>
-
-</select>
-
-</div>
-
-
-</div>
-
-
-<!-- CLICK SPEED -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-bolt"></i>
-
-INTERACTION
-
-</h3>
-
-
-<div class="custom-row">
-
-<label>
-
-تأثير الانتقال
-
-</label>
-
-
-<label class="switch">
-
-<input
-    type="checkbox"
-    id="transitionToggle"
-    checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="custom-row">
-
-<label>
-
-حساسية اللمعة
-
-</label>
-
-<input
-    class="range"
-    type="range"
-    id="transitionSpeed"
-    min=".2"
-    max="1"
-    step=".1"
-    value=".6"
->
-
-</div>
-
-
-</div>
-
-
-<!-- RESET -->
-
-<div class="custom-card">
-
-<h3>
-
-<i class="fa-solid fa-rotate-left"></i>
-
-RESET
-
-</h3>
-
-
-<p
-    style="
-    color:var(--muted);
-    line-height:1.8;
-    margin-bottom:15px;
-    "
->
-
-إرجاع جميع إعدادات MOKO
-إلى الشكل الافتراضي.
-
-</p>
-
+<button
+class="control-tab"
+data-panel="colors">
+COLOR
+</button>
 
 <button
-    class="main-button"
-    id="resetCustomization"
-    type="button"
->
+class="control-tab"
+data-panel="glass">
+GLASS
+</button>
+
+<button
+class="control-tab"
+data-panel="fonts">
+FONTS
+</button>
+
+<button
+class="control-tab"
+data-panel="text">
+TEXT
+</button>
+
+<button
+class="control-tab"
+data-panel="animation">
+ANIMATION
+</button>
+
+<button
+class="control-tab"
+data-panel="hover">
+HOVER
+</button>
+
+<button
+class="control-tab"
+data-panel="icons">
+ICONS
+</button>
+
+<button
+class="control-tab"
+data-panel="background">
+ATMOSPHERE
+</button>
+
+<button
+class="control-tab"
+data-panel="click">
+CLICK
+</button>
+
+</div><!-- =====================================================
+     PRESETS
+===================================================== --><div
+class="control-panel active"
+data-panel-content="presets"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-crown"></i>
+LUXURY PRESETS
+</h3><p>
+تصميمات كاملة جاهزة. تضبط اللون والزجاج والخط والحركة دفعة واحدة.
+</p><div class="preset-grid"><button
+class="preset"
+data-preset="black"
+style="--preset:#8e99aa">
+
+<strong>MOKO BLACK</strong>
+<small>Obsidian • Silver</small>
+
+</button><button
+class="preset"
+data-preset="blood"
+style="--preset:#ff334f">
+
+<strong>MOKO BLOOD</strong>
+<small>Crimson • Dark</small>
+
+</button><button
+class="preset"
+data-preset="gold"
+style="--preset:#d6aa54">
+
+<strong>MOKO GOLD</strong>
+<small>Gold • Pearl</small>
+
+</button><button
+class="preset"
+data-preset="ice"
+style="--preset:#5fe4ff">
+
+<strong>MOKO ICE</strong>
+<small>Ice • Crystal</small>
+
+</button><button
+class="preset"
+data-preset="royal"
+style="--preset:#a970ff">
+
+<strong>MOKO ROYAL</strong>
+<small>Violet • Luxury</small>
+
+</button><button
+class="preset"
+data-preset="silver"
+style="--preset:#e4e8ee">
+
+<strong>MOKO SILVER</strong>
+<small>Silver • Minimal</small>
+
+</button><button
+class="preset"
+data-preset="aurora"
+style="--preset:#48f0c0">
+
+<strong>MOKO AURORA</strong>
+<small>Ambient • Soft</small>
+
+</button><button
+class="preset"
+data-preset="void"
+style="--preset:#59606c">
+
+<strong>MOKO VOID</strong>
+<small>Deep • Dark</small>
+
+</button></div></div><div class="control-card"><h3>
+<i class="fa-solid fa-rotate-left"></i>
+RESET
+</h3><p>
+إرجاع كل إعدادات التجميل إلى الشكل الافتراضي.
+</p><button
+class="main-button"
+id="resetCustomization"
+type="button">
 
 RESET MOKO
 
-</button>
+</button></div></div></div><!-- =====================================================
+     COLOR
+===================================================== --><div
+class="control-panel"
+data-panel-content="colors"><div class="color-studio"><div class="control-card"><h3>
+<i class="fa-solid fa-palette"></i>
+COLOR WHEEL
+</h3><p>
+حرّك المؤشر داخل الدائرة لاختيار اللون، ثم اضبط التشبع والإضاءة.
+</p><div
+class="color-wheel"
+id="colorWheel"><div
+class="wheel-pointer"
+id="wheelPointer"></div></div></div><div class="control-card"><h3>
+<i class="fa-solid fa-sliders"></i>
+COLOR STUDIO
+</h3><div class="range-wrap"><div class="range-label">
+<span>HUE</span>
+<span
+class="value-badge"
+id="hueValue">
+180°
+</span>
+</div><input
+class="hue-bar"
+type="range"
+id="hueRange"
+min="0"
+max="360"
+value="180">
 
+</div><div class="range-wrap"><div class="range-label">
+<span>SATURATION</span>
+<span
+class="value-badge"
+id="satValue">
+70%
+</span>
+</div><input
+class="range"
+type="range"
+id="satRange"
+min="0"
+max="100"
+value="70">
 
-</div>
+</div><div class="range-wrap"><div class="range-label">
+<span>BRIGHTNESS</span>
+<span
+class="value-badge"
+id="lightValue">
+70%
+</span>
+</div><input
+class="range"
+type="range"
+id="lightRange"
+min="10"
+max="100"
+value="70">
 
+</div><div
+class="color-preview"
+id="colorPreview"></div><div
+class="color-value"
+id="colorValue">
+#9DA3AD
+</div></div></div></div><!-- =====================================================
+     GLASS
+===================================================== --><div
+class="control-panel"
+data-panel-content="glass"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-gem"></i>
+CARD MATERIAL
+</h3><p>
+اضغط واختار النمط. اللوحة تختفي تلقائياً بعد الاختيار.
+</p><button
+class="choice-button"
+data-choice="cardStyle">
 
-</div>
+<span id="cardStyleLabel">
+Obsidian
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-droplet"></i>
+BLUR
+</h3><div class="range-wrap"><div class="range-label"><span>GLASS BLUR</span>
 
+<span
+class="value-badge"
+id="blurValue">
+20px
+</span>
 
-</div>
+</div><input
+class="range"
+type="range"
+id="blurRange"
+min="5"
+max="55"
+value="20">
 
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-border-all"></i>
+ROUNDNESS
+</h3><div class="range-wrap"><div class="range-label"><span>CORNER RADIUS</span>
 
-</section>
+<span
+class="value-badge"
+id="radiusValue">
+28px
+</span>
 
+</div><input
+class="range"
+type="range"
+id="radiusRange"
+min="8"
+max="45"
+value="28">
 
-<footer>
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-lightbulb"></i>
+INNER LIGHT
+</h3><p>
+إضاءة داخلية ناعمة جداً بدون خط RGB خارجي.
+</p><div class="range-wrap"><div class="range-label"><span>LIGHT POWER</span>
 
+<span
+class="value-badge"
+id="innerLightValue">
+35%
+</span>
+
+</div><input
+class="range"
+type="range"
+id="innerLightRange"
+min="0"
+max="100"
+value="35">
+
+</div></div></div></div><!-- =====================================================
+     FONTS
+===================================================== --><div
+class="control-panel"
+data-panel-content="fonts"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-language"></i>
+ARABIC FONT
+</h3><p>
+خط عربي للمحتوى والنصوص.
+</p><button
+class="choice-button"
+data-choice="arabicFont">
+
+<span id="arabicFontLabel">
+El Messiri
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-font"></i>
+ENGLISH FONT
+</h3><p>
+خط إنجليزي ناعم ومستقيم وفخم.
+</p><button
+class="choice-button"
+data-choice="englishFont">
+
+<span id="englishFontLabel">
+Manrope
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-text-height"></i>
+FONT WEIGHT
+</h3><div class="range-wrap"><div class="range-label"><span>WEIGHT</span>
+
+<span
+class="value-badge"
+id="fontWeightValue">
+600
+</span>
+
+</div><input
+class="range"
+type="range"
+id="fontWeightRange"
+min="400"
+max="900"
+step="100"
+value="600">
+
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-arrows-left-right"></i>
+LETTER SPACE
+</h3><div class="range-wrap"><div class="range-label"><span>SPACING</span>
+
+<span
+class="value-badge"
+id="letterSpacingValue">
+0px
+</span>
+
+</div><input
+class="range"
+type="range"
+id="letterSpacingRange"
+min="-1"
+max="5"
+step=".5"
+value="0">
+
+</div></div></div></div><!-- =====================================================
+     TEXT
+===================================================== --><div
+class="control-panel"
+data-panel-content="text"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+TEXT EFFECT
+</h3><p>
+اختار تأثير النص من لوحة Glass.
+</p><button
+class="choice-button"
+data-choice="textEffect">
+
+<span id="textEffectLabel">
+Soft
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-fill-drip"></i>
+TEXT COLOR
+</h3><input
+type="color"
+id="fontColor"
+value="#ffffff"
+style="
+width:100%;
+height:50px;
+border:none;
+background:transparent;
+cursor:pointer;
+">
+
+</div><div class="control-card"><h3>
+<i class="fa-solid fa-weight-hanging"></i>
+TEXT DENSITY
+</h3><p>
+تحكم عام بسماكة الكلام.
+</p><div class="range-wrap"><div class="range-label"><span>WEIGHT</span>
+
+<span
+class="value-badge"
+id="densityValue">
+600
+</span>
+
+</div><input
+class="range"
+type="range"
+id="densityRange"
+min="400"
+max="900"
+step="100"
+value="600">
+
+</div></div></div></div><!-- =====================================================
+     ANIMATION
+===================================================== --><div
+class="control-panel"
+data-panel-content="animation"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-film"></i>
+PAGE ANIMATION
+</h3><p>
+شكل ظهور الأقسام عند التنقل.
+</p><button
+class="choice-button"
+data-choice="pageAnimation">
+
+<span id="pageAnimationLabel">
+Cinematic
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-gauge-high"></i>
+ANIMATION SPEED
+</h3><div class="range-wrap"><div class="range-label"><span>SPEED</span>
+
+<span
+class="value-badge"
+id="animationSpeedValue">
+1.0x
+</span>
+
+</div><input
+class="range"
+type="range"
+id="animationSpeedRange"
+min=".4"
+max="1.8"
+step=".1"
+value="1">
+
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-shuffle"></i>
+MICRO MOTION
+</h3><p>
+حركة بسيطة للصور والكروت والأيقونات.
+</p><label class="switch"><input
+type="checkbox"
+id="microMotionToggle"
+checked>
+
+<span class="slider"></span>
+
+</label></div><div class="control-card"><h3>
+<i class="fa-solid fa-circle-pause"></i>
+REDUCED MOTION
+</h3><p>
+إيقاف الحركات الثقيلة مع إبقاء التصميم.
+</p><label class="switch"><input
+type="checkbox"
+id="reducedMotionToggle">
+
+<span class="slider"></span>
+
+</label></div></div></div><!-- =====================================================
+     HOVER
+===================================================== --><div
+class="control-panel"
+data-panel-content="hover"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-hand-pointer"></i>
+HOVER STYLE
+</h3><p>
+شكل تفاعل الكروت عند تمرير المؤشر.
+</p><button
+class="choice-button"
+data-choice="hoverStyle">
+
+<span id="hoverStyleLabel">
+Lift
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-arrow-up"></i>
+HOVER POWER
+</h3><div class="range-wrap"><div class="range-label"><span>INTENSITY</span>
+
+<span
+class="value-badge"
+id="hoverPowerValue">
+7px
+</span>
+
+</div><input
+class="range"
+type="range"
+id="hoverPowerRange"
+min="0"
+max="15"
+value="7">
+
+</div></div></div></div><!-- =====================================================
+     ICONS
+===================================================== --><div
+class="control-panel"
+data-panel-content="icons"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-icons"></i>
+ICON GLOW
+</h3><p>
+الأيقونات تبقى مضيئة دائماً حتى بالثيم الداكن.
+</p><label class="switch"><input
+type="checkbox"
+id="iconGlowToggle"
+checked>
+
+<span class="slider"></span>
+
+</label></div><div class="control-card"><h3>
+<i class="fa-solid fa-lightbulb"></i>
+GLOW POWER
+</h3><div class="range-wrap"><div class="range-label"><span>POWER</span>
+
+<span
+class="value-badge"
+id="iconStrengthValue">
+100%
+</span>
+
+</div><input
+class="range"
+type="range"
+id="iconStrengthRange"
+min="0"
+max="200"
+value="100">
+
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-wave-square"></i>
+ICON MOTION
+</h3><button
+class="choice-button"
+data-choice="iconMotion">
+
+<span id="iconMotionLabel">
+Breathing
+</span><span>
+CHANGE
+</span></button></div></div></div><!-- =====================================================
+     ATMOSPHERE
+===================================================== --><div
+class="control-panel"
+data-panel-content="background"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-image"></i>
+A.jpg
+</h3><p>
+الخلفية الأصلية تبقى كما هي. هذه الإعدادات فقط تضيف أجواء فوقها.
+</p><div class="range-wrap"><div class="range-label"><span>DARKNESS</span>
+
+<span
+class="value-badge"
+id="darknessValue">
+70%
+</span>
+
+</div><input
+class="range"
+type="range"
+id="darknessRange"
+min="20"
+max="90"
+value="70">
+
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-circle-half-stroke"></i>
+VIGNETTE
+</h3><div class="range-wrap"><div class="range-label"><span>EDGE DARKNESS</span>
+
+<span
+class="value-badge"
+id="vignetteValue">
+30%
+</span>
+
+</div><input
+class="range"
+type="range"
+id="vignetteRange"
+min="0"
+max="70"
+value="30">
+
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-cloud"></i>
+AMBIENT LIGHT
+</h3><div class="range-wrap"><div class="range-label"><span>AMBIENT</span>
+
+<span
+class="value-badge"
+id="ambientValue">
+15%
+</span>
+
+</div><input
+class="range"
+type="range"
+id="ambientRange"
+min="0"
+max="50"
+value="15">
+
+</div></div><div class="control-card"><h3>
+<i class="fa-solid fa-sparkles"></i>
+PARTICLES
+</h3><div class="range-wrap"><div class="range-label"><span>PARTICLE POWER</span>
+
+<span
+class="value-badge"
+id="particleValue">
+65%
+</span>
+
+</div><input
+class="range"
+type="range"
+id="particleRange"
+min="0"
+max="100"
+value="65">
+
+</div></div></div></div><!-- =====================================================
+     CLICK
+===================================================== --><div
+class="control-panel"
+data-panel-content="click"><div class="control-grid"><div class="control-card"><h3>
+<i class="fa-solid fa-hand-pointer"></i>
+CLICK EFFECT
+</h3><p>
+عند النقر تظهر مؤثرات ناعمة في مكان النقر.
+</p><button
+class="choice-button"
+data-choice="clickEffect">
+
+<span id="clickEffectLabel">
+Neon Ring
+</span><span>
+CHANGE
+</span></button></div><div class="control-card"><h3>
+<i class="fa-solid fa-bolt"></i>
+CLICK ENABLE
+</h3><p>
+تشغيل أو إيقاف مؤثرات النقر.
+</p><label class="switch"><input
+type="checkbox"
+id="clickToggle"
+checked>
+
+<span class="slider"></span>
+
+</label></div></div></div></div></div></section><footer>
 © MOKO — MY SMALL WORLD
+</footer></main><!-- =====================================================
+     GLASS CHOICE MODAL
+===================================================== --><div
+class="choice-overlay"
+id="choiceOverlay"><div class="choice-modal"><div class="modal-head"><div
+class="modal-title"
+id="modalTitle"><i class="fa-solid fa-wand-magic-sparkles"></i>
 
-</footer>
+<span>
+SELECT STYLE
+</span></div><button
+class="modal-close"
+id="modalClose"
+type="button">
 
+<i class="fa-solid fa-xmark"></i>
 
-</main>
-
-
-<div
-    class="toast"
-    id="toast"
-></div>
-
-
-<script>
+</button></div><div
+class="modal-options"
+id="modalOptions">
+</div></div></div><div
+class="toast"
+id="toast">
+</div><script>
 
 /* =====================================================
    CONFIGURATION
@@ -5215,8 +4908,7 @@ const CONFIG = {
     SPOTIFY_URL:
         "https://open.spotify.com/user/31rcvnqojr2aqaulzb77jqv5u7de",
 
-    API_URL:
-        ""
+    API_URL:""
 
 };
 
@@ -5233,7 +4925,7 @@ const $ = selector =>
    TOAST
 ===================================================== */
 
-function showToast(message) {
+function showToast(message){
 
     const toast =
         $("#toast");
@@ -5243,11 +4935,17 @@ function showToast(message) {
 
     toast.classList.add("show");
 
-    setTimeout(() => {
+    clearTimeout(
+        window.toastTimer
+    );
 
-        toast.classList.remove("show");
-
-    },3000);
+    window.toastTimer =
+        setTimeout(
+            () => {
+                toast.classList.remove("show");
+            },
+            2800
+        );
 
 }
 
@@ -5269,7 +4967,6 @@ document.addEventListener(
     }
 );
 
-
 document.addEventListener(
     "dragstart",
     event => {
@@ -5289,18 +4986,15 @@ const navigationButtons =
         ".nav-button"
     );
 
-
 const tabs =
     document.querySelectorAll(
         ".tab"
     );
 
-
 let currentTab =
     document.querySelector(
         ".tab.active"
     );
-
 
 navigationButtons.forEach(button => {
 
@@ -5311,84 +5005,52 @@ navigationButtons.forEach(button => {
             const tabId =
                 button.dataset.tab;
 
-
-            navigationButtons.forEach(item => {
-
-                item.classList.remove(
-                    "active"
-                );
-
-            });
-
+            navigationButtons.forEach(
+                item =>
+                    item.classList.remove(
+                        "active"
+                    )
+            );
 
             button.classList.add(
                 "active"
             );
 
+            button.classList.remove(
+                "nav-pulse"
+            );
 
-            if(
-                currentTab &&
-                currentTab.id !== tabId
-            ){
+            void button.offsetWidth;
 
-                currentTab.classList.add(
-                    "tab-leaving"
-                );
+            button.classList.add(
+                "nav-pulse"
+            );
 
-                setTimeout(() => {
-
-                    currentTab.classList.remove(
-                        "tab-leaving"
-                    );
-
-                },250);
-
-            }
-
-
-            tabs.forEach(tab => {
-
+            tabs.forEach(tab =>
                 tab.classList.remove(
                     "active"
-                );
-
-            });
-
+                )
+            );
 
             const nextTab =
                 document.getElementById(
                     tabId
                 );
 
+            if(nextTab){
 
-            nextTab.classList.add(
-                "active"
-            );
+                nextTab.classList.add(
+                    "active"
+                );
 
+                currentTab =
+                    nextTab;
 
-            currentTab =
-                nextTab;
-
-
-            button.classList.remove(
-                "ripple"
-            );
-
-
-            void button.offsetWidth;
-
-
-            button.classList.add(
-                "ripple"
-            );
-
+            }
 
             window.scrollTo({
-
                 top:0,
-
                 behavior:"smooth"
-
             });
 
         }
@@ -5398,37 +5060,32 @@ navigationButtons.forEach(button => {
 
 
 /* =====================================================
-   SOCIAL LINKS
+   SOCIAL
 ===================================================== */
 
 document
-    .querySelectorAll(".discord-link")
-    .forEach(element => {
-
+.querySelectorAll(".discord-link")
+.forEach(
+    element =>
         element.href =
-            CONFIG.DISCORD_URL;
-
-    });
-
+            CONFIG.DISCORD_URL
+);
 
 document
-    .querySelectorAll(".tiktok-link")
-    .forEach(element => {
-
+.querySelectorAll(".tiktok-link")
+.forEach(
+    element =>
         element.href =
-            CONFIG.TIKTOK_URL;
-
-    });
-
+            CONFIG.TIKTOK_URL
+);
 
 document
-    .querySelectorAll(".spotify-link")
-    .forEach(element => {
-
+.querySelectorAll(".spotify-link")
+.forEach(
+    element =>
         element.href =
-            CONFIG.SPOTIFY_URL;
-
-    });
+            CONFIG.SPOTIFY_URL
+);
 
 
 /* =====================================================
@@ -5438,12 +5095,10 @@ document
 const VISITOR_KEY =
     "MOKO_VISITOR_ID";
 
-
 let visitorId =
     localStorage.getItem(
         VISITOR_KEY
     );
-
 
 if(!visitorId){
 
@@ -5474,7 +5129,6 @@ const visitCountKey =
     "MOKO_VISIT_COUNT_" +
     visitorId;
 
-
 let visitCount =
     Number(
         localStorage.getItem(
@@ -5482,15 +5136,12 @@ let visitCount =
         ) || 0
     );
 
-
 visitCount++;
-
 
 localStorage.setItem(
     visitCountKey,
     visitCount
 );
-
 
 if($("#homeVisitCount")){
 
@@ -5524,9 +5175,7 @@ function updateClock(){
 
 }
 
-
 updateClock();
-
 
 setInterval(
     updateClock,
@@ -5535,28 +5184,23 @@ setInterval(
 
 
 /* =====================================================
-   VISIT NOTIFICATION
+   VISIT DISCORD NOTIFICATION
 ===================================================== */
 
 async function sendVisitNotification(){
 
     if(
         !CONFIG.DISCORD_WEBHOOK_URL ||
-        CONFIG.DISCORD_WEBHOOK_URL
-        ===
+        CONFIG.DISCORD_WEBHOOK_URL ===
         "ضع_رابط_Discord_Webhook_هنا"
     ){
-
         return;
-
     }
-
 
     try{
 
         const now =
             new Date();
-
 
         const payload = {
 
@@ -5574,92 +5218,65 @@ async function sendVisitNotification(){
                 fields:[
 
                     {
-                        name:
-                            "🌐 الموقع",
-
-                        value:
-                            "MOKO",
-
+                        name:"🌐 الموقع",
+                        value:"MOKO",
                         inline:true
                     },
 
                     {
-                        name:
-                            "🕒 الوقت",
-
+                        name:"🕒 الوقت",
                         value:
                             now.toLocaleString(
                                 "ar-IQ"
                             ),
-
                         inline:true
                     },
 
                     {
-                        name:
-                            "🆔 Visitor ID",
-
+                        name:"🆔 Visitor ID",
                         value:
                             visitorId,
-
                         inline:false
                     },
 
                     {
-                        name:
-                            "📱 المتصفح",
-
+                        name:"📱 المتصفح",
                         value:
                             (
-                                navigator.userAgent
-                                ||
+                                navigator.userAgent ||
                                 "Unknown"
                             ).slice(0,1024),
-
                         inline:false
                     },
 
                     {
-                        name:
-                            "💻 النظام",
-
+                        name:"💻 النظام",
                         value:
-                            navigator.platform
-                            ||
+                            navigator.platform ||
                             "Unknown",
-
                         inline:true
                     },
 
                     {
-                        name:
-                            "🖥️ الشاشة",
-
+                        name:"🖥️ الشاشة",
                         value:
                             `${screen.width} × ${screen.height}`,
-
                         inline:true
                     },
 
                     {
-                        name:
-                            "🌍 اللغة",
-
+                        name:"🌍 اللغة",
                         value:
-                            navigator.language
-                            ||
+                            navigator.language ||
                             "Unknown",
-
                         inline:true
                     }
 
                 ],
 
                 footer:{
-
                     text:
                         "MOKO • My Small World"
-
                 },
 
                 timestamp:
@@ -5668,7 +5285,6 @@ async function sendVisitNotification(){
             }]
 
         };
-
 
         await fetch(
             CONFIG.DISCORD_WEBHOOK_URL,
@@ -5700,7 +5316,6 @@ async function sendVisitNotification(){
 
 }
 
-
 sendVisitNotification();
 
 
@@ -5718,17 +5333,12 @@ $("#sendMessage")
             .value
             .trim();
 
-
         const message =
             $("#senderMessage")
             .value
             .trim();
 
-
-        if(
-            !name ||
-            !message
-        ){
+        if(!name || !message){
 
             showToast(
                 "أكمل الاسم والرسالة"
@@ -5738,11 +5348,9 @@ $("#sendMessage")
 
         }
 
-
         if(
             !CONFIG.DISCORD_WEBHOOK_URL ||
-            CONFIG.DISCORD_WEBHOOK_URL
-            ===
+            CONFIG.DISCORD_WEBHOOK_URL ===
             "ضع_رابط_Discord_Webhook_هنا"
         ){
 
@@ -5754,22 +5362,17 @@ $("#sendMessage")
 
         }
 
-
         const button =
             $("#sendMessage");
-
 
         button.disabled =
             true;
 
-
         button.innerHTML =
             '<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
 
-
         const now =
             new Date();
-
 
         const payload = {
 
@@ -5787,60 +5390,39 @@ $("#sendMessage")
                 fields:[
 
                     {
-                        name:
-                            "👤 الاسم",
-
+                        name:"👤 الاسم",
                         value:
-                            name.slice(
-                                0,
-                                1024
-                            ),
-
+                            name.slice(0,1024),
                         inline:false
                     },
 
                     {
-                        name:
-                            "💬 الرسالة",
-
+                        name:"💬 الرسالة",
                         value:
-                            message.slice(
-                                0,
-                                1024
-                            ),
-
+                            message.slice(0,1024),
                         inline:false
                     },
 
                     {
-                        name:
-                            "🌐 الموقع",
-
-                        value:
-                            "MOKO",
-
+                        name:"🌐 الموقع",
+                        value:"MOKO",
                         inline:true
                     },
 
                     {
-                        name:
-                            "🕒 الوقت",
-
+                        name:"🕒 الوقت",
                         value:
                             now.toLocaleString(
                                 "ar-IQ"
                             ),
-
                         inline:true
                     }
 
                 ],
 
                 footer:{
-
                     text:
                         "MOKO • My Small World"
-
                 },
 
                 timestamp:
@@ -5849,7 +5431,6 @@ $("#sendMessage")
             }]
 
         };
-
 
         try{
 
@@ -5873,19 +5454,13 @@ $("#sendMessage")
                     }
                 );
 
-
-            if(!response.ok){
-
+            if(!response.ok)
                 throw new Error(
                     "Webhook failed"
                 );
 
-            }
-
-
             $("#senderMessage")
                 .value = "";
-
 
             showToast(
                 "تم إرسال رسالتك إلى Discord ✓"
@@ -5922,15 +5497,6 @@ $("#sendMessage")
 const audio =
     $("#mokoAudio");
 
-
-const playMusic =
-    $("#playMusic");
-
-
-const pauseMusic =
-    $("#pauseMusic");
-
-
 if(audio){
 
     audio.addEventListener(
@@ -5946,44 +5512,36 @@ if(audio){
 
 }
 
+$("#playMusic")
+.addEventListener(
+    "click",
+    async () => {
 
-if(playMusic){
+        try{
 
-    playMusic.addEventListener(
-        "click",
-        async () => {
-
-            try{
-
-                await audio.play();
-
-            }
-            catch(error){
-
-                showToast(
-                    "تعذر تشغيل الموسيقى"
-                );
-
-            }
+            await audio.play();
 
         }
-    );
+        catch{
 
-}
-
-
-if(pauseMusic){
-
-    pauseMusic.addEventListener(
-        "click",
-        () => {
-
-            audio.pause();
+            showToast(
+                "تعذر تشغيل الموسيقى"
+            );
 
         }
-    );
 
-}
+    }
+);
+
+$("#pauseMusic")
+.addEventListener(
+    "click",
+    () => {
+
+        audio.pause();
+
+    }
+);
 
 
 /* =====================================================
@@ -5992,7 +5550,6 @@ if(pauseMusic){
 
 const NOTES_KEY =
     "MOKO_SOLO_SHARED_NOTES";
-
 
 function getNotes(){
 
@@ -6013,7 +5570,6 @@ function getNotes(){
 
 }
 
-
 function escapeHTML(text){
 
     const element =
@@ -6028,85 +5584,68 @@ function escapeHTML(text){
 
 }
 
-
 function renderNotes(){
 
     const notes =
         getNotes();
 
-
     const feed =
         $("#notesFeed");
 
-
-    feed.innerHTML =
-        "";
-
+    feed.innerHTML = "";
 
     if(!notes.length){
 
         feed.innerHTML = `
-
             <div class="note-item">
-
                 لا توجد ملاحظات حالياً
-
             </div>
-
         `;
 
         return;
 
     }
 
+    notes.forEach(
+        note => {
 
-    notes.forEach(note => {
+            const item =
+                document.createElement(
+                    "div"
+                );
 
-        const item =
-            document.createElement(
-                "div"
+            item.className =
+                "note-item";
+
+            item.innerHTML = `
+
+                <div>
+                    ${escapeHTML(note.text)}
+                </div>
+
+                <span class="note-time">
+
+                    ${new Date(
+                        note.time
+                    ).toLocaleString()}
+
+                    —
+
+                    ${escapeHTML(
+                        note.site
+                    )}
+
+                </span>
+            `;
+
+            feed.appendChild(
+                item
             );
 
-
-        item.className =
-            "note-item";
-
-
-        item.innerHTML = `
-
-            <div>
-
-                ${escapeHTML(
-                    note.text
-                )}
-
-            </div>
-
-            <span class="note-time">
-
-                ${new Date(
-                    note.time
-                ).toLocaleString()}
-
-                —
-
-                ${escapeHTML(
-                    note.site
-                )}
-
-            </span>
-
-        `;
-
-
-        feed.appendChild(
-            item
-        );
-
-    });
+        }
+    );
 
 }
-
 
 $("#publishNote")
 .addEventListener(
@@ -6118,7 +5657,6 @@ $("#publishNote")
             .value
             .trim();
 
-
         if(!text){
 
             showToast(
@@ -6129,10 +5667,8 @@ $("#publishNote")
 
         }
 
-
         const notes =
             getNotes();
-
 
         notes.unshift({
 
@@ -6146,7 +5682,6 @@ $("#publishNote")
 
         });
 
-
         localStorage.setItem(
             NOTES_KEY,
             JSON.stringify(
@@ -6154,29 +5689,20 @@ $("#publishNote")
             )
         );
 
-
         $("#noteText")
             .value = "";
 
-
         renderNotes();
-
 
         showToast(
             "تم نشر الملاحظة"
         );
 
-
-        if(
-            window.sharedNotesChannel
-        ){
+        if(window.sharedNotesChannel){
 
             window.sharedNotesChannel
             .postMessage({
-
-                type:
-                    "new_note"
-
+                type:"new_note"
             });
 
         }
@@ -6184,27 +5710,20 @@ $("#publishNote")
     }
 );
 
-
 renderNotes();
 
-
-if(
-    "BroadcastChannel"
-    in window
-){
+if("BroadcastChannel" in window){
 
     window.sharedNotesChannel =
         new BroadcastChannel(
             "MOKO_SOLO_NOTES_CHANNEL"
         );
 
-
     window.sharedNotesChannel.onmessage =
         event => {
 
             if(
-                event.data.type
-                ===
+                event.data?.type ===
                 "new_note"
             ){
 
@@ -6220,14 +5739,12 @@ if(
 
 }
 
-
 window.addEventListener(
     "storage",
     event => {
 
         if(
-            event.key
-            ===
+            event.key ===
             NOTES_KEY
         ){
 
@@ -6240,21 +5757,16 @@ window.addEventListener(
 
 
 /* =====================================================
-   THEMES
+   THEME SYSTEM
 ===================================================== */
 
 const THEME_KEY =
     "MOKO_SOLO_THEME";
 
-
 function hexToRGB(hex){
 
     hex =
-        hex.replace(
-            "#",
-            ""
-        );
-
+        hex.replace("#","");
 
     if(hex.length === 3){
 
@@ -6266,176 +5778,143 @@ function hexToRGB(hex){
 
     }
 
-
     const number =
         parseInt(
             hex,
             16
         );
 
-
     return (
 
-        (number >> 16)
-        &
-        255
-
-    ) + "," + (
-
-        (number >> 8)
-        &
-        255
-
-    ) + "," + (
-
-        number
-        &
-        255
+        ((number >> 16) & 255)
+        +
+        "," +
+        ((number >> 8) & 255)
+        +
+        "," +
+        (number & 255)
 
     );
 
 }
-
 
 function applyTheme(
     primary,
     secondary
 ){
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--primary",
-            primary
-        );
+    const root =
+        document.documentElement;
 
+    root.style.setProperty(
+        "--primary",
+        primary
+    );
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--secondary",
-            secondary
-        );
+    root.style.setProperty(
+        "--secondary",
+        secondary
+    );
 
+    root.style.setProperty(
+        "--primary-rgb",
+        hexToRGB(primary)
+    );
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--primary-rgb",
-            hexToRGB(primary)
-        );
-
-
-    $("#primaryColor").value =
+    custom.primaryColor =
         primary;
 
-
-    $("#secondaryColor").value =
+    custom.secondaryColor =
         secondary;
 
+    saveCustom();
 
     localStorage.setItem(
         THEME_KEY,
         JSON.stringify({
-
             primary,
             secondary
-
         })
     );
 
-}
+    updateColorStudio();
 
+}
 
 document
 .querySelectorAll(".theme-button")
-.forEach(button => {
+.forEach(
+    button => {
 
-    button.addEventListener(
-        "click",
-        () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            applyTheme(
-                button.dataset.primary,
-                button.dataset.secondary
-            );
+                applyTheme(
+                    button.dataset.primary,
+                    button.dataset.secondary
+                );
 
+                showToast(
+                    "تم تطبيق الثيم ✦"
+                );
 
-            showToast(
-                "تم تطبيق الثيم"
-            );
-
-        }
-    );
-
-});
-
-
-try{
-
-    const savedTheme =
-        JSON.parse(
-            localStorage.getItem(
-                THEME_KEY
-            )
-        );
-
-
-    if(savedTheme){
-
-        applyTheme(
-            savedTheme.primary,
-            savedTheme.secondary
+            }
         );
 
     }
-
-}
-catch{}
+);
 
 
 /* =====================================================
-   CUSTOMIZATION STORAGE
+   CUSTOMIZATION DATA
 ===================================================== */
 
 const CUSTOM_KEY =
-    "MOKO_CUSTOMIZATION";
-
+    "MOKO_LUXURY_CUSTOMIZATION";
 
 const defaultCustom = {
 
-    rgb:false,
-
-    rgbSpeed:"slow",
-
-    cardGlow:true,
-
-    glowStrength:.55,
-
-    cardStyle:"normal",
-
-    font:"El Messiri",
-
-    fontColor:"#ffffff",
-
     primaryColor:"#9da3ad",
-
     secondaryColor:"#eef1f5",
 
-    fontEffect:"normal",
+    cardStyle:"obsidian",
+
+    glassBlur:20,
+    cardRadius:28,
+    innerLight:35,
+
+    arabicFont:"El Messiri",
+    englishFont:"Manrope",
+
+    fontColor:"#ffffff",
+    fontWeight:600,
+    letterSpacing:0,
+
+    textEffect:"soft",
+
+    pageAnimation:"cinematic",
+    animationSpeed:1,
+
+    microMotion:true,
+    reducedMotion:false,
+
+    hoverStyle:"lift",
+    hoverPower:7,
 
     iconGlow:true,
+    iconStrength:100,
+    iconMotion:"breathing",
 
-    iconStrength:1,
+    darkness:70,
+    vignette:30,
+    ambient:15,
+    particles:65,
 
-    clickEffect:"ripple",
-
-    transition:true,
-
-    transitionSpeed:.6
+    clickEffect:"ring",
+    clickEnabled:true
 
 };
-
 
 let custom = {
 
@@ -6451,72 +5930,38 @@ let custom = {
 
 };
 
-
 function saveCustom(){
 
     localStorage.setItem(
         CUSTOM_KEY,
-        JSON.stringify(custom)
+        JSON.stringify(
+            custom
+        )
     );
 
 }
 
+
+/* =====================================================
+   APPLY CUSTOMIZATION
+===================================================== */
 
 function applyCustomization(){
 
     const root =
         document.documentElement;
 
-
-    /* RGB */
-
-    document.body
-        .classList
-        .toggle(
-            "rgb-mode",
-            custom.rgb
-        );
-
-
-    /* card */
-
-    document.body
-        .classList
-        .toggle(
-            "no-card-glow",
-            !custom.cardGlow
-        );
-
-
-    /* font */
-
-    document.body.style.fontFamily =
-        `"${custom.font}","Segoe UI",Tahoma,Arial,sans-serif`;
-
-
-    $("#fontPreview").style.fontFamily =
-        `"${custom.font}",sans-serif`;
-
-
-    /* colors */
-
-    root.style.setProperty(
-        "--text",
-        custom.fontColor
-    );
-
+    /* Colors */
 
     root.style.setProperty(
         "--primary",
         custom.primaryColor
     );
 
-
     root.style.setProperty(
         "--secondary",
         custom.secondaryColor
     );
-
 
     root.style.setProperty(
         "--primary-rgb",
@@ -6525,328 +5970,1098 @@ function applyCustomization(){
         )
     );
 
+    root.style.setProperty(
+        "--text",
+        custom.fontColor
+    );
 
-    /* icon */
+    /* Glass */
+
+    root.style.setProperty(
+        "--glass-blur",
+        custom.glassBlur + "px"
+    );
+
+    root.style.setProperty(
+        "--card-radius",
+        custom.cardRadius + "px"
+    );
+
+    root.style.setProperty(
+        "--inner-light",
+        custom.innerLight / 100
+    );
+
+    /* Fonts */
+
+    root.style.setProperty(
+        "--arabic-font",
+        `"${custom.arabicFont}"`
+    );
+
+    root.style.setProperty(
+        "--english-font",
+        `"${custom.englishFont}"`
+    );
+
+    root.style.setProperty(
+        "--font-weight",
+        custom.fontWeight
+    );
+
+    root.style.setProperty(
+        "--letter-spacing",
+        custom.letterSpacing + "px"
+    );
+
+    /* Card style */
+
+    document.body.classList.remove(
+        "card-crystal",
+        "card-obsidian",
+        "card-frost",
+        "card-pearl",
+        "card-liquid",
+        "card-minimal"
+    );
+
+    document.body.classList.add(
+        "card-" +
+        custom.cardStyle
+    );
+
+    /* Text */
+
+    document.body.classList.remove(
+        "text-soft",
+        "text-luxury",
+        "text-neon",
+        "text-metal",
+        "text-breathe"
+    );
+
+    document.body.classList.add(
+        "text-" +
+        custom.textEffect
+    );
+
+    /* Animation */
+
+    root.style.setProperty(
+        "--animation-speed",
+        custom.animationSpeed
+    );
+
+    /* Hover */
+
+    root.style.setProperty(
+        "--hover-lift",
+        "-" +
+        custom.hoverPower +
+        "px"
+    );
+
+    document.body.classList.remove(
+        "hover-lift",
+        "hover-glow",
+        "hover-scale",
+        "hover-soft"
+    );
+
+    document.body.classList.add(
+        "hover-" +
+        custom.hoverStyle
+    );
+
+    /* Icons */
 
     root.style.setProperty(
         "--icon-strength",
         custom.iconGlow
         ?
-        custom.iconStrength
+        custom.iconStrength / 100
         :
         0
     );
 
+    /* Background */
 
-    /* glow */
-
-    const glow =
-        custom.glowStrength;
-
+    const darkness =
+        custom.darkness / 100;
 
     root.style.setProperty(
-        "--glow",
-        `rgba(${hexToRGB(custom.primaryColor)},${glow})`
+        "--background-overlay",
+        `rgba(7,9,14,${darkness})`
     );
-
-
-    /* glass */
-
-    const glassValues = {
-
-        normal:{
-            blur:"20px",
-            opacity:".55",
-            radius:"28px"
-        },
-
-        soft:{
-            blur:"30px",
-            opacity:".38",
-            radius:"30px"
-        },
-
-        crystal:{
-            blur:"35px",
-            opacity:".25",
-            radius:"32px"
-        },
-
-        dark:{
-            blur:"18px",
-            opacity:".78",
-            radius:"25px"
-        },
-
-        neon:{
-            blur:"25px",
-            opacity:".48",
-            radius:"22px"
-        },
-
-        frost:{
-            blur:"45px",
-            opacity:".32",
-            radius:"30px"
-        }
-
-    };
-
-
-    const glass =
-        glassValues[
-            custom.cardStyle
-        ] ||
-        glassValues.normal;
-
 
     root.style.setProperty(
-        "--glass-blur",
-        glass.blur
+        "--background-overlay-2",
+        `rgba(15,18,26,${Math.max(.10,darkness*.55)})`
     );
-
 
     root.style.setProperty(
-        "--glass-opacity",
-        glass.opacity
+        "--vignette",
+        custom.vignette / 100
     );
-
 
     root.style.setProperty(
-        "--card-radius",
-        glass.radius
+        "--ambient-opacity",
+        custom.ambient / 100
     );
-
-
-    /* RGB speed */
-
-    const rgbSpeedMap = {
-
-        slow:"12s",
-
-        normal:"7s",
-
-        fast:"3s"
-
-    };
-
 
     root.style.setProperty(
-        "--rgb-speed",
-        rgbSpeedMap[
-            custom.rgbSpeed
-        ] ||
-        "7s"
+        "--particle-opacity",
+        custom.particles / 100
     );
 
+    document.body.classList.toggle(
+        "reduced-motion",
+        custom.reducedMotion
+    );
 
-    /* font effect */
+    /* UI values */
 
-    document
-        .querySelectorAll(
-            ".profile-name,.welcome-title,.section-title,.hero-main-title"
-        )
-        .forEach(element => {
+    $("#blurRange").value =
+        custom.glassBlur;
 
-            element.classList.remove(
-                "font-glow",
-                "font-neon",
-                "font-shimmer",
-                "font-rgb",
-                "font-metal"
-            );
+    $("#blurValue").textContent =
+        custom.glassBlur + "px";
 
+    $("#radiusRange").value =
+        custom.cardRadius;
 
-            if(
-                custom.fontEffect
-                !==
-                "normal"
-            ){
+    $("#radiusValue").textContent =
+        custom.cardRadius + "px";
 
-                element.classList.add(
-                    "font-" +
-                    custom.fontEffect
-                );
+    $("#innerLightRange").value =
+        custom.innerLight;
 
-            }
-
-        });
-
-
-    /* controls */
-
-    $("#rgbToggle").checked =
-        custom.rgb;
-
-    $("#rgbSpeed").value =
-        custom.rgbSpeed;
-
-    $("#cardGlowToggle").checked =
-        custom.cardGlow;
-
-    $("#glowStrength").value =
-        custom.glowStrength;
-
-    $("#cardStyle").value =
-        custom.cardStyle;
-
-    $("#fontSelect").value =
-        custom.font;
+    $("#innerLightValue").textContent =
+        custom.innerLight + "%";
 
     $("#fontColor").value =
         custom.fontColor;
 
-    $("#primaryColor").value =
-        custom.primaryColor;
+    $("#fontWeightRange").value =
+        custom.fontWeight;
 
-    $("#secondaryColor").value =
-        custom.secondaryColor;
+    $("#fontWeightValue").textContent =
+        custom.fontWeight;
 
-    $("#fontEffect").value =
-        custom.fontEffect;
+    $("#densityRange").value =
+        custom.fontWeight;
+
+    $("#densityValue").textContent =
+        custom.fontWeight;
+
+    $("#letterSpacingRange").value =
+        custom.letterSpacing;
+
+    $("#letterSpacingValue").textContent =
+        custom.letterSpacing + "px";
+
+    $("#animationSpeedRange").value =
+        custom.animationSpeed;
+
+    $("#animationSpeedValue").textContent =
+        custom.animationSpeed + "x";
+
+    $("#hoverPowerRange").value =
+        custom.hoverPower;
+
+    $("#hoverPowerValue").textContent =
+        custom.hoverPower + "px";
+
+    $("#iconStrengthRange").value =
+        custom.iconStrength;
+
+    $("#iconStrengthValue").textContent =
+        custom.iconStrength + "%";
+
+    $("#darknessRange").value =
+        custom.darkness;
+
+    $("#darknessValue").textContent =
+        custom.darkness + "%";
+
+    $("#vignetteRange").value =
+        custom.vignette;
+
+    $("#vignetteValue").textContent =
+        custom.vignette + "%";
+
+    $("#ambientRange").value =
+        custom.ambient;
+
+    $("#ambientValue").textContent =
+        custom.ambient + "%";
+
+    $("#particleRange").value =
+        custom.particles;
+
+    $("#particleValue").textContent =
+        custom.particles + "%";
+
+    $("#microMotionToggle").checked =
+        custom.microMotion;
+
+    $("#reducedMotionToggle").checked =
+        custom.reducedMotion;
 
     $("#iconGlowToggle").checked =
         custom.iconGlow;
 
-    $("#iconStrength").value =
-        custom.iconStrength;
+    $("#clickToggle").checked =
+        custom.clickEnabled;
 
-    $("#clickEffect").value =
-        custom.clickEffect;
+    updateLabels();
 
-    $("#transitionToggle").checked =
-        custom.transition;
-
-    $("#transitionSpeed").value =
-        custom.transitionSpeed;
-
-
-    $("#fontPreview").style.color =
-        custom.fontColor;
+    updateColorStudio();
 
 }
 
 
-applyCustomization();
+/* =====================================================
+   LABELS
+===================================================== */
+
+const cardLabels = {
+
+    crystal:"Crystal",
+
+    obsidian:"Obsidian",
+
+    frost:"Frosted",
+
+    pearl:"Pearl",
+
+    liquid:"Liquid",
+
+    minimal:"Minimal"
+
+};
+
+const arabicFonts = {
+
+    "El Messiri":"El Messiri",
+
+    "Cairo":"Cairo",
+
+    "Tajawal":"Tajawal",
+
+    "Changa":"Changa",
+
+    "Noto Kufi Arabic":
+        "Noto Kufi Arabic",
+
+    "IBM Plex Sans Arabic":
+        "IBM Plex Sans Arabic"
+
+};
+
+const englishFonts = {
+
+    "Manrope":"Manrope",
+
+    "Cinzel":"Cinzel",
+
+    "Cormorant Garamond":
+        "Cormorant Garamond",
+
+    "Playfair Display":
+        "Playfair Display",
+
+    "Montserrat":"Montserrat",
+
+    "Plus Jakarta Sans":
+        "Plus Jakarta Sans"
+
+};
+
+const textEffects = {
+
+    soft:"Soft",
+
+    luxury:"Luxury",
+
+    neon:"Neon",
+
+    metal:"Metal",
+
+    breathe:"Breathing"
+
+};
+
+const pageAnimations = {
+
+    cinematic:"Cinematic",
+
+    smooth:"Smooth",
+
+    zoom:"Depth Zoom",
+
+    slide:"Slide",
+
+    blur:"Blur",
+
+    none:"None"
+
+};
+
+const hoverStyles = {
+
+    lift:"Lift",
+
+    glow:"Glow",
+
+    scale:"Scale",
+
+    soft:"Soft"
+
+};
+
+const iconMotions = {
+
+    breathing:"Breathing",
+
+    static:"Static"
+
+};
+
+const clickEffects = {
+
+    ring:{
+        name:"Neon Ring",
+        icon:"fa-circle-notch"
+    },
+
+    double:{
+        name:"Double Ring",
+        icon:"fa-bullseye"
+    },
+
+    spark:{
+        name:"Energy Spark",
+        icon:"fa-bolt"
+    },
+
+    cross:{
+        name:"Light Cross",
+        icon:"fa-plus"
+    },
+
+    heart:{
+        name:"Heart",
+        icon:"fa-heart"
+    },
+
+    star:{
+        name:"Star",
+        icon:"fa-star"
+    },
+
+    wave:{
+        name:"Shock Wave",
+        icon:"fa-water"
+    },
+
+    orbit:{
+        name:"Orbit",
+        icon:"fa-circle-notch"
+    },
+
+    flash:{
+        name:"Flash",
+        icon:"fa-sun"
+    },
+
+    diamond:{
+        name:"Diamond",
+        icon:"fa-gem"
+    }
+
+};
+
+function updateLabels(){
+
+    $("#cardStyleLabel").textContent =
+        cardLabels[
+            custom.cardStyle
+        ] ||
+        custom.cardStyle;
+
+    $("#arabicFontLabel").textContent =
+        arabicFonts[
+            custom.arabicFont
+        ] ||
+        custom.arabicFont;
+
+    $("#englishFontLabel").textContent =
+        englishFonts[
+            custom.englishFont
+        ] ||
+        custom.englishFont;
+
+    $("#textEffectLabel").textContent =
+        textEffects[
+            custom.textEffect
+        ] ||
+        custom.textEffect;
+
+    $("#pageAnimationLabel").textContent =
+        pageAnimations[
+            custom.pageAnimation
+        ] ||
+        custom.pageAnimation;
+
+    $("#hoverStyleLabel").textContent =
+        hoverStyles[
+            custom.hoverStyle
+        ] ||
+        custom.hoverStyle;
+
+    $("#iconMotionLabel").textContent =
+        iconMotions[
+            custom.iconMotion
+        ] ||
+        custom.iconMotion;
+
+    $("#clickEffectLabel").textContent =
+        clickEffects[
+            custom.clickEffect
+        ]?.name ||
+        custom.clickEffect;
+
+}
 
 
 /* =====================================================
-   CUSTOMIZATION EVENTS
+   GLASS MODAL OPTIONS
 ===================================================== */
 
-$("#rgbToggle")
-.addEventListener(
-    "change",
+const choiceOverlay =
+    $("#choiceOverlay");
+
+const modalOptions =
+    $("#modalOptions");
+
+const modalTitle =
+    $("#modalTitle");
+
+const modalClose =
+    $("#modalClose");
+
+let currentChoice = null;
+
+const choiceData = {
+
+    cardStyle:{
+        title:"CARD MATERIAL",
+        icon:"fa-gem",
+        options:[
+
+            ["crystal","Crystal","شفاف ونظيف","fa-diamond"],
+
+            ["obsidian","Obsidian","داكن وفخم","fa-gem"],
+
+            ["frost","Frosted","ضبابي ناعم","fa-snowflake"],
+
+            ["pearl","Pearl","ناعم وفاتح","fa-circle"],
+
+            ["liquid","Liquid","إضاءة داخلية","fa-droplet"],
+
+            ["minimal","Minimal","بسيط وأنيق","fa-minus"]
+
+        ]
+
+    },
+
+    arabicFont:{
+        title:"ARABIC FONT",
+        icon:"fa-language",
+        options:Object.keys(
+            arabicFonts
+        ).map(
+            key => [
+                key,
+                arabicFonts[key],
+                "Arabic",
+                "fa-font"
+            ]
+        )
+    },
+
+    englishFont:{
+        title:"ENGLISH FONT",
+        icon:"fa-font",
+        options:Object.keys(
+            englishFonts
+        ).map(
+            key => [
+                key,
+                englishFonts[key],
+                "Luxury English",
+                "fa-font"
+            ]
+        )
+    },
+
+    textEffect:{
+        title:"TEXT EFFECT",
+        icon:"fa-wand-magic-sparkles",
+        options:Object.keys(
+            textEffects
+        ).map(
+            key => [
+                key,
+                textEffects[key],
+                "Live Preview",
+                "fa-sparkles"
+            ]
+        )
+    },
+
+    pageAnimation:{
+        title:"PAGE TRANSITION",
+        icon:"fa-film",
+        options:Object.keys(
+            pageAnimations
+        ).map(
+            key => [
+                key,
+                pageAnimations[key],
+                "Navigation Style",
+                "fa-arrows-rotate"
+            ]
+        )
+    },
+
+    hoverStyle:{
+        title:"HOVER STYLE",
+        icon:"fa-hand-pointer",
+        options:Object.keys(
+            hoverStyles
+        ).map(
+            key => [
+                key,
+                hoverStyles[key],
+                "Card Interaction",
+                "fa-up-right-from-square"
+            ]
+        )
+    },
+
+    iconMotion:{
+        title:"ICON MOTION",
+        icon:"fa-icons",
+        options:Object.keys(
+            iconMotions
+        ).map(
+            key => [
+                key,
+                iconMotions[key],
+                "Icon Animation",
+                "fa-lightbulb"
+            ]
+        )
+    },
+
+    clickEffect:{
+        title:"CLICK EFFECT",
+        icon:"fa-hand-pointer",
+        options:Object.keys(
+            clickEffects
+        ).map(
+            key => [
+                key,
+                clickEffects[key].name,
+                "Click Interaction",
+                clickEffects[key].icon
+            ]
+        )
+    }
+
+};
+
+function openChoice(type){
+
+    currentChoice =
+        type;
+
+    const data =
+        choiceData[type];
+
+    if(!data)
+        return;
+
+    modalTitle.innerHTML = `
+
+        <i class="fa-solid ${data.icon}"></i>
+
+        <span>
+            ${data.title}
+        </span>
+
+    `;
+
+    modalOptions.innerHTML = "";
+
+    data.options.forEach(
+        option => {
+
+            const [
+                value,
+                name,
+                description,
+                icon
+            ] = option;
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type =
+                "button";
+
+            button.className =
+                "modal-option";
+
+            const selected =
+                custom[type] ===
+                value;
+
+            if(selected)
+                button.classList.add(
+                    "selected"
+                );
+
+            button.innerHTML = `
+
+                <div class="modal-option-icon">
+
+                    <i class="fa-solid ${icon}"></i>
+
+                </div>
+
+                <strong>
+                    ${name}
+                </strong>
+
+                <small>
+                    ${description}
+                </small>
+
+            `;
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    custom[type] =
+                        value;
+
+                    saveCustom();
+
+                    applyCustomization();
+
+                    closeChoice();
+
+                    showToast(
+                        `${name} ✓`
+                    );
+
+                }
+            );
+
+            modalOptions.appendChild(
+                button
+            );
+
+        }
+    );
+
+    choiceOverlay.classList.add(
+        "show"
+    );
+
+}
+
+function closeChoice(){
+
+    choiceOverlay.classList.remove(
+        "show"
+    );
+
+    currentChoice =
+        null;
+
+}
+
+document
+.querySelectorAll(
+    ".choice-button"
+)
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                openChoice(
+                    button.dataset.choice
+                );
+
+            }
+        );
+
+    }
+);
+
+modalClose.addEventListener(
+    "click",
+    closeChoice
+);
+
+choiceOverlay.addEventListener(
+    "click",
     event => {
 
-        custom.rgb =
-            event.target.checked;
+        if(
+            event.target ===
+            choiceOverlay
+        ){
 
-        saveCustom();
+            closeChoice();
 
-        applyCustomization();
+        }
 
-        showToast(
-            custom.rgb
-            ?
-            "تم تشغيل RGB"
-            :
-            "تم إيقاف RGB"
+    }
+);
+
+
+/* =====================================================
+   CONTROL TABS
+===================================================== */
+
+document
+.querySelectorAll(".control-tab")
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const panel =
+                    button.dataset.panel;
+
+                document
+                .querySelectorAll(
+                    ".control-tab"
+                )
+                .forEach(
+                    item =>
+                        item.classList.remove(
+                            "active"
+                        )
+                );
+
+                button.classList.add(
+                    "active"
+                );
+
+                document
+                .querySelectorAll(
+                    ".control-panel"
+                )
+                .forEach(
+                    item => {
+
+                        item.classList.toggle(
+                            "active",
+                            item.dataset.panelContent ===
+                            panel
+                        );
+
+                    }
+                );
+
+            }
         );
 
     }
 );
 
 
-$("#rgbSpeed")
-.addEventListener(
-    "change",
-    event => {
+/* =====================================================
+   RANGE EVENTS
+===================================================== */
 
-        custom.rgbSpeed =
-            event.target.value;
-
-        saveCustom();
-
-        applyCustomization();
-
-    }
-);
-
-
-$("#cardGlowToggle")
-.addEventListener(
-    "change",
-    event => {
-
-        custom.cardGlow =
-            event.target.checked;
-
-        saveCustom();
-
-        applyCustomization();
-
-    }
-);
-
-
-$("#glowStrength")
+$("#blurRange")
 .addEventListener(
     "input",
     event => {
 
-        custom.glowStrength =
+        custom.glassBlur =
             Number(
                 event.target.value
             );
 
-        saveCustom();
+        $("#blurValue").textContent =
+            custom.glassBlur + "px";
 
+        saveCustom();
         applyCustomization();
 
     }
 );
 
-
-$("#cardStyle")
+$("#radiusRange")
 .addEventListener(
-    "change",
+    "input",
     event => {
 
-        custom.cardStyle =
-            event.target.value;
+        custom.cardRadius =
+            Number(
+                event.target.value
+            );
+
+        $("#radiusValue").textContent =
+            custom.cardRadius + "px";
 
         saveCustom();
-
         applyCustomization();
-
-        showToast(
-            "تم تغيير نمط الكارد"
-        );
 
     }
 );
 
-
-$("#fontSelect")
+$("#innerLightRange")
 .addEventListener(
-    "change",
+    "input",
     event => {
 
-        custom.font =
-            event.target.value;
+        custom.innerLight =
+            Number(
+                event.target.value
+            );
+
+        $("#innerLightValue").textContent =
+            custom.innerLight + "%";
 
         saveCustom();
-
         applyCustomization();
-
-        showToast(
-            "تم تغيير الخط"
-        );
 
     }
 );
 
+$("#fontWeightRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.fontWeight =
+            Number(
+                event.target.value
+            );
+
+        $("#fontWeightValue").textContent =
+            custom.fontWeight;
+
+        $("#densityRange").value =
+            custom.fontWeight;
+
+        $("#densityValue").textContent =
+            custom.fontWeight;
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#densityRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.fontWeight =
+            Number(
+                event.target.value
+            );
+
+        $("#densityValue").textContent =
+            custom.fontWeight;
+
+        $("#fontWeightRange").value =
+            custom.fontWeight;
+
+        $("#fontWeightValue").textContent =
+            custom.fontWeight;
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#letterSpacingRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.letterSpacing =
+            Number(
+                event.target.value
+            );
+
+        $("#letterSpacingValue").textContent =
+            custom.letterSpacing + "px";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#animationSpeedRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.animationSpeed =
+            Number(
+                event.target.value
+            );
+
+        $("#animationSpeedValue").textContent =
+            custom.animationSpeed + "x";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#hoverPowerRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.hoverPower =
+            Number(
+                event.target.value
+            );
+
+        $("#hoverPowerValue").textContent =
+            custom.hoverPower + "px";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#iconStrengthRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.iconStrength =
+            Number(
+                event.target.value
+            );
+
+        $("#iconStrengthValue").textContent =
+            custom.iconStrength + "%";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#darknessRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.darkness =
+            Number(
+                event.target.value
+            );
+
+        $("#darknessValue").textContent =
+            custom.darkness + "%";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#vignetteRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.vignette =
+            Number(
+                event.target.value
+            );
+
+        $("#vignetteValue").textContent =
+            custom.vignette + "%";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#ambientRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.ambient =
+            Number(
+                event.target.value
+            );
+
+        $("#ambientValue").textContent =
+            custom.ambient + "%";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+$("#particleRange")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.particles =
+            Number(
+                event.target.value
+            );
+
+        $("#particleValue").textContent =
+            custom.particles + "%";
+
+        saveCustom();
+        applyCustomization();
+
+    }
+);
+
+
+/* =====================================================
+   COLOR PICKER
+===================================================== */
 
 $("#fontColor")
 .addEventListener(
@@ -6857,64 +7072,48 @@ $("#fontColor")
             event.target.value;
 
         saveCustom();
-
         applyCustomization();
 
     }
 );
 
 
-$("#primaryColor")
-.addEventListener(
-    "input",
-    event => {
+/* =====================================================
+   TOGGLES
+===================================================== */
 
-        custom.primaryColor =
-            event.target.value;
-
-        saveCustom();
-
-        applyCustomization();
-
-    }
-);
-
-
-$("#secondaryColor")
-.addEventListener(
-    "input",
-    event => {
-
-        custom.secondaryColor =
-            event.target.value;
-
-        saveCustom();
-
-        applyCustomization();
-
-    }
-);
-
-
-$("#fontEffect")
+$("#microMotionToggle")
 .addEventListener(
     "change",
     event => {
 
-        custom.fontEffect =
-            event.target.value;
+        custom.microMotion =
+            event.target.checked;
 
         saveCustom();
 
-        applyCustomization();
-
-        showToast(
-            "تم تغيير تأثير الخط"
+        document.body.classList.toggle(
+            "micro-off",
+            !custom.microMotion
         );
 
     }
 );
 
+$("#reducedMotionToggle")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.reducedMotion =
+            event.target.checked;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
 
 $("#iconGlowToggle")
 .addEventListener(
@@ -6931,49 +7130,12 @@ $("#iconGlowToggle")
     }
 );
 
-
-$("#iconStrength")
-.addEventListener(
-    "input",
-    event => {
-
-        custom.iconStrength =
-            Number(
-                event.target.value
-            );
-
-        saveCustom();
-
-        applyCustomization();
-
-    }
-);
-
-
-$("#clickEffect")
+$("#clickToggle")
 .addEventListener(
     "change",
     event => {
 
-        custom.clickEffect =
-            event.target.value;
-
-        saveCustom();
-
-        showToast(
-            "تم تغيير تأثير النقر"
-        );
-
-    }
-);
-
-
-$("#transitionToggle")
-.addEventListener(
-    "change",
-    event => {
-
-        custom.transition =
+        custom.clickEnabled =
             event.target.checked;
 
         saveCustom();
@@ -6982,44 +7144,130 @@ $("#transitionToggle")
 );
 
 
-$("#transitionSpeed")
-.addEventListener(
-    "input",
-    event => {
-
-        custom.transitionSpeed =
-            Number(
-                event.target.value
-            );
-
-        saveCustom();
-
-    }
-);
-
-
 /* =====================================================
-   RESET
+   PRESETS
 ===================================================== */
 
-$("#resetCustomization")
-.addEventListener(
-    "click",
-    () => {
+const presets = {
 
-        custom =
-            {
-                ...defaultCustom
-            };
+    black:{
+        primary:"#9da3ad",
+        secondary:"#eef1f5",
+        card:"obsidian",
+        text:"soft",
+        english:"Manrope",
+        arabic:"El Messiri"
+    },
 
+    blood:{
+        primary:"#ff334f",
+        secondary:"#ffb3bd",
+        card:"obsidian",
+        text:"neon",
+        english:"Manrope",
+        arabic:"El Messiri"
+    },
 
-        saveCustom();
+    gold:{
+        primary:"#d6aa54",
+        secondary:"#fff1c2",
+        card:"pearl",
+        text:"luxury",
+        english:"Cinzel",
+        arabic:"El Messiri"
+    },
 
-        applyCustomization();
+    ice:{
+        primary:"#5fe4ff",
+        secondary:"#d9fbff",
+        card:"crystal",
+        text:"soft",
+        english:"Manrope",
+        arabic:"Noto Kufi Arabic"
+    },
 
+    royal:{
+        primary:"#a970ff",
+        secondary:"#f0dcff",
+        card:"liquid",
+        text:"luxury",
+        english:"Cormorant Garamond",
+        arabic:"El Messiri"
+    },
 
-        showToast(
-            "تم إرجاع MOKO للإعدادات الافتراضية"
+    silver:{
+        primary:"#e4e8ee",
+        secondary:"#ffffff",
+        card:"minimal",
+        text:"metal",
+        english:"Plus Jakarta Sans",
+        arabic:"Tajawal"
+    },
+
+    aurora:{
+        primary:"#48f0c0",
+        secondary:"#b4fff0",
+        card:"crystal",
+        text:"soft",
+        english:"Manrope",
+        arabic:"Tajawal"
+    },
+
+    void:{
+        primary:"#59606c",
+        secondary:"#9ca5b3",
+        card:"obsidian",
+        text:"soft",
+        english:"Manrope",
+        arabic:"Noto Kufi Arabic"
+    }
+
+};
+
+document
+.querySelectorAll(".preset")
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const preset =
+                    presets[
+                        button.dataset.preset
+                    ];
+
+                if(!preset)
+                    return;
+
+                custom.primaryColor =
+                    preset.primary;
+
+                custom.secondaryColor =
+                    preset.secondary;
+
+                custom.cardStyle =
+                    preset.card;
+
+                custom.textEffect =
+                    preset.text;
+
+                custom.englishFont =
+                    preset.english;
+
+                custom.arabicFont =
+                    preset.arabic;
+
+                saveCustom();
+
+                applyCustomization();
+
+                showToast(
+                    "تم تطبيق التصميم الكامل ✦"
+                );
+
+            }
         );
 
     }
@@ -7027,7 +7275,484 @@ $("#resetCustomization")
 
 
 /* =====================================================
-   CLICK EFFECT SYSTEM
+   COLOR WHEEL ENGINE
+===================================================== */
+
+let colorState = {
+
+    h:180,
+    s:70,
+    l:70
+
+};
+
+function hslToHex(
+    h,
+    s,
+    l
+){
+
+    s/=100;
+    l/=100;
+
+    const k =
+        n =>
+            (
+                n + h / 30
+            ) % 12;
+
+    const a =
+        s *
+        Math.min(
+            l,
+            1-l
+        );
+
+    const f =
+        n =>
+            l -
+            a *
+            Math.max(
+                -1,
+                Math.min(
+                    k(n)-3,
+                    Math.min(
+                        9-k(n),
+                        1
+                    )
+                )
+            );
+
+    const rgb = [
+        f(0),
+        f(8),
+        f(4)
+    ];
+
+    return "#" +
+        rgb
+        .map(
+            x =>
+                Math.round(
+                    255*x
+                )
+                .toString(16)
+                .padStart(2,"0")
+        )
+        .join("")
+        .toUpperCase();
+
+}
+
+function updateColorStudio(){
+
+    const primary =
+        custom.primaryColor;
+
+    const hex =
+        primary.replace("#","");
+
+    if(hex.length !== 6)
+        return;
+
+    const r =
+        parseInt(
+            hex.substring(0,2),
+            16
+        ) / 255;
+
+    const g =
+        parseInt(
+            hex.substring(2,4),
+            16
+        ) / 255;
+
+    const b =
+        parseInt(
+            hex.substring(4,6),
+            16
+        ) / 255;
+
+    const max =
+        Math.max(r,g,b);
+
+    const min =
+        Math.min(r,g,b);
+
+    let h=0;
+    let s=0;
+
+    const l =
+        (max+min)/2;
+
+    const d =
+        max-min;
+
+    if(d !== 0){
+
+        s =
+            d /
+            (
+                1 -
+                Math.abs(
+                    2*l-1
+                )
+            );
+
+        switch(max){
+
+            case r:
+
+                h =
+                    60 *
+                    (
+                        ((g-b)/d)
+                        % 6
+                    );
+
+                break;
+
+            case g:
+
+                h =
+                    60 *
+                    (
+                        (b-r)/d + 2
+                    );
+
+                break;
+
+            case b:
+
+                h =
+                    60 *
+                    (
+                        (r-g)/d + 4
+                    );
+
+                break;
+
+        }
+
+    }
+
+    if(h<0)
+        h+=360;
+
+    colorState.h =
+        Math.round(h);
+
+    colorState.s =
+        Math.round(s*100);
+
+    colorState.l =
+        Math.round(l*100);
+
+    $("#hueRange").value =
+        colorState.h;
+
+    $("#satRange").value =
+        colorState.s;
+
+    $("#lightRange").value =
+        colorState.l;
+
+    $("#hueValue").textContent =
+        colorState.h + "°";
+
+    $("#satValue").textContent =
+        colorState.s + "%";
+
+    $("#lightValue").textContent =
+        colorState.l + "%";
+
+    $("#colorPreview").style.background =
+        primary;
+
+    $("#colorValue").textContent =
+        primary.toUpperCase();
+
+    updateWheelPointer();
+
+}
+
+function updateWheelPointer(){
+
+    const wheel =
+        $("#colorWheel");
+
+    const pointer =
+        $("#wheelPointer");
+
+    if(!wheel || !pointer)
+        return;
+
+    const rect =
+        wheel.getBoundingClientRect();
+
+    const centerX =
+        rect.width/2;
+
+    const centerY =
+        rect.height/2;
+
+    const radius =
+        rect.width/2;
+
+    const angle =
+        (
+            colorState.h -
+            90
+        )
+        *
+        Math.PI /
+        180;
+
+    const distance =
+        radius *
+        (
+            colorState.s /
+            100
+        ) *
+        .82;
+
+    const x =
+        centerX +
+        Math.cos(angle) *
+        distance;
+
+    const y =
+        centerY +
+        Math.sin(angle) *
+        distance;
+
+    pointer.style.left =
+        x + "px";
+
+    pointer.style.top =
+        y + "px";
+
+}
+
+function updateFromColorState(){
+
+    const color =
+        hslToHex(
+            colorState.h,
+            colorState.s,
+            colorState.l
+        );
+
+    custom.primaryColor =
+        color;
+
+    saveCustom();
+
+    applyCustomization();
+
+    $("#colorPreview").style.background =
+        color;
+
+    $("#colorValue").textContent =
+        color;
+
+    $("#hueValue").textContent =
+        colorState.h + "°";
+
+    $("#satValue").textContent =
+        colorState.s + "%";
+
+    $("#lightValue").textContent =
+        colorState.l + "%";
+
+    updateWheelPointer();
+
+}
+
+function wheelPosition(
+    event
+){
+
+    const wheel =
+        $("#colorWheel");
+
+    const rect =
+        wheel.getBoundingClientRect();
+
+    const x =
+        event.clientX -
+        rect.left;
+
+    const y =
+        event.clientY -
+        rect.top;
+
+    const cx =
+        rect.width/2;
+
+    const cy =
+        rect.height/2;
+
+    const dx =
+        x-cx;
+
+    const dy =
+        y-cy;
+
+    const distance =
+        Math.sqrt(
+            dx*dx +
+            dy*dy
+        );
+
+    const radius =
+        rect.width/2;
+
+    const limited =
+        Math.min(
+            distance,
+            radius
+        );
+
+    let angle =
+        Math.atan2(
+            dy,
+            dx
+        ) *
+        180 /
+        Math.PI;
+
+    angle += 90;
+
+    if(angle<0)
+        angle+=360;
+
+    colorState.h =
+        Math.round(angle);
+
+    colorState.s =
+        Math.round(
+            Math.min(
+                100,
+                limited/radius*100
+            )
+        );
+
+    updateFromColorState();
+
+}
+
+let wheelDragging =
+    false;
+
+$("#colorWheel")
+.addEventListener(
+    "pointerdown",
+    event => {
+
+        wheelDragging =
+            true;
+
+        event.currentTarget
+            .setPointerCapture(
+                event.pointerId
+            );
+
+        wheelPosition(
+            event
+        );
+
+    }
+);
+
+$("#colorWheel")
+.addEventListener(
+    "pointermove",
+    event => {
+
+        if(
+            wheelDragging
+        ){
+
+            wheelPosition(
+                event
+            );
+
+        }
+
+    }
+);
+
+$("#colorWheel")
+.addEventListener(
+    "pointerup",
+    () => {
+
+        wheelDragging =
+            false;
+
+    }
+);
+
+$("#colorWheel")
+.addEventListener(
+    "pointercancel",
+    () => {
+
+        wheelDragging =
+            false;
+
+    }
+);
+
+$("#hueRange")
+.addEventListener(
+    "input",
+    event => {
+
+        colorState.h =
+            Number(
+                event.target.value
+            );
+
+        updateFromColorState();
+
+    }
+);
+
+$("#satRange")
+.addEventListener(
+    "input",
+    event => {
+
+        colorState.s =
+            Number(
+                event.target.value
+            );
+
+        updateFromColorState();
+
+    }
+);
+
+$("#lightRange")
+.addEventListener(
+    "input",
+    event => {
+
+        colorState.l =
+            Number(
+                event.target.value
+            );
+
+        updateFromColorState();
+
+    }
+);
+
+
+/* =====================================================
+   CLICK EFFECT ENGINE
 ===================================================== */
 
 function createClickEffect(
@@ -7036,8 +7761,8 @@ function createClickEffect(
 ){
 
     if(
-        custom.clickEffect
-        ===
+        !custom.clickEnabled ||
+        custom.clickEffect ===
         "none"
     ){
 
@@ -7045,89 +7770,46 @@ function createClickEffect(
 
     }
 
-
     const effect =
         document.createElement(
             "div"
         );
 
-
     effect.className =
         "click-effect";
-
 
     effect.style.left =
         x + "px";
 
-
     effect.style.top =
         y + "px";
-
-
-    effect.innerHTML = "";
-
-
-    const effectMap = {
-
-        ripple:
-            "click-ripple",
-
-        ring:
-            "click-ring",
-
-        burst:
-            "click-burst",
-
-        glow:
-            "click-glow",
-
-        shock:
-            "click-shock",
-
-        dot:
-            "click-dot",
-
-        pulse:
-            "click-pulse",
-
-        scan:
-            "click-scan",
-
-        star:
-            "click-star"
-
-    };
-
-
-    const className =
-        effectMap[
-            custom.clickEffect
-        ];
-
-
-    if(!className)
-        return;
-
 
     const child =
         document.createElement(
             "div"
         );
 
-
     child.className =
-        className;
+        "fx-" +
+        custom.clickEffect;
 
+    if(
+        custom.clickEffect ===
+        "heart"
+    ){
+
+        child.innerHTML =
+            '<i class="fa-solid fa-heart"></i>';
+
+    }
 
     effect.appendChild(
         child
     );
 
-
     document.body.appendChild(
         effect
     );
-
 
     setTimeout(
         () => {
@@ -7140,18 +7822,13 @@ function createClickEffect(
 
 }
 
-
-/* =====================================================
-   GLOBAL CLICK EFFECT
-===================================================== */
-
 document.addEventListener(
     "click",
     event => {
 
         if(
             event.target.closest(
-                "input,textarea,select"
+                ".choice-overlay"
             )
         ){
 
@@ -7159,6 +7836,15 @@ document.addEventListener(
 
         }
 
+        if(
+            event.target.closest(
+                "input,textarea"
+            )
+        ){
+
+            return;
+
+        }
 
         createClickEffect(
             event.clientX,
@@ -7176,7 +7862,6 @@ document.addEventListener(
 const particlesContainer =
     $("#particles");
 
-
 for(
     let i=0;
     i<35;
@@ -7188,31 +7873,25 @@ for(
             "span"
         );
 
-
     particle.className =
         "particle";
-
 
     particle.style.left =
         Math.random()*100 +
         "%";
 
-
     particle.style.top =
         Math.random()*100 +
         "%";
-
 
     particle.style.animationDelay =
         Math.random()*-8 +
         "s";
 
-
     particle.style.animationDuration =
         5 +
         Math.random()*7 +
         "s";
-
 
     particlesContainer
         .appendChild(
@@ -7220,6 +7899,44 @@ for(
         );
 
 }
+
+
+/* =====================================================
+   APPLY SAVED DATA
+===================================================== */
+
+applyCustomization();
+
+
+/* =====================================================
+   LOAD SAVED THEME
+===================================================== */
+
+try{
+
+    const savedTheme =
+        JSON.parse(
+            localStorage.getItem(
+                THEME_KEY
+            )
+        );
+
+    if(savedTheme){
+
+        custom.primaryColor =
+            savedTheme.primary;
+
+        custom.secondaryColor =
+            savedTheme.secondary;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+
+}
+catch{}
 
 
 /* =====================================================
@@ -7244,8 +7961,4 @@ window.addEventListener(
     }
 );
 
-</script>
-
-</body>
-
-</html>
+</script></body></html>
