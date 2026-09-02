@@ -3,2206 +3,3421 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>MOKO | My Small World</title>
+<title>MOKO | My Small World</title>
 
-    <!-- FONTS -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+<!-- FONTS -->
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    >
+<link
+    href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=Changa:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet"
+>
 
-    <style>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
 
-        /* =========================================
-           MOKO WEBSITE
-           ALL IN ONE HTML FILE
-        ========================================= */
+<style>
 
-        :root {
+/* =====================================================
+   MOKO — ADVANCED LUXURY UI
+===================================================== */
 
-            --primary: #9da3ad;
+:root {
 
-            --secondary: #eef1f5;
+    --primary: #9da3ad;
 
-            --primary-rgb: 157, 163, 173;
+    --secondary: #eef1f5;
 
-            --background-overlay:
-                rgba(7, 9, 14, 0.70);
+    --primary-rgb: 157, 163, 173;
 
-            --background-overlay-2:
-                rgba(15, 18, 26, 0.45);
+    --background-overlay:
+        rgba(7, 9, 14, 0.70);
 
-            --glass:
-                rgba(18, 21, 29, 0.55);
+    --background-overlay-2:
+        rgba(15, 18, 26, 0.45);
 
-            --glass-strong:
-                rgba(12, 15, 22, 0.72);
+    --glass:
+        rgba(18, 21, 29, 0.55);
 
-            --border:
-                rgba(255, 255, 255, 0.18);
+    --glass-strong:
+        rgba(12, 15, 22, 0.72);
 
-            --text:
-                #ffffff;
+    --border:
+        rgba(255,255,255,0.18);
 
-            --muted:
-                #bfc5cf;
+    --text:
+        #ffffff;
 
-            --glow:
-                rgba(var(--primary-rgb), 0.55);
+    --muted:
+        #bfc5cf;
 
-            --shadow:
-                0 20px 70px rgba(0, 0, 0, 0.55);
+    --glow:
+        rgba(var(--primary-rgb),0.55);
 
-        }
+    --icon-glow:
+        rgba(var(--primary-rgb),0.75);
 
+    --shadow:
+        0 20px 70px rgba(0,0,0,0.55);
 
-        /* =========================================
-           RESET
-        ========================================= */
+    --glass-blur:
+        20px;
 
-        * {
+    --glass-opacity:
+        0.55;
 
-            margin: 0;
+    --card-radius:
+        28px;
 
-            padding: 0;
+    --icon-strength:
+        1;
 
-            box-sizing: border-box;
+}
 
-        }
 
+/* =====================================================
+   RESET
+===================================================== */
 
-        html {
+* {
 
-            scroll-behavior: smooth;
+    margin:0;
 
-        }
+    padding:0;
 
+    box-sizing:border-box;
 
-        body {
+}
 
-            min-height: 100vh;
 
-            color: var(--text);
+html {
 
-            font-family:
-                "El Messiri",
-                "Segoe UI",
-                Tahoma,
-                Arial,
-                sans-serif;
+    scroll-behavior:smooth;
 
-            background:
+}
 
-                linear-gradient(
-                    120deg,
-                    var(--background-overlay),
-                    var(--background-overlay-2)
-                ),
 
-                url("A.jpg");
+body {
 
-            background-size: cover;
+    min-height:100vh;
 
-            background-position: center;
+    color:var(--text);
 
-            background-attachment: fixed;
+    font-family:
+        "El Messiri",
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
 
-            overflow-x: hidden;
+    background:
 
-            -webkit-tap-highlight-color: transparent;
+        linear-gradient(
+            120deg,
+            var(--background-overlay),
+            var(--background-overlay-2)
+        ),
 
-            user-select: none;
+        url("A.jpg");
 
-            -webkit-user-select: none;
+    background-size:cover;
 
-            -moz-user-select: none;
+    background-position:center;
 
-            -webkit-touch-callout: none;
+    background-attachment:fixed;
 
-        }
+    overflow-x:hidden;
 
+    -webkit-tap-highlight-color:transparent;
 
-        input,
-        textarea {
+    user-select:none;
 
-            user-select: text;
+    -webkit-user-select:none;
 
-            -webkit-user-select: text;
+    -moz-user-select:none;
 
-        }
+    -webkit-touch-callout:none;
 
+}
 
-        button,
-        input,
-        textarea {
 
-            font: inherit;
+input,
+textarea {
 
-        }
+    user-select:text;
 
+    -webkit-user-select:text;
 
-        button {
+}
 
-            cursor: pointer;
 
-        }
+button,
+input,
+textarea {
 
+    font:inherit;
 
-        a {
+}
 
-            text-decoration: none;
 
-            color: inherit;
+button {
 
-        }
+    cursor:pointer;
 
+}
 
-        /* =========================================
-           SCROLLBAR
-        ========================================= */
 
-        ::-webkit-scrollbar {
+a {
 
-            width: 8px;
+    text-decoration:none;
 
-        }
+    color:inherit;
 
+}
 
-        ::-webkit-scrollbar-track {
 
-            background: rgba(0, 0, 0, 0.25);
+/* =====================================================
+   SCROLLBAR
+===================================================== */
 
-        }
+::-webkit-scrollbar {
 
+    width:8px;
 
-        ::-webkit-scrollbar-thumb {
+}
 
-            background: var(--primary);
 
-            border-radius: 20px;
+::-webkit-scrollbar-track {
 
-            box-shadow:
-                0 0 10px var(--glow);
+    background:rgba(0,0,0,0.25);
 
-        }
+}
 
 
-        /* =========================================
-           BACKGROUND PARTICLES
-        ========================================= */
+::-webkit-scrollbar-thumb {
 
-        .particles {
+    background:var(--primary);
 
-            position: fixed;
+    border-radius:20px;
 
-            inset: 0;
+    box-shadow:
+        0 0 10px var(--glow);
 
-            pointer-events: none;
+}
 
-            overflow: hidden;
 
-            z-index: -1;
+/* =====================================================
+   PARTICLES
+===================================================== */
 
-        }
+.particles {
 
+    position:fixed;
 
-        .particle {
+    inset:0;
 
-            position: absolute;
+    pointer-events:none;
 
-            width: 4px;
+    overflow:hidden;
 
-            height: 4px;
+    z-index:-1;
 
-            border-radius: 50%;
+}
 
-            background: var(--primary);
 
-            box-shadow:
+.particle {
 
-                0 0 8px var(--primary),
+    position:absolute;
 
-                0 0 20px var(--primary);
+    width:4px;
 
-            opacity: 0.6;
+    height:4px;
 
-            animation:
-                particleFloat
-                8s
-                infinite
-                ease-in-out;
+    border-radius:50%;
 
-        }
+    background:var(--primary);
 
+    box-shadow:
 
-        @keyframes particleFloat {
+        0 0 8px var(--primary),
 
-            0% {
+        0 0 20px var(--primary);
 
-                transform:
-                    translateY(0)
-                    translateX(0);
+    opacity:.6;
 
-                opacity: 0.2;
+    animation:
+        particleFloat
+        8s
+        infinite
+        ease-in-out;
 
-            }
+}
 
-            50% {
 
-                transform:
-                    translateY(-80px)
-                    translateX(30px);
+@keyframes particleFloat {
 
-                opacity: 1;
+    0% {
 
-            }
+        transform:
+            translateY(0)
+            translateX(0);
 
-            100% {
+        opacity:.2;
 
-                transform:
-                    translateY(-160px)
-                    translateX(-20px);
+    }
 
-                opacity: 0;
+    50% {
 
-            }
+        transform:
+            translateY(-80px)
+            translateX(30px);
 
-        }
+        opacity:1;
 
+    }
 
-        /* =========================================
-           MAIN APP
-        ========================================= */
+    100% {
 
-        .app {
+        transform:
+            translateY(-160px)
+            translateX(-20px);
 
-            width: min(1200px, 95vw);
+        opacity:0;
 
-            margin: auto;
+    }
 
-            padding:
-                18px
-                0
-                60px;
+}
 
-        }
 
+/* =====================================================
+   RGB SYSTEM
+===================================================== */
 
-        /* =========================================
-           GLASS
-        ========================================= */
+body.rgb-mode {
 
-        .glass {
+    --glow:
+        rgba(
+            var(--rgb-r),
+            var(--rgb-g),
+            var(--rgb-b),
+            .7
+        );
 
-            position: relative;
+}
 
-            background: var(--glass);
 
-            border:
-                1px solid
-                var(--border);
+.rgb-border {
 
-            border-radius: 28px;
+    position:relative;
 
-            backdrop-filter:
-                blur(20px);
+}
 
-            -webkit-backdrop-filter:
-                blur(20px);
 
-            box-shadow:
+.rgb-border::after {
 
-                var(--shadow),
+    content:"";
 
-                0 0 35px
-                var(--glow);
+    position:absolute;
 
-            overflow: hidden;
+    inset:-2px;
 
-        }
+    border-radius:inherit;
 
+    background:
+        linear-gradient(
+            90deg,
+            #ff0055,
+            #00ffff,
+            #7c00ff,
+            #00ff88,
+            #ffff00,
+            #ff0055
+        );
 
-        .glass::before {
+    background-size:400% 400%;
 
-            content: "";
+    animation:
+        rgbMove
+        7s
+        linear
+        infinite;
 
-            position: absolute;
+    z-index:-1;
 
-            inset: 0;
+    opacity:0;
 
-            pointer-events: none;
+    transition:.3s;
 
-            border-radius: inherit;
+}
 
-            padding: 1px;
 
-            background:
+body.rgb-mode .rgb-border::after {
 
-                linear-gradient(
-                    130deg,
-                    transparent,
-                    var(--primary),
-                    transparent,
-                    var(--secondary),
-                    transparent
-                );
+    opacity:.8;
 
-            -webkit-mask:
+}
 
-                linear-gradient(
-                    #000 0 0
-                ) content-box,
 
-                linear-gradient(
-                    #000 0 0
-                );
+@keyframes rgbMove {
 
-            -webkit-mask-composite: xor;
+    0% {
 
-            mask-composite: exclude;
+        background-position:0% 50%;
 
-            opacity: 0.9;
+    }
 
-        }
+    50% {
 
+        background-position:100% 50%;
 
-        /* =========================================
-           HEADER
-        ========================================= */
+    }
 
-        .header {
+    100% {
 
-            position: sticky;
+        background-position:0% 50%;
 
-            top: 10px;
+    }
 
-            z-index: 1000;
+}
 
-            display: flex;
 
-            align-items: center;
+/* =====================================================
+   APP
+===================================================== */
 
-            gap: 18px;
+.app {
 
-            padding:
-                13px
-                18px;
+    width:min(1200px,95vw);
 
-        }
+    margin:auto;
 
+    padding:
+        18px
+        0
+        60px;
 
-        .brand {
+}
 
-            display: flex;
 
-            align-items: center;
+/* =====================================================
+   GLASS
+===================================================== */
 
-            gap: 12px;
+.glass {
 
-            min-width: max-content;
+    position:relative;
 
-        }
+    background:
+        rgba(
+            18,
+            21,
+            29,
+            var(--glass-opacity)
+        );
 
+    border:
+        1px solid
+        var(--border);
 
-        .brand-image {
+    border-radius:
+        var(--card-radius);
 
-            width: 46px;
+    backdrop-filter:
+        blur(var(--glass-blur));
 
-            height: 46px;
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur));
 
-            object-fit: cover;
+    box-shadow:
 
-            border-radius: 15px;
+        var(--shadow),
 
-            border:
-                1px solid
-                var(--border);
+        0 0 35px
+        var(--glow);
 
-            box-shadow:
-                0 0 22px
-                var(--glow);
+    overflow:hidden;
 
-        }
+    transition:
+        background .35s ease,
+        border-radius .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
 
+}
 
-        .brand-name {
 
-            font-family:
-                "Orbitron",
-                sans-serif;
+.glass::before {
 
-            font-size: 1.25rem;
+    content:"";
 
-            font-weight: 900;
+    position:absolute;
 
-            letter-spacing: 4px;
+    inset:0;
 
-            animation:
-                luxuryBlink
-                2.7s
-                infinite
-                ease-in-out;
+    pointer-events:none;
 
-        }
+    border-radius:inherit;
 
+    padding:1px;
 
-        /* =========================================
-           LUXURY FONT EFFECT
-        ========================================= */
+    background:
 
-        .profile-name,
-        .welcome-title,
-        .section-title,
-        .hero-main-title {
+        linear-gradient(
+            130deg,
+            transparent,
+            var(--primary),
+            transparent,
+            var(--secondary),
+            transparent
+        );
 
-            font-family:
-                "El Messiri",
-                sans-serif;
+    -webkit-mask:
 
-        }
+        linear-gradient(#000 0 0)
+        content-box,
 
+        linear-gradient(#000 0 0);
 
-        .luxury-blink {
+    -webkit-mask-composite:xor;
 
-            animation:
-                luxuryBlink
-                2.4s
-                infinite
-                ease-in-out;
+    mask-composite:exclude;
 
-        }
+    opacity:.9;
 
+}
 
-        @keyframes luxuryBlink {
 
-            0% {
+body.no-card-glow .glass {
 
-                opacity: 0.88;
+    box-shadow:var(--shadow);
 
-                text-shadow:
-                    0 0 5px var(--glow);
+}
 
-            }
 
-            25% {
+body.no-card-glow .glass::before {
 
-                opacity: 1;
+    opacity:.35;
 
-                text-shadow:
-                    0 0 10px var(--glow),
-                    0 0 22px var(--glow);
+}
 
-            }
 
-            50% {
+/* =====================================================
+   HEADER
+===================================================== */
 
-                opacity: 0.92;
+.header {
 
-                text-shadow:
-                    0 0 5px var(--glow);
+    position:sticky;
 
-            }
+    top:10px;
 
-            70% {
+    z-index:1000;
 
-                opacity: 1;
+    display:flex;
 
-                text-shadow:
-                    0 0 18px var(--glow),
-                    0 0 45px var(--glow);
+    align-items:center;
 
-            }
+    gap:18px;
 
-            100% {
+    padding:
+        13px
+        18px;
 
-                opacity: 0.88;
+}
 
-                text-shadow:
-                    0 0 5px var(--glow);
 
-            }
+.brand {
 
-        }
+    display:flex;
 
+    align-items:center;
 
-        .navigation {
+    gap:12px;
 
-            display: flex;
+    min-width:max-content;
 
-            flex-wrap: wrap;
+}
 
-            gap: 7px;
 
-            margin-right: auto;
+.brand-image {
 
-        }
+    width:46px;
 
+    height:46px;
 
-        .nav-button {
+    object-fit:cover;
 
-            border:
-                1px solid
-                transparent;
+    border-radius:15px;
 
-            color: var(--text);
+    border:
+        1px solid
+        var(--border);
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
+    box-shadow:
+        0 0 22px
+        var(--glow);
 
-            padding:
-                10px
-                13px;
+    animation:
+        iconBreath
+        3.8s
+        ease-in-out
+        infinite;
 
-            border-radius: 15px;
+}
 
-            transition:
-                0.3s
-                ease;
 
-        }
+.brand-name {
 
+    font-family:
+        "Orbitron",
+        sans-serif;
 
-        .nav-button:hover {
+    font-size:1.25rem;
 
-            transform:
-                translateY(-3px);
+    font-weight:900;
 
-            border-color:
-                var(--border);
+    letter-spacing:4px;
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.13
-                );
+    animation:
+        luxuryBlink
+        2.7s
+        infinite
+        ease-in-out;
 
-            box-shadow:
-                0 0 22px
-                var(--glow);
+}
 
-        }
 
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
-        .nav-button.active {
+.navigation {
 
-            background:
+    display:flex;
 
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
+    flex-wrap:wrap;
 
-            color: #101216;
+    gap:7px;
 
-            font-weight: 900;
+    margin-right:auto;
 
-            box-shadow:
-                0 0 25px
-                var(--glow);
+}
 
-        }
 
+.nav-button {
 
-        /* =========================================
-           TABS
-        ========================================= */
+    position:relative;
 
-        .tab {
+    overflow:hidden;
 
-            display: none;
+    border:
+        1px solid
+        transparent;
 
-            animation:
-                tabAnimation
-                0.55s
-                ease;
+    color:var(--text);
 
-        }
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
 
+    padding:
+        10px
+        13px;
 
-        .tab.active {
+    border-radius:15px;
 
-            display: block;
+    transition:
+        .35s
+        cubic-bezier(.2,.8,.2,1);
 
-        }
+}
 
 
-        @keyframes tabAnimation {
+.nav-button i {
 
-            from {
+    color:var(--primary);
 
-                opacity: 0;
+    margin-left:4px;
 
-                transform:
-                    translateY(20px)
-                    scale(0.98);
+    filter:
+        drop-shadow(
+            0 0
+            calc(7px * var(--icon-strength))
+            var(--icon-glow)
+        );
 
-            }
+    animation:
+        iconBreath
+        3.8s
+        ease-in-out
+        infinite;
 
-            to {
+}
 
-                opacity: 1;
 
-                transform:
-                    translateY(0)
-                    scale(1);
+.nav-button:hover {
 
-            }
+    transform:
+        translateY(-3px);
 
-        }
+    border-color:
+        var(--border);
 
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .13
+        );
 
-        /* =========================================
-           HOME
-        ========================================= */
+    box-shadow:
+        0 0 22px
+        var(--glow);
 
-        .home-container {
+}
 
-            margin-top: 22px;
 
-            padding: 28px;
+.nav-button.active {
 
-        }
+    background:
 
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
 
-        .home-grid {
+    color:#101216;
 
-            display: grid;
+    font-weight:900;
 
-            grid-template-columns:
-                1fr
-                1.35fr;
+    box-shadow:
 
-            gap: 22px;
+        0 0 25px
+        var(--glow),
 
-            align-items: center;
+        0 0 55px
+        rgba(
+            var(--primary-rgb),
+            .25
+        );
 
-        }
+    transform:
+        translateY(-2px);
 
+}
 
-        /* =========================================
-           PROFILE
-        ========================================= */
 
-        .profile-card {
+.nav-button.active i {
 
-            padding: 28px;
+    color:#101216;
 
-            text-align: center;
+    filter:none;
 
-        }
+}
 
 
-        .avatar {
+.nav-button::after {
 
-            width: 160px;
+    content:"";
 
-            height: 160px;
+    position:absolute;
 
-            border-radius: 50%;
+    width:70px;
 
-            object-fit: cover;
+    height:70px;
 
-            border:
-                2px solid
-                var(--primary);
+    border-radius:50%;
 
-            box-shadow:
+    background:
+        rgba(255,255,255,.45);
 
-                0 0 25px
-                var(--glow),
+    transform:
+        translate(-50%,-50%)
+        scale(0);
 
-                0 0 60px
-                var(--glow);
+    opacity:0;
 
-            animation:
-                avatarPulse
-                3s
-                infinite
-                ease-in-out;
+    pointer-events:none;
 
-        }
+}
 
 
-        @keyframes avatarPulse {
+.nav-button.ripple::after {
 
-            50% {
+    animation:
+        navRipple
+        .6s
+        ease-out;
 
-                transform:
-                    scale(1.04);
+}
 
-                box-shadow:
 
-                    0 0 30px
-                    var(--glow),
+@keyframes navRipple {
 
-                    0 0 80px
-                    var(--glow);
+    from {
 
-            }
+        transform:
+            translate(-50%,-50%)
+            scale(0);
 
-        }
+        opacity:.65;
 
+    }
 
-        .profile-small-title {
+    to {
 
-            margin-top: 18px;
+        transform:
+            translate(-50%,-50%)
+            scale(5);
 
-            color: var(--primary);
+        opacity:0;
 
-            letter-spacing: 4px;
+    }
 
-            font-size: 0.85rem;
+}
 
-            animation:
-                luxuryBlink
-                3s
-                infinite;
 
-        }
+/* =====================================================
+   TAB TRANSITION
+===================================================== */
 
+.tab {
 
-        .profile-name {
+    display:none;
 
-            margin:
-                8px
-                0;
+}
 
-            font-size:
-                clamp(
-                    3rem,
-                    7vw,
-                    6rem
-                );
 
-            letter-spacing: 8px;
+.tab.active {
 
-            font-weight: 900;
+    display:block;
 
-            animation:
-                titleGlow
-                2.5s
-                infinite
-                ease-in-out;
+    animation:
+        tabEnter
+        .6s
+        cubic-bezier(.2,.8,.2,1);
 
-        }
+}
 
 
-        @keyframes titleGlow {
+@keyframes tabEnter {
 
-            0% {
+    0% {
 
-                text-shadow:
-                    0 0 8px
-                    var(--glow);
+        opacity:0;
 
-            }
+        transform:
+            translateY(25px)
+            scale(.97)
+            rotateX(3deg);
 
-            50% {
+        filter:
+            blur(5px);
 
-                text-shadow:
-                    0 0 20px
-                    var(--glow),
+    }
 
-                    0 0 55px
-                    var(--glow);
+    60% {
 
-            }
+        opacity:1;
 
-            100% {
+        transform:
+            translateY(-3px)
+            scale(1.005)
+            rotateX(0);
 
-                text-shadow:
-                    0 0 8px
-                    var(--glow);
+        filter:
+            blur(0);
 
-            }
+    }
 
-        }
+    100% {
 
+        opacity:1;
 
-        .profile-description {
+        transform:
+            translateY(0)
+            scale(1);
 
-            color: var(--muted);
+    }
 
-            line-height: 1.8;
+}
 
-        }
 
+.tab-leaving {
 
-        /* =========================================
-           SOCIAL
-        ========================================= */
+    animation:
+        tabLeave
+        .25s
+        ease
+        forwards;
 
-        .social-icons {
+}
 
-            display: flex;
 
-            justify-content: center;
+@keyframes tabLeave {
 
-            gap: 12px;
+    to {
 
-            margin-top: 22px;
+        opacity:0;
 
-        }
+        transform:
+            translateY(-10px)
+            scale(.98);
 
+        filter:blur(4px);
 
-        .social-icon {
+    }
 
-            width: 48px;
+}
 
-            height: 48px;
 
-            display: grid;
+/* =====================================================
+   GLOBAL ICON LIGHT
+===================================================== */
 
-            place-items: center;
+i {
 
-            border-radius: 16px;
+    text-shadow:
 
-            font-size: 1.35rem;
+        0 0
+        calc(4px * var(--icon-strength))
+        var(--icon-glow),
 
-            border:
-                1px solid
-                var(--border);
+        0 0
+        calc(12px * var(--icon-strength))
+        rgba(
+            var(--primary-rgb),
+            .35
+        );
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.06
-                );
+}
 
-            transition:
-                0.3s
-                ease;
 
-        }
+@keyframes iconBreath {
 
+    0%,
+    100% {
 
-        .social-icon:hover {
+        filter:
+            drop-shadow(
+                0 0 4px
+                var(--icon-glow)
+            );
 
-            transform:
-                translateY(-5px)
-                rotate(4deg);
+        opacity:.88;
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.15
-                );
+    }
 
-            box-shadow:
-                0 0 28px
-                var(--glow);
+    50% {
 
-        }
+        filter:
 
+            drop-shadow(
+                0 0 9px
+                var(--icon-glow)
+            )
 
-        /* =========================================
-           PROFILE SWITCH
-        ========================================= */
-
-        .profile-switches {
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 10px;
-
-            margin-top: 22px;
-
-            flex-wrap: wrap;
-
-        }
-
-
-        .profile-switch {
-
-            padding:
-                12px
-                20px;
-
-            border-radius: 15px;
-
-            border:
-                1px solid
-                var(--border);
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
-
-            font-weight: 900;
-
-            transition:
-                0.3s;
-
-        }
-
-
-        .profile-switch:hover {
-
-            transform:
-                translateY(-4px);
-
-            box-shadow:
-                0 0 30px
-                var(--glow);
-
-        }
-
-
-        .profile-switch.current {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-
-            color: #111;
-
-        }
-
-
-        /* =========================================
-           WELCOME SIDE
-        ========================================= */
-
-        .welcome-card {
-
-            padding: 25px;
-
-        }
-
-
-        .welcome-title {
-
-            font-size:
-                clamp(
-                    2rem,
-                    4vw,
-                    3.5rem
-                );
-
-            margin-bottom: 10px;
-
-            animation:
-                luxuryBlink
-                3s
-                infinite;
-
-        }
-
-
-        .welcome-text {
-
-            color: var(--muted);
-
-            line-height: 1.9;
-
-        }
-
-
-        /* =========================================
-           NEW HOME CENTER CONTENT
-        ========================================= */
-
-        .hero-center {
-
-            margin:
-                0
-                0
-                22px;
-
-            padding: 24px;
-
-            border-radius: 24px;
-
-            border:
-                1px solid
-                var(--border);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,255,255,0.07),
-                    rgba(255,255,255,0.025)
-                );
-
-            text-align: center;
-
-            position: relative;
-
-        }
-
-
-        .hero-center::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 160px;
-
-            height: 160px;
-
-            left: 50%;
-
-            top: 50%;
-
-            transform:
-                translate(-50%, -50%);
-
-            border-radius: 50%;
-
-            background:
-                var(--glow);
-
-            filter: blur(70px);
-
-            opacity: 0.18;
-
-            pointer-events: none;
-
-        }
-
-
-        .hero-main-title {
-
-            position: relative;
-
-            z-index: 2;
-
-            font-size:
-                clamp(
-                    1.7rem,
-                    4vw,
-                    3rem
-                );
-
-            font-weight: 900;
-
-            animation:
-                luxuryBlink
-                2.5s
-                infinite;
-
-        }
-
-
-        .hero-subtitle {
-
-            position: relative;
-
-            z-index: 2;
-
-            color: var(--muted);
-
-            margin-top: 7px;
-
-        }
-
-
-        .home-stats {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    3,
-                    1fr
-                );
-
-            gap: 10px;
-
-            margin-top: 18px;
-
-        }
-
-
-        .home-stat {
-
-            position: relative;
-
-            z-index: 2;
-
-            padding: 15px 10px;
-
-            border-radius: 18px;
-
-            border:
-                1px solid
-                var(--border);
-
-            background:
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.20
-                );
-
-        }
-
-
-        .home-stat i {
-
-            color: var(--primary);
-
-            font-size: 1.3rem;
-
-            margin-bottom: 7px;
-
-        }
-
-
-        .home-stat strong {
-
-            display: block;
-
-            font-size: 1.05rem;
-
-        }
-
-
-        .home-stat span {
-
-            display: block;
-
-            color: var(--muted);
-
-            font-size: 0.78rem;
-
-            margin-top: 3px;
-
-        }
-
-
-        .live-clock {
-
-            margin-top: 16px;
-
-            color: var(--primary);
-
-            font-family:
-                "Orbitron",
-                sans-serif;
-
-            letter-spacing: 2px;
-
-            font-size: 0.9rem;
-
-        }
-
-
-        /* =========================================
-           ALBUM
-        ========================================= */
-
-        .album {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    5,
-                    1fr
-                );
-
-            gap: 9px;
-
-            margin:
-                22px
-                0;
-
-        }
-
-
-        .album-image {
-
-            width: 100%;
-
-            aspect-ratio: 1;
-
-            object-fit: cover;
-
-            border-radius: 15px;
-
-            border:
-                1px solid
-                var(--border);
-
-            transition:
-                0.4s;
-
-            animation:
-                imageFloat
-                5s
-                infinite
-                ease-in-out;
-
-        }
-
-
-        .album-image:nth-child(2n) {
-
-            animation-delay:
-                -1.5s;
-
-        }
-
-
-        .album-image:nth-child(3n) {
-
-            animation-delay:
-                -3s;
-
-        }
-
-
-        @keyframes imageFloat {
-
-            50% {
-
-                transform:
-                    translateY(-8px)
-                    scale(1.04);
-
-                box-shadow:
-                    0 0 25px
-                    var(--glow);
-
-            }
-
-        }
-
-
-        .album-image:hover {
-
-            transform:
-                scale(1.12);
-
-            position: relative;
-
-            z-index: 5;
-
-        }
-
-
-        /* =========================================
-           MUSIC
-        ========================================= */
-
-        .music-player {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 15px;
-
-            padding: 15px;
-
-            border-radius: 20px;
-
-            border:
-                1px solid
-                var(--border);
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
-
-        }
-
-
-        .music-icon {
-
-            font-size: 1.8rem;
-
-            color: var(--primary);
-
-            animation:
-                musicSpin
-                4s
-                linear
-                infinite;
-
-        }
-
-
-        @keyframes musicSpin {
-
-            to {
-
-                transform:
-                    rotate(360deg);
-
-            }
-
-        }
-
-
-        .music-content {
-
-            flex: 1;
-
-        }
-
-
-        .music-name {
-
-            display: block;
-
-            margin-bottom: 8px;
-
-            font-weight: 900;
-
-            letter-spacing: 2px;
-
-        }
-
-
-        audio {
-
-            width: 100%;
-
-        }
-
-
-        .music-controls {
-
-            display: flex;
-
-            gap: 8px;
-
-            margin-top: 10px;
-
-        }
-
-
-        .music-control-button {
-
-            border:
-                1px solid
-                var(--border);
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.07
-                );
-
-            color: white;
-
-            border-radius: 12px;
-
-            padding:
-                8px
-                13px;
-
-            transition: 0.3s;
-
-        }
-
-
-        .music-control-button:hover {
-
-            background:
-                var(--primary);
-
-            color: #111;
-
-            box-shadow:
+            drop-shadow(
                 0 0 20px
-                var(--glow);
+                var(--icon-glow)
+            );
 
-        }
+        opacity:1;
 
+    }
 
-        /* =========================================
-           SECTIONS
-        ========================================= */
+}
 
-        .section {
 
-            margin-top: 22px;
+.social-icon,
+.contact-card i,
+.game-card i,
+.section-title i,
+.music-icon,
+.home-stat i {
 
-            padding: 28px;
+    animation:
+        iconBreath
+        3.8s
+        ease-in-out
+        infinite;
 
-        }
+}
 
 
-        .section-title {
+/* =====================================================
+   LUXURY FONT
+===================================================== */
 
-            display: flex;
+.profile-name,
+.welcome-title,
+.section-title,
+.hero-main-title {
 
-            align-items: center;
+    font-family:
+        "El Messiri",
+        sans-serif;
 
-            gap: 10px;
+}
 
-            margin-bottom: 22px;
 
-            font-size: 1.7rem;
+.luxury-blink {
 
-            letter-spacing: 2px;
+    animation:
+        luxuryBlink
+        2.4s
+        infinite
+        ease-in-out;
 
-        }
+}
 
 
-        .section-title i {
+@keyframes luxuryBlink {
 
-            color: var(--primary);
+    0% {
 
-        }
+        opacity:.88;
 
+        text-shadow:
+            0 0 5px
+            var(--glow);
 
-        /* =========================================
-           ABOUT
-        ========================================= */
+    }
 
-        .about-card {
+    25% {
 
-            padding: 25px;
+        opacity:1;
 
-            border-radius: 22px;
+        text-shadow:
+            0 0 10px var(--glow),
+            0 0 22px var(--glow);
 
-            border:
-                1px solid
-                var(--border);
+    }
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
+    50% {
 
-        }
+        opacity:.92;
 
+        text-shadow:
+            0 0 5px
+            var(--glow);
 
-        .about-row {
+    }
 
-            padding:
-                15px
-                0;
+    70% {
 
-            border-bottom:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.1
-                );
+        opacity:1;
 
-            font-size: 1.1rem;
+        text-shadow:
+            0 0 18px var(--glow),
+            0 0 45px var(--glow);
 
-            font-weight: 800;
+    }
 
-            letter-spacing: 1px;
+    100% {
 
-        }
+        opacity:.88;
 
+        text-shadow:
+            0 0 5px
+            var(--glow);
 
-        .about-row:last-child {
+    }
 
-            border-bottom: none;
+}
 
-        }
 
+/* =====================================================
+   HOME
+===================================================== */
 
-        .about-label {
+.home-container {
 
-            color: var(--primary);
+    margin-top:22px;
 
-            margin-left: 10px;
+    padding:28px;
 
-        }
+}
 
 
-        /* =========================================
-           GAMES
-        ========================================= */
+.home-grid {
 
-        .games-grid {
+    display:grid;
 
-            display: grid;
+    grid-template-columns:
+        1fr
+        1.35fr;
 
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(210px, 1fr)
-                );
+    gap:22px;
 
-            gap: 15px;
+    align-items:center;
 
-        }
+}
 
 
-        .game-card {
+/* =====================================================
+   PROFILE
+===================================================== */
 
-            padding: 22px;
+.profile-card {
 
-            border-radius: 22px;
+    padding:28px;
 
-            border:
-                1px solid
-                var(--border);
+    text-align:center;
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
+}
 
-            transition:
-                0.35s;
 
-        }
+.avatar {
 
+    width:160px;
 
-        .game-card:hover {
+    height:160px;
 
-            transform:
-                translateY(-7px)
-                scale(1.02);
+    border-radius:50%;
 
-            box-shadow:
-                0 0 30px
-                var(--glow);
+    object-fit:cover;
 
-        }
+    border:
+        2px solid
+        var(--primary);
 
+    box-shadow:
 
-        .game-card i {
+        0 0 25px
+        var(--glow),
 
-            font-size: 2.2rem;
+        0 0 60px
+        var(--glow);
 
-            color: var(--primary);
+    animation:
+        avatarPulse
+        3s
+        infinite
+        ease-in-out;
 
-            margin-bottom: 14px;
+}
 
-        }
 
+@keyframes avatarPulse {
 
-        .game-card h3 {
+    50% {
 
-            font-size: 1.05rem;
+        transform:
+            scale(1.04);
 
-        }
+        box-shadow:
 
+            0 0 30px
+            var(--glow),
 
-        /* =========================================
-           CONTACT
-        ========================================= */
+            0 0 80px
+            var(--glow);
 
-        .contact-grid {
+    }
 
-            display: grid;
+}
 
-            grid-template-columns:
-                repeat(
-                    3,
-                    1fr
-                );
 
-            gap: 16px;
+.profile-small-title {
 
-        }
+    margin-top:18px;
 
+    color:var(--primary);
 
-        .contact-card {
+    letter-spacing:4px;
 
-            padding: 30px;
+    font-size:.85rem;
 
-            text-align: center;
+    animation:
+        luxuryBlink
+        3s
+        infinite;
 
-            border-radius: 24px;
+}
 
-            border:
-                1px solid
-                var(--border);
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
+.profile-name {
 
-            transition:
-                0.35s;
+    margin:
+        8px
+        0;
 
-        }
+    font-size:
+        clamp(
+            3rem,
+            7vw,
+            6rem
+        );
 
+    letter-spacing:8px;
 
-        .contact-card:hover {
+    font-weight:900;
 
-            transform:
-                translateY(-7px);
+    animation:
+        titleGlow
+        2.5s
+        infinite
+        ease-in-out;
 
-            box-shadow:
-                0 0 35px
-                var(--glow);
+}
 
-        }
 
+@keyframes titleGlow {
 
-        .contact-card i {
+    0% {
 
-            display: block;
+        text-shadow:
+            0 0 8px
+            var(--glow);
 
-            font-size: 3rem;
+    }
 
-            color: var(--primary);
+    50% {
 
-            margin-bottom: 15px;
+        text-shadow:
+            0 0 20px var(--glow),
+            0 0 55px var(--glow);
 
-        }
+    }
 
+    100% {
 
-        /* =========================================
-           FORMS
-        ========================================= */
+        text-shadow:
+            0 0 8px
+            var(--glow);
 
-        .form {
+    }
 
-            max-width: 800px;
+}
 
-            display: grid;
 
-            gap: 14px;
+.profile-description {
 
-        }
+    color:var(--muted);
 
+    line-height:1.8;
 
-        .input {
+}
 
-            width: 100%;
 
-            padding: 16px;
+/* =====================================================
+   SOCIAL
+===================================================== */
 
-            color: white;
+.social-icons {
 
-            border:
-                1px solid
-                var(--border);
+    display:flex;
 
-            border-radius: 17px;
+    justify-content:center;
 
-            outline: none;
+    gap:12px;
 
-            background:
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.25
-                );
+    margin-top:22px;
 
-            transition:
-                0.3s;
+}
 
-        }
 
+.social-icon {
 
-        .input::placeholder {
+    width:48px;
 
-            color:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.55
-                );
+    height:48px;
 
-        }
+    display:grid;
 
+    place-items:center;
 
-        .input:focus {
+    border-radius:16px;
 
-            border-color:
-                var(--primary);
+    font-size:1.35rem;
 
-            box-shadow:
-                0 0 20px
-                var(--glow);
+    border:
+        1px solid
+        var(--border);
 
-        }
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .06
+        );
 
+    transition:.3s ease;
 
-        textarea.input {
+}
 
-            min-height: 170px;
 
-            resize: vertical;
+.social-icon:hover {
 
-        }
+    transform:
+        translateY(-5px)
+        rotate(4deg)
+        scale(1.06);
 
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .15
+        );
 
-        .main-button {
+    box-shadow:
+        0 0 28px
+        var(--glow);
 
-            border: none;
+}
 
-            padding: 16px;
 
-            border-radius: 17px;
+/* =====================================================
+   PROFILE SWITCH
+===================================================== */
 
-            color: #111;
+.profile-switches {
 
-            font-weight: 900;
+    display:flex;
 
-            letter-spacing: 2px;
+    justify-content:center;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
+    gap:10px;
 
-            transition:
-                0.3s;
+    margin-top:22px;
 
-            box-shadow:
-                0 0 25px
-                var(--glow);
+    flex-wrap:wrap;
 
-        }
+}
 
 
-        .main-button:hover {
+.profile-switch {
 
-            transform:
-                translateY(-4px)
-                scale(1.02);
+    padding:
+        12px
+        20px;
 
-        }
+    border-radius:15px;
 
+    border:
+        1px solid
+        var(--border);
 
-        .main-button:disabled {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
 
-            opacity: 0.55;
+    font-weight:900;
 
-            cursor: wait;
+    transition:.3s;
 
-            transform: none;
+}
 
-        }
 
+.profile-switch:hover {
 
-        /* =========================================
-           THEMES
-        ========================================= */
+    transform:
+        translateY(-4px);
 
-        .themes-grid {
+    box-shadow:
+        0 0 30px
+        var(--glow);
 
-            display: grid;
+}
 
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(150px, 1fr)
-                );
 
-            gap: 13px;
+.profile-switch.current {
 
-        }
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
 
+    color:#111;
 
-        .theme-button {
+}
 
-            padding: 18px;
 
-            border-radius: 18px;
+/* =====================================================
+   WELCOME
+===================================================== */
 
-            color: white;
+.welcome-card {
 
-            text-align: right;
+    padding:25px;
 
-            border:
-                1px solid
-                var(--border);
+}
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.06
-                );
 
-            transition:
-                0.3s;
+.welcome-title {
 
-        }
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            3.5rem
+        );
 
+    margin-bottom:10px;
 
-        .theme-button:hover {
+    animation:
+        luxuryBlink
+        3s
+        infinite;
 
-            transform:
-                translateY(-5px);
+}
 
-            box-shadow:
-                0 0 25px
-                var(--glow);
 
-        }
+.welcome-text {
 
+    color:var(--muted);
 
-        .theme-colors {
+    line-height:1.9;
 
-            display: flex;
+}
 
-            gap: 7px;
 
-            margin-bottom: 10px;
+/* =====================================================
+   HERO CENTER
+===================================================== */
 
-        }
+.hero-center {
 
+    margin:
+        0
+        0
+        22px;
 
-        .theme-color {
+    padding:24px;
 
-            width: 18px;
+    border-radius:24px;
 
-            height: 18px;
+    border:
+        1px solid
+        var(--border);
 
-            border-radius: 50%;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.07),
+            rgba(255,255,255,.025)
+        );
 
-        }
+    text-align:center;
 
+    position:relative;
 
-        /* =========================================
-           NOTES
-        ========================================= */
+}
 
-        .notes-grid {
 
-            display: grid;
+.hero-center::after {
 
-            grid-template-columns:
-                1fr
-                1fr;
+    content:"";
 
-            gap: 20px;
+    position:absolute;
 
-        }
+    width:160px;
 
+    height:160px;
 
-        .notes-feed {
+    left:50%;
 
-            display: grid;
+    top:50%;
 
-            gap: 10px;
+    transform:
+        translate(-50%,-50%);
 
-            max-height: 450px;
+    border-radius:50%;
 
-            overflow-y: auto;
+    background:var(--glow);
 
-        }
+    filter:blur(70px);
 
+    opacity:.18;
 
-        .note-item {
+    pointer-events:none;
 
-            padding: 16px;
+}
 
-            border-radius: 18px;
 
-            border:
-                1px solid
-                var(--border);
+.hero-main-title {
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
+    position:relative;
 
-        }
+    z-index:2;
 
+    font-size:
+        clamp(
+            1.7rem,
+            4vw,
+            3rem
+        );
 
-        .note-time {
+    font-weight:900;
 
-            display: block;
+    animation:
+        luxuryBlink
+        2.5s
+        infinite;
 
-            margin-top: 8px;
+}
 
-            font-size: 0.8rem;
 
-            color: var(--muted);
+.hero-subtitle {
 
-        }
+    position:relative;
 
+    z-index:2;
 
-        /* =========================================
-           TOAST
-        ========================================= */
+    color:var(--muted);
 
-        .toast {
+    margin-top:7px;
 
-            position: fixed;
+}
 
-            left: 20px;
 
-            bottom: 20px;
+.home-stats {
 
-            z-index: 9999;
+    display:grid;
 
-            padding:
-                15px
-                20px;
+    grid-template-columns:
+        repeat(3,1fr);
 
-            border-radius: 17px;
+    gap:10px;
 
-            color: white;
+    margin-top:18px;
 
-            background:
-                rgba(
-                    10,
-                    12,
-                    18,
-                    0.9
-                );
+}
 
-            border:
-                1px solid
-                var(--border);
 
-            box-shadow:
-                0 0 30px
-                var(--glow);
+.home-stat {
 
-            transform:
-                translateY(150px);
+    position:relative;
 
-            opacity: 0;
+    z-index:2;
 
-            transition:
-                0.35s;
+    padding:15px 10px;
 
-        }
+    border-radius:18px;
 
+    border:
+        1px solid
+        var(--border);
 
-        .toast.show {
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .20
+        );
 
-            transform:
-                translateY(0);
+}
 
-            opacity: 1;
 
-        }
+.home-stat i {
 
+    color:var(--primary);
 
-        /* =========================================
-           FOOTER
-        ========================================= */
+    font-size:1.3rem;
 
-        footer {
+    margin-bottom:7px;
 
-            text-align: center;
+}
 
-            padding: 30px;
 
-            color: var(--muted);
+.home-stat strong {
 
-        }
+    display:block;
 
+    font-size:1.05rem;
 
-        /* =========================================
-           MOBILE
-        ========================================= */
+}
 
-        @media (
-            max-width: 850px
-        ) {
 
-            .header {
+.home-stat span {
 
-                align-items: flex-start;
+    display:block;
 
-                flex-direction: column;
+    color:var(--muted);
 
-            }
+    font-size:.78rem;
 
+    margin-top:3px;
 
-            .navigation {
+}
 
-                width: 100%;
 
-                margin-right: 0;
+.live-clock {
 
-            }
+    margin-top:16px;
 
+    color:var(--primary);
 
-            .home-grid {
+    font-family:
+        "Orbitron",
+        sans-serif;
 
-                grid-template-columns:
-                    1fr;
+    letter-spacing:2px;
 
-            }
+    font-size:.9rem;
 
+}
 
-            .notes-grid {
 
-                grid-template-columns:
-                    1fr;
+/* =====================================================
+   ALBUM
+===================================================== */
 
-            }
+.album {
 
-        }
+    display:grid;
 
+    grid-template-columns:
+        repeat(5,1fr);
 
-        @media (
-            max-width: 650px
-        ) {
+    gap:9px;
 
-            .app {
+    margin:
+        22px
+        0;
 
-                width: 96vw;
+}
 
-            }
 
+.album-image {
 
-            .header {
+    width:100%;
 
-                padding: 13px;
+    aspect-ratio:1;
 
-            }
+    object-fit:cover;
 
+    border-radius:15px;
 
-            .nav-button {
+    border:
+        1px solid
+        var(--border);
 
-                flex: 1;
+    transition:.4s;
 
-                font-size: 0.78rem;
+    animation:
+        imageFloat
+        5s
+        infinite
+        ease-in-out;
 
-                padding:
-                    10px
-                    7px;
+}
 
-            }
 
+.album-image:nth-child(2n) {
 
-            .home-container {
+    animation-delay:-1.5s;
 
-                padding: 14px;
+}
 
-            }
 
+.album-image:nth-child(3n) {
 
-            .section {
+    animation-delay:-3s;
 
-                padding: 20px;
+}
 
-            }
 
+@keyframes imageFloat {
 
-            .album {
+    50% {
 
-                grid-template-columns:
-                    repeat(
-                        5,
-                        1fr
-                    );
+        transform:
+            translateY(-8px)
+            scale(1.04);
 
-            }
+        box-shadow:
+            0 0 25px
+            var(--glow);
 
+    }
 
-            .contact-grid {
+}
 
-                grid-template-columns:
-                    1fr;
 
-            }
+.album-image:hover {
 
+    transform:
+        scale(1.12);
 
-            .profile-name {
+    position:relative;
 
-                font-size: 3.5rem;
+    z-index:5;
 
-            }
+}
 
 
-            .home-stats {
+/* =====================================================
+   MUSIC
+===================================================== */
 
-                grid-template-columns:
-                    1fr;
+.music-player {
 
-            }
+    display:flex;
 
+    align-items:center;
 
-            .music-player {
+    gap:15px;
 
-                align-items:
-                    flex-start;
+    padding:15px;
 
-                flex-direction:
-                    column;
+    border-radius:20px;
 
-            }
+    border:
+        1px solid
+        var(--border);
 
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
 
-            .music-content {
+}
 
-                width: 100%;
 
-            }
+.music-icon {
 
-        }
+    font-size:1.8rem;
 
-    </style>
+    color:var(--primary);
+
+    animation:
+        musicSpin
+        4s
+        linear
+        infinite;
+
+}
+
+
+@keyframes musicSpin {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+.music-content {
+
+    flex:1;
+
+}
+
+
+.music-name {
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+}
+
+
+audio {
+
+    width:100%;
+
+}
+
+
+.music-controls {
+
+    display:flex;
+
+    gap:8px;
+
+    margin-top:10px;
+
+}
+
+
+.music-control-button {
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .07
+        );
+
+    color:white;
+
+    border-radius:12px;
+
+    padding:
+        8px
+        13px;
+
+    transition:.3s;
+
+}
+
+
+.music-control-button:hover {
+
+    background:var(--primary);
+
+    color:#111;
+
+    box-shadow:
+        0 0 20px
+        var(--glow);
+
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section {
+
+    margin-top:22px;
+
+    padding:28px;
+
+}
+
+
+.section-title {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:22px;
+
+    font-size:1.7rem;
+
+    letter-spacing:2px;
+
+}
+
+
+.section-title i {
+
+    color:var(--primary);
+
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+.about-card {
+
+    padding:25px;
+
+    border-radius:22px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+}
+
+
+.about-row {
+
+    padding:
+        15px
+        0;
+
+    border-bottom:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .1
+        );
+
+    font-size:1.1rem;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+
+.about-row:last-child {
+
+    border-bottom:none;
+
+}
+
+
+.about-label {
+
+    color:var(--primary);
+
+    margin-left:10px;
+
+}
+
+
+/* =====================================================
+   GAMES
+===================================================== */
+
+.games-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(210px,1fr)
+        );
+
+    gap:15px;
+
+}
+
+
+.game-card {
+
+    padding:22px;
+
+    border-radius:22px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+    transition:.35s;
+
+}
+
+
+.game-card:hover {
+
+    transform:
+        translateY(-7px)
+        scale(1.02);
+
+    box-shadow:
+        0 0 30px
+        var(--glow);
+
+}
+
+
+.game-card i {
+
+    font-size:2.2rem;
+
+    color:var(--primary);
+
+    margin-bottom:14px;
+
+}
+
+
+.game-card h3 {
+
+    font-size:1.05rem;
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:16px;
+
+}
+
+
+.contact-card {
+
+    padding:30px;
+
+    text-align:center;
+
+    border-radius:24px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+    transition:.35s;
+
+}
+
+
+.contact-card:hover {
+
+    transform:
+        translateY(-7px);
+
+    box-shadow:
+        0 0 35px
+        var(--glow);
+
+}
+
+
+.contact-card i {
+
+    display:block;
+
+    font-size:3rem;
+
+    color:var(--primary);
+
+    margin-bottom:15px;
+
+}
+
+
+/* =====================================================
+   FORMS
+===================================================== */
+
+.form {
+
+    max-width:800px;
+
+    display:grid;
+
+    gap:14px;
+
+}
+
+
+.input {
+
+    width:100%;
+
+    padding:16px;
+
+    color:white;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:17px;
+
+    outline:none;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .25
+        );
+
+    transition:.3s;
+
+}
+
+
+.input::placeholder {
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .55
+        );
+
+}
+
+
+.input:focus {
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 20px
+        var(--glow);
+
+}
+
+
+textarea.input {
+
+    min-height:170px;
+
+    resize:vertical;
+
+}
+
+
+.main-button {
+
+    border:none;
+
+    padding:16px;
+
+    border-radius:17px;
+
+    color:#111;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    transition:.3s;
+
+    box-shadow:
+        0 0 25px
+        var(--glow);
+
+}
+
+
+.main-button:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+}
+
+
+.main-button:disabled {
+
+    opacity:.55;
+
+    cursor:wait;
+
+    transform:none;
+
+}
+
+
+/* =====================================================
+   THEME GRID
+===================================================== */
+
+.themes-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(150px,1fr)
+        );
+
+    gap:13px;
+
+}
+
+
+.theme-button {
+
+    padding:18px;
+
+    border-radius:18px;
+
+    color:white;
+
+    text-align:right;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .06
+        );
+
+    transition:.3s;
+
+}
+
+
+.theme-button:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 0 25px
+        var(--glow);
+
+}
+
+
+.theme-colors {
+
+    display:flex;
+
+    gap:7px;
+
+    margin-bottom:10px;
+
+}
+
+
+.theme-color {
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 8px
+        currentColor;
+
+}
+
+
+/* =====================================================
+   NOTES
+===================================================== */
+
+.notes-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:20px;
+
+}
+
+
+.notes-feed {
+
+    display:grid;
+
+    gap:10px;
+
+    max-height:450px;
+
+    overflow-y:auto;
+
+}
+
+
+.note-item {
+
+    padding:16px;
+
+    border-radius:18px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+}
+
+
+.note-time {
+
+    display:block;
+
+    margin-top:8px;
+
+    font-size:.8rem;
+
+    color:var(--muted);
+
+}
+
+
+/* =====================================================
+   CUSTOMIZE
+===================================================== */
+
+.custom-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(250px,1fr)
+        );
+
+    gap:16px;
+
+}
+
+
+.custom-card {
+
+    position:relative;
+
+    padding:20px;
+
+    border-radius:22px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .045
+        );
+
+    transition:.35s;
+
+}
+
+
+.custom-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 0 25px
+        var(--glow);
+
+}
+
+
+.custom-card h3 {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    margin-bottom:15px;
+
+    font-size:1.05rem;
+
+}
+
+
+.custom-card h3 i {
+
+    color:var(--primary);
+
+}
+
+
+.custom-row {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-top:12px;
+
+}
+
+
+.custom-row label {
+
+    color:var(--muted);
+
+    font-size:.9rem;
+
+}
+
+
+.custom-select {
+
+    min-width:145px;
+
+    color:white;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .4
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:12px;
+
+    padding:
+        9px
+        10px;
+
+    outline:none;
+
+}
+
+
+.custom-select option {
+
+    background:#101218;
+
+    color:white;
+
+}
+
+
+.color-picker {
+
+    width:55px;
+
+    height:38px;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+}
+
+
+.range {
+
+    width:100%;
+
+    accent-color:var(--primary);
+
+}
+
+
+.switch {
+
+    position:relative;
+
+    width:54px;
+
+    height:29px;
+
+}
+
+
+.switch input {
+
+    display:none;
+
+}
+
+
+.slider {
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .15
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:50px;
+
+    transition:.3s;
+
+}
+
+
+.slider::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:21px;
+
+    height:21px;
+
+    left:3px;
+
+    top:3px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    transition:.3s;
+
+}
+
+
+.switch input:checked + .slider {
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 20px
+        var(--glow);
+
+}
+
+
+.switch input:checked + .slider::before {
+
+    transform:
+        translateX(25px);
+
+    background:#111;
+
+}
+
+
+.preview-box {
+
+    min-height:100px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:20px;
+
+    margin-top:15px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .04
+        );
+
+}
+
+
+.font-preview {
+
+    font-size:1.5rem;
+
+    font-weight:900;
+
+    text-align:center;
+
+}
+
+
+/* =====================================================
+   CLICK EFFECTS
+===================================================== */
+
+.click-effect {
+
+    position:fixed;
+
+    pointer-events:none;
+
+    z-index:99999;
+
+    transform:
+        translate(-50%,-50%);
+
+}
+
+
+.click-ripple {
+
+    width:30px;
+
+    height:30px;
+
+    border:
+        2px solid
+        var(--primary);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 15px
+        var(--glow);
+
+    animation:
+        clickRipple
+        .7s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes clickRipple {
+
+    from {
+
+        width:20px;
+
+        height:20px;
+
+        opacity:1;
+
+    }
+
+    to {
+
+        width:150px;
+
+        height:150px;
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-ring {
+
+    width:30px;
+
+    height:30px;
+
+    border:
+        3px solid
+        var(--primary);
+
+    border-radius:50%;
+
+    animation:
+        clickRing
+        .8s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes clickRing {
+
+    to {
+
+        width:180px;
+
+        height:180px;
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            rotate(180deg);
+
+    }
+
+}
+
+
+.click-burst {
+
+    width:10px;
+
+    height:10px;
+
+    background:var(--primary);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 20px
+        var(--glow);
+
+    animation:
+        clickBurst
+        .7s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes clickBurst {
+
+    to {
+
+        transform:
+            translate(-50%,-50%)
+            scale(12);
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-glow {
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            var(--primary),
+            transparent 70%
+        );
+
+    animation:
+        clickGlow
+        .8s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes clickGlow {
+
+    to {
+
+        transform:
+            translate(-50%,-50%)
+            scale(3);
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-shock {
+
+    width:20px;
+
+    height:20px;
+
+    border:
+        2px solid
+        var(--secondary);
+
+    border-radius:50%;
+
+    animation:
+        shock
+        .6s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes shock {
+
+    50% {
+
+        opacity:1;
+
+    }
+
+    100% {
+
+        width:220px;
+
+        height:220px;
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-dot {
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 30px
+        var(--primary);
+
+    animation:
+        dotClick
+        .55s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes dotClick {
+
+    to {
+
+        transform:
+            translate(-50%,-50%)
+            scale(9);
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-pulse {
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    border:
+        2px solid
+        var(--primary);
+
+    animation:
+        pulseClick
+        .65s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes pulseClick {
+
+    50% {
+
+        box-shadow:
+            0 0 50px
+            var(--glow);
+
+    }
+
+    100% {
+
+        transform:
+            translate(-50%,-50%)
+            scale(2.5);
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-scan {
+
+    width:100px;
+
+    height:3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--primary),
+            transparent
+        );
+
+    box-shadow:
+        0 0 20px
+        var(--glow);
+
+    animation:
+        scanClick
+        .65s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes scanClick {
+
+    from {
+
+        width:0;
+
+        opacity:1;
+
+    }
+
+    to {
+
+        width:220px;
+
+        opacity:0;
+
+    }
+
+}
+
+
+.click-star {
+
+    width:30px;
+
+    height:30px;
+
+    position:relative;
+
+}
+
+
+.click-star::before,
+.click-star::after {
+
+    content:"";
+
+    position:absolute;
+
+    inset:50%;
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 20px
+        var(--glow);
+
+}
+
+
+.click-star::before {
+
+    width:4px;
+
+    height:40px;
+
+    transform:
+        translate(-50%,-50%);
+
+}
+
+
+.click-star::after {
+
+    width:40px;
+
+    height:4px;
+
+    transform:
+        translate(-50%,-50%);
+
+}
+
+
+.click-star {
+
+    animation:
+        starClick
+        .7s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes starClick {
+
+    to {
+
+        transform:
+            translate(-50%,-50%)
+            scale(3)
+            rotate(90deg);
+
+        opacity:0;
+
+    }
+
+}
+
+
+/* =====================================================
+   FONT EFFECTS
+===================================================== */
+
+.font-glow {
+
+    text-shadow:
+        0 0 7px
+        var(--glow),
+        0 0 22px
+        var(--glow);
+
+}
+
+
+.font-neon {
+
+    text-shadow:
+        0 0 4px var(--primary),
+        0 0 12px var(--primary),
+        0 0 30px var(--primary);
+
+}
+
+
+.font-shimmer {
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--text),
+            var(--primary),
+            white,
+            var(--primary),
+            var(--text)
+        );
+
+    background-size:300% auto;
+
+    color:transparent;
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    animation:
+        shimmerText
+        3s
+        linear
+        infinite;
+
+}
+
+
+@keyframes shimmerText {
+
+    to {
+
+        background-position:
+            300% center;
+
+    }
+
+}
+
+
+.font-rgb {
+
+    animation:
+        rgbText
+        4s
+        linear
+        infinite;
+
+}
+
+
+@keyframes rgbText {
+
+    0% {
+
+        color:#ff4d6d;
+
+        text-shadow:
+            0 0 20px #ff4d6d;
+
+    }
+
+    33% {
+
+        color:#50e3ff;
+
+        text-shadow:
+            0 0 20px #50e3ff;
+
+    }
+
+    66% {
+
+        color:#b76cff;
+
+        text-shadow:
+            0 0 20px #b76cff;
+
+    }
+
+    100% {
+
+        color:#ff4d6d;
+
+        text-shadow:
+            0 0 20px #ff4d6d;
+
+    }
+
+}
+
+
+.font-metal {
+
+    background:
+        linear-gradient(
+            180deg,
+            white,
+            #7f8794,
+            white
+        );
+
+    color:transparent;
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast {
+
+    position:fixed;
+
+    left:20px;
+
+    bottom:20px;
+
+    z-index:9999;
+
+    padding:
+        15px
+        20px;
+
+    border-radius:17px;
+
+    color:white;
+
+    background:
+        rgba(
+            10,
+            12,
+            18,
+            .92
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 0 30px
+        var(--glow);
+
+    transform:
+        translateY(150px);
+
+    opacity:0;
+
+    transition:.35s;
+
+}
+
+
+.toast.show {
+
+    transform:
+        translateY(0);
+
+    opacity:1;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    text-align:center;
+
+    padding:30px;
+
+    color:var(--muted);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:850px) {
+
+    .header {
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+
+    .navigation {
+
+        width:100%;
+
+        margin-right:0;
+
+    }
+
+
+    .home-grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .notes-grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+@media(max-width:650px) {
+
+    .app {
+
+        width:96vw;
+
+    }
+
+
+    .header {
+
+        padding:13px;
+
+    }
+
+
+    .nav-button {
+
+        flex:1;
+
+        font-size:.78rem;
+
+        padding:
+            10px
+            7px;
+
+    }
+
+
+    .home-container {
+
+        padding:14px;
+
+    }
+
+
+    .section {
+
+        padding:20px;
+
+    }
+
+
+    .album {
+
+        grid-template-columns:
+            repeat(5,1fr);
+
+    }
+
+
+    .contact-grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .profile-name {
+
+        font-size:3.5rem;
+
+    }
+
+
+    .home-stats {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .music-player {
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+
+    .music-content {
+
+        width:100%;
+
+    }
+
+
+    .custom-row {
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+
+    .custom-select {
+
+        width:100%;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -2210,2837 +3425,3826 @@
 <body>
 
 
-    <!-- PARTICLES -->
+<div
+    class="particles"
+    id="particles"
+></div>
 
-    <div
-        class="particles"
-        id="particles"
-    ></div>
 
+<main class="app">
 
-    <main class="app">
 
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-        <!-- =====================================
-             HEADER
-        ====================================== -->
+<header class="header glass rgb-border">
 
-        <header class="header glass">
 
+<div class="brand">
 
-            <div class="brand">
+<img
+    src="AA.jpg"
+    class="brand-image"
+    alt="MOKO"
+>
 
-                <img
-                    src="AA.jpg"
-                    class="brand-image"
-                    alt="MOKO"
-                >
+<span class="brand-name">
 
-                <span class="brand-name">
+MOKO
 
-                    MOKO
+</span>
 
-                </span>
+</div>
 
-            </div>
 
+<nav class="navigation">
 
-            <nav class="navigation">
 
+<button
+    class="nav-button active"
+    data-tab="home"
+>
 
-                <button
-                    class="nav-button active"
-                    data-tab="home"
-                >
+<i class="fa-solid fa-house"></i>
 
-                    <i class="fa-solid fa-house"></i>
+HOME
 
-                    HOME
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="dov"
+>
 
-                <button
-                    class="nav-button"
-                    data-tab="dov"
-                >
+<i class="fa-solid fa-user"></i>
 
-                    <i class="fa-solid fa-user"></i>
+DOV
 
-                    DOV
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="games"
+>
 
-                <button
-                    class="nav-button"
-                    data-tab="games"
-                >
+<i class="fa-solid fa-gamepad"></i>
 
-                    <i class="fa-solid fa-gamepad"></i>
+GAMES
 
-                    GAMES
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="contact"
+>
 
-                <button
-                    class="nav-button"
-                    data-tab="contact"
-                >
+<i class="fa-solid fa-share-nodes"></i>
 
-                    <i class="fa-solid fa-share-nodes"></i>
+CONTACT
 
-                    CONTACT
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="message"
+>
 
-                <button
-                    class="nav-button"
-                    data-tab="message"
-                >
+<i class="fa-solid fa-paper-plane"></i>
 
-                    <i class="fa-solid fa-paper-plane"></i>
+MESSAGE
 
-                    MESSAGE
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="themes"
+>
 
-                <button
-                    class="nav-button"
-                    data-tab="themes"
-                >
+<i class="fa-solid fa-palette"></i>
 
-                    <i class="fa-solid fa-palette"></i>
+THEMES
 
-                    THEMES
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="notes"
+>
 
-                <button
-                    class="nav-button"
-                    data-tab="notes"
-                >
+<i class="fa-solid fa-bell"></i>
 
-                    <i class="fa-solid fa-bell"></i>
+NOTES
 
-                    NOTES
+</button>
 
-                </button>
 
+<button
+    class="nav-button"
+    data-tab="customize"
+>
 
-            </nav>
+<i class="fa-solid fa-wand-magic-sparkles"></i>
 
+CUSTOMIZE
 
-        </header>
+</button>
 
 
+</nav>
 
-        <!-- =====================================
-             HOME
-        ====================================== -->
+</header>
 
-        <section
-            id="home"
-            class="tab active"
-        >
 
+<!-- =====================================================
+     HOME
+===================================================== -->
 
-            <div class="home-container glass">
+<section
+    id="home"
+    class="tab active"
+>
 
 
-                <div class="home-grid">
+<div class="home-container glass">
 
 
-                    <!-- PROFILE -->
+<div class="home-grid">
 
-                    <div class="profile-card glass">
 
+<div class="profile-card glass">
 
-                        <img
-                            src="AA.jpg"
-                            class="avatar"
-                            alt="MOKO"
-                        >
 
+<img
+    src="AA.jpg"
+    class="avatar"
+    alt="MOKO"
+>
 
-                        <div class="profile-small-title">
 
-                            MY SMALL WORLD
+<div class="profile-small-title">
 
-                        </div>
+MY SMALL WORLD
 
+</div>
 
-                        <h1 class="profile-name">
 
-                            MOKO
+<h1 class="profile-name">
 
-                        </h1>
+MOKO
 
+</h1>
 
-                        <p class="profile-description">
 
-                            مرحباً بك في عالمي الصغير
+<p class="profile-description">
 
-                        </p>
+مرحباً بك في عالمي الصغير
 
+</p>
 
-                        <div class="social-icons">
 
+<div class="social-icons">
 
-                            <a
-                                href="#"
-                                class="social-icon discord-link"
-                                title="Discord"
-                            >
 
-                                <i
-                                    class="fa-brands fa-discord"
-                                ></i>
+<a
+    href="#"
+    class="social-icon discord-link"
+>
 
-                            </a>
+<i class="fa-brands fa-discord"></i>
 
+</a>
 
-                            <a
-                                href="#"
-                                class="social-icon tiktok-link"
-                                title="TikTok"
-                            >
 
-                                <i
-                                    class="fa-brands fa-tiktok"
-                                ></i>
+<a
+    href="#"
+    class="social-icon tiktok-link"
+>
 
-                            </a>
+<i class="fa-brands fa-tiktok"></i>
 
+</a>
 
-                            <a
-                                href="#"
-                                class="social-icon spotify-link"
-                                title="Spotify"
-                            >
 
-                                <i
-                                    class="fa-brands fa-spotify"
-                                ></i>
+<a
+    href="#"
+    class="social-icon spotify-link"
+>
 
-                            </a>
+<i class="fa-brands fa-spotify"></i>
 
+</a>
 
-                        </div>
 
+</div>
 
-                        <div class="profile-switches">
 
+<div class="profile-switches">
 
-                            <a
-                                href="index.html"
-                                class="profile-switch current"
-                            >
 
-                                <i
-                                    class="fa-solid fa-user"
-                                ></i>
+<a
+    href="index.html"
+    class="profile-switch current"
+>
 
-                                MOKO
+<i class="fa-solid fa-user"></i>
 
-                            </a>
+MOKO
 
+</a>
 
-                            <a
-                                href="solo.html"
-                                class="profile-switch"
-                            >
 
-                                <i
-                                    class="fa-solid fa-user-group"
-                                ></i>
+<a
+    href="solo.html"
+    class="profile-switch"
+>
 
-                                SOLO
+<i class="fa-solid fa-user-group"></i>
 
-                            </a>
+SOLO
 
+</a>
 
-                        </div>
 
+</div>
 
-                    </div>
 
+</div>
 
 
-                    <!-- WELCOME -->
+<div class="welcome-card glass">
 
-                    <div class="welcome-card glass">
 
+<div class="hero-center">
 
-                        <!-- NEW CENTER CONTENT -->
 
-                        <div class="hero-center">
+<h2 class="hero-main-title">
 
+MOKO
 
-                            <h2 class="hero-main-title">
+</h2>
 
-                                MOKO
 
-                            </h2>
+<p class="hero-subtitle">
 
+MY SMALL WORLD • PERSONAL SPACE
 
-                            <p class="hero-subtitle">
+</p>
 
-                                MY SMALL WORLD • PERSONAL SPACE
 
-                            </p>
+<div class="home-stats">
 
 
-                            <div class="home-stats">
+<div class="home-stat">
 
+<i class="fa-solid fa-eye"></i>
 
-                                <div class="home-stat">
+<strong id="homeVisitCount">
 
-                                    <i
-                                        class="fa-solid fa-eye"
-                                    ></i>
+1
 
-                                    <strong id="homeVisitCount">
+</strong>
 
-                                        1
+<span>
 
-                                    </strong>
+VISITS
 
-                                    <span>
+</span>
 
-                                        VISITS
+</div>
 
-                                    </span>
 
-                                </div>
+<div class="home-stat">
 
+<i class="fa-solid fa-circle"></i>
 
-                                <div class="home-stat">
+<strong>
 
-                                    <i
-                                        class="fa-solid fa-circle"
-                                    ></i>
+ONLINE
 
-                                    <strong>
+</strong>
 
-                                        ONLINE
+<span>
 
-                                    </strong>
+STATUS
 
-                                    <span>
+</span>
 
-                                        STATUS
+</div>
 
-                                    </span>
 
-                                </div>
+<div class="home-stat">
 
+<i class="fa-solid fa-heart"></i>
 
-                                <div class="home-stat">
+<strong>
 
-                                    <i
-                                        class="fa-solid fa-heart"
-                                    ></i>
+MOKO
 
-                                    <strong>
+</strong>
 
-                                        MOKO
+<span>
 
-                                    </strong>
+WORLD
 
-                                    <span>
+</span>
 
-                                        WORLD
+</div>
 
-                                    </span>
 
-                                </div>
+</div>
 
 
-                            </div>
+<div
+    class="live-clock"
+    id="liveClock"
+>
 
+--:--:--
 
-                            <div
-                                class="live-clock"
-                                id="liveClock"
-                            >
+</div>
 
-                                --:--:--
 
-                            </div>
+</div>
 
 
-                        </div>
+<h2 class="welcome-title">
 
+أهلاً بك في عالمي الصغير
 
-                        <h2 class="welcome-title">
+</h2>
 
-                            أهلاً بك في عالمي الصغير
 
-                        </h2>
+<p class="welcome-text">
 
+هذا عالمي الشخصي.
+مكان يجمع الصور والموسيقى والألعاب
+وكل ما أحبه بطريقة زجاجية
+مضيئة وفخمة.
 
-                        <p class="welcome-text">
+</p>
 
-                            هذا عالمي الشخصي.
-                            مكان يجمع الصور والموسيقى والألعاب
-                            وكل ما أحبه بطريقة زجاجية
-                            مضيئة وفخمة.
 
-                        </p>
+<div class="album">
 
 
+<img src="1.jpg" class="album-image">
+<img src="2.jpg" class="album-image">
+<img src="3.jpg" class="album-image">
+<img src="4.jpg" class="album-image">
+<img src="5.jpg" class="album-image">
+<img src="6.jpg" class="album-image">
+<img src="7.jpg" class="album-image">
+<img src="8.jpg" class="album-image">
+<img src="9.jpg" class="album-image">
+<img src="10.jpg" class="album-image">
 
-                        <!-- ALBUM -->
+</div>
 
-                        <div class="album">
 
+<div class="music-player">
 
-                            <img
-                                src="1.jpg"
-                                class="album-image"
-                                alt="Image 1"
-                            >
 
+<i class="fa-solid fa-music music-icon"></i>
 
-                            <img
-                                src="2.jpg"
-                                class="album-image"
-                                alt="Image 2"
-                            >
 
+<div class="music-content">
 
-                            <img
-                                src="3.jpg"
-                                class="album-image"
-                                alt="Image 3"
-                            >
 
+<span class="music-name">
 
-                            <img
-                                src="4.jpg"
-                                class="album-image"
-                                alt="Image 4"
-                            >
+MOKO — JJ.mp3
 
+</span>
 
-                            <img
-                                src="5.jpg"
-                                class="album-image"
-                                alt="Image 5"
-                            >
 
+<audio
+    id="mokoAudio"
+    controls
+    preload="metadata"
+>
 
-                            <img
-                                src="6.jpg"
-                                class="album-image"
-                                alt="Image 6"
-                            >
+<source
+    src="./JJ.mp3"
+    type="audio/mpeg"
+>
 
+</audio>
 
-                            <img
-                                src="7.jpg"
-                                class="album-image"
-                                alt="Image 7"
-                            >
 
+<div class="music-controls">
 
-                            <img
-                                src="8.jpg"
-                                class="album-image"
-                                alt="Image 8"
-                            >
 
+<button
+    type="button"
+    class="music-control-button"
+    id="playMusic"
+>
 
-                            <img
-                                src="9.jpg"
-                                class="album-image"
-                                alt="Image 9"
-                            >
+<i class="fa-solid fa-play"></i>
 
+PLAY
 
-                            <img
-                                src="10.jpg"
-                                class="album-image"
-                                alt="Image 10"
-                            >
+</button>
 
 
-                        </div>
+<button
+    type="button"
+    class="music-control-button"
+    id="pauseMusic"
+>
 
+<i class="fa-solid fa-pause"></i>
 
+PAUSE
 
-                        <!-- MUSIC -->
+</button>
 
-                        <div class="music-player">
 
+</div>
 
-                            <i
-                                class="fa-solid fa-music music-icon"
-                            ></i>
 
+</div>
 
-                            <div class="music-content">
 
+</div>
 
-                                <span class="music-name">
 
-                                    MOKO — JJ.mp3
+</div>
 
-                                </span>
 
+</div>
 
-                                <audio
-                                    id="mokoAudio"
-                                    controls
-                                    preload="auto"
-                                >
 
-                                    <source
-                                        src="./JJ.mp3"
-                                        type="audio/mpeg"
-                                    >
+</div>
 
-                                    Your browser does not support
-                                    audio playback.
 
-                                </audio>
+</section>
 
 
-                                <div class="music-controls">
+<!-- =====================================================
+     DOV
+===================================================== -->
 
+<section
+    id="dov"
+    class="tab"
+>
 
-                                    <button
-                                        type="button"
-                                        class="music-control-button"
-                                        id="playMusic"
-                                    >
 
-                                        <i
-                                            class="fa-solid fa-play"
-                                        ></i>
+<div class="section glass">
 
-                                        PLAY
 
-                                    </button>
+<h2 class="section-title">
 
+<i class="fa-solid fa-user"></i>
 
-                                    <button
-                                        type="button"
-                                        class="music-control-button"
-                                        id="pauseMusic"
-                                    >
+DOV
 
-                                        <i
-                                            class="fa-solid fa-pause"
-                                        ></i>
+</h2>
 
-                                        PAUSE
 
-                                    </button>
+<div class="about-card">
 
 
-                                </div>
+<div class="about-row">
 
+<span class="about-label">
+NAME:
+</span>
 
-                            </div>
+MOKO
 
+</div>
 
-                        </div>
 
+<div class="about-row">
 
-                    </div>
+<span class="about-label">
+AYG:
+</span>
 
+2010
 
-                </div>
+</div>
 
 
-            </div>
+<div class="about-row">
 
+<span class="about-label">
+LIVE:
+</span>
 
-        </section>
+IQ
 
+</div>
 
 
-        <!-- =====================================
-             DOV
-        ====================================== -->
+<div class="about-row">
 
-        <section
-            id="dov"
-            class="tab"
-        >
+<span class="about-label">
+HOBBY:
+</span>
 
+PLAYING GAMING
 
-            <div class="section glass">
+</div>
 
 
-                <h2 class="section-title">
+<div class="about-row">
 
-                    <i
-                        class="fa-solid fa-user"
-                    ></i>
+<span class="about-label">
+LOVE:
+</span>
 
-                    DOV
+GOD
 
-                </h2>
+</div>
 
 
-                <div class="about-card">
+</div>
 
 
-                    <div class="about-row">
+</div>
 
-                        <span class="about-label">
 
-                            NAME:
+</section>
 
-                        </span>
 
-                        MOKO
+<!-- =====================================================
+     GAMES
+===================================================== -->
 
-                    </div>
+<section
+    id="games"
+    class="tab"
+>
 
 
-                    <div class="about-row">
+<div class="section glass">
 
-                        <span class="about-label">
 
-                            AYG:
+<h2 class="section-title">
 
-                        </span>
+<i class="fa-solid fa-gamepad"></i>
 
-                        2010
+GAMES
 
-                    </div>
+</h2>
 
 
-                    <div class="about-row">
+<div class="games-grid">
 
-                        <span class="about-label">
 
-                            LIVE:
+<div class="game-card">
+<i class="fa-solid fa-car"></i>
+<h3>Grand Theft Auto V</h3>
+</div>
 
-                        </span>
 
-                        IQ
+<div class="game-card">
+<i class="fa-solid fa-cubes"></i>
+<h3>Minecraft</h3>
+</div>
 
-                    </div>
 
+<div class="game-card">
+<i class="fa-solid fa-bolt"></i>
+<h3>Fortnite</h3>
+</div>
 
-                    <div class="about-row">
 
-                        <span class="about-label">
+<div class="game-card">
+<i class="fa-solid fa-hat-cowboy"></i>
+<h3>Red Dead Redemption 2</h3>
+</div>
 
-                            HOBBY:
 
-                        </span>
+<div class="game-card">
+<i class="fa-solid fa-crosshairs"></i>
+<h3>Call of Duty</h3>
+</div>
 
-                        PLAYING GAMING
 
-                    </div>
+<div class="game-card">
+<i class="fa-solid fa-city"></i>
+<h3>Cyberpunk 2077</h3>
+</div>
 
 
-                    <div class="about-row">
+<div class="game-card">
+<i class="fa-solid fa-shield-halved"></i>
+<h3>Valorant</h3>
+</div>
 
-                        <span class="about-label">
 
-                            LOVE:
+<div class="game-card">
+<i class="fa-solid fa-dragon"></i>
+<h3>Elden Ring</h3>
+</div>
 
-                        </span>
 
-                        GOD
+<div class="game-card">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<h3>The Witcher 3</h3>
+</div>
 
-                    </div>
 
+<div class="game-card">
+<i class="fa-solid fa-flag-checkered"></i>
+<h3>Forza Horizon 5</h3>
+</div>
 
-                </div>
 
+</div>
 
-            </div>
 
+</div>
 
-        </section>
 
+</section>
 
 
-        <!-- =====================================
-             GAMES
-        ====================================== -->
+<!-- =====================================================
+     CONTACT
+===================================================== -->
 
-        <section
-            id="games"
-            class="tab"
-        >
+<section
+    id="contact"
+    class="tab"
+>
 
 
-            <div class="section glass">
+<div class="section glass">
 
 
-                <h2 class="section-title">
+<h2 class="section-title">
 
-                    <i
-                        class="fa-solid fa-gamepad"
-                    ></i>
+<i class="fa-solid fa-share-nodes"></i>
 
-                    GAMES
+CONTACT
 
-                </h2>
+</h2>
 
 
-                <div class="games-grid">
+<div class="contact-grid">
 
 
-                    <div class="game-card">
+<a
+    href="#"
+    class="contact-card discord-link"
+>
 
-                        <i class="fa-solid fa-car"></i>
+<i class="fa-brands fa-discord"></i>
 
-                        <h3>Grand Theft Auto V</h3>
+<h3>Discord</h3>
 
-                    </div>
+</a>
 
 
-                    <div class="game-card">
+<a
+    href="#"
+    class="contact-card tiktok-link"
+>
 
-                        <i class="fa-solid fa-cubes"></i>
+<i class="fa-brands fa-tiktok"></i>
 
-                        <h3>Minecraft</h3>
+<h3>TikTok</h3>
 
-                    </div>
+</a>
 
 
-                    <div class="game-card">
+<a
+    href="#"
+    class="contact-card spotify-link"
+>
 
-                        <i class="fa-solid fa-bolt"></i>
+<i class="fa-brands fa-spotify"></i>
 
-                        <h3>Fortnite</h3>
+<h3>Spotify</h3>
 
-                    </div>
+</a>
 
 
-                    <div class="game-card">
+</div>
 
-                        <i class="fa-solid fa-hat-cowboy"></i>
 
-                        <h3>Red Dead Redemption 2</h3>
+</div>
 
-                    </div>
 
+</section>
 
-                    <div class="game-card">
 
-                        <i class="fa-solid fa-crosshairs"></i>
+<!-- =====================================================
+     MESSAGE
+===================================================== -->
 
-                        <h3>Call of Duty</h3>
+<section
+    id="message"
+    class="tab"
+>
 
-                    </div>
 
+<div class="section glass">
 
-                    <div class="game-card">
 
-                        <i class="fa-solid fa-city"></i>
+<h2 class="section-title">
 
-                        <h3>Cyberpunk 2077</h3>
+<i class="fa-solid fa-paper-plane"></i>
 
-                    </div>
+MESSAGE
 
+</h2>
 
-                    <div class="game-card">
 
-                        <i class="fa-solid fa-shield-halved"></i>
+<div class="form">
 
-                        <h3>Valorant</h3>
 
-                    </div>
+<input
+    type="text"
+    id="senderName"
+    class="input"
+    placeholder="Your name"
+    maxlength="60"
+>
 
 
-                    <div class="game-card">
+<textarea
+    id="senderMessage"
+    class="input"
+    placeholder="Write your message..."
+    maxlength="1500"
+></textarea>
 
-                        <i class="fa-solid fa-dragon"></i>
 
-                        <h3>Elden Ring</h3>
+<button
+    class="main-button"
+    id="sendMessage"
+    type="button"
+>
 
-                    </div>
+SEND MESSAGE
 
+</button>
 
-                    <div class="game-card">
 
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+</div>
 
-                        <h3>The Witcher 3</h3>
 
-                    </div>
+</div>
 
 
-                    <div class="game-card">
+</section>
 
-                        <i class="fa-solid fa-flag-checkered"></i>
 
-                        <h3>Forza Horizon 5</h3>
+<!-- =====================================================
+     THEMES
+===================================================== -->
 
-                    </div>
+<section
+    id="themes"
+    class="tab"
+>
 
 
-                </div>
+<div class="section glass">
 
 
-            </div>
+<h2 class="section-title">
 
+<i class="fa-solid fa-palette"></i>
 
-        </section>
+THEMES
 
+</h2>
 
 
-        <!-- =====================================
-             CONTACT
-        ====================================== -->
+<div class="themes-grid">
 
-        <section
-            id="contact"
-            class="tab"
-        >
 
+<button class="theme-button"
+data-primary="#7c8188"
+data-secondary="#e4e8ee">
 
-            <div class="section glass">
+<div class="theme-colors">
 
+<span
+class="theme-color"
+style="background:#7c8188"
+></span>
 
-                <h2 class="section-title">
+<span
+class="theme-color"
+style="background:#e4e8ee"
+></span>
 
-                    <i
-                        class="fa-solid fa-share-nodes"
-                    ></i>
+</div>
 
-                    CONTACT
+رصاصي
 
-                </h2>
+</button>
 
 
-                <div class="contact-grid">
+<button class="theme-button"
+data-primary="#ff3b4f"
+data-secondary="#36d978">
 
+<div class="theme-colors">
 
-                    <a
-                        href="#"
-                        class="contact-card discord-link"
-                    >
+<span
+class="theme-color"
+style="background:#ff3b4f"
+></span>
 
-                        <i
-                            class="fa-brands fa-discord"
-                        ></i>
+<span
+class="theme-color"
+style="background:#36d978"
+></span>
 
-                        <h3>
+</div>
 
-                            Discord
+أحمر × أخضر
 
-                        </h3>
+</button>
 
-                    </a>
 
+<button class="theme-button"
+data-primary="#9d6bff"
+data-secondary="#55dfff">
 
-                    <a
-                        href="#"
-                        class="contact-card tiktok-link"
-                    >
+<div class="theme-colors">
 
-                        <i
-                            class="fa-brands fa-tiktok"
-                        ></i>
+<span
+class="theme-color"
+style="background:#9d6bff"
+></span>
 
-                        <h3>
+<span
+class="theme-color"
+style="background:#55dfff"
+></span>
 
-                            TikTok
+</div>
 
-                        </h3>
+بنفسجي × سماوي
 
-                    </a>
+</button>
 
 
-                    <a
-                        href="#"
-                        class="contact-card spotify-link"
-                    >
+<button class="theme-button"
+data-primary="#2adf84"
+data-secondary="#f4df4e">
 
-                        <i
-                            class="fa-brands fa-spotify"
-                        ></i>
+<div class="theme-colors">
 
-                        <h3>
+<span
+class="theme-color"
+style="background:#2adf84"
+></span>
 
-                            Spotify
+<span
+class="theme-color"
+style="background:#f4df4e"
+></span>
 
-                        </h3>
+</div>
 
-                    </a>
+أخضر × أصفر
 
+</button>
 
-                </div>
 
+<button class="theme-button"
+data-primary="#ff73b8"
+data-secondary="#b078ff">
 
-            </div>
+<div class="theme-colors">
 
+<span
+class="theme-color"
+style="background:#ff73b8"
+></span>
 
-        </section>
+<span
+class="theme-color"
+style="background:#b078ff"
+></span>
 
+</div>
 
+وردي × بنفسجي
 
-        <!-- =====================================
-             MESSAGE
-        ====================================== -->
+</button>
 
-        <section
-            id="message"
-            class="tab"
-        >
 
+<button class="theme-button"
+data-primary="#caff39"
+data-secondary="#ff4d4d">
 
-            <div class="section glass">
+<div class="theme-colors">
 
+<span
+class="theme-color"
+style="background:#caff39"
+></span>
 
-                <h2 class="section-title">
+<span
+class="theme-color"
+style="background:#ff4d4d"
+></span>
 
-                    <i
-                        class="fa-solid fa-paper-plane"
-                    ></i>
+</div>
 
-                    MESSAGE
+ليموني × أحمر
 
-                </h2>
+</button>
 
 
-                <div class="form">
+<button class="theme-button"
+data-primary="#151515"
+data-secondary="#4ce6ff">
 
+<div class="theme-colors">
 
-                    <input
-                        type="text"
-                        id="senderName"
-                        class="input"
-                        placeholder="Your name"
-                        maxlength="60"
-                    >
+<span
+class="theme-color"
+style="background:#151515"
+></span>
 
+<span
+class="theme-color"
+style="background:#4ce6ff"
+></span>
 
-                    <textarea
-                        id="senderMessage"
-                        class="input"
-                        placeholder="Write your message..."
-                        maxlength="1500"
-                    ></textarea>
+</div>
 
+أسود × سماوي
 
-                    <button
-                        class="main-button"
-                        id="sendMessage"
-                        type="button"
-                    >
+</button>
 
-                        SEND MESSAGE
 
-                    </button>
+<button class="theme-button"
+data-primary="#ff9a3d"
+data-secondary="#ffffff">
 
+<div class="theme-colors">
 
-                </div>
+<span
+class="theme-color"
+style="background:#ff9a3d"
+></span>
 
+<span
+class="theme-color"
+style="background:#ffffff"
+></span>
 
-            </div>
+</div>
 
+برتقالي × أبيض
 
-        </section>
+</button>
 
 
+<button class="theme-button"
+data-primary="#8c8f54"
+data-secondary="#f4f3e9">
 
-        <!-- =====================================
-             THEMES
-        ====================================== -->
+<div class="theme-colors">
 
-        <section
-            id="themes"
-            class="tab"
-        >
+<span
+class="theme-color"
+style="background:#8c8f54"
+></span>
 
+<span
+class="theme-color"
+style="background:#f4f3e9"
+></span>
 
-            <div class="section glass">
+</div>
 
+كاكي × أبيض
 
-                <h2 class="section-title">
+</button>
 
-                    <i
-                        class="fa-solid fa-palette"
-                    ></i>
 
-                    THEMES
+<button class="theme-button"
+data-primary="#7f1d3d"
+data-secondary="#ffd44d">
 
-                </h2>
+<div class="theme-colors">
 
+<span
+class="theme-color"
+style="background:#7f1d3d"
+></span>
 
-                <div class="themes-grid">
+<span
+class="theme-color"
+style="background:#ffd44d"
+></span>
 
+</div>
 
-                    <button
-                        class="theme-button"
-                        data-primary="#7c8188"
-                        data-secondary="#e4e8ee"
-                    >
+رماني × أصفر
 
-                        <div class="theme-colors">
+</button>
 
-                            <span
-                                class="theme-color"
-                                style="background:#7c8188"
-                            ></span>
 
-                            <span
-                                class="theme-color"
-                                style="background:#e4e8ee"
-                            ></span>
+</div>
 
-                        </div>
 
-                        رصاصي
+</div>
 
-                    </button>
 
+</section>
 
-                    <button
-                        class="theme-button"
-                        data-primary="#ff3b4f"
-                        data-secondary="#36d978"
-                    >
 
-                        <div class="theme-colors">
+<!-- =====================================================
+     NOTES
+===================================================== -->
 
-                            <span
-                                class="theme-color"
-                                style="background:#ff3b4f"
-                            ></span>
+<section
+    id="notes"
+    class="tab"
+>
 
-                            <span
-                                class="theme-color"
-                                style="background:#36d978"
-                            ></span>
 
-                        </div>
+<div class="section glass">
 
-                        أحمر × أخضر
 
-                    </button>
+<h2 class="section-title">
 
+<i class="fa-solid fa-bell"></i>
 
-                    <button
-                        class="theme-button"
-                        data-primary="#9d6bff"
-                        data-secondary="#55dfff"
-                    >
+NOTES & NOTIFICATIONS
 
-                        <div class="theme-colors">
+</h2>
 
-                            <span
-                                class="theme-color"
-                                style="background:#9d6bff"
-                            ></span>
 
-                            <span
-                                class="theme-color"
-                                style="background:#55dfff"
-                            ></span>
+<div class="notes-grid">
 
-                        </div>
 
-                        بنفسجي × سماوي
+<div class="form">
 
-                    </button>
 
+<textarea
+    id="noteText"
+    class="input"
+    placeholder="اكتب ملاحظة..."
+></textarea>
 
-                    <button
-                        class="theme-button"
-                        data-primary="#2adf84"
-                        data-secondary="#f4df4e"
-                    >
 
-                        <div class="theme-colors">
+<button
+    class="main-button"
+    id="publishNote"
+    type="button"
+>
 
-                            <span
-                                class="theme-color"
-                                style="background:#2adf84"
-                            ></span>
+PUBLISH NOTE
 
-                            <span
-                                class="theme-color"
-                                style="background:#f4df4e"
-                            ></span>
+</button>
 
-                        </div>
 
-                        أخضر × أصفر
+</div>
 
-                    </button>
 
+<div
+    class="notes-feed"
+    id="notesFeed"
+></div>
 
-                    <button
-                        class="theme-button"
-                        data-primary="#ff73b8"
-                        data-secondary="#b078ff"
-                    >
 
-                        <div class="theme-colors">
+</div>
 
-                            <span
-                                class="theme-color"
-                                style="background:#ff73b8"
-                            ></span>
 
-                            <span
-                                class="theme-color"
-                                style="background:#b078ff"
-                            ></span>
+</div>
 
-                        </div>
 
-                        وردي × بنفسجي
+</section>
 
-                    </button>
 
+<!-- =====================================================
+     CUSTOMIZE
+===================================================== -->
 
-                    <button
-                        class="theme-button"
-                        data-primary="#caff39"
-                        data-secondary="#ff4d4d"
-                    >
+<section
+    id="customize"
+    class="tab"
+>
 
-                        <div class="theme-colors">
 
-                            <span
-                                class="theme-color"
-                                style="background:#caff39"
-                            ></span>
+<div class="section glass">
 
-                            <span
-                                class="theme-color"
-                                style="background:#ff4d4d"
-                            ></span>
 
-                        </div>
+<h2 class="section-title">
 
-                        ليموني × أحمر
+<i class="fa-solid fa-wand-magic-sparkles"></i>
 
-                    </button>
+CUSTOMIZE MOKO
 
+</h2>
 
-                    <button
-                        class="theme-button"
-                        data-primary="#151515"
-                        data-secondary="#4ce6ff"
-                    >
 
-                        <div class="theme-colors">
+<div class="custom-grid">
 
-                            <span
-                                class="theme-color"
-                                style="background:#151515"
-                            ></span>
 
-                            <span
-                                class="theme-color"
-                                style="background:#4ce6ff"
-                            ></span>
+<!-- RGB -->
 
-                        </div>
+<div class="custom-card">
 
-                        أسود × سماوي
+<h3>
 
-                    </button>
+<i class="fa-solid fa-rainbow"></i>
 
+RGB LIGHTING
 
-                    <button
-                        class="theme-button"
-                        data-primary="#ff9a3d"
-                        data-secondary="#ffffff"
-                    >
+</h3>
 
-                        <div class="theme-colors">
 
-                            <span
-                                class="theme-color"
-                                style="background:#ff9a3d"
-                            ></span>
+<div class="custom-row">
 
-                            <span
-                                class="theme-color"
-                                style="background:#ffffff"
-                            ></span>
+<label>
 
-                        </div>
+تشغيل RGB
 
-                        برتقالي × أبيض
+</label>
 
-                    </button>
 
+<label class="switch">
 
-                    <button
-                        class="theme-button"
-                        data-primary="#8c8f54"
-                        data-secondary="#f4f3e9"
-                    >
+<input
+    type="checkbox"
+    id="rgbToggle"
+>
 
-                        <div class="theme-colors">
+<span class="slider"></span>
 
-                            <span
-                                class="theme-color"
-                                style="background:#8c8f54"
-                            ></span>
+</label>
 
-                            <span
-                                class="theme-color"
-                                style="background:#f4f3e9"
-                            ></span>
+</div>
 
-                        </div>
 
-                        كاكي × أبيض
+<div class="custom-row">
 
-                    </button>
+<label>
 
+سرعة RGB
 
-                    <button
-                        class="theme-button"
-                        data-primary="#7f1d3d"
-                        data-secondary="#ffd44d"
-                    >
+</label>
 
-                        <div class="theme-colors">
+<select
+    class="custom-select"
+    id="rgbSpeed"
+>
 
-                            <span
-                                class="theme-color"
-                                style="background:#7f1d3d"
-                            ></span>
+<option value="slow">
+بطيء
+</option>
 
-                            <span
-                                class="theme-color"
-                                style="background:#ffd44d"
-                            ></span>
+<option value="normal">
+متوسط
+</option>
 
-                        </div>
+<option value="fast">
+سريع
+</option>
 
-                        رماني × أصفر
+</select>
 
-                    </button>
+</div>
 
 
-                </div>
+</div>
 
 
-            </div>
+<!-- CARD LIGHT -->
 
+<div class="custom-card">
 
-        </section>
+<h3>
 
+<i class="fa-solid fa-gem"></i>
 
+CARD LIGHT
 
-        <!-- =====================================
-             NOTES
-        ====================================== -->
+</h3>
 
-        <section
-            id="notes"
-            class="tab"
-        >
 
+<div class="custom-row">
 
-            <div class="section glass">
+<label>
 
+إضاءة الحواف
 
-                <h2 class="section-title">
+</label>
 
-                    <i
-                        class="fa-solid fa-bell"
-                    ></i>
 
-                    NOTES & NOTIFICATIONS
+<label class="switch">
 
-                </h2>
+<input
+    type="checkbox"
+    id="cardGlowToggle"
+    checked
+>
 
+<span class="slider"></span>
 
-                <div class="notes-grid">
+</label>
 
+</div>
 
-                    <div class="form">
 
+<div class="custom-row">
 
-                        <textarea
-                            id="noteText"
-                            class="input"
-                            placeholder="اكتب ملاحظة..."
-                        ></textarea>
+<label>
 
+قوة الإضاءة
 
-                        <button
-                            class="main-button"
-                            id="publishNote"
-                            type="button"
-                        >
+</label>
 
-                            PUBLISH NOTE
+<input
+    class="range"
+    type="range"
+    id="glowStrength"
+    min="0"
+    max="1"
+    step=".05"
+    value=".55"
+>
 
-                        </button>
+</div>
 
 
-                    </div>
+<div class="custom-row">
 
+<label>
 
-                    <div
-                        class="notes-feed"
-                        id="notesFeed"
-                    ></div>
+شكل الكارد
 
+</label>
 
-                </div>
+<select
+    class="custom-select"
+    id="cardStyle"
+>
 
+<option value="normal">
+Luxury Glass
+</option>
 
-            </div>
+<option value="soft">
+Soft Glass
+</option>
 
+<option value="crystal">
+Crystal
+</option>
 
-        </section>
+<option value="dark">
+Dark Glass
+</option>
 
+<option value="neon">
+Neon Glass
+</option>
 
+<option value="frost">
+Frosted Glass
+</option>
 
-        <footer>
+</select>
 
-            © MOKO — MY SMALL WORLD
+</div>
 
-        </footer>
 
+</div>
 
-    </main>
 
+<!-- FONT -->
 
+<div class="custom-card">
 
-    <!-- TOAST -->
+<h3>
 
-    <div
-        class="toast"
-        id="toast"
-    ></div>
+<i class="fa-solid fa-font"></i>
 
+FONTS
 
+</h3>
 
-    <script>
 
+<div class="custom-row">
 
-        /* =========================================
-           CONFIGURATION
-        ========================================= */
+<label>
 
-        const CONFIG = {
+الخط
 
+</label>
 
-            /*
-                =====================================
-                DISCORD WEBHOOK
-                =====================================
+<select
+    class="custom-select"
+    id="fontSelect"
+>
 
-                ضع رابط Webhook الخاص ببوت Discord هنا.
+<option value="El Messiri">
+El Messiri
+</option>
 
-                مثال:
+<option value="Cairo">
+Cairo
+</option>
 
-                DISCORD_WEBHOOK_URL:
-                "https://discord.com/api/webhooks/..."
+<option value="Tajawal">
+Tajawal
+</option>
 
-            */
+<option value="Changa">
+Changa
+</option>
 
-            DISCORD_WEBHOOK_URL:
+<option value="Noto Kufi Arabic">
+Noto Kufi Arabic
+</option>
 
-                "ضع_رابط_Discord_Webhook_هنا",
+<option value="IBM Plex Sans Arabic">
+IBM Plex Sans Arabic
+</option>
 
+</select>
 
-            /*
-                رابط حساب Discord.
-            */
+</div>
 
-            DISCORD_URL:
 
-                "https://discord.com/users/...",
+<div class="preview-box">
 
+<div
+    class="font-preview"
+    id="fontPreview"
+>
 
-            /*
-                رابط TikTok.
-            */
+MOKO — عالمي الصغير
 
-            TIKTOK_URL:
+</div>
 
-                "https://www.tiktok.com/@00.tnt?_r=1&_t=ZS-99NKTBwtg6k",
+</div>
 
 
-            /*
-                رابط Spotify.
-            */
+</div>
 
-            SPOTIFY_URL:
 
-                "https://open.spotify.com/user/31rcvnqojr2aqaulzb77jqv5u7de",
+<!-- FONT COLOR -->
 
+<div class="custom-card">
 
-            /*
-                Backend اختياري.
-            */
+<h3>
 
-            API_URL:
+<i class="fa-solid fa-fill-drip"></i>
 
-                ""
+FONT COLOR
+
+</h3>
+
+
+<div class="custom-row">
+
+<label>
+
+لون الخط
+
+</label>
+
+
+<input
+    type="color"
+    class="color-picker"
+    id="fontColor"
+    value="#ffffff"
+>
+
+</div>
+
+
+<div class="custom-row">
+
+<label>
+
+لون رئيسي
+
+</label>
+
+
+<input
+    type="color"
+    class="color-picker"
+    id="primaryColor"
+    value="#9da3ad"
+>
+
+</div>
+
+
+<div class="custom-row">
+
+<label>
+
+لون ثانوي
+
+</label>
+
+
+<input
+    type="color"
+    class="color-picker"
+    id="secondaryColor"
+    value="#eef1f5"
+>
+
+</div>
+
+
+</div>
+
+
+<!-- FONT EFFECT -->
+
+<div class="custom-card">
+
+<h3>
+
+<i class="fa-solid fa-sparkles"></i>
+
+FONT EFFECT
+
+</h3>
+
+
+<div class="custom-row">
+
+<label>
+
+تأثير النص
+
+</label>
+
+
+<select
+    class="custom-select"
+    id="fontEffect"
+>
+
+<option value="normal">
+Normal
+</option>
+
+<option value="glow">
+Glow
+</option>
+
+<option value="neon">
+Neon
+</option>
+
+<option value="shimmer">
+Shimmer
+</option>
+
+<option value="rgb">
+RGB
+</option>
+
+<option value="metal">
+Metal
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<!-- ICON -->
+
+<div class="custom-card">
+
+<h3>
+
+<i class="fa-solid fa-icons"></i>
+
+ICON LIGHT
+
+</h3>
+
+
+<div class="custom-row">
+
+<label>
+
+إضاءة الأيقونات
+
+</label>
+
+
+<label class="switch">
+
+<input
+    type="checkbox"
+    id="iconGlowToggle"
+    checked
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+
+<div class="custom-row">
+
+<label>
+
+قوة اللمعة
+
+</label>
+
+<input
+    class="range"
+    type="range"
+    id="iconStrength"
+    min="0"
+    max="2"
+    step=".1"
+    value="1"
+>
+
+</div>
+
+
+</div>
+
+
+<!-- CLICK -->
+
+<div class="custom-card">
+
+<h3>
+
+<i class="fa-solid fa-hand-pointer"></i>
+
+CLICK EFFECT
+
+</h3>
+
+
+<div class="custom-row">
+
+<label>
+
+نمط النقر
+
+</label>
+
+
+<select
+    class="custom-select"
+    id="clickEffect"
+>
+
+<option value="ripple">
+01 — Ripple
+</option>
+
+<option value="ring">
+02 — Neon Ring
+</option>
+
+<option value="burst">
+03 — Glow Burst
+</option>
+
+<option value="glow">
+04 — Light Glow
+</option>
+
+<option value="shock">
+05 — Shockwave
+</option>
+
+<option value="dot">
+06 — Energy Dot
+</option>
+
+<option value="pulse">
+07 — Pulse
+</option>
+
+<option value="scan">
+08 — Light Scan
+</option>
+
+<option value="star">
+09 — Star
+</option>
+
+<option value="none">
+10 — Disabled
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<!-- CLICK SPEED -->
+
+<div class="custom-card">
+
+<h3>
+
+<i class="fa-solid fa-bolt"></i>
+
+INTERACTION
+
+</h3>
+
+
+<div class="custom-row">
+
+<label>
+
+تأثير الانتقال
+
+</label>
+
+
+<label class="switch">
+
+<input
+    type="checkbox"
+    id="transitionToggle"
+    checked
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+
+<div class="custom-row">
+
+<label>
+
+حساسية اللمعة
+
+</label>
+
+<input
+    class="range"
+    type="range"
+    id="transitionSpeed"
+    min=".2"
+    max="1"
+    step=".1"
+    value=".6"
+>
+
+</div>
+
+
+</div>
+
+
+<!-- RESET -->
+
+<div class="custom-card">
+
+<h3>
+
+<i class="fa-solid fa-rotate-left"></i>
+
+RESET
+
+</h3>
+
+
+<p
+    style="
+    color:var(--muted);
+    line-height:1.8;
+    margin-bottom:15px;
+    "
+>
+
+إرجاع جميع إعدادات MOKO
+إلى الشكل الافتراضي.
+
+</p>
+
+
+<button
+    class="main-button"
+    id="resetCustomization"
+    type="button"
+>
+
+RESET MOKO
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<footer>
+
+© MOKO — MY SMALL WORLD
+
+</footer>
+
+
+</main>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const CONFIG = {
+
+    DISCORD_WEBHOOK_URL:
+        "ضع_رابط_Discord_Webhook_هنا",
+
+    DISCORD_URL:
+        "https://discord.com/users/...",
+
+    TIKTOK_URL:
+        "https://www.tiktok.com/@00.tnt",
+
+    SPOTIFY_URL:
+        "https://open.spotify.com/user/31rcvnqojr2aqaulzb77jqv5u7de",
+
+    API_URL:
+        ""
+
+};
+
+
+/* =====================================================
+   SHORTCUT
+===================================================== */
+
+const $ = selector =>
+    document.querySelector(selector);
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    const toast =
+        $("#toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* =====================================================
+   COPY / DRAG
+===================================================== */
+
+document.addEventListener(
+    "copy",
+    event => {
+
+        event.preventDefault();
+
+        showToast(
+            "Text copying is disabled"
+        );
+
+    }
+);
+
+
+document.addEventListener(
+    "dragstart",
+    event => {
+
+        event.preventDefault();
+
+    }
+);
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+const navigationButtons =
+    document.querySelectorAll(
+        ".nav-button"
+    );
+
+
+const tabs =
+    document.querySelectorAll(
+        ".tab"
+    );
+
+
+let currentTab =
+    document.querySelector(
+        ".tab.active"
+    );
+
+
+navigationButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const tabId =
+                button.dataset.tab;
+
+
+            navigationButtons.forEach(item => {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            if(
+                currentTab &&
+                currentTab.id !== tabId
+            ){
+
+                currentTab.classList.add(
+                    "tab-leaving"
+                );
+
+                setTimeout(() => {
+
+                    currentTab.classList.remove(
+                        "tab-leaving"
+                    );
+
+                },250);
+
+            }
+
+
+            tabs.forEach(tab => {
+
+                tab.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            const nextTab =
+                document.getElementById(
+                    tabId
+                );
+
+
+            nextTab.classList.add(
+                "active"
+            );
+
+
+            currentTab =
+                nextTab;
+
+
+            button.classList.remove(
+                "ripple"
+            );
+
+
+            void button.offsetWidth;
+
+
+            button.classList.add(
+                "ripple"
+            );
+
+
+            window.scrollTo({
+
+                top:0,
+
+                behavior:"smooth"
+
+            });
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   SOCIAL LINKS
+===================================================== */
+
+document
+    .querySelectorAll(".discord-link")
+    .forEach(element => {
+
+        element.href =
+            CONFIG.DISCORD_URL;
+
+    });
+
+
+document
+    .querySelectorAll(".tiktok-link")
+    .forEach(element => {
+
+        element.href =
+            CONFIG.TIKTOK_URL;
+
+    });
+
+
+document
+    .querySelectorAll(".spotify-link")
+    .forEach(element => {
+
+        element.href =
+            CONFIG.SPOTIFY_URL;
+
+    });
+
+
+/* =====================================================
+   VISITOR ID
+===================================================== */
+
+const VISITOR_KEY =
+    "MOKO_VISITOR_ID";
+
+
+let visitorId =
+    localStorage.getItem(
+        VISITOR_KEY
+    );
+
+
+if(!visitorId){
+
+    visitorId =
+        crypto?.randomUUID
+        ?
+        crypto.randomUUID()
+        :
+        Math.random()
+            .toString(36)
+            .substring(2)
+        +
+        Date.now();
+
+    localStorage.setItem(
+        VISITOR_KEY,
+        visitorId
+    );
+
+}
+
+
+/* =====================================================
+   VISITS
+===================================================== */
+
+const visitCountKey =
+    "MOKO_VISIT_COUNT_" +
+    visitorId;
+
+
+let visitCount =
+    Number(
+        localStorage.getItem(
+            visitCountKey
+        ) || 0
+    );
+
+
+visitCount++;
+
+
+localStorage.setItem(
+    visitCountKey,
+    visitCount
+);
+
+
+if($("#homeVisitCount")){
+
+    $("#homeVisitCount")
+        .textContent =
+        visitCount;
+
+}
+
+
+/* =====================================================
+   CLOCK
+===================================================== */
+
+function updateClock(){
+
+    const clock =
+        $("#liveClock");
+
+    if(!clock)
+        return;
+
+    clock.textContent =
+        new Date()
+        .toLocaleTimeString(
+            "en-US",
+            {
+                hour12:true
+            }
+        );
+
+}
+
+
+updateClock();
+
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* =====================================================
+   VISIT NOTIFICATION
+===================================================== */
+
+async function sendVisitNotification(){
+
+    if(
+        !CONFIG.DISCORD_WEBHOOK_URL ||
+        CONFIG.DISCORD_WEBHOOK_URL
+        ===
+        "ضع_رابط_Discord_Webhook_هنا"
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const now =
+            new Date();
+
+
+        const payload = {
+
+            username:
+                "MOKO WEBSITE",
+
+            embeds:[{
+
+                title:
+                    "👀 زائر جديد دخل موقع MOKO",
+
+                color:
+                    10332333,
+
+                fields:[
+
+                    {
+                        name:
+                            "🌐 الموقع",
+
+                        value:
+                            "MOKO",
+
+                        inline:true
+                    },
+
+                    {
+                        name:
+                            "🕒 الوقت",
+
+                        value:
+                            now.toLocaleString(
+                                "ar-IQ"
+                            ),
+
+                        inline:true
+                    },
+
+                    {
+                        name:
+                            "🆔 Visitor ID",
+
+                        value:
+                            visitorId,
+
+                        inline:false
+                    },
+
+                    {
+                        name:
+                            "📱 المتصفح",
+
+                        value:
+                            (
+                                navigator.userAgent
+                                ||
+                                "Unknown"
+                            ).slice(0,1024),
+
+                        inline:false
+                    },
+
+                    {
+                        name:
+                            "💻 النظام",
+
+                        value:
+                            navigator.platform
+                            ||
+                            "Unknown",
+
+                        inline:true
+                    },
+
+                    {
+                        name:
+                            "🖥️ الشاشة",
+
+                        value:
+                            `${screen.width} × ${screen.height}`,
+
+                        inline:true
+                    },
+
+                    {
+                        name:
+                            "🌍 اللغة",
+
+                        value:
+                            navigator.language
+                            ||
+                            "Unknown",
+
+                        inline:true
+                    }
+
+                ],
+
+                footer:{
+
+                    text:
+                        "MOKO • My Small World"
+
+                },
+
+                timestamp:
+                    now.toISOString()
+
+            }]
 
         };
 
 
+        await fetch(
+            CONFIG.DISCORD_WEBHOOK_URL,
+            {
 
-        /* =========================================
-           SHORTCUT
-        ========================================= */
+                method:"POST",
 
-        const $ = selector =>
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
 
-            document.querySelector(selector);
+                body:
+                    JSON.stringify(
+                        payload
+                    )
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.log(
+            "Visit notification error"
+        );
+
+    }
+
+}
 
 
-
-        /* =========================================
-           TOAST
-        ========================================= */
-
-        function showToast(message) {
+sendVisitNotification();
 
 
-            const toast =
+/* =====================================================
+   MESSAGE → DISCORD
+===================================================== */
 
-                $("#toast");
+$("#sendMessage")
+.addEventListener(
+    "click",
+    async () => {
+
+        const name =
+            $("#senderName")
+            .value
+            .trim();
 
 
-            toast.textContent =
+        const message =
+            $("#senderMessage")
+            .value
+            .trim();
 
-                message;
 
+        if(
+            !name ||
+            !message
+        ){
 
-            toast.classList.add(
-
-                "show"
-
+            showToast(
+                "أكمل الاسم والرسالة"
             );
 
+            return;
 
-            setTimeout(
+        }
 
-                () => {
 
-                    toast.classList.remove(
+        if(
+            !CONFIG.DISCORD_WEBHOOK_URL ||
+            CONFIG.DISCORD_WEBHOOK_URL
+            ===
+            "ضع_رابط_Discord_Webhook_هنا"
+        ){
 
-                        "show"
+            showToast(
+                "ضع رابط Discord Webhook أولاً"
+            );
 
-                    );
+            return;
+
+        }
+
+
+        const button =
+            $("#sendMessage");
+
+
+        button.disabled =
+            true;
+
+
+        button.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
+
+
+        const now =
+            new Date();
+
+
+        const payload = {
+
+            username:
+                "MOKO WEBSITE",
+
+            embeds:[{
+
+                title:
+                    "📩 رسالة جديدة من موقع MOKO",
+
+                color:
+                    10332333,
+
+                fields:[
+
+                    {
+                        name:
+                            "👤 الاسم",
+
+                        value:
+                            name.slice(
+                                0,
+                                1024
+                            ),
+
+                        inline:false
+                    },
+
+                    {
+                        name:
+                            "💬 الرسالة",
+
+                        value:
+                            message.slice(
+                                0,
+                                1024
+                            ),
+
+                        inline:false
+                    },
+
+                    {
+                        name:
+                            "🌐 الموقع",
+
+                        value:
+                            "MOKO",
+
+                        inline:true
+                    },
+
+                    {
+                        name:
+                            "🕒 الوقت",
+
+                        value:
+                            now.toLocaleString(
+                                "ar-IQ"
+                            ),
+
+                        inline:true
+                    }
+
+                ],
+
+                footer:{
+
+                    text:
+                        "MOKO • My Small World"
 
                 },
 
-                3000
+                timestamp:
+                    now.toISOString()
 
-            );
+            }]
 
-        }
-
-
-
-        /* =========================================
-           DISABLE COPY
-        ========================================= */
-
-        document.addEventListener(
-
-            "copy",
-
-            event => {
-
-                event.preventDefault();
-
-                showToast(
-                    "Text copying is disabled"
-                );
-
-            }
-
-        );
+        };
 
 
-        document.addEventListener(
+        try{
 
-            "dragstart",
+            const response =
+                await fetch(
+                    CONFIG.DISCORD_WEBHOOK_URL,
+                    {
 
-            event => {
+                        method:"POST",
 
-                event.preventDefault();
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
 
-            }
-
-        );
-
-
-
-        /* =========================================
-           NAVIGATION
-        ========================================= */
-
-        const navigationButtons =
-
-            document.querySelectorAll(
-
-                ".nav-button"
-
-            );
-
-
-        const tabs =
-
-            document.querySelectorAll(
-
-                ".tab"
-
-            );
-
-
-        navigationButtons.forEach(
-
-            button => {
-
-                button.addEventListener(
-
-                    "click",
-
-                    () => {
-
-                        const tabId =
-
-                            button.dataset.tab;
-
-
-                        navigationButtons.forEach(
-
-                            item => {
-
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-
-                        );
-
-
-                        tabs.forEach(
-
-                            tab => {
-
-                                tab.classList.remove(
-                                    "active"
-                                );
-
-                            }
-
-                        );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        document
-                            .getElementById(tabId)
-                            .classList
-                            .add("active");
-
-
-                        window.scrollTo({
-
-                            top: 0,
-
-                            behavior: "smooth"
-
-                        });
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
 
                     }
+                );
 
+
+            if(!response.ok){
+
+                throw new Error(
+                    "Webhook failed"
                 );
 
             }
 
+
+            $("#senderMessage")
+                .value = "";
+
+
+            showToast(
+                "تم إرسال رسالتك إلى Discord ✓"
+            );
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            showToast(
+                "فشل إرسال الرسالة إلى Discord"
+            );
+
+        }
+        finally{
+
+            button.disabled =
+                false;
+
+            button.innerHTML =
+                "SEND MESSAGE";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MUSIC
+===================================================== */
+
+const audio =
+    $("#mokoAudio");
+
+
+const playMusic =
+    $("#playMusic");
+
+
+const pauseMusic =
+    $("#pauseMusic");
+
+
+if(audio){
+
+    audio.addEventListener(
+        "error",
+        () => {
+
+            showToast(
+                "تأكد أن JJ.mp3 موجود بجانب index.html"
+            );
+
+        }
+    );
+
+}
+
+
+if(playMusic){
+
+    playMusic.addEventListener(
+        "click",
+        async () => {
+
+            try{
+
+                await audio.play();
+
+            }
+            catch(error){
+
+                showToast(
+                    "تعذر تشغيل الموسيقى"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+if(pauseMusic){
+
+    pauseMusic.addEventListener(
+        "click",
+        () => {
+
+            audio.pause();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SHARED NOTES
+===================================================== */
+
+const NOTES_KEY =
+    "MOKO_SOLO_SHARED_NOTES";
+
+
+function getNotes(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                NOTES_KEY
+            ) || "[]"
         );
 
+    }
+    catch{
+
+        return [];
+
+    }
+
+}
 
 
-        /* =========================================
-           SOCIAL LINKS
-        ========================================= */
+function escapeHTML(text){
 
-        document
-            .querySelectorAll(
-                ".discord-link"
-            )
-            .forEach(
+    const element =
+        document.createElement(
+            "div"
+        );
 
-                element => {
+    element.textContent =
+        text;
 
-                    element.href =
-                        CONFIG.DISCORD_URL;
+    return element.innerHTML;
 
-                }
+}
 
+
+function renderNotes(){
+
+    const notes =
+        getNotes();
+
+
+    const feed =
+        $("#notesFeed");
+
+
+    feed.innerHTML =
+        "";
+
+
+    if(!notes.length){
+
+        feed.innerHTML = `
+
+            <div class="note-item">
+
+                لا توجد ملاحظات حالياً
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    notes.forEach(note => {
+
+        const item =
+            document.createElement(
+                "div"
             );
 
 
-        document
-            .querySelectorAll(
-                ".tiktok-link"
-            )
-            .forEach(
+        item.className =
+            "note-item";
 
-                element => {
 
-                    element.href =
-                        CONFIG.TIKTOK_URL;
+        item.innerHTML = `
 
-                }
+            <div>
 
+                ${escapeHTML(
+                    note.text
+                )}
+
+            </div>
+
+            <span class="note-time">
+
+                ${new Date(
+                    note.time
+                ).toLocaleString()}
+
+                —
+
+                ${escapeHTML(
+                    note.site
+                )}
+
+            </span>
+
+        `;
+
+
+        feed.appendChild(
+            item
+        );
+
+    });
+
+}
+
+
+$("#publishNote")
+.addEventListener(
+    "click",
+    () => {
+
+        const text =
+            $("#noteText")
+            .value
+            .trim();
+
+
+        if(!text){
+
+            showToast(
+                "اكتب الملاحظة أولاً"
             );
 
-
-        document
-            .querySelectorAll(
-                ".spotify-link"
-            )
-            .forEach(
-
-                element => {
-
-                    element.href =
-                        CONFIG.SPOTIFY_URL;
-
-                }
-
-            );
-
-
-
-        /* =========================================
-           VISITOR IDENTIFIER
-        ========================================= */
-
-        const VISITOR_KEY =
-
-            "MOKO_VISITOR_ID";
-
-
-        let visitorId =
-
-            localStorage.getItem(
-                VISITOR_KEY
-            );
-
-
-        if (!visitorId) {
-
-
-            if (
-                crypto &&
-                crypto.randomUUID
-            ) {
-
-                visitorId =
-                    crypto.randomUUID();
-
-            }
-
-            else {
-
-                visitorId =
-
-                    Math.random()
-                        .toString(36)
-                        .substring(2)
-
-                    +
-
-                    Date.now();
-
-            }
-
-
-            localStorage.setItem(
-
-                VISITOR_KEY,
-
-                visitorId
-
-            );
+            return;
 
         }
 
 
-
-        /* =========================================
-           VISIT COUNT
-        ========================================= */
-
-        const visitCountKey =
-
-            "MOKO_VISIT_COUNT_"
-
-            +
-
-            visitorId;
+        const notes =
+            getNotes();
 
 
-        let visitCount =
+        notes.unshift({
 
-            Number(
+            text:text,
 
-                localStorage.getItem(
-                    visitCountKey
-                )
-                ||
-                0
+            site:"MOKO",
 
-            );
+            time:
+                new Date()
+                .toISOString()
 
-
-        visitCount++;
+        });
 
 
         localStorage.setItem(
-
-            visitCountKey,
-
-            visitCount
-
+            NOTES_KEY,
+            JSON.stringify(
+                notes
+            )
         );
 
 
-        if ($("#homeVisitCount")) {
-
-            $("#homeVisitCount")
-                .textContent =
-                visitCount;
-
-        }
-
-
-
-        /* =========================================
-           LIVE CLOCK
-        ========================================= */
-
-        function updateClock() {
-
-
-            const clock =
-
-                $("#liveClock");
-
-
-            if (!clock) {
-
-                return;
-
-            }
-
-
-            const now =
-
-                new Date();
-
-
-            clock.textContent =
-
-                now.toLocaleTimeString(
-                    "en-US",
-                    {
-                        hour12: true
-                    }
-                );
-
-        }
-
-
-        updateClock();
-
-
-        setInterval(
-
-            updateClock,
-
-            1000
-
-        );
-
-
-
-        /* =========================================
-           SEND VISIT TO BACKEND
-        ========================================= */
-
-        async function sendVisitNotification() {
-
-
-            if (!CONFIG.API_URL) {
-
-                return;
-
-            }
-
-
-            try {
-
-                await fetch(
-
-                    CONFIG.API_URL
-                    +
-                    "/visit",
-
-                    {
-
-                        method:
-                            "POST",
-
-                        headers:
-                            {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                        body:
-                            JSON.stringify({
-
-                                site:
-                                    "MOKO",
-
-                                visitorId:
-                                    visitorId,
-
-                                visitCount:
-                                    visitCount,
-
-                                time:
-                                    new Date()
-                                        .toISOString()
-
-                            })
-
-                    }
-
-                );
-
-            }
-
-            catch (error) {
-
-                console.log(
-                    "Visit notification error"
-                );
-
-            }
-
-        }
-
-
-        sendVisitNotification();
-
-
-
-        /* =========================================
-           MESSAGE → DISCORD WEBHOOK
-        ========================================= */
-
-        $("#sendMessage")
-            .addEventListener(
-
-                "click",
-
-                async () => {
-
-
-                    const name =
-
-                        $("#senderName")
-                            .value
-                            .trim();
-
-
-                    const message =
-
-                        $("#senderMessage")
-                            .value
-                            .trim();
-
-
-                    if (
-                        !name ||
-                        !message
-                    ) {
-
-                        showToast(
-                            "أكمل الاسم والرسالة"
-                        );
-
-                        return;
-
-                    }
-
-
-                    if (
-                        !CONFIG.DISCORD_WEBHOOK_URL
-                        ||
-                        CONFIG.DISCORD_WEBHOOK_URL
-                            ===
-                        "ضع_رابط_Discord_Webhook_هنا"
-                    ) {
-
-                        showToast(
-                            "ضع رابط Discord Webhook أولاً"
-                        );
-
-                        return;
-
-                    }
-
-
-                    const button =
-
-                        $("#sendMessage");
-
-
-                    button.disabled = true;
-
-
-                    button.innerHTML =
-
-                        '<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
-
-
-                    const now =
-
-                        new Date();
-
-
-                    const discordPayload = {
-
-
-                        username:
-
-                            "MOKO WEBSITE",
-
-
-                        avatar_url:
-
-                            "https://cdn.discordapp.com/embed/avatars/0.png",
-
-
-                        embeds: [
-
-                            {
-
-                                title:
-                                    "📩 رسالة جديدة من موقع MOKO",
-
-
-                                color:
-                                    10332333,
-
-
-                                fields: [
-
-                                    {
-
-                                        name:
-                                            "👤 الاسم",
-
-                                        value:
-                                            name,
-
-                                        inline:
-                                            false
-
-                                    },
-
-                                    {
-
-                                        name:
-                                            "💬 الرسالة",
-
-                                        value:
-                                            message,
-
-                                        inline:
-                                            false
-
-                                    },
-
-                                    {
-
-                                        name:
-                                            "🌐 الموقع",
-
-                                        value:
-                                            "MOKO",
-
-                                        inline:
-                                            true
-
-                                    },
-
-                                    {
-
-                                        name:
-                                            "🕒 الوقت",
-
-                                        value:
-                                            now.toLocaleString(
-                                                "ar-IQ"
-                                            ),
-
-                                        inline:
-                                            true
-
-                                    }
-
-                                ],
-
-
-                                footer: {
-
-                                    text:
-                                        "MOKO • My Small World"
-
-                                },
-
-                                timestamp:
-                                    now.toISOString()
-
-                            }
-
-                        ]
-
-                    };
-
-
-                    try {
-
-
-                        const response =
-
-                            await fetch(
-
-                                CONFIG.DISCORD_WEBHOOK_URL,
-
-                                {
-
-                                    method:
-                                        "POST",
-
-                                    headers: {
-
-                                        "Content-Type":
-                                            "application/json"
-
-                                    },
-
-                                    body:
-                                        JSON.stringify(
-                                            discordPayload
-                                        )
-
-                                }
-
-                            );
-
-
-                        if (!response.ok) {
-
-                            throw new Error(
-                                "Discord webhook failed"
-                            );
-
-                        }
-
-
-                        $("#senderMessage")
-                            .value = "";
-
-
-                        showToast(
-                            "تم إرسال رسالتك إلى Discord ✓"
-                        );
-
-
-                    }
-
-                    catch (error) {
-
-
-                        console.error(
-                            "Discord Webhook Error:",
-                            error
-                        );
-
-
-                        showToast(
-                            "فشل إرسال الرسالة إلى Discord"
-                        );
-
-
-                    }
-
-                    finally {
-
-
-                        button.disabled = false;
-
-
-                        button.innerHTML =
-                            "SEND MESSAGE";
-
-
-                    }
-
-
-                }
-
-            );
-
-
-
-        /* =========================================
-           MUSIC — JJ.mp3
-        ========================================= */
-
-        const audio =
-
-            $("#mokoAudio");
-
-
-        const playMusic =
-
-            $("#playMusic");
-
-
-        const pauseMusic =
-
-            $("#pauseMusic");
-
-
-        if (audio) {
-
-
-            audio.addEventListener(
-
-                "error",
-
-                () => {
-
-                    showToast(
-                        "تعذر تشغيل JJ.mp3 — تأكد أن الملف بنفس مجلد index.html"
-                    );
-
-                }
-
-            );
-
-
-            audio.addEventListener(
-
-                "canplay",
-
-                () => {
-
-                    console.log(
-                        "JJ.mp3 loaded successfully"
-                    );
-
-                }
-
-            );
-
-        }
-
-
-        if (playMusic) {
-
-
-            playMusic.addEventListener(
-
-                "click",
-
-                async () => {
-
-                    try {
-
-                        await audio.play();
-
-                    }
-
-                    catch (error) {
-
-                        console.error(
-                            "Audio play error:",
-                            error
-                        );
-
-                        showToast(
-                            "تعذر تشغيل الموسيقى"
-                        );
-
-                    }
-
-                }
-
-            );
-
-        }
-
-
-        if (pauseMusic) {
-
-
-            pauseMusic.addEventListener(
-
-                "click",
-
-                () => {
-
-                    audio.pause();
-
-                }
-
-            );
-
-        }
-
-
-
-        /* =========================================
-           NOTES
-        ========================================= */
-
-        const NOTES_KEY =
-
-            "MOKO_SOLO_SHARED_NOTES";
-
-
-        function getNotes() {
-
-
-            try {
-
-                return JSON.parse(
-
-                    localStorage.getItem(
-                        NOTES_KEY
-                    )
-                    ||
-                    "[]"
-
-                );
-
-            }
-
-            catch (error) {
-
-                return [];
-
-            }
-
-        }
-
-
-        function escapeHTML(text) {
-
-
-            const element =
-
-                document.createElement(
-                    "div"
-                );
-
-
-            element.textContent =
-                text;
-
-
-            return element.innerHTML;
-
-        }
-
-
-        function renderNotes() {
-
-
-            const notes =
-
-                getNotes();
-
-
-            const feed =
-
-                $("#notesFeed");
-
-
-            feed.innerHTML = "";
-
-
-            if (notes.length === 0) {
-
-
-                feed.innerHTML =
-
-                    `
-
-                    <div class="note-item">
-
-                        لا توجد ملاحظات حالياً
-
-                    </div>
-
-                    `;
-
-
-                return;
-
-            }
-
-
-            notes.forEach(
-
-                note => {
-
-
-                    const item =
-
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    item.className =
-                        "note-item";
-
-
-                    item.innerHTML =
-
-                        `
-
-                        <div>
-
-                            ${escapeHTML(
-                                note.text
-                            )}
-
-                        </div>
-
-                        <span
-                            class="note-time"
-                        >
-
-                            ${new Date(
-                                note.time
-                            ).toLocaleString()}
-
-                            —
-
-                            ${escapeHTML(
-                                note.site
-                            )}
-
-                        </span>
-
-                        `;
-
-
-                    feed.appendChild(
-                        item
-                    );
-
-                }
-
-            );
-
-        }
-
-
-
-        $("#publishNote")
-            .addEventListener(
-
-                "click",
-
-                () => {
-
-
-                    const text =
-
-                        $("#noteText")
-                            .value
-                            .trim();
-
-
-                    if (!text) {
-
-                        showToast(
-                            "اكتب الملاحظة أولاً"
-                        );
-
-                        return;
-
-                    }
-
-
-                    const notes =
-                        getNotes();
-
-
-                    const newNote = {
-
-                        text:
-                            text,
-
-                        site:
-                            "MOKO",
-
-                        time:
-                            new Date()
-                                .toISOString()
-
-                    };
-
-
-                    notes.unshift(
-                        newNote
-                    );
-
-
-                    localStorage.setItem(
-
-                        NOTES_KEY,
-
-                        JSON.stringify(
-                            notes
-                        )
-
-                    );
-
-
-                    $("#noteText")
-                        .value = "";
-
-
-                    renderNotes();
-
-
-                    showToast(
-                        "تم نشر الملاحظة"
-                    );
-
-
-                    if (
-                        window.sharedNotesChannel
-                    ) {
-
-                        window.sharedNotesChannel
-                            .postMessage({
-
-                                type:
-                                    "new_note"
-
-                            });
-
-                    }
-
-                }
-
-            );
+        $("#noteText")
+            .value = "";
 
 
         renderNotes();
 
 
-
-        /* =========================================
-           BROADCAST CHANNEL
-        ========================================= */
-
-        if (
-            "BroadcastChannel"
-            in
-            window
-        ) {
-
-
-            window.sharedNotesChannel =
-
-                new BroadcastChannel(
-
-                    "MOKO_SOLO_NOTES_CHANNEL"
-
-                );
-
-
-            window
-                .sharedNotesChannel
-                .onmessage =
-
-                event => {
-
-
-                    if (
-                        event.data.type
-                        ===
-                        "new_note"
-                    ) {
-
-
-                        renderNotes();
-
-
-                        showToast(
-                            "تم نشر ملاحظة جديدة"
-                        );
-
-                    }
-
-                };
-
-        }
-
-
-
-        /* =========================================
-           STORAGE UPDATE
-        ========================================= */
-
-        window.addEventListener(
-
-            "storage",
-
-            event => {
-
-
-                if (
-                    event.key
-                    ===
-                    NOTES_KEY
-                ) {
-
-
-                    renderNotes();
-
-
-                    showToast(
-                        "يوجد تحديث جديد"
-                    );
-
-                }
-
-            }
-
+        showToast(
+            "تم نشر الملاحظة"
         );
 
 
+        if(
+            window.sharedNotesChannel
+        ){
 
-        /* =========================================
-           THEMES
-        ========================================= */
+            window.sharedNotesChannel
+            .postMessage({
 
-        const THEME_KEY =
+                type:
+                    "new_note"
 
-            "MOKO_SOLO_THEME";
-
-
-        function hexToRGB(hex) {
-
-
-            hex =
-                hex.replace(
-                    "#",
-                    ""
-                );
-
-
-            if (
-                hex.length === 3
-            ) {
-
-
-                hex =
-
-                    hex
-                        .split("")
-                        .map(
-                            value =>
-                                value + value
-                        )
-                        .join("");
-
-            }
-
-
-            const number =
-
-                parseInt(
-                    hex,
-                    16
-                );
-
-
-            return
-
-                (
-
-                    (number >> 16)
-                    &
-                    255
-
-                )
-
-                +
-
-                ", "
-
-                +
-
-                (
-
-                    (number >> 8)
-                    &
-                    255
-
-                )
-
-                +
-
-                ", "
-
-                +
-
-                (
-                    number
-                    &
-                    255
-                );
+            });
 
         }
 
+    }
+);
 
 
-        function applyTheme(
+renderNotes();
+
+
+if(
+    "BroadcastChannel"
+    in window
+){
+
+    window.sharedNotesChannel =
+        new BroadcastChannel(
+            "MOKO_SOLO_NOTES_CHANNEL"
+        );
+
+
+    window.sharedNotesChannel.onmessage =
+        event => {
+
+            if(
+                event.data.type
+                ===
+                "new_note"
+            ){
+
+                renderNotes();
+
+                showToast(
+                    "تم نشر ملاحظة جديدة"
+                );
+
+            }
+
+        };
+
+}
+
+
+window.addEventListener(
+    "storage",
+    event => {
+
+        if(
+            event.key
+            ===
+            NOTES_KEY
+        ){
+
+            renderNotes();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   THEMES
+===================================================== */
+
+const THEME_KEY =
+    "MOKO_SOLO_THEME";
+
+
+function hexToRGB(hex){
+
+    hex =
+        hex.replace(
+            "#",
+            ""
+        );
+
+
+    if(hex.length === 3){
+
+        hex =
+            hex
+            .split("")
+            .map(v => v + v)
+            .join("");
+
+    }
+
+
+    const number =
+        parseInt(
+            hex,
+            16
+        );
+
+
+    return (
+
+        (number >> 16)
+        &
+        255
+
+    ) + "," + (
+
+        (number >> 8)
+        &
+        255
+
+    ) + "," + (
+
+        number
+        &
+        255
+
+    );
+
+}
+
+
+function applyTheme(
+    primary,
+    secondary
+){
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--primary",
+            primary
+        );
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--secondary",
+            secondary
+        );
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--primary-rgb",
+            hexToRGB(primary)
+        );
+
+
+    $("#primaryColor").value =
+        primary;
+
+
+    $("#secondaryColor").value =
+        secondary;
+
+
+    localStorage.setItem(
+        THEME_KEY,
+        JSON.stringify({
+
             primary,
             secondary
-        ) {
+
+        })
+    );
+
+}
 
 
-            document
-                .documentElement
-                .style
-                .setProperty(
-                    "--primary",
-                    primary
-                );
+document
+.querySelectorAll(".theme-button")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            applyTheme(
+                button.dataset.primary,
+                button.dataset.secondary
+            );
 
 
-            document
-                .documentElement
-                .style
-                .setProperty(
-                    "--secondary",
-                    secondary
-                );
-
-
-            document
-                .documentElement
-                .style
-                .setProperty(
-                    "--primary-rgb",
-                    hexToRGB(primary)
-                );
-
-
-            localStorage.setItem(
-
-                THEME_KEY,
-
-                JSON.stringify({
-
-                    primary:
-                        primary,
-
-                    secondary:
-                        secondary
-
-                })
-
+            showToast(
+                "تم تطبيق الثيم"
             );
 
         }
+    );
+
+});
 
 
+try{
 
-        document
-            .querySelectorAll(
-                ".theme-button"
+    const savedTheme =
+        JSON.parse(
+            localStorage.getItem(
+                THEME_KEY
             )
-            .forEach(
-
-                button => {
+        );
 
 
-                    button.addEventListener(
+    if(savedTheme){
 
-                        "click",
+        applyTheme(
+            savedTheme.primary,
+            savedTheme.secondary
+        );
 
-                        () => {
+    }
 
-
-                            const primary =
-                                button.dataset.primary;
-
-
-                            const secondary =
-                                button.dataset.secondary;
+}
+catch{}
 
 
-                            applyTheme(
-                                primary,
-                                secondary
-                            );
+/* =====================================================
+   CUSTOMIZATION STORAGE
+===================================================== */
+
+const CUSTOM_KEY =
+    "MOKO_CUSTOMIZATION";
 
 
-                            showToast(
-                                "تم تطبيق الثيم"
-                            );
+const defaultCustom = {
 
-                        }
+    rgb:false,
 
-                    );
+    rgbSpeed:"slow",
 
-                }
+    cardGlow:true,
 
+    glowStrength:.55,
+
+    cardStyle:"normal",
+
+    font:"El Messiri",
+
+    fontColor:"#ffffff",
+
+    primaryColor:"#9da3ad",
+
+    secondaryColor:"#eef1f5",
+
+    fontEffect:"normal",
+
+    iconGlow:true,
+
+    iconStrength:1,
+
+    clickEffect:"ripple",
+
+    transition:true,
+
+    transitionSpeed:.6
+
+};
+
+
+let custom = {
+
+    ...defaultCustom,
+
+    ...(
+        JSON.parse(
+            localStorage.getItem(
+                CUSTOM_KEY
+            ) || "{}"
+        )
+    )
+
+};
+
+
+function saveCustom(){
+
+    localStorage.setItem(
+        CUSTOM_KEY,
+        JSON.stringify(custom)
+    );
+
+}
+
+
+function applyCustomization(){
+
+    const root =
+        document.documentElement;
+
+
+    /* RGB */
+
+    document.body
+        .classList
+        .toggle(
+            "rgb-mode",
+            custom.rgb
+        );
+
+
+    /* card */
+
+    document.body
+        .classList
+        .toggle(
+            "no-card-glow",
+            !custom.cardGlow
+        );
+
+
+    /* font */
+
+    document.body.style.fontFamily =
+        `"${custom.font}","Segoe UI",Tahoma,Arial,sans-serif`;
+
+
+    $("#fontPreview").style.fontFamily =
+        `"${custom.font}",sans-serif`;
+
+
+    /* colors */
+
+    root.style.setProperty(
+        "--text",
+        custom.fontColor
+    );
+
+
+    root.style.setProperty(
+        "--primary",
+        custom.primaryColor
+    );
+
+
+    root.style.setProperty(
+        "--secondary",
+        custom.secondaryColor
+    );
+
+
+    root.style.setProperty(
+        "--primary-rgb",
+        hexToRGB(
+            custom.primaryColor
+        )
+    );
+
+
+    /* icon */
+
+    root.style.setProperty(
+        "--icon-strength",
+        custom.iconGlow
+        ?
+        custom.iconStrength
+        :
+        0
+    );
+
+
+    /* glow */
+
+    const glow =
+        custom.glowStrength;
+
+
+    root.style.setProperty(
+        "--glow",
+        `rgba(${hexToRGB(custom.primaryColor)},${glow})`
+    );
+
+
+    /* glass */
+
+    const glassValues = {
+
+        normal:{
+            blur:"20px",
+            opacity:".55",
+            radius:"28px"
+        },
+
+        soft:{
+            blur:"30px",
+            opacity:".38",
+            radius:"30px"
+        },
+
+        crystal:{
+            blur:"35px",
+            opacity:".25",
+            radius:"32px"
+        },
+
+        dark:{
+            blur:"18px",
+            opacity:".78",
+            radius:"25px"
+        },
+
+        neon:{
+            blur:"25px",
+            opacity:".48",
+            radius:"22px"
+        },
+
+        frost:{
+            blur:"45px",
+            opacity:".32",
+            radius:"30px"
+        }
+
+    };
+
+
+    const glass =
+        glassValues[
+            custom.cardStyle
+        ] ||
+        glassValues.normal;
+
+
+    root.style.setProperty(
+        "--glass-blur",
+        glass.blur
+    );
+
+
+    root.style.setProperty(
+        "--glass-opacity",
+        glass.opacity
+    );
+
+
+    root.style.setProperty(
+        "--card-radius",
+        glass.radius
+    );
+
+
+    /* RGB speed */
+
+    const rgbSpeedMap = {
+
+        slow:"12s",
+
+        normal:"7s",
+
+        fast:"3s"
+
+    };
+
+
+    root.style.setProperty(
+        "--rgb-speed",
+        rgbSpeedMap[
+            custom.rgbSpeed
+        ] ||
+        "7s"
+    );
+
+
+    /* font effect */
+
+    document
+        .querySelectorAll(
+            ".profile-name,.welcome-title,.section-title,.hero-main-title"
+        )
+        .forEach(element => {
+
+            element.classList.remove(
+                "font-glow",
+                "font-neon",
+                "font-shimmer",
+                "font-rgb",
+                "font-metal"
             );
 
 
+            if(
+                custom.fontEffect
+                !==
+                "normal"
+            ){
 
-        try {
-
-
-            const savedTheme =
-
-                JSON.parse(
-
-                    localStorage.getItem(
-                        THEME_KEY
-                    )
-
-                );
-
-
-            if (savedTheme) {
-
-
-                applyTheme(
-
-                    savedTheme.primary,
-
-                    savedTheme.secondary
-
+                element.classList.add(
+                    "font-" +
+                    custom.fontEffect
                 );
 
             }
 
-        }
-
-        catch (error) {
-
-        }
+        });
 
 
+    /* controls */
 
-        /* =========================================
-           PARTICLES
-        ========================================= */
+    $("#rgbToggle").checked =
+        custom.rgb;
 
-        const particlesContainer =
+    $("#rgbSpeed").value =
+        custom.rgbSpeed;
 
-            $("#particles");
+    $("#cardGlowToggle").checked =
+        custom.cardGlow;
 
+    $("#glowStrength").value =
+        custom.glowStrength;
 
-        for (
-            let i = 0;
-            i < 35;
-            i++
-        ) {
+    $("#cardStyle").value =
+        custom.cardStyle;
 
+    $("#fontSelect").value =
+        custom.font;
 
-            const particle =
+    $("#fontColor").value =
+        custom.fontColor;
 
-                document.createElement(
-                    "span"
-                );
+    $("#primaryColor").value =
+        custom.primaryColor;
 
+    $("#secondaryColor").value =
+        custom.secondaryColor;
 
-            particle.className =
-                "particle";
+    $("#fontEffect").value =
+        custom.fontEffect;
 
+    $("#iconGlowToggle").checked =
+        custom.iconGlow;
 
-            particle.style.left =
+    $("#iconStrength").value =
+        custom.iconStrength;
 
-                Math.random()
-                *
-                100
-                +
-                "%";
+    $("#clickEffect").value =
+        custom.clickEffect;
 
+    $("#transitionToggle").checked =
+        custom.transition;
 
-            particle.style.top =
-
-                Math.random()
-                *
-                100
-                +
-                "%";
-
-
-            particle.style.animationDelay =
-
-                Math.random()
-                *
-                -8
-                +
-                "s";
+    $("#transitionSpeed").value =
+        custom.transitionSpeed;
 
 
-            particle.style.animationDuration =
+    $("#fontPreview").style.color =
+        custom.fontColor;
 
-                5
-                +
-                Math.random()
-                *
-                7
-                +
-                "s";
+}
 
 
-            particlesContainer.appendChild(
-                particle
+applyCustomization();
+
+
+/* =====================================================
+   CUSTOMIZATION EVENTS
+===================================================== */
+
+$("#rgbToggle")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.rgb =
+            event.target.checked;
+
+        saveCustom();
+
+        applyCustomization();
+
+        showToast(
+            custom.rgb
+            ?
+            "تم تشغيل RGB"
+            :
+            "تم إيقاف RGB"
+        );
+
+    }
+);
+
+
+$("#rgbSpeed")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.rgbSpeed =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#cardGlowToggle")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.cardGlow =
+            event.target.checked;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#glowStrength")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.glowStrength =
+            Number(
+                event.target.value
             );
 
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#cardStyle")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.cardStyle =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+        showToast(
+            "تم تغيير نمط الكارد"
+        );
+
+    }
+);
+
+
+$("#fontSelect")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.font =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+        showToast(
+            "تم تغيير الخط"
+        );
+
+    }
+);
+
+
+$("#fontColor")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.fontColor =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#primaryColor")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.primaryColor =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#secondaryColor")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.secondaryColor =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#fontEffect")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.fontEffect =
+            event.target.value;
+
+        saveCustom();
+
+        applyCustomization();
+
+        showToast(
+            "تم تغيير تأثير الخط"
+        );
+
+    }
+);
+
+
+$("#iconGlowToggle")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.iconGlow =
+            event.target.checked;
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#iconStrength")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.iconStrength =
+            Number(
+                event.target.value
+            );
+
+        saveCustom();
+
+        applyCustomization();
+
+    }
+);
+
+
+$("#clickEffect")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.clickEffect =
+            event.target.value;
+
+        saveCustom();
+
+        showToast(
+            "تم تغيير تأثير النقر"
+        );
+
+    }
+);
+
+
+$("#transitionToggle")
+.addEventListener(
+    "change",
+    event => {
+
+        custom.transition =
+            event.target.checked;
+
+        saveCustom();
+
+    }
+);
+
+
+$("#transitionSpeed")
+.addEventListener(
+    "input",
+    event => {
+
+        custom.transitionSpeed =
+            Number(
+                event.target.value
+            );
+
+        saveCustom();
+
+    }
+);
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+$("#resetCustomization")
+.addEventListener(
+    "click",
+    () => {
+
+        custom =
+            {
+                ...defaultCustom
+            };
+
+
+        saveCustom();
+
+        applyCustomization();
+
+
+        showToast(
+            "تم إرجاع MOKO للإعدادات الافتراضية"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CLICK EFFECT SYSTEM
+===================================================== */
+
+function createClickEffect(
+    x,
+    y
+){
+
+    if(
+        custom.clickEffect
+        ===
+        "none"
+    ){
+
+        return;
+
+    }
+
+
+    const effect =
+        document.createElement(
+            "div"
+        );
+
+
+    effect.className =
+        "click-effect";
+
+
+    effect.style.left =
+        x + "px";
+
+
+    effect.style.top =
+        y + "px";
+
+
+    effect.innerHTML = "";
+
+
+    const effectMap = {
+
+        ripple:
+            "click-ripple",
+
+        ring:
+            "click-ring",
+
+        burst:
+            "click-burst",
+
+        glow:
+            "click-glow",
+
+        shock:
+            "click-shock",
+
+        dot:
+            "click-dot",
+
+        pulse:
+            "click-pulse",
+
+        scan:
+            "click-scan",
+
+        star:
+            "click-star"
+
+    };
+
+
+    const className =
+        effectMap[
+            custom.clickEffect
+        ];
+
+
+    if(!className)
+        return;
+
+
+    const child =
+        document.createElement(
+            "div"
+        );
+
+
+    child.className =
+        className;
+
+
+    effect.appendChild(
+        child
+    );
+
+
+    document.body.appendChild(
+        effect
+    );
+
+
+    setTimeout(
+        () => {
+
+            effect.remove();
+
+        },
+        1000
+    );
+
+}
+
+
+/* =====================================================
+   GLOBAL CLICK EFFECT
+===================================================== */
+
+document.addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target.closest(
+                "input,textarea,select"
+            )
+        ){
+
+            return;
+
         }
 
 
-    </script>
+        createClickEffect(
+            event.clientX,
+            event.clientY
+        );
 
+    }
+);
+
+
+/* =====================================================
+   PARTICLES
+===================================================== */
+
+const particlesContainer =
+    $("#particles");
+
+
+for(
+    let i=0;
+    i<35;
+    i++
+){
+
+    const particle =
+        document.createElement(
+            "span"
+        );
+
+
+    particle.className =
+        "particle";
+
+
+    particle.style.left =
+        Math.random()*100 +
+        "%";
+
+
+    particle.style.top =
+        Math.random()*100 +
+        "%";
+
+
+    particle.style.animationDelay =
+        Math.random()*-8 +
+        "s";
+
+
+    particle.style.animationDuration =
+        5 +
+        Math.random()*7 +
+        "s";
+
+
+    particlesContainer
+        .appendChild(
+            particle
+        );
+
+}
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        setTimeout(
+            () => {
+
+                showToast(
+                    "Welcome to MOKO ✦"
+                );
+
+            },
+            500
+        );
+
+    }
+);
+
+</script>
 
 </body>
 
