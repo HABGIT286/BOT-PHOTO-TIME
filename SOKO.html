@@ -3709,6 +3709,224 @@ footer{
 
 
 /* =====================================================
+   MESSAGE HISTORY — SENDER CARDS
+===================================================== */
+
+.message-history-panel{
+    margin-top:22px;
+    padding:20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.07),
+            rgba(255,255,255,.025)
+        );
+}
+
+.message-history-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.message-history-head h3{
+    font-family:"Audiowide","Cairo",sans-serif;
+    font-size:1rem;
+    letter-spacing:1px;
+}
+
+.message-history-head h3 i{
+    margin-left:7px;
+}
+
+.message-history-head p{
+    color:var(--muted);
+    font-size:.82rem;
+    line-height:1.7;
+    margin-top:5px;
+}
+
+.message-copy-all,
+.message-copy-button{
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.07);
+    color:var(--text);
+    border-radius:13px;
+    padding:10px 13px;
+    transition:.3s ease;
+    white-space:nowrap;
+}
+
+.message-copy-all:hover,
+.message-copy-button:hover{
+    background:var(--primary);
+    color:#111;
+    transform:translateY(-2px);
+    box-shadow:0 0 22px var(--glow);
+}
+
+.message-feed{
+    display:grid;
+    gap:12px;
+    max-height:620px;
+    overflow-y:auto;
+    padding:2px;
+}
+
+.message-card{
+    position:relative;
+    padding:17px;
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(0,0,0,.18)
+        );
+    box-shadow:0 12px 35px rgba(0,0,0,.20);
+    user-select:text;
+    -webkit-user-select:text;
+}
+
+.message-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    background:linear-gradient(
+        120deg,
+        rgba(255,255,255,.09),
+        transparent 30%,
+        transparent 70%,
+        rgba(255,255,255,.035)
+    );
+}
+
+.message-card-top{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+.message-sender{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+}
+
+.message-avatar{
+    width:42px;
+    height:42px;
+    flex:0 0 42px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    background:rgba(255,255,255,.08);
+    border:1px solid var(--border);
+}
+
+.message-sender strong{
+    display:block;
+    overflow-wrap:anywhere;
+}
+
+.message-code{
+    display:inline-block;
+    margin-top:3px;
+    color:var(--primary);
+    font-family:"Audiowide",sans-serif;
+    font-size:.72rem;
+    letter-spacing:1px;
+    direction:ltr;
+}
+
+.message-copy-button{
+    position:relative;
+    z-index:2;
+    font-size:.78rem;
+}
+
+.message-meta{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.message-meta-item{
+    padding:9px 10px;
+    border-radius:13px;
+    background:rgba(0,0,0,.16);
+    border:1px solid rgba(255,255,255,.08);
+    font-size:.76rem;
+}
+
+.message-meta-item span{
+    display:block;
+    color:var(--muted);
+    margin-bottom:3px;
+}
+
+.message-meta-item strong{
+    display:block;
+    overflow-wrap:anywhere;
+}
+
+.message-body{
+    position:relative;
+    padding:13px;
+    border-radius:15px;
+    background:rgba(0,0,0,.18);
+    border:1px solid rgba(255,255,255,.08);
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    line-height:1.8;
+    user-select:text;
+    -webkit-user-select:text;
+}
+
+.message-empty{
+    padding:20px;
+    text-align:center;
+    color:var(--muted);
+    border:1px dashed var(--border);
+    border-radius:17px;
+}
+
+@media(max-width:650px){
+    .message-history-head{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .message-copy-all{
+        width:100%;
+    }
+
+    .message-meta{
+        grid-template-columns:1fr;
+    }
+
+    .message-card-top{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .message-copy-button{
+        width:100%;
+    }
+}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 
@@ -4004,6 +4222,9 @@ MOKO — JJ.mp3
 </span><audio id="mokoAudio" controls preload="metadata"><source
 src="./JJ.mp3"
 type="audio/mpeg">
+<source
+src="JJ.mp3"
+type="audio/mpeg">
 
 </audio><div class="music-controls"><button
 type="button"
@@ -4112,7 +4333,25 @@ type="button">
 
 SEND MESSAGE
 
-</button></div></div></section><!-- =====================================================
+</button></div>
+
+<div class="message-history-panel glass">
+<div class="message-history-head">
+<div>
+<h3><i class="fa-solid fa-inbox"></i> SENT MESSAGES</h3>
+<p>كل مرسل يحصل على معرف ثابت، وتظهر رسائله هنا ككروت قابلة للنسخ.</p>
+</div>
+<button type="button" class="message-copy-all" id="copyAllMessages">
+<i class="fa-solid fa-copy"></i>
+COPY LIST
+</button>
+</div>
+<div id="messageFeed" class="message-feed">
+<div class="message-empty">لا توجد رسائل مرسلة من هذا المتصفح حالياً.</div>
+</div>
+</div>
+
+</div></div></section><!-- =====================================================
      THEMES
 ===================================================== --><section id="themes" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-palette"></i>
@@ -5020,6 +5259,29 @@ document.addEventListener(
     "copy",
     event => {
 
+        const selection =
+            window.getSelection();
+
+        const anchor =
+            selection &&
+            selection.anchorNode
+            ? (
+                selection.anchorNode.nodeType === 1
+                    ? selection.anchorNode
+                    : selection.anchorNode.parentElement
+            )
+            : null;
+
+        if(
+            anchor &&
+            anchor.closest &&
+            anchor.closest(".message-card")
+        ){
+
+            return;
+
+        }
+
         event.preventDefault();
 
         showToast(
@@ -5382,8 +5644,419 @@ sendVisitNotification();
 
 
 /* =====================================================
-   MESSAGE → DISCORD
+   MESSAGE → DISCORD + LOCAL SENDER ID + HISTORY
 ===================================================== */
+
+const MESSAGE_HISTORY_KEY =
+    "MOKO_MESSAGE_HISTORY_V2";
+
+const SENDER_CODES_KEY =
+    "MOKO_SENDER_CODES_V2";
+
+function getMessageHistory(){
+
+    try{
+
+        const value =
+            JSON.parse(
+                localStorage.getItem(
+                    MESSAGE_HISTORY_KEY
+                ) || "[]"
+            );
+
+        return Array.isArray(value)
+            ? value
+            : [];
+
+    }
+    catch{
+
+        return [];
+
+    }
+
+}
+
+function saveMessageHistory(history){
+
+    localStorage.setItem(
+        MESSAGE_HISTORY_KEY,
+        JSON.stringify(history)
+    );
+
+}
+
+function getSenderCodes(){
+
+    try{
+
+        const value =
+            JSON.parse(
+                localStorage.getItem(
+                    SENDER_CODES_KEY
+                ) || "{}"
+            );
+
+        return value &&
+            typeof value === "object"
+            ? value
+            : {};
+
+    }
+    catch{
+
+        return {};
+
+    }
+
+}
+
+function normalizeSenderName(name){
+
+    return name
+        .trim()
+        .replace(/\s+/g," ")
+        .toLowerCase();
+
+}
+
+function createSenderCode(){
+
+    const time =
+        Date.now()
+        .toString(36)
+        .toUpperCase();
+
+    const random =
+        Math.random()
+        .toString(36)
+        .slice(2,6)
+        .toUpperCase();
+
+    return "MKO-" +
+        time.slice(-4) +
+        "-" +
+        random;
+
+}
+
+function getOrCreateSenderCode(name){
+
+    const key =
+        normalizeSenderName(name);
+
+    const codes =
+        getSenderCodes();
+
+    if(!codes[key]){
+
+        codes[key] =
+            createSenderCode();
+
+        localStorage.setItem(
+            SENDER_CODES_KEY,
+            JSON.stringify(codes)
+        );
+
+    }
+
+    return codes[key];
+
+}
+
+function formatMessageDate(iso){
+
+    const date =
+        new Date(iso);
+
+    return date.toLocaleString(
+        "ar-IQ",
+        {
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit",
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit",
+            hour12:true
+        }
+    );
+
+}
+
+function buildCopyText(item){
+
+    return [
+        "╔══════════════════════════════╗",
+        "        📩 MOKO MESSAGE",
+        "╚══════════════════════════════╝",
+        "",
+        "👤 اسم المرسل: " + item.name,
+        "🆔 المعرف: " + item.senderCode,
+        "💬 الرسالة:",
+        item.message,
+        "",
+        "🕒 تاريخ الإرسال: " +
+            formatMessageDate(item.time),
+        "🌐 الموقع: MOKO",
+        ""
+    ].join("\n");
+
+}
+
+function renderMessageHistory(){
+
+    const feed =
+        $("#messageFeed");
+
+    if(!feed)
+        return;
+
+    const history =
+        getMessageHistory();
+
+    feed.innerHTML = "";
+
+    if(!history.length){
+
+        feed.innerHTML =
+            '<div class="message-empty">لا توجد رسائل مرسلة من هذا المتصفح حالياً.</div>';
+
+        return;
+
+    }
+
+    history.forEach(
+        item => {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+            card.className =
+                "message-card";
+
+            card.innerHTML = `
+
+                <div class="message-card-top">
+
+                    <div class="message-sender">
+
+                        <div class="message-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${escapeHTML(item.name)}
+                            </strong>
+
+                            <span class="message-code">
+                                ${escapeHTML(item.senderCode)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="message-copy-button"
+                        data-copy-message-id="${escapeHTML(item.id)}">
+
+                        <i class="fa-solid fa-copy"></i>
+                        COPY
+
+                    </button>
+
+                </div>
+
+                <div class="message-meta">
+
+                    <div class="message-meta-item">
+                        <span>👤 المرسل</span>
+                        <strong>
+                            ${escapeHTML(item.name)}
+                        </strong>
+                    </div>
+
+                    <div class="message-meta-item">
+                        <span>🆔 المعرف</span>
+                        <strong dir="ltr">
+                            ${escapeHTML(item.senderCode)}
+                        </strong>
+                    </div>
+
+                    <div class="message-meta-item">
+                        <span>🕒 تاريخ الإرسال</span>
+                        <strong>
+                            ${escapeHTML(
+                                formatMessageDate(
+                                    item.time
+                                )
+                            )}
+                        </strong>
+                    </div>
+
+                    <div class="message-meta-item">
+                        <span>🌐 المكان</span>
+                        <strong>MOKO</strong>
+                    </div>
+
+                </div>
+
+                <div class="message-body">
+                    ${escapeHTML(item.message)}
+                </div>
+
+            `;
+
+            feed.appendChild(card);
+
+        }
+    );
+
+}
+
+async function copyText(text){
+
+    try{
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+        return true;
+
+    }
+    catch{
+
+        const area =
+            document.createElement(
+                "textarea"
+            );
+
+        area.value = text;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        area.style.pointerEvents = "none";
+
+        document.body.appendChild(area);
+
+        area.focus();
+        area.select();
+
+        let copied = false;
+
+        try{
+
+            copied =
+                document.execCommand(
+                    "copy"
+                );
+
+        }
+        catch{
+
+            copied = false;
+
+        }
+
+        area.remove();
+
+        return copied;
+
+    }
+
+}
+
+$("#messageFeed")
+.addEventListener(
+    "click",
+    async event => {
+
+        const button =
+            event.target.closest(
+                ".message-copy-button"
+            );
+
+        if(!button)
+            return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const id =
+            button.dataset.copyMessageId;
+
+        const item =
+            getMessageHistory()
+            .find(
+                entry =>
+                    entry.id === id
+            );
+
+        if(!item)
+            return;
+
+        const copied =
+            await copyText(
+                buildCopyText(item)
+            );
+
+        showToast(
+            copied
+                ? "تم نسخ الرسالة كاملة ✓"
+                : "تعذر النسخ"
+        );
+
+    }
+);
+
+$("#copyAllMessages")
+.addEventListener(
+    "click",
+    async event => {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const history =
+            getMessageHistory();
+
+        if(!history.length){
+
+            showToast(
+                "لا توجد رسائل لنسخها"
+            );
+
+            return;
+
+        }
+
+        const text =
+            history
+            .map(
+                item =>
+                    buildCopyText(item)
+            )
+            .join(
+                "\n\n"
+            );
+
+        const copied =
+            await copyText(text);
+
+        showToast(
+            copied
+                ? "تم نسخ قائمة الرسائل ✓"
+                : "تعذر النسخ"
+        );
+
+    }
+);
 
 $("#sendMessage")
 .addEventListener(
@@ -5410,19 +6083,10 @@ $("#sendMessage")
 
         }
 
-        if(
-            !CONFIG.DISCORD_WEBHOOK_URL ||
-            CONFIG.DISCORD_WEBHOOK_URL ===
-            "https://discord.com/api/webhooks/1543603322563330200/6iJFpnPCOsYGDeArxVpWVhrErAzd9UmuHWOL_-5CO0nXsNoLdj3rnBWRf2W7Gq6DJwCF"
-        ){
-
-            showToast(
-                "ضع رابط Discord Webhook أولاً"
+        const senderCode =
+            getOrCreateSenderCode(
+                name
             );
-
-            return;
-
-        }
 
         const button =
             $("#sendMessage");
@@ -5435,6 +6099,28 @@ $("#sendMessage")
 
         const now =
             new Date();
+
+        const item = {
+
+            id:
+                "MSG-" +
+                Date.now().toString(36) +
+                "-" +
+                Math.random()
+                .toString(36)
+                .slice(2,7),
+
+            name:name,
+
+            senderCode:
+                senderCode,
+
+            message:message,
+
+            time:
+                now.toISOString()
+
+        };
 
         const payload = {
 
@@ -5452,10 +6138,17 @@ $("#sendMessage")
                 fields:[
 
                     {
-                        name:"👤 الاسم",
+                        name:"👤 اسم المرسل",
                         value:
                             name.slice(0,1024),
                         inline:false
+                    },
+
+                    {
+                        name:"🆔 معرف المرسل",
+                        value:
+                            senderCode,
+                        inline:true
                     },
 
                     {
@@ -5472,7 +6165,7 @@ $("#sendMessage")
                     },
 
                     {
-                        name:"🕒 الوقت",
+                        name:"🕒 تاريخ الإرسال",
                         value:
                             now.toLocaleString(
                                 "ar-IQ"
@@ -5518,20 +6211,36 @@ $("#sendMessage")
 
             if(!response.ok)
                 throw new Error(
-                    "Webhook failed"
+                    "Webhook HTTP " +
+                    response.status
                 );
+
+            const history =
+                getMessageHistory();
+
+            history.unshift(item);
+
+            saveMessageHistory(
+                history.slice(0,100)
+            );
+
+            renderMessageHistory();
 
             $("#senderMessage")
                 .value = "";
 
             showToast(
-                "تم إرسال رسالتك إلى Discord ✓"
+                "تم إرسال الرسالة إلى Discord ✓ • معرفك: " +
+                senderCode
             );
 
         }
         catch(error){
 
-            console.error(error);
+            console.error(
+                "MOKO Discord message error:",
+                error
+            );
 
             showToast(
                 "فشل إرسال الرسالة إلى Discord"
@@ -5551,44 +6260,92 @@ $("#sendMessage")
     }
 );
 
+renderMessageHistory();
+
 
 /* =====================================================
-   MUSIC
+   MUSIC — JJ.mp3
 ===================================================== */
 
 const audio =
     $("#mokoAudio");
 
+function showMusicError(){
+
+    showToast(
+        "تعذر تحميل JJ.mp3 — تأكد أنه بجانب ملف HTML وبنفس الاسم"
+    );
+
+}
+
 if(audio){
+
+    audio.preload =
+        "auto";
 
     audio.addEventListener(
         "error",
+        showMusicError
+    );
+
+    audio.addEventListener(
+        "stalled",
+        () => {}
+    );
+
+    audio.addEventListener(
+        "canplay",
         () => {
 
-            showToast(
-                "تأكد أن JJ.mp3 موجود بجانب index.html"
-            );
+            audio.dataset.ready =
+                "true";
 
         }
     );
+
+    try{
+
+        audio.load();
+
+    }
+    catch{}
 
 }
 
 $("#playMusic")
 .addEventListener(
     "click",
-    async () => {
+    async event => {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(!audio){
+
+            showMusicError();
+            return;
+
+        }
 
         try{
 
+            audio.load();
+
             await audio.play();
 
-        }
-        catch{
-
             showToast(
-                "تعذر تشغيل الموسيقى"
+                "JJ.mp3 يعمل الآن ▶"
             );
+
+        }
+        catch(error){
+
+            console.error(
+                "MOKO audio error:",
+                error
+            );
+
+            showMusicError();
 
         }
 
@@ -5598,13 +6355,16 @@ $("#playMusic")
 $("#pauseMusic")
 .addEventListener(
     "click",
-    () => {
+    event => {
 
-        audio.pause();
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(audio)
+            audio.pause();
 
     }
 );
-
 
 /* =====================================================
    SHARED NOTES
