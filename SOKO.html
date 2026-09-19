@@ -90,19 +90,7 @@ body{
         var(--arabic-font),
         sans-serif;
 
-    background:
-
-        linear-gradient(
-            120deg,
-            var(--background-overlay),
-            var(--background-overlay-2)
-        ),
-
-        url("A.jpg");
-
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+    background:#080a0f;
 
     overflow-x:hidden;
 
@@ -224,6 +212,94 @@ a{
         0 0 12px var(--glow);
 }
 
+
+/* =====================================================
+   DYNAMIC REPOSITORY BACKGROUND
+   M.mp4 = video background
+   A.jpg = automatic image fallback
+===================================================== */
+
+#siteBackgroundImage{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    z-index:-4;
+    pointer-events:none;
+    background:#080a0f;
+    transition:opacity .7s ease;
+}
+
+#siteBackgroundVideo{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    z-index:-3;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .7s ease;
+    background:#080a0f;
+}
+
+#siteBackgroundVideo.is-ready{
+    opacity:1;
+}
+
+.site-background-shade{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    background:
+        linear-gradient(120deg,var(--background-overlay),var(--background-overlay-2));
+}
+
+/* =====================================================
+   REPOSITORY THUMBNAIL
+   M.gif is preferred when present; otherwise AA.jpg
+===================================================== */
+
+.brand-image,
+.avatar{
+    cursor:pointer;
+}
+
+.thumbnail-file-input{
+    display:none !important;
+}
+
+.thumbnail-edit-hint{
+    position:absolute;
+    inset:auto 12px 12px auto;
+    z-index:4;
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(0,0,0,.55);
+    border:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(10px);
+    opacity:0;
+    transform:scale(.85);
+    transition:.3s ease;
+    pointer-events:none;
+}
+
+.profile-card:hover .thumbnail-edit-hint{
+    opacity:1;
+    transform:scale(1);
+}
+
+@media(max-width:700px){
+    .thumbnail-edit-hint{opacity:.9;transform:scale(1)}
+}
 
 /* =====================================================
    PARTICLES
@@ -4119,7 +4195,13 @@ body.theme-ice .glass{background:linear-gradient(135deg,rgba(220,245,255,.18),rg
 body.theme-ice{--primary:#dff7ff;--secondary:#67d5ff;--primary-rgb:103,213,255;--glow:rgba(103,213,255,.45)}
 
 @media(max-width:650px){.album-thumbnails{grid-template-columns:repeat(5,1fr)!important;gap:5px!important}.album-thumbnails .album-image{border-radius:9px!important}.album-slideshow{height:240px}}
-</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body><div class="particles" id="particles"></div><main class="app"><!-- =====================================================
+</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body>
+<img id="siteBackgroundImage" src="A.jpg" alt="" aria-hidden="true">
+<video id="siteBackgroundVideo" muted autoplay loop playsinline preload="auto" aria-hidden="true">
+<source src="M.mp4" type="video/mp4">
+</video>
+<div class="site-background-shade" aria-hidden="true"></div>
+<div class="particles" id="particles"></div><main class="app"><!-- =====================================================
      HEADER
 ===================================================== --><header class="header glass"><div class="brand"><img
 src="AA.jpg"
@@ -4154,10 +4236,13 @@ NOTES
 CUSTOMIZE
 </button></nav></header><div class="top-clock glass"><i class="fa-solid fa-clock"></i><span id="liveClock">--:-- --</span></div><!-- =====================================================
      HOME
-===================================================== --><section id="home" class="tab active"><div class="home-container glass"><div class="home-grid"><div class="profile-card glass"><img
+===================================================== --><section id="home" class="tab active"><div class="home-container glass"><div class="home-grid"><div class="profile-card glass" style="position:relative"><input id="thumbnailFileInput" class="thumbnail-file-input" type="file" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
+<img
 src="AA.jpg"
 class="avatar"
-alt="MOKO">
+alt="MOKO"
+ title="انقر لاختيار صورة من الجهاز">
+<span class="thumbnail-edit-hint" aria-hidden="true"><i class="fa-solid fa-camera"></i></span>
 
 <div class="profile-small-title">
 MY SMALL WORLD
@@ -4218,12 +4303,12 @@ MY SMALL WORLD • PERSONAL SPACE
 <img src="10.jpg" class="album-image"></div><div class="music-player"><i class="fa-solid fa-music music-icon"></i>
 
 <div class="music-content"><span class="music-name">
-MOKO — JJ.mp3
+MOKO — M.mp3
 </span><audio id="mokoAudio" controls preload="metadata"><source
-src="./JJ.mp3"
+src="./M.mp3"
 type="audio/mpeg">
 <source
-src="JJ.mp3"
+src="M.mp3"
 type="audio/mpeg">
 
 </audio><div class="music-controls"><button
@@ -6264,7 +6349,7 @@ renderMessageHistory();
 
 
 /* =====================================================
-   MUSIC — JJ.mp3
+   MUSIC — M.mp3
 ===================================================== */
 
 const audio =
@@ -6273,7 +6358,7 @@ const audio =
 function showMusicError(){
 
     showToast(
-        "تعذر تحميل JJ.mp3 — تأكد أنه بجانب ملف HTML وبنفس الاسم"
+        "تعذر تحميل M.mp3 — تأكد أنه بجانب ملف HTML وبنفس الاسم"
     );
 
 }
@@ -6334,7 +6419,7 @@ $("#playMusic")
             await audio.play();
 
             showToast(
-                "JJ.mp3 يعمل الآن ▶"
+                "M.mp3 يعمل الآن ▶"
             );
 
         }
@@ -8814,4 +8899,106 @@ window.SOKO_EXTRA_THEMES={
  Royal:{className:'theme-royal'},
  Ice:{className:'theme-ice'}
 };
+<script>
+/* =====================================================
+   MOKO REPOSITORY MEDIA ENGINE
+   Files expected beside this HTML file on GitHub:
+   M.mp4  -> video background (preferred)
+   A.jpg  -> image background fallback
+   M.mp3  -> music
+   AA.jpg -> static thumbnail
+   M.gif  -> animated thumbnail (preferred when present)
+===================================================== */
+(function(){
+    'use strict';
+
+    const bgImage = document.getElementById('siteBackgroundImage');
+    const bgVideo = document.getElementById('siteBackgroundVideo');
+    const thumbnailInput = document.getElementById('thumbnailFileInput');
+    const thumbnails = Array.from(document.querySelectorAll('.brand-image, .avatar'));
+
+    /* ---------- Background image fallback ---------- */
+    if (bgImage) {
+        bgImage.src = 'A.jpg';
+        bgImage.onerror = function(){
+            this.style.display = 'none';
+        };
+    }
+
+    /* ---------- MP4 automatic background ---------- */
+    if (bgVideo) {
+        let videoReady = false;
+        const activateVideo = function(){
+            if (videoReady) return;
+            videoReady = true;
+            bgVideo.classList.add('is-ready');
+            if (bgImage) bgImage.style.opacity = '0';
+            try { bgVideo.play().catch(function(){}); } catch(e) {}
+        };
+
+        bgVideo.addEventListener('canplay', activateVideo, {once:true});
+        bgVideo.addEventListener('loadeddata', activateVideo, {once:true});
+        bgVideo.addEventListener('error', function(){
+            bgVideo.classList.remove('is-ready');
+            bgVideo.style.display = 'none';
+            if (bgImage) bgImage.style.opacity = '1';
+        });
+
+        try {
+            bgVideo.load();
+        } catch(e) {}
+    }
+
+    /* ---------- M.gif preferred, AA.jpg fallback ---------- */
+    const gifProbe = new Image();
+    gifProbe.onload = function(){
+        thumbnails.forEach(function(img){
+            img.src = 'M.gif';
+        });
+    };
+    gifProbe.onerror = function(){
+        thumbnails.forEach(function(img){
+            img.src = 'AA.jpg';
+        });
+    };
+    gifProbe.src = 'M.gif?check=' + Date.now();
+
+    /* ---------- Click thumbnail -> device gallery ---------- */
+    if (thumbnailInput && thumbnails.length) {
+        thumbnails.forEach(function(img){
+            img.addEventListener('click', function(){
+                thumbnailInput.click();
+            });
+        });
+
+        thumbnailInput.addEventListener('change', function(){
+            const file = this.files && this.files[0];
+            if (!file) return;
+
+            if (!/^image\/(jpeg|png|gif|webp)$/.test(file.type)) {
+                if (typeof showToast === 'function') showToast('اختر صورة JPG أو PNG أو GIF');
+                this.value = '';
+                return;
+            }
+
+            const localURL = URL.createObjectURL(file);
+            thumbnails.forEach(function(img){
+                img.src = localURL;
+            });
+
+            if (typeof showToast === 'function') {
+                showToast('تم تغيير الصورة على جهازك مؤقتاً. لتظهر عند الجميع ارفعها إلى GitHub باسم AA.jpg أو M.gif.');
+            }
+        });
+    }
+
+    /* ---------- Make music source explicitly M.mp3 ---------- */
+    const audio = document.getElementById('mokoAudio');
+    if (audio) {
+        audio.querySelectorAll('source').forEach(function(source){
+            source.src = 'M.mp3';
+        });
+        try { audio.load(); } catch(e) {}
+    }
+})();
 </script></body></html>
