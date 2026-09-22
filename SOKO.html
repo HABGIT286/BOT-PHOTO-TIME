@@ -4248,180 +4248,47 @@ body.reduced-motion #customBackgroundVideo{
     transition:none!important;
 }
 
-
-/* =====================================================
-   THEME VAULT — SITE LAYOUT SIDEBAR + HOME SHOWCASE
-   This layer changes only presentation/layout. Existing theme
-   cards and the original theme system remain untouched.
-===================================================== */
-
-.vault-menu-trigger{position:fixed;right:18px;top:18px;z-index:2200;width:52px;height:52px;border:1px solid rgba(255,255,255,.18);border-radius:17px;background:rgba(10,13,20,.72);backdrop-filter:blur(18px);color:#fff;box-shadow:0 12px 45px rgba(0,0,0,.4),0 0 25px var(--glow);font-size:20px;transition:.35s}
-.vault-menu-trigger:hover{transform:translateY(-3px) rotate(3deg);background:rgba(255,255,255,.12)}
-.vault-overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(3px);z-index:2100;opacity:0;visibility:hidden;transition:.35s}
-.vault-overlay.open{opacity:1;visibility:visible}
-.vault-sidebar{position:fixed;right:0;top:0;height:100dvh;width:min(390px,92vw);z-index:2201;transform:translateX(105%);transition:transform .55s cubic-bezier(.2,.8,.2,1);background:linear-gradient(145deg,rgba(17,20,29,.94),rgba(5,7,12,.88));border-left:1px solid rgba(255,255,255,.15);box-shadow:-30px 0 100px rgba(0,0,0,.55);backdrop-filter:blur(30px);overflow:auto;padding:22px}
-.vault-sidebar.open{transform:translateX(0)}
-.vault-side-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 0 18px;border-bottom:1px solid rgba(255,255,255,.09)}
-.vault-side-head strong{font-family:var(--english-font),sans-serif;letter-spacing:2px;font-size:1.05rem}
-.vault-side-head small{display:block;color:var(--muted);font-size:.72rem;margin-top:4px}
-.vault-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.06);color:#fff}
-.vault-side-section{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.07)}
-.vault-side-section h4{font-size:.82rem;color:var(--primary);margin-bottom:12px;letter-spacing:1px}
-.vault-side-list{display:grid;gap:8px}
-.vault-side-link{display:flex;align-items:center;gap:11px;width:100%;padding:12px 13px;border:1px solid transparent;border-radius:15px;background:rgba(255,255,255,.035);color:#fff;text-align:right;transition:.3s}
-.vault-side-link:hover,.vault-side-link.active{border-color:rgba(var(--primary-rgb),.3);background:rgba(var(--primary-rgb),.1);transform:translateX(-3px)}
-.vault-side-link i{width:22px;text-align:center}
-.vault-control{display:grid;gap:7px;margin-bottom:13px}
-.vault-control label{font-size:.74rem;color:#bfc5cf}
-.vault-control input,.vault-control select{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:#fff;border-radius:13px;padding:11px 12px;outline:none}
-.vault-control input:focus,.vault-control select:focus{border-color:rgba(var(--primary-rgb),.55);box-shadow:0 0 0 3px rgba(var(--primary-rgb),.08)}
-.vault-control select option{background:#11151d;color:#fff}
-.vault-range{width:100%;accent-color:var(--primary)}
-.vault-mini-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.vault-mini-btn{border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:10px;background:rgba(255,255,255,.05);color:#fff;transition:.3s}
-.vault-mini-btn:hover{background:rgba(var(--primary-rgb),.12);border-color:rgba(var(--primary-rgb),.35)}
-
-.vault-home-showcase{margin:26px 0 30px;position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px;align-items:stretch}
-.vault-hero-card{min-height:440px;padding:30px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.025)),rgba(9,12,19,.58);border:1px solid rgba(255,255,255,.16);border-radius:32px;position:relative;isolation:isolate}
-.vault-hero-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.84) 100%),var(--vault-preview-image);background-size:cover;background-position:center;z-index:-2;filter:saturate(1.05)}
-.vault-hero-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,var(--glow),transparent 34%);z-index:-1;opacity:.55}
-.vault-kicker{font-family:var(--english-font),sans-serif;font-size:.72rem;letter-spacing:3px;color:var(--primary);margin-bottom:10px}
-.vault-site-title{font-size:clamp(2.2rem,6vw,5.4rem);line-height:.95;font-weight:900;margin:0 0 13px;text-shadow:0 8px 35px rgba(0,0,0,.7)}
-.vault-site-title span{color:var(--primary);text-shadow:0 0 28px var(--glow)}
-.vault-site-subtitle{max-width:620px;color:#d7dbe2;line-height:1.9;font-size:.92rem}
-.vault-hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:19px}
-.vault-chip{padding:8px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.25);font-size:.7rem;color:#e7e9ee;backdrop-filter:blur(10px)}
-.vault-side-preview{padding:17px;border-radius:28px;background:rgba(12,15,22,.68);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(22px);box-shadow:0 25px 70px rgba(0,0,0,.38)}
-.vault-preview-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.vault-preview-label strong{font-size:.85rem}.vault-preview-label span{font-size:.65rem;color:var(--primary)}
-.vault-device{height:300px;border-radius:22px;border:1px solid rgba(255,255,255,.13);overflow:hidden;background:#090c12;position:relative;box-shadow:inset 0 0 35px rgba(0,0,0,.5)}
-.vault-device-top{height:38px;padding:9px 11px;display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035)}
-.vault-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.32)}
-.vault-device-body{padding:15px;display:grid;gap:10px}.vault-device-nav{height:30px;border-radius:10px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:7px}.vault-device-nav b{color:var(--primary);font-size:8px}.vault-device-image{height:125px;border-radius:15px;background:var(--vault-preview-image) center/cover;border:1px solid rgba(255,255,255,.12);position:relative;overflow:hidden}.vault-device-image::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 45%,rgba(var(--primary-rgb),.16))}.vault-device-lines{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}.vault-device-lines i{display:block;height:50px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-.vault-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.vault-thumb{aspect-ratio:1;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:center/cover;cursor:pointer;opacity:.68;transition:.3s}.vault-thumb:hover,.vault-thumb.active{opacity:1;transform:translateY(-2px);border-color:rgba(var(--primary-rgb),.55);box-shadow:0 0 15px rgba(var(--primary-rgb),.2)}
-.vault-layout-board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.vault-layout-card{min-height:90px;padding:13px;border-radius:19px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:.3s}.vault-layout-card:hover,.vault-layout-card.active{transform:translateY(-4px);border-color:rgba(var(--primary-rgb),.45);background:rgba(var(--primary-rgb),.08)}.vault-layout-card b{display:block;font-size:.75rem;margin-bottom:8px}.vault-layout-card span{font-size:.62rem;color:#9ea6b2;line-height:1.5}
-.vault-section-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 12px}.vault-section-title h2{font-size:1.15rem}.vault-section-title p{font-size:.72rem;color:#9ea6b2;margin-top:4px}.vault-live-badge{font-size:.65rem;color:var(--primary);border:1px solid rgba(var(--primary-rgb),.25);background:rgba(var(--primary-rgb),.07);border-radius:999px;padding:7px 10px}
-
-body.vault-layout-centered .vault-hero-card{text-align:center;align-items:center}.vault-layout-centered .vault-site-subtitle{margin-inline:auto}.vault-layout-split .vault-hero-card{justify-content:center}.vault-layout-minimal .vault-hero-card{min-height:360px;border-radius:24px}.vault-layout-editorial .vault-hero-card{min-height:500px;border-radius:10px}.vault-layout-editorial .vault-site-title{font-family:"Cormorant Garamond",serif;letter-spacing:1px}.vault-layout-compact .vault-home-showcase{grid-template-columns:1fr}.vault-layout-compact .vault-hero-card{min-height:300px}
-body.vault-text-glow .vault-site-title{text-shadow:0 0 18px var(--glow),0 8px 35px rgba(0,0,0,.7)}
-body.vault-text-gradient .vault-site-title span{background:linear-gradient(100deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent}
-body.vault-text-outline .vault-site-title{-webkit-text-stroke:1px rgba(255,255,255,.35);color:transparent}.vault-text-outline .vault-site-title span{color:transparent;-webkit-text-stroke:1px var(--primary)}
-body.vault-text-soft .vault-site-title{text-shadow:0 5px 24px rgba(0,0,0,.7)}
-body.vault-density-airy .vault-home-showcase{gap:28px}.vault-density-airy .vault-hero-card{padding:45px}.vault-density-tight .vault-home-showcase{gap:10px}.vault-density-tight .vault-hero-card{padding:22px}
-
-@media(max-width:850px){.vault-home-showcase{grid-template-columns:1fr}.vault-layout-board{grid-template-columns:repeat(2,1fr)}.vault-menu-trigger{top:10px;right:10px}.header{padding-right:70px}}
-@media(max-width:520px){.vault-sidebar{width:100vw}.vault-hero-card{min-height:390px;padding:23px}.vault-device{height:260px}.vault-layout-board{grid-template-columns:1fr 1fr}.vault-site-title{font-size:2.6rem}}
-</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body><video id="customBackgroundVideo" playsinline autoplay muted loop preload="auto" aria-hidden="true"></video>
+\n/* ===== PREMIUM SIDE NAVIGATION ===== */
+.side-menu-toggle{position:fixed;top:22px;right:22px;z-index:10001;width:54px;height:54px;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(10,12,20,.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 40px rgba(0,0,0,.3),0 0 30px rgba(124,92,255,.12);transition:.3s}
+.side-menu-toggle:hover{transform:translateY(-2px) scale(1.04);border-color:rgba(255,255,255,.35)}
+.side-menu-toggle span,.side-menu-toggle span:before,.side-menu-toggle span:after{content:"";display:block;width:21px;height:2px;background:currentColor;border-radius:4px;transition:.3s}
+.side-menu-toggle span:before{transform:translateY(-7px)}.side-menu-toggle span:after{transform:translateY(5px)}
+.side-menu-toggle.open span{background:transparent}.side-menu-toggle.open span:before{transform:translateY(0) rotate(45deg)}.side-menu-toggle.open span:after{transform:translateY(-2px) rotate(-45deg)}
+.side-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(5px);z-index:9998;opacity:0;visibility:hidden;transition:.35s}.side-menu-overlay.open{opacity:1;visibility:visible}
+.side-menu{position:fixed;top:0;right:0;height:100dvh;width:min(390px,92vw);z-index:10000;padding:24px 18px;box-sizing:border-box;background:linear-gradient(145deg,rgba(16,18,28,.92),rgba(5,7,13,.86));border-left:1px solid rgba(255,255,255,.13);box-shadow:-25px 0 80px rgba(0,0,0,.48);backdrop-filter:blur(28px) saturate(145%);-webkit-backdrop-filter:blur(28px) saturate(145%);transform:translateX(110%);transition:transform .42s cubic-bezier(.2,.8,.2,1);overflow:auto}
+.side-menu.open{transform:translateX(0)}
+.side-menu-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 4px 20px}.side-menu-brand{display:flex;align-items:center;gap:12px}.side-menu-logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:900;letter-spacing:1px;background:linear-gradient(135deg,#fff,#8b7cff);color:#090a10;box-shadow:0 0 35px rgba(139,124,255,.28)}.side-menu-brand b{display:block;font-size:15px}.side-menu-brand small{display:block;opacity:.55;margin-top:3px;font-size:10px;letter-spacing:1.5px}.side-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:18px}
+.side-menu-section{margin-top:14px}.side-menu-section-title{font-size:10px;letter-spacing:2px;opacity:.4;padding:0 8px 9px}.side-menu-links{display:grid;gap:7px}.side-link{position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border:1px solid transparent;border-radius:17px;background:rgba(255,255,255,.035);color:inherit;text-decoration:none;cursor:pointer;text-align:right;transition:.25s}.side-link:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.11);transform:translateX(-3px)}.side-link.active{background:linear-gradient(135deg,rgba(139,124,255,.18),rgba(255,255,255,.05));border-color:rgba(139,124,255,.28);box-shadow:inset 0 0 30px rgba(139,124,255,.05)}.side-link .side-icon{width:35px;height:35px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.06);font-size:15px}.side-link strong{font-size:13px}.side-link small{display:block;opacity:.45;font-size:10px;margin-top:2px}.side-badge{margin-right:auto;font-size:9px;padding:4px 7px;border-radius:20px;background:rgba(255,255,255,.08);opacity:.7}
+.side-menu-footer{margin-top:20px;padding:15px;border-radius:20px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}.side-mini-row{display:flex;justify-content:space-between;gap:10px;font-size:11px;margin:8px 0;opacity:.7}.side-mini-row b{color:#fff;opacity:1}.side-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:#55e89a;box-shadow:0 0 12px #55e89a;margin-left:5px}
+@media(max-width:600px){.side-menu-toggle{top:14px;right:14px;width:48px;height:48px;border-radius:16px}.side-menu{width:94vw;padding:20px 14px}.side-menu-head{padding-bottom:15px}}
+body.side-menu-open{overflow:hidden}
+</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body>\n<!-- ===== PREMIUM SIDE MENU ===== -->
+<button class="side-menu-toggle" id="sideMenuToggle" aria-label="فتح القائمة" aria-expanded="false"><span></span></button>
+<div class="side-menu-overlay" id="sideMenuOverlay"></div>
+<aside class="side-menu" id="sideMenu" aria-label="القائمة الجانبية">
+  <div class="side-menu-head">
+    <div class="side-menu-brand"><div class="side-menu-logo">TV</div><div><b>THEME VAULT</b><small>PREMIUM CONTROL CENTER</small></div></div>
+    <button class="side-close" id="sideMenuClose" aria-label="إغلاق">✕</button>
+  </div>
+  <div class="side-menu-section"><div class="side-menu-section-title">NAVIGATION</div><div class="side-menu-links">
+    <a class="side-link active" href="#home" data-side-target="home"><span class="side-icon">⌂</span><span><strong>الرئيسية</strong><small>HOME / OVERVIEW</small></span></a>
+    <a class="side-link" href="#themes" data-side-target="themes"><span class="side-icon">✦</span><span><strong>متجر الثيمات</strong><small>THEME STORE</small></span><span class="side-badge">115+</span></a>
+    <a class="side-link" href="#favorites" data-side-action="favorites"><span class="side-icon">♡</span><span><strong>المفضلة</strong><small>SAVED THEMES</small></span><span class="side-badge" id="sideFavoriteBadge">0</span></a>
+    <a class="side-link" href="#random" data-side-action="random"><span class="side-icon">⌁</span><span><strong>ثيم عشوائي</strong><small>RANDOM THEME</small></span></a>
+  </div></div>
+  <div class="side-menu-section"><div class="side-menu-section-title">TOOLS</div><div class="side-menu-links">
+    <a class="side-link" href="#search" data-side-action="search"><span class="side-icon">⌕</span><span><strong>بحث سريع</strong><small>SEARCH THEMES</small></span></a>
+    <a class="side-link" href="#export" data-side-action="export"><span class="side-icon">⇩</span><span><strong>تصدير المفضلة</strong><small>EXPORT JSON</small></span></a>
+    <a class="side-link" href="#reset" data-side-action="reset"><span class="side-icon">↻</span><span><strong>إعادة النظام</strong><small>RESET THEME</small></span></a>
+  </div></div>
+  <div class="side-menu-footer"><div class="side-mini-row"><span>ENGINE</span><b>GLASS UI</b></div><div class="side-mini-row"><span>STATUS</span><b><span class="side-dot"></span>ONLINE</b></div><div class="side-mini-row"><span>THEMES</span><b>115</b></div><div class="side-mini-row"><span>COLORS</span><b>1,150</b></div></div>
+</aside>
+<video id="customBackgroundVideo" playsinline autoplay muted loop preload="auto" aria-hidden="true"></video>
 <input id="backgroundJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
 <input id="backgroundMp4Input" type="file" accept="video/mp4,.mp4,video/*" hidden>
 <input id="photoJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
 <input id="photoGifInput" type="file" accept="image/gif,.gif" hidden>
-<div class="particles" id="particles"></div>
-<!-- =====================================================
-     THEME VAULT LAYOUT CONTROL
-===================================================== -->
-<button class="vault-menu-trigger" id="vaultMenuTrigger" aria-label="فتح قائمة ترتيب الموقع">☰</button>
-<div class="vault-overlay" id="vaultOverlay"></div>
-<aside class="vault-sidebar" id="vaultSidebar" aria-label="قائمة ترتيب الموقع">
-  <div class="vault-side-head">
-    <div><strong>THEME VAULT</strong><small>LAYOUT & TYPOGRAPHY CONTROL</small></div>
-    <button class="vault-close" id="vaultClose">✕</button>
-  </div>
-
-  <div class="vault-side-section">
-    <h4>صفحات الموقع</h4>
-    <div class="vault-side-list">
-      <button class="vault-side-link active" data-vault-scroll="vaultHomeShowcase"><i class="fa-solid fa-house"></i><span>واجهة البداية</span></button>
-      <button class="vault-side-link" data-vault-scroll="vaultPreviewArea"><i class="fa-solid fa-layer-group"></i><span>ترتيب المحتوى</span></button>
-      <button class="vault-side-link" data-vault-scroll="vaultPreviewArea"><i class="fa-solid fa-font"></i><span>تأثير النص</span></button>
-      <button class="vault-side-link" data-vault-scroll="vaultPreviewArea"><i class="fa-solid fa-table-columns"></i><span>نمط التخطيط</span></button>
-    </div>
-  </div>
-
-  <div class="vault-side-section">
-    <h4>بيانات واجهة البداية</h4>
-    <div class="vault-control"><label>اسم الموقع</label><input id="vaultSiteName" value="MOKO" maxlength="34"></div>
-    <div class="vault-control"><label>العنوان الفرعي</label><input id="vaultSiteSubtitle" value="MY SMALL WORLD" maxlength="70"></div>
-    <div class="vault-control"><label>وصف البداية</label><input id="vaultSiteDesc" value="مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة." maxlength="130"></div>
-  </div>
-
-  <div class="vault-side-section">
-    <h4>ترتيب الموقع</h4>
-    <div class="vault-control"><label>نوع الواجهة</label>
-      <select id="vaultLayout">
-        <option value="split">SPLIT — بطاقتان متوازيتان</option>
-        <option value="centered">CENTERED — تركيز على الاسم</option>
-        <option value="minimal">MINIMAL — بداية هادئة</option>
-        <option value="editorial">EDITORIAL — مجلة فاخرة</option>
-        <option value="compact">COMPACT — مدمج للموبايل</option>
-      </select>
-    </div>
-    <div class="vault-control"><label>كثافة المسافات</label>
-      <select id="vaultDensity">
-        <option value="normal">NORMAL</option><option value="airy">AIRY</option><option value="tight">TIGHT</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="vault-side-section">
-    <h4>تأثير النص</h4>
-    <div class="vault-control"><label>نمط العنوان</label>
-      <select id="vaultTextEffect">
-        <option value="soft">SOFT — ناعم</option><option value="glow">GLOW — متوهج</option><option value="gradient">GRADIENT — متدرج</option><option value="outline">OUTLINE — خط خارجي</option>
-      </select>
-    </div>
-    <div class="vault-control"><label>حجم العنوان</label><input id="vaultTitleScale" class="vault-range" type="range" min="75" max="135" value="100"></div>
-  </div>
-
-  <div class="vault-side-section">
-    <h4>صورة البداية</h4>
-    <div class="vault-control"><label>الصورة المصغرة الرئيسية</label><select id="vaultImageSelect"></select></div>
-    <div class="vault-mini-actions">
-      <button class="vault-mini-btn" id="vaultPrevImage">‹ السابقة</button>
-      <button class="vault-mini-btn" id="vaultNextImage">التالية ›</button>
-    </div>
-  </div>
-
-  <div class="vault-side-section">
-    <h4>إجراءات</h4>
-    <div class="vault-mini-actions">
-      <button class="vault-mini-btn" id="vaultReset">إعادة</button>
-      <button class="vault-mini-btn" id="vaultClose2">تطبيق ✓</button>
-    </div>
-  </div>
-</aside>
-
-<section class="vault-home-showcase vault-layout-split" id="vaultHomeShowcase">
-  <article class="vault-hero-card" id="vaultHeroCard" style="--vault-preview-image:url('AA.jpg')">
-    <div class="vault-kicker">WELCOME TO YOUR WORLD</div>
-    <h1 class="vault-site-title" id="vaultSiteTitle">MOKO <span>MY SMALL WORLD</span></h1>
-    <p class="vault-site-subtitle" id="vaultSiteDescView">مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة.</p>
-    <div class="vault-hero-meta"><span class="vault-chip">GLASS INTERFACE</span><span class="vault-chip">LUXURY MOTION</span><span class="vault-chip">PERSONAL SPACE</span></div>
-  </article>
-  <aside class="vault-side-preview" id="vaultPreviewArea">
-    <div class="vault-preview-label"><strong>LIVE SITE PREVIEW</strong><span>LAYOUT ONLY</span></div>
-    <div class="vault-device">
-      <div class="vault-device-top"><span class="vault-dot"></span><span class="vault-dot"></span><span class="vault-dot"></span></div>
-      <div class="vault-device-body">
-        <div class="vault-device-nav"><b id="vaultDeviceName">MOKO</b><span>HOME&nbsp;&nbsp; ABOUT&nbsp;&nbsp; CONTACT</span></div>
-        <div class="vault-device-image" id="vaultDeviceImage" style="background-image:url('AA.jpg')"></div>
-        <div class="vault-device-lines"><i></i><i></i></div>
-      </div>
-    </div>
-    <div class="vault-thumbs" id="vaultThumbs"></div>
-  </aside>
-</section>
-
-<section class="vault-section-title">
-  <div><h2>شكل الموقع قبل محتواه</h2><p>هذه المنطقة تستعرض ترتيب الواجهة والصورة المصغرة فقط، بدون عرض متجر الثيمات.</p></div>
-  <span class="vault-live-badge">LIVE LAYOUT</span>
-</section>
-<div class="vault-layout-board">
-  <button class="vault-layout-card active" data-layout-choice="split"><b>SPLIT</b><span>Hero كبير + معاينة جانبية.</span></button>
-  <button class="vault-layout-card" data-layout-choice="centered"><b>CENTERED</b><span>اسم الموقع في المنتصف وتركيز بصري.</span></button>
-  <button class="vault-layout-card" data-layout-choice="minimal"><b>MINIMAL</b><span>مساحات أقل وبطاقة هادئة.</span></button>
-  <button class="vault-layout-card" data-layout-choice="editorial"><b>EDITORIAL</b><span>شكل مجلة فاخرة وتايبوغرافي واضح.</span></button>
-</div>
-<main class="app"><!-- =====================================================
+<div class="particles" id="particles"></div><main class="app"><!-- =====================================================
      HEADER
 ===================================================== --><header class="header glass"><div class="brand"><img
 src="AA.jpg"
@@ -9640,86 +9507,34 @@ window.SOKO_EXTRA_THEMES={
  Royal:{className:'theme-royal'},
  Ice:{className:'theme-ice'}
 };
-</script>
-<script>
-/* =====================================================
-   THEME VAULT LAYOUT ENGINE
-===================================================== */
+</script></body></html>\n<script>
+/* ===== SIDE MENU ENGINE ===== */
 (function(){
-  const KEY='MOKO_VAULT_LAYOUT_V1';
-  const sidebar=document.getElementById('vaultSidebar');
-  const overlay=document.getElementById('vaultOverlay');
-  const trigger=document.getElementById('vaultMenuTrigger');
-  const close=document.getElementById('vaultClose');
-  const close2=document.getElementById('vaultClose2');
-  const root=document.body;
-  const hero=document.getElementById('vaultHeroCard');
-  const title=document.getElementById('vaultSiteTitle');
-  const deviceName=document.getElementById('vaultDeviceName');
-  const deviceImage=document.getElementById('vaultDeviceImage');
-  const imageSelect=document.getElementById('vaultImageSelect');
-  const thumbs=document.getElementById('vaultThumbs');
-  const images=['AA.jpg','1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg','10.jpg'];
-  let state={name:'MOKO',subtitle:'MY SMALL WORLD',desc:'مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة.',layout:'split',density:'normal',text:'soft',scale:100,image:'AA.jpg'};
-  try{state={...state,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){}
-
-  function save(){localStorage.setItem(KEY,JSON.stringify(state))}
-  function open(){sidebar.classList.add('open');overlay.classList.add('open')}
-  function shut(){sidebar.classList.remove('open');overlay.classList.remove('open')}
-  trigger.addEventListener('click',open); close.addEventListener('click',shut); close2.addEventListener('click',shut); overlay.addEventListener('click',shut);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')shut(); if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='b'){e.preventDefault();open()}});
-
-  function layout(v){
-    ['split','centered','minimal','editorial','compact'].forEach(x=>root.classList.remove('vault-layout-'+x));
-    root.classList.add('vault-layout-'+v);
-    document.querySelectorAll('[data-layout-choice]').forEach(x=>x.classList.toggle('active',x.dataset.layoutChoice===v));
-    document.getElementById('vaultHomeShowcase').className='vault-home-showcase vault-layout-'+v;
-    state.layout=v;save();
-  }
-  function density(v){['airy','tight'].forEach(x=>root.classList.remove('vault-density-'+x));if(v!=='normal')root.classList.add('vault-density-'+v);state.density=v;save()}
-  function textEffect(v){['soft','glow','gradient','outline'].forEach(x=>root.classList.remove('vault-text-'+x));root.classList.add('vault-text-'+v);state.text=v;save()}
-  function image(v){
-    state.image=v;save();
-    hero.style.setProperty('--vault-preview-image',`url('${v}')`);
-    deviceImage.style.backgroundImage=`url('${v}')`;
-    imageSelect.value=v;
-    document.querySelectorAll('.vault-thumb').forEach(t=>t.classList.toggle('active',t.dataset.image===v));
-  }
-  function update(){
-    const name=state.name||'MOKO'; const sub=state.subtitle||'MY SMALL WORLD';
-    title.innerHTML=`${escapeHTML(name)} <span>${escapeHTML(sub)}</span>`;
-    document.getElementById('vaultSiteDescView').textContent=state.desc||'';
-    deviceName.textContent=name;
-    document.getElementById('vaultSiteName').value=state.name;
-    document.getElementById('vaultSiteSubtitle').value=state.subtitle;
-    document.getElementById('vaultSiteDesc').value=state.desc;
-    document.getElementById('vaultLayout').value=state.layout;
-    document.getElementById('vaultDensity').value=state.density;
-    document.getElementById('vaultTextEffect').value=state.text;
-    document.getElementById('vaultTitleScale').value=state.scale;
-    title.style.transform=`scale(${Number(state.scale)/100})`;title.style.transformOrigin='right center';
-    layout(state.layout);density(state.density);textEffect(state.text);image(state.image);
-  }
-  function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-
-  images.forEach((src,i)=>{
-    const o=document.createElement('option');o.value=src;o.textContent=(i===0?'AA.jpg — الرئيسية':`الصورة ${i}`);imageSelect.appendChild(o);
-    const b=document.createElement('button');b.className='vault-thumb';b.dataset.image=src;b.style.backgroundImage=`url('${src}')`;b.title=src;b.addEventListener('click',()=>image(src));thumbs.appendChild(b);
-  });
-  document.getElementById('vaultSiteName').addEventListener('input',e=>{state.name=e.target.value;save();update()});
-  document.getElementById('vaultSiteSubtitle').addEventListener('input',e=>{state.subtitle=e.target.value;save();update()});
-  document.getElementById('vaultSiteDesc').addEventListener('input',e=>{state.desc=e.target.value;save();update()});
-  document.getElementById('vaultLayout').addEventListener('change',e=>layout(e.target.value));
-  document.getElementById('vaultDensity').addEventListener('change',e=>density(e.target.value));
-  document.getElementById('vaultTextEffect').addEventListener('change',e=>textEffect(e.target.value));
-  document.getElementById('vaultTitleScale').addEventListener('input',e=>{state.scale=e.target.value;title.style.transform=`scale(${state.scale/100})`;save()});
-  imageSelect.addEventListener('change',e=>image(e.target.value));
-  document.getElementById('vaultPrevImage').addEventListener('click',()=>{let i=images.indexOf(state.image);image(images[(i-1+images.length)%images.length])});
-  document.getElementById('vaultNextImage').addEventListener('click',()=>{let i=images.indexOf(state.image);image(images[(i+1)%images.length])});
-  document.querySelectorAll('[data-layout-choice]').forEach(b=>b.addEventListener('click',()=>layout(b.dataset.layoutChoice)));
-  document.querySelectorAll('[data-vault-scroll]').forEach(b=>b.addEventListener('click',()=>{document.getElementById(b.dataset.vaultScroll)?.scrollIntoView({behavior:'smooth',block:'center'});shut()}));
-  document.getElementById('vaultReset').addEventListener('click',()=>{state={name:'MOKO',subtitle:'MY SMALL WORLD',desc:'مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة.',layout:'split',density:'normal',text:'soft',scale:100,image:'AA.jpg'};save();update()});
-  update();
+ const menu=document.getElementById('sideMenu'), overlay=document.getElementById('sideMenuOverlay'), toggle=document.getElementById('sideMenuToggle'), close=document.getElementById('sideMenuClose');
+ if(!menu||!overlay||!toggle)return;
+ function open(){menu.classList.add('open');overlay.classList.add('open');toggle.classList.add('open');toggle.setAttribute('aria-expanded','true');document.body.classList.add('side-menu-open')}
+ function shut(){menu.classList.remove('open');overlay.classList.remove('open');toggle.classList.remove('open');toggle.setAttribute('aria-expanded','false');document.body.classList.remove('side-menu-open')}
+ window.openSideMenu=open;window.closeSideMenu=shut;
+ toggle.addEventListener('click',()=>menu.classList.contains('open')?shut():open()); overlay.addEventListener('click',shut); close.addEventListener('click',shut);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')shut();});
+ menu.querySelectorAll('.side-link').forEach(link=>link.addEventListener('click',e=>{
+   const action=link.dataset.sideAction, target=link.dataset.sideTarget;
+   if(action){e.preventDefault();
+     if(action==='random'&&typeof randomTheme==='function') randomTheme();
+     if(action==='export'&&typeof exportFavorites==='function') exportFavorites();
+     if(action==='reset'&&typeof resetTheme==='function') resetTheme();
+     if(action==='search'){const x=document.querySelector('#search');if(x){shut();setTimeout(()=>x.focus(),250);return;}}
+     if(action==='favorites'){const x=document.querySelector('#sort');if(x){x.value='favorites';x.dispatchEvent(new Event('change'));}}
+     shut(); return;
+   }
+   if(target){menu.querySelectorAll('.side-link').forEach(x=>x.classList.remove('active'));link.classList.add('active');
+     const el=document.getElementById(target)||document.querySelector('[data-section="'+target+'"]'); if(el){e.preventDefault();shut();setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);}
+   }
+ }));
+ function updateBadge(){
+   let n=0; try{n=JSON.parse(localStorage.getItem('themeVaultFavorites')||'[]').length}catch(e){}
+   const b=document.getElementById('sideFavoriteBadge'); if(b)b.textContent=n;
+ }
+ updateBadge(); window.addEventListener('storage',updateBadge); window.updateSideFavoriteBadge=updateBadge;
 })();
 </script>
-</body></html>
