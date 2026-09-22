@@ -4119,7 +4119,141 @@ body.theme-ice .glass{background:linear-gradient(135deg,rgba(220,245,255,.18),rg
 body.theme-ice{--primary:#dff7ff;--secondary:#67d5ff;--primary-rgb:103,213,255;--glow:rgba(103,213,255,.45)}
 
 @media(max-width:650px){.album-thumbnails{grid-template-columns:repeat(5,1fr)!important;gap:5px!important}.album-thumbnails .album-image{border-radius:9px!important}.album-slideshow{height:240px}}
-</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body><div class="particles" id="particles"></div><main class="app"><!-- =====================================================
+
+/* =====================================================
+   CUSTOM MEDIA BACKGROUND / PHOTO PICKER
+===================================================== */
+#customBackgroundVideo{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-4;
+    display:none;
+    pointer-events:none;
+    background:#000;
+}
+body.has-custom-video{
+    background-image:none!important;
+    background-color:#05070b!important;
+}
+body.has-custom-image{
+    background-image:
+        linear-gradient(
+            120deg,
+            var(--background-overlay),
+            var(--background-overlay-2)
+        ),
+        var(--custom-bg-image)!important;
+    background-size:cover!important;
+    background-position:center!important;
+    background-attachment:fixed!important;
+}
+.media-picker-card{
+    position:relative;
+    overflow:hidden;
+}
+.media-picker-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    margin-top:14px;
+}
+.media-picker-button{
+    min-height:112px;
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:20px;
+    color:var(--text);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.035)
+        );
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+}
+.media-picker-button:hover{
+    transform:translateY(-4px) scale(1.015);
+    border-color:rgba(var(--primary-rgb),.42);
+    box-shadow:0 15px 35px rgba(var(--primary-rgb),.16);
+    background:rgba(255,255,255,.10);
+}
+.media-picker-button i{
+    font-size:1.55rem;
+}
+.media-picker-button strong{
+    font-family:var(--english-font),sans-serif;
+    letter-spacing:1px;
+}
+.media-picker-button small{
+    color:var(--muted);
+    font-size:.78rem;
+}
+.media-picker-status{
+    margin-top:12px;
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:rgba(0,0,0,.18);
+    color:var(--muted);
+    line-height:1.7;
+    word-break:break-word;
+}
+.media-picker-status strong{
+    color:var(--primary);
+}
+.photo-preview-box{
+    margin-top:13px;
+    min-height:145px;
+    border:1px solid var(--border);
+    border-radius:20px;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+    background:rgba(0,0,0,.22);
+}
+#customPhotoPreview{
+    width:100%;
+    max-height:260px;
+    object-fit:cover;
+    display:none;
+}
+.media-reset-button{
+    margin-top:10px;
+    width:100%;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:14px;
+    color:var(--text);
+    background:rgba(255,255,255,.045);
+    transition:.3s;
+}
+.media-reset-button:hover{
+    background:rgba(255,255,255,.09);
+    border-color:rgba(var(--primary-rgb),.35);
+}
+@media(max-width:620px){
+    .media-picker-grid{
+        grid-template-columns:1fr;
+    }
+}
+body.reduced-motion #customBackgroundVideo{
+    transition:none!important;
+}
+
+</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body><video id="customBackgroundVideo" playsinline autoplay muted loop preload="auto" aria-hidden="true"></video>
+<input id="backgroundJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
+<input id="backgroundMp4Input" type="file" accept="video/mp4,.mp4,video/*" hidden>
+<input id="photoJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
+<input id="photoGifInput" type="file" accept="image/gif,.gif" hidden>
+<div class="particles" id="particles"></div><main class="app"><!-- =====================================================
      HEADER
 ===================================================== --><header class="header glass"><div class="brand"><img
 src="AA.jpg"
@@ -4552,7 +4686,7 @@ ICONS
 <button
 class="control-tab"
 data-panel="background">
-ATMOSPHERE
+BACKGROUND
 </button>
 
 <button
@@ -5059,85 +5193,136 @@ CHANGE
      ATMOSPHERE
 ===================================================== --><div
 class="control-panel"
-data-panel-content="background"><div class="control-grid"><div class="control-card"><h3>
+data-panel-content="background">
+<div class="control-grid">
+
+<div class="control-card media-picker-card">
+<h3>
+<i class="fa-solid fa-panorama"></i>
+BACKGROUND
+</h3>
+<p>
+اختار خلفية الموقع من ملفات هاتفك. يمكنك استخدام صورة JPG أو فيديو MP4.
+</p>
+<div class="media-picker-grid">
+<button type="button" class="media-picker-button" id="chooseBackgroundJpg">
+<i class="fa-solid fa-image"></i>
+<strong>JPG</strong>
+<small>اختيار صورة من المعرض</small>
+</button>
+<button type="button" class="media-picker-button" id="chooseBackgroundMp4">
+<i class="fa-solid fa-video"></i>
+<strong>MP4</strong>
+<small>اختيار فيديو وكتم صوته تلقائياً</small>
+</button>
+</div>
+<div class="media-picker-status" id="backgroundStatus">
+<strong>الحالة:</strong> الخلفية الأصلية A.jpg
+</div>
+<button type="button" class="media-reset-button" id="resetBackgroundMedia">
+<i class="fa-solid fa-rotate-left"></i>
+إرجاع الخلفية الأصلية
+</button>
+</div>
+
+<div class="control-card media-picker-card">
+<h3>
+<i class="fa-solid fa-id-card"></i>
+PHOTO
+</h3>
+<p>
+اختار الصورة المصغرة/صورة MOKO من معرض هاتفك. JPG للصور الثابتة أو GIF للصورة المتحركة.
+</p>
+<div class="media-picker-grid">
+<button type="button" class="media-picker-button" id="choosePhotoJpg">
+<i class="fa-solid fa-file-image"></i>
+<strong>JPG</strong>
+<small>اختيار صورة من المعرض</small>
+</button>
+<button type="button" class="media-picker-button" id="choosePhotoGif">
+<i class="fa-solid fa-film"></i>
+<strong>GIF</strong>
+<small>اختيار صورة متحركة</small>
+</button>
+</div>
+<div class="photo-preview-box">
+<img id="customPhotoPreview" alt="PHOTO PREVIEW">
+<span id="photoPreviewPlaceholder">
+<i class="fa-solid fa-image"></i>
+<br>
+المعاينة تظهر هنا
+</span>
+</div>
+<div class="media-picker-status" id="photoStatus">
+<strong>الحالة:</strong> الصورة الأصلية AA.jpg
+</div>
+<button type="button" class="media-reset-button" id="resetPhotoMedia">
+<i class="fa-solid fa-rotate-left"></i>
+إرجاع PHOTO الأصلية
+</button>
+</div>
+
+<div class="control-card">
+<h3>
 <i class="fa-solid fa-image"></i>
 A.jpg
-</h3><p>
-الخلفية الأصلية تبقى كما هي. هذه الإعدادات فقط تضيف أجواء فوقها.
-</p><div class="range-wrap"><div class="range-label"><span>DARKNESS</span>
+</h3>
+<p>
+إعدادات الإضاءة فوق الخلفية المختارة.
+</p>
+<div class="range-wrap">
+<div class="range-label">
+<span>DARKNESS</span>
+<span class="value-badge" id="darknessValue">70%</span>
+</div>
+<input class="range" type="range" id="darknessRange" min="20" max="90" value="70">
+</div>
+</div>
 
-<span
-class="value-badge"
-id="darknessValue">
-70%
-</span>
-
-</div><input
-class="range"
-type="range"
-id="darknessRange"
-min="20"
-max="90"
-value="70">
-
-</div></div><div class="control-card"><h3>
+<div class="control-card">
+<h3>
 <i class="fa-solid fa-circle-half-stroke"></i>
 VIGNETTE
-</h3><div class="range-wrap"><div class="range-label"><span>EDGE DARKNESS</span>
+</h3>
+<div class="range-wrap">
+<div class="range-label">
+<span>EDGE DARKNESS</span>
+<span class="value-badge" id="vignetteValue">30%</span>
+</div>
+<input class="range" type="range" id="vignetteRange" min="0" max="70" value="30">
+</div>
+</div>
 
-<span
-class="value-badge"
-id="vignetteValue">
-30%
-</span>
-
-</div><input
-class="range"
-type="range"
-id="vignetteRange"
-min="0"
-max="70"
-value="30">
-
-</div></div><div class="control-card"><h3>
+<div class="control-card">
+<h3>
 <i class="fa-solid fa-cloud"></i>
 AMBIENT LIGHT
-</h3><div class="range-wrap"><div class="range-label"><span>AMBIENT</span>
+</h3>
+<div class="range-wrap">
+<div class="range-label">
+<span>AMBIENT</span>
+<span class="value-badge" id="ambientValue">15%</span>
+</div>
+<input class="range" type="range" id="ambientRange" min="0" max="50" value="15">
+</div>
+</div>
 
-<span
-class="value-badge"
-id="ambientValue">
-15%
-</span>
-
-</div><input
-class="range"
-type="range"
-id="ambientRange"
-min="0"
-max="50"
-value="15">
-
-</div></div><div class="control-card"><h3>
+<div class="control-card">
+<h3>
 <i class="fa-solid fa-sparkles"></i>
 PARTICLES
-</h3><div class="range-wrap"><div class="range-label"><span>PARTICLE POWER</span>
+</h3>
+<div class="range-wrap">
+<div class="range-label">
+<span>PARTICLE POWER</span>
+<span class="value-badge" id="particleValue">65%</span>
+</div>
+<input class="range" type="range" id="particleRange" min="0" max="100" value="65">
+</div>
+</div>
 
-<span
-class="value-badge"
-id="particleValue">
-65%
-</span>
-
-</div><input
-class="range"
-type="range"
-id="particleRange"
-min="0"
-max="100"
-value="65">
-
-</div></div></div></div><!-- =====================================================
+</div>
+</div></div><!-- =====================================================
      CLICK
 ===================================================== --><div
 class="control-panel"
@@ -6734,7 +6919,14 @@ const defaultCustom = {
     particles:65,
 
     clickEffect:"ring",
-    clickEnabled:true
+    clickEnabled:true,
+
+    backgroundType:"default",
+    backgroundData:"",
+    backgroundName:"",
+    photoType:"default",
+    photoData:"",
+    photoName:""
 
 };
 
@@ -8573,6 +8765,467 @@ $("#lightRange")
 );
 
 
+
+/* =====================================================
+   CUSTOM BACKGROUND / PHOTO MEDIA
+===================================================== */
+
+const MEDIA_DB_NAME = "MOKO_MEDIA_DB_V1";
+const MEDIA_STORE_NAME = "media";
+
+function openMediaDB(){
+    return new Promise((resolve,reject)=>{
+        if(!("indexedDB" in window)){
+            reject(new Error("IndexedDB غير مدعوم"));
+            return;
+        }
+
+        const request = indexedDB.open(MEDIA_DB_NAME,1);
+
+        request.onupgradeneeded = event => {
+            const db = event.target.result;
+            if(!db.objectStoreNames.contains(MEDIA_STORE_NAME)){
+                db.createObjectStore(MEDIA_STORE_NAME);
+            }
+        };
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function saveMediaBlob(key, blob){
+    const db = await openMediaDB();
+    return new Promise((resolve,reject)=>{
+        const tx = db.transaction(MEDIA_STORE_NAME,"readwrite");
+        tx.objectStore(MEDIA_STORE_NAME).put(blob,key);
+        tx.oncomplete = () => {
+            db.close();
+            resolve();
+        };
+        tx.onerror = () => {
+            db.close();
+            reject(tx.error);
+        };
+    });
+}
+
+async function getMediaBlob(key){
+    const db = await openMediaDB();
+    return new Promise((resolve,reject)=>{
+        const tx = db.transaction(MEDIA_STORE_NAME,"readonly");
+        const request = tx.objectStore(MEDIA_STORE_NAME).get(key);
+        request.onsuccess = () => {
+            const value = request.result || null;
+            db.close();
+            resolve(value);
+        };
+        request.onerror = () => {
+            db.close();
+            reject(request.error);
+        };
+    });
+}
+
+async function deleteMediaBlob(key){
+    try{
+        const db = await openMediaDB();
+        return new Promise((resolve,reject)=>{
+            const tx = db.transaction(MEDIA_STORE_NAME,"readwrite");
+            tx.objectStore(MEDIA_STORE_NAME).delete(key);
+            tx.oncomplete = () => {
+                db.close();
+                resolve();
+            };
+            tx.onerror = () => {
+                db.close();
+                reject(tx.error);
+            };
+        });
+    }
+    catch{}
+}
+
+function setBackgroundStatus(text){
+    const element = $("#backgroundStatus");
+    if(element){
+        element.innerHTML = "<strong>الحالة:</strong> " + escapeHTML(text);
+    }
+}
+
+function setPhotoStatus(text){
+    const element = $("#photoStatus");
+    if(element){
+        element.innerHTML = "<strong>الحالة:</strong> " + escapeHTML(text);
+    }
+}
+
+function clearBackgroundVideo(){
+    const video = $("#customBackgroundVideo");
+    if(!video) return;
+    try{
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+    }
+    catch{}
+    video.style.display = "none";
+}
+
+function applyBackgroundType(){
+    const video = $("#customBackgroundVideo");
+
+    document.body.classList.remove(
+        "has-custom-image",
+        "has-custom-video"
+    );
+
+    clearBackgroundVideo();
+
+    if(custom.backgroundType === "image" && custom.backgroundData){
+        document.documentElement.style.setProperty(
+            "--custom-bg-image",
+            `url("${custom.backgroundData}")`
+        );
+        document.body.classList.add("has-custom-image");
+        setBackgroundStatus(
+            "JPG • " + (custom.backgroundName || "الصورة المختارة")
+        );
+        return;
+    }
+
+    if(custom.backgroundType === "video" && custom.backgroundData){
+        document.body.classList.add("has-custom-video");
+
+        if(video){
+            video.src = custom.backgroundData;
+            video.muted = true;
+            video.defaultMuted = true;
+            video.loop = true;
+            video.autoplay = true;
+            video.playsInline = true;
+            video.style.display = "block";
+
+            const playVideo = () => {
+                video.muted = true;
+                const promise = video.play();
+                if(promise && promise.catch){
+                    promise.catch(()=>{});
+                }
+            };
+
+            video.onloadeddata = playVideo;
+            playVideo();
+        }
+
+        setBackgroundStatus(
+            "MP4 • " + (custom.backgroundName || "الفيديو المختار") +
+            " • الصوت مكتوم تلقائياً"
+        );
+        return;
+    }
+
+    setBackgroundStatus("الخلفية الأصلية A.jpg");
+}
+
+function applyPhotoType(){
+    const preview = $("#customPhotoPreview");
+    const placeholder = $("#photoPreviewPlaceholder");
+    const avatars = document.querySelectorAll(".avatar,.brand-image");
+
+    if(!preview) return;
+
+    if(
+        (custom.photoType === "jpg" || custom.photoType === "gif") &&
+        custom.photoData
+    ){
+        preview.src = custom.photoData;
+        preview.style.display = "block";
+        if(placeholder) placeholder.style.display = "none";
+
+        avatars.forEach(image => {
+            image.src = custom.photoData;
+        });
+
+        setPhotoStatus(
+            (custom.photoType === "gif" ? "GIF" : "JPG") +
+            " • " +
+            (custom.photoName || "الصورة المختارة")
+        );
+        return;
+    }
+
+    preview.removeAttribute("src");
+    preview.style.display = "none";
+    if(placeholder) placeholder.style.display = "block";
+
+    avatars.forEach(image => {
+        image.src = "AA.jpg";
+    });
+
+    setPhotoStatus("الصورة الأصلية AA.jpg");
+}
+
+async function handleBackgroundFile(file,type){
+    if(!file) return;
+
+    if(type === "image"){
+        if(!/^image\/(jpeg|jpg)$/i.test(file.type) &&
+           !/\.(jpe?g)$/i.test(file.name)){
+            showToast("اختار صورة JPG فقط");
+            return;
+        }
+    }
+
+    if(type === "video"){
+        if(!/^video\/mp4$/i.test(file.type) &&
+           !/\.mp4$/i.test(file.name)){
+            showToast("اختار فيديو MP4 فقط");
+            return;
+        }
+    }
+
+    try{
+        const key = "background";
+        await saveMediaBlob(key,file);
+
+        const oldData = custom.backgroundData;
+
+        custom.backgroundType = type;
+        custom.backgroundData = "";
+        custom.backgroundName = file.name;
+
+        const objectUrl = URL.createObjectURL(file);
+
+        /*
+         * object URLs are used immediately for smooth playback.
+         * The Blob itself is also stored in IndexedDB so the
+         * selection can be restored after reloading the page.
+         */
+        custom.backgroundData = objectUrl;
+        saveCustom();
+        applyBackgroundType();
+
+        showToast(
+            type === "video"
+                ? "تم اختيار فيديو الخلفية ✓"
+                : "تم اختيار JPG للخلفية ✓"
+        );
+
+        /*
+         * The object URL cannot be stored as a permanent URL.
+         * Keep only metadata in localStorage and restore the Blob
+         * from IndexedDB on the next load.
+         */
+        custom.backgroundData = "";
+        saveCustom();
+
+        await restoreBackgroundFromDB();
+
+        void oldData;
+    }
+    catch(error){
+        console.error("MOKO background media error:",error);
+        showToast("تعذر حفظ ملف الخلفية");
+    }
+}
+
+async function handlePhotoFile(file,type){
+    if(!file) return;
+
+    if(type === "jpg"){
+        if(!/^image\/(jpeg|jpg)$/i.test(file.type) &&
+           !/\.(jpe?g)$/i.test(file.name)){
+            showToast("اختار صورة JPG فقط");
+            return;
+        }
+    }
+
+    if(type === "gif"){
+        if(!/^image\/gif$/i.test(file.type) &&
+           !/\.gif$/i.test(file.name)){
+            showToast("اختار صورة GIF فقط");
+            return;
+        }
+    }
+
+    try{
+        await saveMediaBlob("photo",file);
+
+        const objectUrl = URL.createObjectURL(file);
+
+        custom.photoType = type;
+        custom.photoData = objectUrl;
+        custom.photoName = file.name;
+
+        applyPhotoType();
+        showToast(
+            type === "gif"
+                ? "تم اختيار GIF متحرك ✓"
+                : "تم اختيار JPG ✓"
+        );
+
+        custom.photoData = "";
+        saveCustom();
+
+        await restorePhotoFromDB();
+    }
+    catch(error){
+        console.error("MOKO photo media error:",error);
+        showToast("تعذر حفظ الصورة");
+    }
+}
+
+async function restoreBackgroundFromDB(){
+    if(
+        !custom.backgroundType ||
+        custom.backgroundType === "default"
+    ){
+        applyBackgroundType();
+        return;
+    }
+
+    try{
+        const blob = await getMediaBlob("background");
+
+        if(!blob){
+            custom.backgroundType = "default";
+            custom.backgroundData = "";
+            custom.backgroundName = "";
+            saveCustom();
+            applyBackgroundType();
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(blob);
+        custom.backgroundData = objectUrl;
+        applyBackgroundType();
+    }
+    catch(error){
+        console.error("MOKO restore background error:",error);
+        custom.backgroundType = "default";
+        custom.backgroundData = "";
+        saveCustom();
+        applyBackgroundType();
+    }
+}
+
+async function restorePhotoFromDB(){
+    if(
+        !custom.photoType ||
+        custom.photoType === "default"
+    ){
+        applyPhotoType();
+        return;
+    }
+
+    try{
+        const blob = await getMediaBlob("photo");
+
+        if(!blob){
+            custom.photoType = "default";
+            custom.photoData = "";
+            custom.photoName = "";
+            saveCustom();
+            applyPhotoType();
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(blob);
+        custom.photoData = objectUrl;
+        applyPhotoType();
+    }
+    catch(error){
+        console.error("MOKO restore photo error:",error);
+        custom.photoType = "default";
+        custom.photoData = "";
+        saveCustom();
+        applyPhotoType();
+    }
+}
+
+$("#chooseBackgroundJpg").addEventListener(
+    "click",
+    () => $("#backgroundJpgInput").click()
+);
+
+$("#chooseBackgroundMp4").addEventListener(
+    "click",
+    () => $("#backgroundMp4Input").click()
+);
+
+$("#choosePhotoJpg").addEventListener(
+    "click",
+    () => $("#photoJpgInput").click()
+);
+
+$("#choosePhotoGif").addEventListener(
+    "click",
+    () => $("#photoGifInput").click()
+);
+
+$("#backgroundJpgInput").addEventListener(
+    "change",
+    async event => {
+        const file = event.target.files?.[0];
+        await handleBackgroundFile(file,"image");
+        event.target.value = "";
+    }
+);
+
+$("#backgroundMp4Input").addEventListener(
+    "change",
+    async event => {
+        const file = event.target.files?.[0];
+        await handleBackgroundFile(file,"video");
+        event.target.value = "";
+    }
+);
+
+$("#photoJpgInput").addEventListener(
+    "change",
+    async event => {
+        const file = event.target.files?.[0];
+        await handlePhotoFile(file,"jpg");
+        event.target.value = "";
+    }
+);
+
+$("#photoGifInput").addEventListener(
+    "change",
+    async event => {
+        const file = event.target.files?.[0];
+        await handlePhotoFile(file,"gif");
+        event.target.value = "";
+    }
+);
+
+$("#resetBackgroundMedia").addEventListener(
+    "click",
+    async () => {
+        await deleteMediaBlob("background");
+        custom.backgroundType = "default";
+        custom.backgroundData = "";
+        custom.backgroundName = "";
+        saveCustom();
+        applyBackgroundType();
+        showToast("تم إرجاع الخلفية الأصلية ✓");
+    }
+);
+
+$("#resetPhotoMedia").addEventListener(
+    "click",
+    async () => {
+        await deleteMediaBlob("photo");
+        custom.photoType = "default";
+        custom.photoData = "";
+        custom.photoName = "";
+        saveCustom();
+        applyPhotoType();
+        showToast("تم إرجاع PHOTO الأصلية ✓");
+    }
+);
+
 /* =====================================================
    CLICK EFFECT ENGINE
 ===================================================== */
@@ -8728,6 +9381,11 @@ for(
 ===================================================== */
 
 applyCustomization();
+applyBackgroundType();
+applyPhotoType();
+
+restoreBackgroundFromDB();
+restorePhotoFromDB();
 
 
 /* =====================================================
