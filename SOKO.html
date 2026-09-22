@@ -4248,6 +4248,35 @@ body.reduced-motion #customBackgroundVideo{
     transition:none!important;
 }
 
+
+/* =====================================================
+   MUSIC LIBRARY / GOD PLAYER
+===================================================== */
+.music-library-button{
+    min-width:170px;
+}
+.music-status{
+    margin-top:10px;
+    font-size:.78rem;
+    opacity:.78;
+    line-height:1.5;
+}
+.music-file-input{
+    display:none !important;
+}
+.music-player audio{
+    width:100%;
+    display:block;
+    margin-top:12px;
+}
+.music-player audio::-webkit-media-controls-play-button,
+.music-player audio::-webkit-media-controls-volume-slider,
+.music-player audio::-webkit-media-controls-timeline,
+.music-player audio::-webkit-media-controls-current-time-display,
+.music-player audio::-webkit-media-controls-time-remaining-display{
+    display:none;
+}
+
 </style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body><video id="customBackgroundVideo" playsinline autoplay muted loop preload="auto" aria-hidden="true"></video>
 <input id="backgroundJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
 <input id="backgroundMp4Input" type="file" accept="video/mp4,.mp4,video/*" hidden>
@@ -4351,32 +4380,35 @@ MY SMALL WORLD • PERSONAL SPACE
 <img src="9.jpg" class="album-image">
 <img src="10.jpg" class="album-image"></div><div class="music-player"><i class="fa-solid fa-music music-icon"></i>
 
-<div class="music-content"><span class="music-name">
-MOKO — JJ.mp3
-</span><audio id="mokoAudio" controls preload="metadata"><source
-src="./JJ.mp3"
-type="audio/mpeg">
-<source
-src="JJ.mp3"
-type="audio/mpeg">
+<div class="music-content"><span class="music-name" id="musicName">
+MOKO — GOD.mp3
+</span>
 
-</audio><div class="music-controls"><button
-type="button"
-class="music-control-button"
-id="playMusic">
+<audio id="mokoAudio" preload="auto" loop playsinline></audio>
 
+<div class="music-controls">
+<button type="button" class="music-control-button" id="playMusic">
 <i class="fa-solid fa-play"></i>
 PLAY
+</button>
 
-</button><button
-type="button"
-class="music-control-button"
-id="pauseMusic">
-
+<button type="button" class="music-control-button" id="pauseMusic">
 <i class="fa-solid fa-pause"></i>
 PAUSE
+</button>
 
-</button></div></div></div></div></div></div></section><!-- =====================================================
+<button type="button" class="music-control-button music-library-button" id="chooseMusic">
+<i class="fa-solid fa-folder-open"></i>
+SONGS
+</button>
+</div>
+
+<div class="music-status" id="musicStatus">
+GOD.mp3 • LOOP • AUTO PLAY
+</div>
+
+<input class="music-file-input" id="musicFileInput" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac" multiple>
+</div></div></div></div></div></section><!-- =====================================================
      DOV
 ===================================================== --><div class="album-carousel glass"><div class="album-slideshow" id="albumSlideshow">
 <img src="1.jpg" class="slide active"><img src="2.jpg" class="slide"><img src="3.jpg" class="slide"><img src="4.jpg" class="slide"><img src="5.jpg" class="slide"><img src="6.jpg" class="slide"><img src="7.jpg" class="slide"><img src="8.jpg" class="slide"><img src="9.jpg" class="slide"><img src="10.jpg" class="slide">
@@ -6449,91 +6481,387 @@ renderMessageHistory();
 
 
 /* =====================================================
-   MUSIC — JJ.mp3
+   MUSIC — GOD.mp3 / PHONE MUSIC LIBRARY
 ===================================================== */
 
 const audio =
     $("#mokoAudio");
 
-function showMusicError(){
+const musicName =
+    $("#musicName");
 
+const musicStatus =
+    $("#musicStatus");
+
+const musicFileInput =
+    $("#musicFileInput");
+
+const chooseMusicButton =
+    $("#chooseMusic");
+
+const MUSIC_MEDIA_KEY =
+    "MOKO_SELECTED_MUSIC";
+
+let currentMusicURL =
+    null;
+
+let defaultMusicURL =
+    "./GOD.mp3";
+
+function setMusicStatus(text){
+    if(musicStatus)
+        musicStatus.textContent = text;
+}
+
+function setMusicName(name){
+    if(musicName)
+        musicName.textContent =
+            "MOKO — " + name;
+}
+
+function showMusicError(name){
+    setMusicStatus(
+        "تعذر تحميل " +
+        (name || "GOD.mp3") +
+        " — تأكد أن الملف موجود بجانب HTML"
+    );
     showToast(
-        "تعذر تحميل JJ.mp3 — تأكد أنه بجانب ملف HTML وبنفس الاسم"
+        "تعذر تشغيل الأغنية"
+    );
+}
+
+function releaseCurrentMusicURL(){
+    if(currentMusicURL){
+        try{
+            URL.revokeObjectURL(
+                currentMusicURL
+            );
+        }
+        catch{}
+        currentMusicURL = null;
+    }
+}
+
+function setMusicSource(src,name,customFile){
+    if(!audio) return;
+
+    releaseCurrentMusicURL();
+
+    audio.pause();
+    audio.loop = true;
+    audio.autoplay = true;
+    audio.preload = "auto";
+    audio.playsInline = true;
+    audio.muted = false;
+    audio.volume = 1;
+
+    audio.src = src;
+    audio.load();
+
+    setMusicName(name || "GOD.mp3");
+
+    setMusicStatus(
+        (name || "GOD.mp3") +
+        " • LOOP • AUTO PLAY" +
+        (customFile ? " • PHONE" : "")
+    );
+}
+
+async function playMusicNow(){
+    if(!audio) return false;
+
+    try{
+        await audio.play();
+        setMusicStatus(
+            (musicName ? musicName.textContent.replace(/^MOKO — /,"") : "GOD.mp3") +
+            " • PLAYING • LOOP"
+        );
+        return true;
+    }
+    catch(error){
+        /*
+           Browsers may block sound autoplay until the first user
+           interaction. We retry automatically after that interaction.
+        */
+        setMusicStatus(
+            "اضغط أي مكان مرة واحدة لتشغيل الصوت تلقائياً • LOOP"
+        );
+        return false;
+    }
+}
+
+function enableAutoplayAfterInteraction(){
+    const retry = async () => {
+        const played = await playMusicNow();
+        if(played){
+            document.removeEventListener("pointerdown",retry);
+            document.removeEventListener("touchstart",retry);
+            document.removeEventListener("keydown",retry);
+        }
+    };
+
+    document.addEventListener("pointerdown",retry,{passive:true});
+    document.addEventListener("touchstart",retry,{passive:true});
+    document.addEventListener("keydown",retry,{passive:true});
+}
+
+async function saveSelectedMusicBlob(blob,name){
+    try{
+        await saveMediaBlob(
+            "selectedMusic",
+            blob
+        );
+        localStorage.setItem(
+            MUSIC_MEDIA_KEY,
+            JSON.stringify({
+                name:name,
+                saved:true
+            })
+        );
+    }
+    catch(error){
+        console.warn(
+            "MOKO music save error:",
+            error
+        );
+    }
+}
+
+async function restoreSelectedMusic(){
+    try{
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    MUSIC_MEDIA_KEY
+                ) || "null"
+            );
+
+        if(!saved || !saved.saved)
+            return false;
+
+        const blob =
+            await getMediaBlob(
+                "selectedMusic"
+            );
+
+        if(!blob)
+            return false;
+
+        currentMusicURL =
+            URL.createObjectURL(blob);
+
+        setMusicSource(
+            currentMusicURL,
+            saved.name || "Phone Song",
+            true
+        );
+
+        await playMusicNow();
+        return true;
+    }
+    catch(error){
+        console.warn(
+            "MOKO music restore error:",
+            error
+        );
+        return false;
+    }
+}
+
+function getAudioDuration(file){
+    return new Promise(resolve => {
+        const url =
+            URL.createObjectURL(file);
+        const probe =
+            document.createElement("audio");
+
+        let finished = false;
+
+        const finish = duration => {
+            if(finished) return;
+            finished = true;
+            URL.revokeObjectURL(url);
+            probe.removeAttribute("src");
+            try{ probe.load(); }catch{}
+            resolve(Number.isFinite(duration) ? duration : 0);
+        };
+
+        probe.preload = "metadata";
+        probe.src = url;
+        probe.addEventListener(
+            "loadedmetadata",
+            () => finish(probe.duration),
+            {once:true}
+        );
+        probe.addEventListener(
+            "error",
+            () => finish(0),
+            {once:true}
+        );
+
+        setTimeout(
+            () => finish(0),
+            10000
+        );
+    });
+}
+
+async function choosePhoneMusic(files){
+    const list =
+        Array.from(files || []);
+
+    if(!list.length)
+        return;
+
+    setMusicStatus(
+        "جاري فحص الأغاني… يجب أن تكون مدتها دقيقة واحدة أو أكثر"
     );
 
+    const valid = [];
+
+    for(const file of list){
+        if(!file.type.startsWith("audio/") &&
+           !/\.(mp3|m4a|wav|ogg|aac|flac)$/i.test(file.name)){
+            continue;
+        }
+
+        const duration =
+            await getAudioDuration(file);
+
+        if(duration >= 60){
+            valid.push({
+                file,
+                duration
+            });
+        }
+    }
+
+    if(!valid.length){
+        setMusicStatus(
+            "لم يتم العثور على أغنية مدتها دقيقة أو أكثر"
+        );
+        showToast(
+            "اختر أغنية مدتها 1:00 دقيقة أو أكثر"
+        );
+        return;
+    }
+
+    /* The picker can return multiple songs; show a simple selection dialog. */
+    let selected = valid[0];
+
+    if(valid.length > 1){
+        const labels =
+            valid.map((item,index) =>
+                (index + 1) + ". " +
+                item.file.name +
+                " — " +
+                formatMusicDuration(item.duration)
+            ).join("\n");
+
+        const answer =
+            window.prompt(
+                "الأغاني المتاحة (دقيقة أو أكثر):\n\n" +
+                labels +
+                "\n\nاكتب رقم الأغنية:",
+                "1"
+            );
+
+        if(answer === null)
+            return;
+
+        const index =
+            Number(answer) - 1;
+
+        if(Number.isInteger(index) &&
+           index >= 0 &&
+           index < valid.length){
+            selected = valid[index];
+        }
+        else{
+            showToast("رقم الأغنية غير صحيح");
+            return;
+        }
+    }
+
+    currentMusicURL =
+        URL.createObjectURL(
+            selected.file
+        );
+
+    setMusicSource(
+        currentMusicURL,
+        selected.file.name,
+        true
+    );
+
+    await saveSelectedMusicBlob(
+        selected.file,
+        selected.file.name
+    );
+
+    await playMusicNow();
+}
+
+function formatMusicDuration(seconds){
+    const total =
+        Math.max(0,Math.floor(seconds));
+    const minutes =
+        Math.floor(total / 60);
+    const secs =
+        String(total % 60).padStart(2,"0");
+    return minutes + ":" + secs;
 }
 
 if(audio){
-
-    audio.preload =
-        "auto";
+    audio.loop = true;
+    audio.autoplay = true;
+    audio.preload = "auto";
+    audio.playsInline = true;
 
     audio.addEventListener(
         "error",
-        showMusicError
+        () => showMusicError(
+            musicName
+                ? musicName.textContent.replace(/^MOKO — /,"")
+                : "GOD.mp3"
+        )
     );
 
     audio.addEventListener(
-        "stalled",
-        () => {}
-    );
-
-    audio.addEventListener(
-        "canplay",
+        "ended",
         () => {
-
-            audio.dataset.ready =
-                "true";
-
+            /* Extra protection against stopping. */
+            audio.currentTime = 0;
+            playMusicNow();
         }
     );
 
-    try{
+    audio.addEventListener(
+        "play",
+        () => {
+            if(musicName){
+                setMusicStatus(
+                    musicName.textContent.replace(/^MOKO — /,"") +
+                    " • PLAYING • LOOP"
+                );
+            }
+        }
+    );
 
-        audio.load();
-
-    }
-    catch{}
-
+    setMusicSource(
+        defaultMusicURL,
+        "GOD.mp3",
+        false
+    );
 }
 
 $("#playMusic")
 .addEventListener(
     "click",
     async event => {
-
         event.preventDefault();
         event.stopPropagation();
-
-        if(!audio){
-
-            showMusicError();
-            return;
-
-        }
-
-        try{
-
-            audio.load();
-
-            await audio.play();
-
-            showToast(
-                "JJ.mp3 يعمل الآن ▶"
-            );
-
-        }
-        catch(error){
-
-            console.error(
-                "MOKO audio error:",
-                error
-            );
-
-            showMusicError();
-
-        }
-
+        await playMusicNow();
     }
 );
 
@@ -6541,15 +6869,55 @@ $("#pauseMusic")
 .addEventListener(
     "click",
     event => {
-
         event.preventDefault();
         event.stopPropagation();
-
-        if(audio)
+        if(audio){
             audio.pause();
-
+            setMusicStatus(
+                (musicName ? musicName.textContent.replace(/^MOKO — /,"") : "GOD.mp3") +
+                " • PAUSED • LOOP READY"
+            );
+        }
     }
 );
+
+if(chooseMusicButton && musicFileInput){
+    chooseMusicButton.addEventListener(
+        "click",
+        event => {
+            event.preventDefault();
+            event.stopPropagation();
+            musicFileInput.value = "";
+            musicFileInput.click();
+        }
+    );
+
+    musicFileInput.addEventListener(
+        "change",
+        async event => {
+            await choosePhoneMusic(
+                event.target.files
+            );
+        }
+    );
+}
+
+/* Start GOD.mp3 as soon as the browser permits it. */
+(async function startMusic(){
+    const restored =
+        await restoreSelectedMusic();
+
+    if(!restored){
+        setMusicSource(
+            defaultMusicURL,
+            "GOD.mp3",
+            false
+        );
+        await playMusicNow();
+    }
+
+    enableAutoplayAfterInteraction();
+})();
 
 /* =====================================================
    SHARED NOTES
