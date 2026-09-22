@@ -4250,39 +4250,178 @@ body.reduced-motion #customBackgroundVideo{
 
 
 /* =====================================================
-   MUSIC LIBRARY / GOD PLAYER
+   THEME VAULT — SITE LAYOUT SIDEBAR + HOME SHOWCASE
+   This layer changes only presentation/layout. Existing theme
+   cards and the original theme system remain untouched.
 ===================================================== */
-.music-library-button{
-    min-width:170px;
-}
-.music-status{
-    margin-top:10px;
-    font-size:.78rem;
-    opacity:.78;
-    line-height:1.5;
-}
-.music-file-input{
-    display:none !important;
-}
-.music-player audio{
-    width:100%;
-    display:block;
-    margin-top:12px;
-}
-.music-player audio::-webkit-media-controls-play-button,
-.music-player audio::-webkit-media-controls-volume-slider,
-.music-player audio::-webkit-media-controls-timeline,
-.music-player audio::-webkit-media-controls-current-time-display,
-.music-player audio::-webkit-media-controls-time-remaining-display{
-    display:none;
-}
 
+.vault-menu-trigger{position:fixed;right:18px;top:18px;z-index:2200;width:52px;height:52px;border:1px solid rgba(255,255,255,.18);border-radius:17px;background:rgba(10,13,20,.72);backdrop-filter:blur(18px);color:#fff;box-shadow:0 12px 45px rgba(0,0,0,.4),0 0 25px var(--glow);font-size:20px;transition:.35s}
+.vault-menu-trigger:hover{transform:translateY(-3px) rotate(3deg);background:rgba(255,255,255,.12)}
+.vault-overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(3px);z-index:2100;opacity:0;visibility:hidden;transition:.35s}
+.vault-overlay.open{opacity:1;visibility:visible}
+.vault-sidebar{position:fixed;right:0;top:0;height:100dvh;width:min(390px,92vw);z-index:2201;transform:translateX(105%);transition:transform .55s cubic-bezier(.2,.8,.2,1);background:linear-gradient(145deg,rgba(17,20,29,.94),rgba(5,7,12,.88));border-left:1px solid rgba(255,255,255,.15);box-shadow:-30px 0 100px rgba(0,0,0,.55);backdrop-filter:blur(30px);overflow:auto;padding:22px}
+.vault-sidebar.open{transform:translateX(0)}
+.vault-side-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 0 18px;border-bottom:1px solid rgba(255,255,255,.09)}
+.vault-side-head strong{font-family:var(--english-font),sans-serif;letter-spacing:2px;font-size:1.05rem}
+.vault-side-head small{display:block;color:var(--muted);font-size:.72rem;margin-top:4px}
+.vault-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.06);color:#fff}
+.vault-side-section{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.vault-side-section h4{font-size:.82rem;color:var(--primary);margin-bottom:12px;letter-spacing:1px}
+.vault-side-list{display:grid;gap:8px}
+.vault-side-link{display:flex;align-items:center;gap:11px;width:100%;padding:12px 13px;border:1px solid transparent;border-radius:15px;background:rgba(255,255,255,.035);color:#fff;text-align:right;transition:.3s}
+.vault-side-link:hover,.vault-side-link.active{border-color:rgba(var(--primary-rgb),.3);background:rgba(var(--primary-rgb),.1);transform:translateX(-3px)}
+.vault-side-link i{width:22px;text-align:center}
+.vault-control{display:grid;gap:7px;margin-bottom:13px}
+.vault-control label{font-size:.74rem;color:#bfc5cf}
+.vault-control input,.vault-control select{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:#fff;border-radius:13px;padding:11px 12px;outline:none}
+.vault-control input:focus,.vault-control select:focus{border-color:rgba(var(--primary-rgb),.55);box-shadow:0 0 0 3px rgba(var(--primary-rgb),.08)}
+.vault-control select option{background:#11151d;color:#fff}
+.vault-range{width:100%;accent-color:var(--primary)}
+.vault-mini-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vault-mini-btn{border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:10px;background:rgba(255,255,255,.05);color:#fff;transition:.3s}
+.vault-mini-btn:hover{background:rgba(var(--primary-rgb),.12);border-color:rgba(var(--primary-rgb),.35)}
+
+.vault-home-showcase{margin:26px 0 30px;position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px;align-items:stretch}
+.vault-hero-card{min-height:440px;padding:30px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.025)),rgba(9,12,19,.58);border:1px solid rgba(255,255,255,.16);border-radius:32px;position:relative;isolation:isolate}
+.vault-hero-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.84) 100%),var(--vault-preview-image);background-size:cover;background-position:center;z-index:-2;filter:saturate(1.05)}
+.vault-hero-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,var(--glow),transparent 34%);z-index:-1;opacity:.55}
+.vault-kicker{font-family:var(--english-font),sans-serif;font-size:.72rem;letter-spacing:3px;color:var(--primary);margin-bottom:10px}
+.vault-site-title{font-size:clamp(2.2rem,6vw,5.4rem);line-height:.95;font-weight:900;margin:0 0 13px;text-shadow:0 8px 35px rgba(0,0,0,.7)}
+.vault-site-title span{color:var(--primary);text-shadow:0 0 28px var(--glow)}
+.vault-site-subtitle{max-width:620px;color:#d7dbe2;line-height:1.9;font-size:.92rem}
+.vault-hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:19px}
+.vault-chip{padding:8px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.25);font-size:.7rem;color:#e7e9ee;backdrop-filter:blur(10px)}
+.vault-side-preview{padding:17px;border-radius:28px;background:rgba(12,15,22,.68);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(22px);box-shadow:0 25px 70px rgba(0,0,0,.38)}
+.vault-preview-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.vault-preview-label strong{font-size:.85rem}.vault-preview-label span{font-size:.65rem;color:var(--primary)}
+.vault-device{height:300px;border-radius:22px;border:1px solid rgba(255,255,255,.13);overflow:hidden;background:#090c12;position:relative;box-shadow:inset 0 0 35px rgba(0,0,0,.5)}
+.vault-device-top{height:38px;padding:9px 11px;display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035)}
+.vault-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.32)}
+.vault-device-body{padding:15px;display:grid;gap:10px}.vault-device-nav{height:30px;border-radius:10px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:7px}.vault-device-nav b{color:var(--primary);font-size:8px}.vault-device-image{height:125px;border-radius:15px;background:var(--vault-preview-image) center/cover;border:1px solid rgba(255,255,255,.12);position:relative;overflow:hidden}.vault-device-image::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 45%,rgba(var(--primary-rgb),.16))}.vault-device-lines{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}.vault-device-lines i{display:block;height:50px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.vault-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.vault-thumb{aspect-ratio:1;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:center/cover;cursor:pointer;opacity:.68;transition:.3s}.vault-thumb:hover,.vault-thumb.active{opacity:1;transform:translateY(-2px);border-color:rgba(var(--primary-rgb),.55);box-shadow:0 0 15px rgba(var(--primary-rgb),.2)}
+.vault-layout-board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.vault-layout-card{min-height:90px;padding:13px;border-radius:19px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:.3s}.vault-layout-card:hover,.vault-layout-card.active{transform:translateY(-4px);border-color:rgba(var(--primary-rgb),.45);background:rgba(var(--primary-rgb),.08)}.vault-layout-card b{display:block;font-size:.75rem;margin-bottom:8px}.vault-layout-card span{font-size:.62rem;color:#9ea6b2;line-height:1.5}
+.vault-section-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 12px}.vault-section-title h2{font-size:1.15rem}.vault-section-title p{font-size:.72rem;color:#9ea6b2;margin-top:4px}.vault-live-badge{font-size:.65rem;color:var(--primary);border:1px solid rgba(var(--primary-rgb),.25);background:rgba(var(--primary-rgb),.07);border-radius:999px;padding:7px 10px}
+
+body.vault-layout-centered .vault-hero-card{text-align:center;align-items:center}.vault-layout-centered .vault-site-subtitle{margin-inline:auto}.vault-layout-split .vault-hero-card{justify-content:center}.vault-layout-minimal .vault-hero-card{min-height:360px;border-radius:24px}.vault-layout-editorial .vault-hero-card{min-height:500px;border-radius:10px}.vault-layout-editorial .vault-site-title{font-family:"Cormorant Garamond",serif;letter-spacing:1px}.vault-layout-compact .vault-home-showcase{grid-template-columns:1fr}.vault-layout-compact .vault-hero-card{min-height:300px}
+body.vault-text-glow .vault-site-title{text-shadow:0 0 18px var(--glow),0 8px 35px rgba(0,0,0,.7)}
+body.vault-text-gradient .vault-site-title span{background:linear-gradient(100deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent}
+body.vault-text-outline .vault-site-title{-webkit-text-stroke:1px rgba(255,255,255,.35);color:transparent}.vault-text-outline .vault-site-title span{color:transparent;-webkit-text-stroke:1px var(--primary)}
+body.vault-text-soft .vault-site-title{text-shadow:0 5px 24px rgba(0,0,0,.7)}
+body.vault-density-airy .vault-home-showcase{gap:28px}.vault-density-airy .vault-hero-card{padding:45px}.vault-density-tight .vault-home-showcase{gap:10px}.vault-density-tight .vault-hero-card{padding:22px}
+
+@media(max-width:850px){.vault-home-showcase{grid-template-columns:1fr}.vault-layout-board{grid-template-columns:repeat(2,1fr)}.vault-menu-trigger{top:10px;right:10px}.header{padding-right:70px}}
+@media(max-width:520px){.vault-sidebar{width:100vw}.vault-hero-card{min-height:390px;padding:23px}.vault-device{height:260px}.vault-layout-board{grid-template-columns:1fr 1fr}.vault-site-title{font-size:2.6rem}}
 </style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body><video id="customBackgroundVideo" playsinline autoplay muted loop preload="auto" aria-hidden="true"></video>
 <input id="backgroundJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
 <input id="backgroundMp4Input" type="file" accept="video/mp4,.mp4,video/*" hidden>
 <input id="photoJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
 <input id="photoGifInput" type="file" accept="image/gif,.gif" hidden>
-<div class="particles" id="particles"></div><main class="app"><!-- =====================================================
+<div class="particles" id="particles"></div>
+<!-- =====================================================
+     THEME VAULT LAYOUT CONTROL
+===================================================== -->
+<button class="vault-menu-trigger" id="vaultMenuTrigger" aria-label="فتح قائمة ترتيب الموقع">☰</button>
+<div class="vault-overlay" id="vaultOverlay"></div>
+<aside class="vault-sidebar" id="vaultSidebar" aria-label="قائمة ترتيب الموقع">
+  <div class="vault-side-head">
+    <div><strong>THEME VAULT</strong><small>LAYOUT & TYPOGRAPHY CONTROL</small></div>
+    <button class="vault-close" id="vaultClose">✕</button>
+  </div>
+
+  <div class="vault-side-section">
+    <h4>صفحات الموقع</h4>
+    <div class="vault-side-list">
+      <button class="vault-side-link active" data-vault-scroll="vaultHomeShowcase"><i class="fa-solid fa-house"></i><span>واجهة البداية</span></button>
+      <button class="vault-side-link" data-vault-scroll="vaultPreviewArea"><i class="fa-solid fa-layer-group"></i><span>ترتيب المحتوى</span></button>
+      <button class="vault-side-link" data-vault-scroll="vaultPreviewArea"><i class="fa-solid fa-font"></i><span>تأثير النص</span></button>
+      <button class="vault-side-link" data-vault-scroll="vaultPreviewArea"><i class="fa-solid fa-table-columns"></i><span>نمط التخطيط</span></button>
+    </div>
+  </div>
+
+  <div class="vault-side-section">
+    <h4>بيانات واجهة البداية</h4>
+    <div class="vault-control"><label>اسم الموقع</label><input id="vaultSiteName" value="MOKO" maxlength="34"></div>
+    <div class="vault-control"><label>العنوان الفرعي</label><input id="vaultSiteSubtitle" value="MY SMALL WORLD" maxlength="70"></div>
+    <div class="vault-control"><label>وصف البداية</label><input id="vaultSiteDesc" value="مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة." maxlength="130"></div>
+  </div>
+
+  <div class="vault-side-section">
+    <h4>ترتيب الموقع</h4>
+    <div class="vault-control"><label>نوع الواجهة</label>
+      <select id="vaultLayout">
+        <option value="split">SPLIT — بطاقتان متوازيتان</option>
+        <option value="centered">CENTERED — تركيز على الاسم</option>
+        <option value="minimal">MINIMAL — بداية هادئة</option>
+        <option value="editorial">EDITORIAL — مجلة فاخرة</option>
+        <option value="compact">COMPACT — مدمج للموبايل</option>
+      </select>
+    </div>
+    <div class="vault-control"><label>كثافة المسافات</label>
+      <select id="vaultDensity">
+        <option value="normal">NORMAL</option><option value="airy">AIRY</option><option value="tight">TIGHT</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="vault-side-section">
+    <h4>تأثير النص</h4>
+    <div class="vault-control"><label>نمط العنوان</label>
+      <select id="vaultTextEffect">
+        <option value="soft">SOFT — ناعم</option><option value="glow">GLOW — متوهج</option><option value="gradient">GRADIENT — متدرج</option><option value="outline">OUTLINE — خط خارجي</option>
+      </select>
+    </div>
+    <div class="vault-control"><label>حجم العنوان</label><input id="vaultTitleScale" class="vault-range" type="range" min="75" max="135" value="100"></div>
+  </div>
+
+  <div class="vault-side-section">
+    <h4>صورة البداية</h4>
+    <div class="vault-control"><label>الصورة المصغرة الرئيسية</label><select id="vaultImageSelect"></select></div>
+    <div class="vault-mini-actions">
+      <button class="vault-mini-btn" id="vaultPrevImage">‹ السابقة</button>
+      <button class="vault-mini-btn" id="vaultNextImage">التالية ›</button>
+    </div>
+  </div>
+
+  <div class="vault-side-section">
+    <h4>إجراءات</h4>
+    <div class="vault-mini-actions">
+      <button class="vault-mini-btn" id="vaultReset">إعادة</button>
+      <button class="vault-mini-btn" id="vaultClose2">تطبيق ✓</button>
+    </div>
+  </div>
+</aside>
+
+<section class="vault-home-showcase vault-layout-split" id="vaultHomeShowcase">
+  <article class="vault-hero-card" id="vaultHeroCard" style="--vault-preview-image:url('AA.jpg')">
+    <div class="vault-kicker">WELCOME TO YOUR WORLD</div>
+    <h1 class="vault-site-title" id="vaultSiteTitle">MOKO <span>MY SMALL WORLD</span></h1>
+    <p class="vault-site-subtitle" id="vaultSiteDescView">مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة.</p>
+    <div class="vault-hero-meta"><span class="vault-chip">GLASS INTERFACE</span><span class="vault-chip">LUXURY MOTION</span><span class="vault-chip">PERSONAL SPACE</span></div>
+  </article>
+  <aside class="vault-side-preview" id="vaultPreviewArea">
+    <div class="vault-preview-label"><strong>LIVE SITE PREVIEW</strong><span>LAYOUT ONLY</span></div>
+    <div class="vault-device">
+      <div class="vault-device-top"><span class="vault-dot"></span><span class="vault-dot"></span><span class="vault-dot"></span></div>
+      <div class="vault-device-body">
+        <div class="vault-device-nav"><b id="vaultDeviceName">MOKO</b><span>HOME&nbsp;&nbsp; ABOUT&nbsp;&nbsp; CONTACT</span></div>
+        <div class="vault-device-image" id="vaultDeviceImage" style="background-image:url('AA.jpg')"></div>
+        <div class="vault-device-lines"><i></i><i></i></div>
+      </div>
+    </div>
+    <div class="vault-thumbs" id="vaultThumbs"></div>
+  </aside>
+</section>
+
+<section class="vault-section-title">
+  <div><h2>شكل الموقع قبل محتواه</h2><p>هذه المنطقة تستعرض ترتيب الواجهة والصورة المصغرة فقط، بدون عرض متجر الثيمات.</p></div>
+  <span class="vault-live-badge">LIVE LAYOUT</span>
+</section>
+<div class="vault-layout-board">
+  <button class="vault-layout-card active" data-layout-choice="split"><b>SPLIT</b><span>Hero كبير + معاينة جانبية.</span></button>
+  <button class="vault-layout-card" data-layout-choice="centered"><b>CENTERED</b><span>اسم الموقع في المنتصف وتركيز بصري.</span></button>
+  <button class="vault-layout-card" data-layout-choice="minimal"><b>MINIMAL</b><span>مساحات أقل وبطاقة هادئة.</span></button>
+  <button class="vault-layout-card" data-layout-choice="editorial"><b>EDITORIAL</b><span>شكل مجلة فاخرة وتايبوغرافي واضح.</span></button>
+</div>
+<main class="app"><!-- =====================================================
      HEADER
 ===================================================== --><header class="header glass"><div class="brand"><img
 src="AA.jpg"
@@ -4380,35 +4519,32 @@ MY SMALL WORLD • PERSONAL SPACE
 <img src="9.jpg" class="album-image">
 <img src="10.jpg" class="album-image"></div><div class="music-player"><i class="fa-solid fa-music music-icon"></i>
 
-<div class="music-content"><span class="music-name" id="musicName">
-MOKO — GOD.mp3
-</span>
+<div class="music-content"><span class="music-name">
+MOKO — JJ.mp3
+</span><audio id="mokoAudio" controls preload="metadata"><source
+src="./JJ.mp3"
+type="audio/mpeg">
+<source
+src="JJ.mp3"
+type="audio/mpeg">
 
-<audio id="mokoAudio" preload="auto" loop playsinline></audio>
+</audio><div class="music-controls"><button
+type="button"
+class="music-control-button"
+id="playMusic">
 
-<div class="music-controls">
-<button type="button" class="music-control-button" id="playMusic">
 <i class="fa-solid fa-play"></i>
 PLAY
-</button>
 
-<button type="button" class="music-control-button" id="pauseMusic">
+</button><button
+type="button"
+class="music-control-button"
+id="pauseMusic">
+
 <i class="fa-solid fa-pause"></i>
 PAUSE
-</button>
 
-<button type="button" class="music-control-button music-library-button" id="chooseMusic">
-<i class="fa-solid fa-folder-open"></i>
-SONGS
-</button>
-</div>
-
-<div class="music-status" id="musicStatus">
-GOD.mp3 • LOOP • AUTO PLAY
-</div>
-
-<input class="music-file-input" id="musicFileInput" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac" multiple>
-</div></div></div></div></div></section><!-- =====================================================
+</button></div></div></div></div></div></div></section><!-- =====================================================
      DOV
 ===================================================== --><div class="album-carousel glass"><div class="album-slideshow" id="albumSlideshow">
 <img src="1.jpg" class="slide active"><img src="2.jpg" class="slide"><img src="3.jpg" class="slide"><img src="4.jpg" class="slide"><img src="5.jpg" class="slide"><img src="6.jpg" class="slide"><img src="7.jpg" class="slide"><img src="8.jpg" class="slide"><img src="9.jpg" class="slide"><img src="10.jpg" class="slide">
@@ -6481,387 +6617,91 @@ renderMessageHistory();
 
 
 /* =====================================================
-   MUSIC — GOD.mp3 / PHONE MUSIC LIBRARY
+   MUSIC — JJ.mp3
 ===================================================== */
 
 const audio =
     $("#mokoAudio");
 
-const musicName =
-    $("#musicName");
+function showMusicError(){
 
-const musicStatus =
-    $("#musicStatus");
-
-const musicFileInput =
-    $("#musicFileInput");
-
-const chooseMusicButton =
-    $("#chooseMusic");
-
-const MUSIC_MEDIA_KEY =
-    "MOKO_SELECTED_MUSIC";
-
-let currentMusicURL =
-    null;
-
-let defaultMusicURL =
-    "./GOD.mp3";
-
-function setMusicStatus(text){
-    if(musicStatus)
-        musicStatus.textContent = text;
-}
-
-function setMusicName(name){
-    if(musicName)
-        musicName.textContent =
-            "MOKO — " + name;
-}
-
-function showMusicError(name){
-    setMusicStatus(
-        "تعذر تحميل " +
-        (name || "GOD.mp3") +
-        " — تأكد أن الملف موجود بجانب HTML"
-    );
     showToast(
-        "تعذر تشغيل الأغنية"
-    );
-}
-
-function releaseCurrentMusicURL(){
-    if(currentMusicURL){
-        try{
-            URL.revokeObjectURL(
-                currentMusicURL
-            );
-        }
-        catch{}
-        currentMusicURL = null;
-    }
-}
-
-function setMusicSource(src,name,customFile){
-    if(!audio) return;
-
-    releaseCurrentMusicURL();
-
-    audio.pause();
-    audio.loop = true;
-    audio.autoplay = true;
-    audio.preload = "auto";
-    audio.playsInline = true;
-    audio.muted = false;
-    audio.volume = 1;
-
-    audio.src = src;
-    audio.load();
-
-    setMusicName(name || "GOD.mp3");
-
-    setMusicStatus(
-        (name || "GOD.mp3") +
-        " • LOOP • AUTO PLAY" +
-        (customFile ? " • PHONE" : "")
-    );
-}
-
-async function playMusicNow(){
-    if(!audio) return false;
-
-    try{
-        await audio.play();
-        setMusicStatus(
-            (musicName ? musicName.textContent.replace(/^MOKO — /,"") : "GOD.mp3") +
-            " • PLAYING • LOOP"
-        );
-        return true;
-    }
-    catch(error){
-        /*
-           Browsers may block sound autoplay until the first user
-           interaction. We retry automatically after that interaction.
-        */
-        setMusicStatus(
-            "اضغط أي مكان مرة واحدة لتشغيل الصوت تلقائياً • LOOP"
-        );
-        return false;
-    }
-}
-
-function enableAutoplayAfterInteraction(){
-    const retry = async () => {
-        const played = await playMusicNow();
-        if(played){
-            document.removeEventListener("pointerdown",retry);
-            document.removeEventListener("touchstart",retry);
-            document.removeEventListener("keydown",retry);
-        }
-    };
-
-    document.addEventListener("pointerdown",retry,{passive:true});
-    document.addEventListener("touchstart",retry,{passive:true});
-    document.addEventListener("keydown",retry,{passive:true});
-}
-
-async function saveSelectedMusicBlob(blob,name){
-    try{
-        await saveMediaBlob(
-            "selectedMusic",
-            blob
-        );
-        localStorage.setItem(
-            MUSIC_MEDIA_KEY,
-            JSON.stringify({
-                name:name,
-                saved:true
-            })
-        );
-    }
-    catch(error){
-        console.warn(
-            "MOKO music save error:",
-            error
-        );
-    }
-}
-
-async function restoreSelectedMusic(){
-    try{
-        const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    MUSIC_MEDIA_KEY
-                ) || "null"
-            );
-
-        if(!saved || !saved.saved)
-            return false;
-
-        const blob =
-            await getMediaBlob(
-                "selectedMusic"
-            );
-
-        if(!blob)
-            return false;
-
-        currentMusicURL =
-            URL.createObjectURL(blob);
-
-        setMusicSource(
-            currentMusicURL,
-            saved.name || "Phone Song",
-            true
-        );
-
-        await playMusicNow();
-        return true;
-    }
-    catch(error){
-        console.warn(
-            "MOKO music restore error:",
-            error
-        );
-        return false;
-    }
-}
-
-function getAudioDuration(file){
-    return new Promise(resolve => {
-        const url =
-            URL.createObjectURL(file);
-        const probe =
-            document.createElement("audio");
-
-        let finished = false;
-
-        const finish = duration => {
-            if(finished) return;
-            finished = true;
-            URL.revokeObjectURL(url);
-            probe.removeAttribute("src");
-            try{ probe.load(); }catch{}
-            resolve(Number.isFinite(duration) ? duration : 0);
-        };
-
-        probe.preload = "metadata";
-        probe.src = url;
-        probe.addEventListener(
-            "loadedmetadata",
-            () => finish(probe.duration),
-            {once:true}
-        );
-        probe.addEventListener(
-            "error",
-            () => finish(0),
-            {once:true}
-        );
-
-        setTimeout(
-            () => finish(0),
-            10000
-        );
-    });
-}
-
-async function choosePhoneMusic(files){
-    const list =
-        Array.from(files || []);
-
-    if(!list.length)
-        return;
-
-    setMusicStatus(
-        "جاري فحص الأغاني… يجب أن تكون مدتها دقيقة واحدة أو أكثر"
+        "تعذر تحميل JJ.mp3 — تأكد أنه بجانب ملف HTML وبنفس الاسم"
     );
 
-    const valid = [];
-
-    for(const file of list){
-        if(!file.type.startsWith("audio/") &&
-           !/\.(mp3|m4a|wav|ogg|aac|flac)$/i.test(file.name)){
-            continue;
-        }
-
-        const duration =
-            await getAudioDuration(file);
-
-        if(duration >= 60){
-            valid.push({
-                file,
-                duration
-            });
-        }
-    }
-
-    if(!valid.length){
-        setMusicStatus(
-            "لم يتم العثور على أغنية مدتها دقيقة أو أكثر"
-        );
-        showToast(
-            "اختر أغنية مدتها 1:00 دقيقة أو أكثر"
-        );
-        return;
-    }
-
-    /* The picker can return multiple songs; show a simple selection dialog. */
-    let selected = valid[0];
-
-    if(valid.length > 1){
-        const labels =
-            valid.map((item,index) =>
-                (index + 1) + ". " +
-                item.file.name +
-                " — " +
-                formatMusicDuration(item.duration)
-            ).join("\n");
-
-        const answer =
-            window.prompt(
-                "الأغاني المتاحة (دقيقة أو أكثر):\n\n" +
-                labels +
-                "\n\nاكتب رقم الأغنية:",
-                "1"
-            );
-
-        if(answer === null)
-            return;
-
-        const index =
-            Number(answer) - 1;
-
-        if(Number.isInteger(index) &&
-           index >= 0 &&
-           index < valid.length){
-            selected = valid[index];
-        }
-        else{
-            showToast("رقم الأغنية غير صحيح");
-            return;
-        }
-    }
-
-    currentMusicURL =
-        URL.createObjectURL(
-            selected.file
-        );
-
-    setMusicSource(
-        currentMusicURL,
-        selected.file.name,
-        true
-    );
-
-    await saveSelectedMusicBlob(
-        selected.file,
-        selected.file.name
-    );
-
-    await playMusicNow();
-}
-
-function formatMusicDuration(seconds){
-    const total =
-        Math.max(0,Math.floor(seconds));
-    const minutes =
-        Math.floor(total / 60);
-    const secs =
-        String(total % 60).padStart(2,"0");
-    return minutes + ":" + secs;
 }
 
 if(audio){
-    audio.loop = true;
-    audio.autoplay = true;
-    audio.preload = "auto";
-    audio.playsInline = true;
+
+    audio.preload =
+        "auto";
 
     audio.addEventListener(
         "error",
-        () => showMusicError(
-            musicName
-                ? musicName.textContent.replace(/^MOKO — /,"")
-                : "GOD.mp3"
-        )
+        showMusicError
     );
 
     audio.addEventListener(
-        "ended",
-        () => {
-            /* Extra protection against stopping. */
-            audio.currentTime = 0;
-            playMusicNow();
-        }
+        "stalled",
+        () => {}
     );
 
     audio.addEventListener(
-        "play",
+        "canplay",
         () => {
-            if(musicName){
-                setMusicStatus(
-                    musicName.textContent.replace(/^MOKO — /,"") +
-                    " • PLAYING • LOOP"
-                );
-            }
+
+            audio.dataset.ready =
+                "true";
+
         }
     );
 
-    setMusicSource(
-        defaultMusicURL,
-        "GOD.mp3",
-        false
-    );
+    try{
+
+        audio.load();
+
+    }
+    catch{}
+
 }
 
 $("#playMusic")
 .addEventListener(
     "click",
     async event => {
+
         event.preventDefault();
         event.stopPropagation();
-        await playMusicNow();
+
+        if(!audio){
+
+            showMusicError();
+            return;
+
+        }
+
+        try{
+
+            audio.load();
+
+            await audio.play();
+
+            showToast(
+                "JJ.mp3 يعمل الآن ▶"
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "MOKO audio error:",
+                error
+            );
+
+            showMusicError();
+
+        }
+
     }
 );
 
@@ -6869,55 +6709,15 @@ $("#pauseMusic")
 .addEventListener(
     "click",
     event => {
+
         event.preventDefault();
         event.stopPropagation();
-        if(audio){
+
+        if(audio)
             audio.pause();
-            setMusicStatus(
-                (musicName ? musicName.textContent.replace(/^MOKO — /,"") : "GOD.mp3") +
-                " • PAUSED • LOOP READY"
-            );
-        }
+
     }
 );
-
-if(chooseMusicButton && musicFileInput){
-    chooseMusicButton.addEventListener(
-        "click",
-        event => {
-            event.preventDefault();
-            event.stopPropagation();
-            musicFileInput.value = "";
-            musicFileInput.click();
-        }
-    );
-
-    musicFileInput.addEventListener(
-        "change",
-        async event => {
-            await choosePhoneMusic(
-                event.target.files
-            );
-        }
-    );
-}
-
-/* Start GOD.mp3 as soon as the browser permits it. */
-(async function startMusic(){
-    const restored =
-        await restoreSelectedMusic();
-
-    if(!restored){
-        setMusicSource(
-            defaultMusicURL,
-            "GOD.mp3",
-            false
-        );
-        await playMusicNow();
-    }
-
-    enableAutoplayAfterInteraction();
-})();
 
 /* =====================================================
    SHARED NOTES
@@ -9840,4 +9640,86 @@ window.SOKO_EXTRA_THEMES={
  Royal:{className:'theme-royal'},
  Ice:{className:'theme-ice'}
 };
-</script></body></html>
+</script>
+<script>
+/* =====================================================
+   THEME VAULT LAYOUT ENGINE
+===================================================== */
+(function(){
+  const KEY='MOKO_VAULT_LAYOUT_V1';
+  const sidebar=document.getElementById('vaultSidebar');
+  const overlay=document.getElementById('vaultOverlay');
+  const trigger=document.getElementById('vaultMenuTrigger');
+  const close=document.getElementById('vaultClose');
+  const close2=document.getElementById('vaultClose2');
+  const root=document.body;
+  const hero=document.getElementById('vaultHeroCard');
+  const title=document.getElementById('vaultSiteTitle');
+  const deviceName=document.getElementById('vaultDeviceName');
+  const deviceImage=document.getElementById('vaultDeviceImage');
+  const imageSelect=document.getElementById('vaultImageSelect');
+  const thumbs=document.getElementById('vaultThumbs');
+  const images=['AA.jpg','1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg','10.jpg'];
+  let state={name:'MOKO',subtitle:'MY SMALL WORLD',desc:'مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة.',layout:'split',density:'normal',text:'soft',scale:100,image:'AA.jpg'};
+  try{state={...state,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){}
+
+  function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+  function open(){sidebar.classList.add('open');overlay.classList.add('open')}
+  function shut(){sidebar.classList.remove('open');overlay.classList.remove('open')}
+  trigger.addEventListener('click',open); close.addEventListener('click',shut); close2.addEventListener('click',shut); overlay.addEventListener('click',shut);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')shut(); if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='b'){e.preventDefault();open()}});
+
+  function layout(v){
+    ['split','centered','minimal','editorial','compact'].forEach(x=>root.classList.remove('vault-layout-'+x));
+    root.classList.add('vault-layout-'+v);
+    document.querySelectorAll('[data-layout-choice]').forEach(x=>x.classList.toggle('active',x.dataset.layoutChoice===v));
+    document.getElementById('vaultHomeShowcase').className='vault-home-showcase vault-layout-'+v;
+    state.layout=v;save();
+  }
+  function density(v){['airy','tight'].forEach(x=>root.classList.remove('vault-density-'+x));if(v!=='normal')root.classList.add('vault-density-'+v);state.density=v;save()}
+  function textEffect(v){['soft','glow','gradient','outline'].forEach(x=>root.classList.remove('vault-text-'+x));root.classList.add('vault-text-'+v);state.text=v;save()}
+  function image(v){
+    state.image=v;save();
+    hero.style.setProperty('--vault-preview-image',`url('${v}')`);
+    deviceImage.style.backgroundImage=`url('${v}')`;
+    imageSelect.value=v;
+    document.querySelectorAll('.vault-thumb').forEach(t=>t.classList.toggle('active',t.dataset.image===v));
+  }
+  function update(){
+    const name=state.name||'MOKO'; const sub=state.subtitle||'MY SMALL WORLD';
+    title.innerHTML=`${escapeHTML(name)} <span>${escapeHTML(sub)}</span>`;
+    document.getElementById('vaultSiteDescView').textContent=state.desc||'';
+    deviceName.textContent=name;
+    document.getElementById('vaultSiteName').value=state.name;
+    document.getElementById('vaultSiteSubtitle').value=state.subtitle;
+    document.getElementById('vaultSiteDesc').value=state.desc;
+    document.getElementById('vaultLayout').value=state.layout;
+    document.getElementById('vaultDensity').value=state.density;
+    document.getElementById('vaultTextEffect').value=state.text;
+    document.getElementById('vaultTitleScale').value=state.scale;
+    title.style.transform=`scale(${Number(state.scale)/100})`;title.style.transformOrigin='right center';
+    layout(state.layout);density(state.density);textEffect(state.text);image(state.image);
+  }
+  function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
+  images.forEach((src,i)=>{
+    const o=document.createElement('option');o.value=src;o.textContent=(i===0?'AA.jpg — الرئيسية':`الصورة ${i}`);imageSelect.appendChild(o);
+    const b=document.createElement('button');b.className='vault-thumb';b.dataset.image=src;b.style.backgroundImage=`url('${src}')`;b.title=src;b.addEventListener('click',()=>image(src));thumbs.appendChild(b);
+  });
+  document.getElementById('vaultSiteName').addEventListener('input',e=>{state.name=e.target.value;save();update()});
+  document.getElementById('vaultSiteSubtitle').addEventListener('input',e=>{state.subtitle=e.target.value;save();update()});
+  document.getElementById('vaultSiteDesc').addEventListener('input',e=>{state.desc=e.target.value;save();update()});
+  document.getElementById('vaultLayout').addEventListener('change',e=>layout(e.target.value));
+  document.getElementById('vaultDensity').addEventListener('change',e=>density(e.target.value));
+  document.getElementById('vaultTextEffect').addEventListener('change',e=>textEffect(e.target.value));
+  document.getElementById('vaultTitleScale').addEventListener('input',e=>{state.scale=e.target.value;title.style.transform=`scale(${state.scale/100})`;save()});
+  imageSelect.addEventListener('change',e=>image(e.target.value));
+  document.getElementById('vaultPrevImage').addEventListener('click',()=>{let i=images.indexOf(state.image);image(images[(i-1+images.length)%images.length])});
+  document.getElementById('vaultNextImage').addEventListener('click',()=>{let i=images.indexOf(state.image);image(images[(i+1)%images.length])});
+  document.querySelectorAll('[data-layout-choice]').forEach(b=>b.addEventListener('click',()=>layout(b.dataset.layoutChoice)));
+  document.querySelectorAll('[data-vault-scroll]').forEach(b=>b.addEventListener('click',()=>{document.getElementById(b.dataset.vaultScroll)?.scrollIntoView({behavior:'smooth',block:'center'});shut()}));
+  document.getElementById('vaultReset').addEventListener('click',()=>{state={name:'MOKO',subtitle:'MY SMALL WORLD',desc:'مساحة شخصية بتصميم زجاجي فاخر وتفاصيل هادئة.',layout:'split',density:'normal',text:'soft',scale:100,image:'AA.jpg'};save();update()});
+  update();
+})();
+</script>
+</body></html>
