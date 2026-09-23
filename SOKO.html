@@ -4341,6 +4341,43 @@ body.reduced-motion #customBackgroundVideo{
 .vault-menu-btn{--stroke:var(--border);--glass2:rgba(255,255,255,.08);--accent:var(--primary);}
 .theme-vault-menu-button{display:flex;align-items:center;margin-inline-start:auto;margin-inline-end:10px;}
 @media(max-width:900px){.theme-vault-menu-button{margin-inline-start:auto;margin-inline-end:6px;}.vault-menu-btn{min-height:40px;width:40px;border-radius:14px;}}
+
+/* =====================================================
+   MOKO ADMIN CONTROL CENTER EXTENSION
+===================================================== */
+.admin-label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted);margin:10px 0}
+.admin-input{width:100%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;border-radius:13px;padding:10px 12px;outline:none;font:inherit}
+.admin-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(var(--primary-rgb),.12)}
+.admin-input option{background:#10131b;color:#fff}
+.admin-two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.admin-section{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));}
+.admin-section input[type=range]{accent-color:var(--primary);width:100%}
+.game-icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:9px 0;max-height:180px;overflow:auto;padding:3px}
+.game-icon-choice{height:38px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;border-radius:10px;cursor:pointer;transition:.2s}
+.game-icon-choice:hover,.game-icon-choice.active{border-color:var(--primary);background:rgba(var(--primary-rgb),.18);transform:translateY(-2px)}
+.admin-games-list{display:grid;gap:7px;margin-top:10px}
+.admin-game-row{display:flex;align-items:center;gap:8px;padding:8px;border-radius:12px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}
+.admin-game-row img,.admin-game-row i{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;object-fit:cover;background:rgba(255,255,255,.07)}
+.admin-game-row span{flex:1;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-game-row button{border:0;background:rgba(255,255,255,.08);color:#fff;border-radius:8px;padding:6px 8px;cursor:pointer}
+.daily-memo-card{margin-top:18px;padding:20px;border-radius:24px;position:relative;overflow:hidden}
+.daily-memo-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:12px}
+.daily-memo-head h3{margin:0 0 5px}.daily-memo-head p{color:var(--muted);font-size:12px}.daily-memo-date{font-size:11px;opacity:.75;white-space:nowrap}
+.daily-memo-controls{display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px;margin-top:10px}
+.daily-memo-preview{margin-top:15px;min-height:60px;padding:18px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid var(--border);white-space:pre-wrap}
+.daily-memo-preview.hidden-memo{display:none}
+.memo-effect-smooth{animation:mokoMemoSmooth .65s ease both}.memo-effect-shimmer{animation:mokoMemoShimmer 1.8s ease-in-out infinite}.memo-effect-glow{animation:mokoMemoGlow 2s ease-in-out infinite}.memo-effect-float{animation:mokoMemoFloat 3s ease-in-out infinite}.memo-effect-pulse{animation:mokoMemoPulse 1.8s ease-in-out infinite}
+@keyframes mokoMemoSmooth{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@keyframes mokoMemoShimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.45)}}
+@keyframes mokoMemoGlow{0%,100%{box-shadow:0 0 0 rgba(var(--primary-rgb),0)}50%{box-shadow:0 0 35px rgba(var(--primary-rgb),.3)}}
+@keyframes mokoMemoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes mokoMemoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
+.note-item{position:relative}.note-item.moko-hidden-note{display:none!important}.note-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.note-actions button{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;border-radius:9px;padding:6px 9px;cursor:pointer}
+body.moko-admin-bg-blur::before{backdrop-filter:blur(var(--moko-bg-blur))!important;-webkit-backdrop-filter:blur(var(--moko-bg-blur))!important}
+body.moko-top-glass .header{background:rgba(255,255,255,.055)!important}.moko-top-liquid .header{background:linear-gradient(135deg,rgba(var(--moko-top-rgb),.24),rgba(255,255,255,.035))!important;backdrop-filter:blur(24px);border-color:rgba(var(--moko-top-rgb),.32)!important}.moko-top-glossy .header{background:linear-gradient(120deg,rgba(var(--moko-top-rgb),.18),rgba(255,255,255,.20),rgba(var(--moko-top-rgb),.06))!important}.moko-top-luminous .header{background:rgba(var(--moko-top-rgb),.14)!important;box-shadow:0 0 45px rgba(var(--moko-top-rgb),.28),inset 0 1px 0 rgba(255,255,255,.22)!important}.moko-top-solid .header{background:var(--moko-top-color)!important}
+.moko-bottom-glass .section,.moko-bottom-glass .home-container{background:rgba(255,255,255,.055)!important}.moko-bottom-liquid .section,.moko-bottom-liquid .home-container{background:linear-gradient(135deg,rgba(var(--moko-bottom-rgb),.22),rgba(255,255,255,.035))!important;backdrop-filter:blur(24px)}.moko-bottom-glossy .section,.moko-bottom-glossy .home-container{background:linear-gradient(120deg,rgba(var(--moko-bottom-rgb),.15),rgba(255,255,255,.18),rgba(var(--moko-bottom-rgb),.05))!important}.moko-bottom-luminous .section,.moko-bottom-luminous .home-container{background:rgba(var(--moko-bottom-rgb),.13)!important;box-shadow:0 0 45px rgba(var(--moko-bottom-rgb),.22),inset 0 1px 0 rgba(255,255,255,.2)!important}.moko-bottom-solid .section,.moko-bottom-solid .home-container{background:var(--moko-bottom-color)!important}
+.moko-admin-section-font .section-title{font-family:var(--moko-section-font)!important}.moko-admin-hint-font .section-hint,.moko-admin-hint-font .custom-hero p{font-family:var(--moko-hint-font)!important}.moko-admin-desc-font .profile-description,.moko-admin-desc-font .welcome-text{font-family:var(--moko-desc-font)!important}.moko-admin-site-font .brand-name,.moko-admin-site-font .profile-name{font-family:var(--moko-site-font)!important}
+@media(max-width:650px){.admin-two,.daily-memo-controls{grid-template-columns:1fr}.daily-memo-head{flex-direction:column}.game-icon-grid{grid-template-columns:repeat(5,1fr)}}
 </style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body>
 <div id="drawer" class="drawer">
   <div class="drawer-backdrop" onclick="closeDrawer()"></div>
@@ -4372,6 +4409,36 @@ body.reduced-motion #customBackgroundVideo{
       <div class="menu-row"><span>LocalStorage</span><span>✓</span></div>
       <div class="menu-row"><span>Responsive</span><span>✓</span></div>
       <div class="menu-row"><span>بدون Framework</span><span>✓</span></div>
+    </div>
+    <div class="menu-section admin-section">
+      <h4>هوية الموقع</h4>
+      <label class="admin-label">اسم الموقع<input id="adminSiteName" class="admin-input" type="text" maxlength="60"></label>
+      <label class="admin-label">الوصف<input id="adminSiteDescription" class="admin-input" type="text" maxlength="180"></label>
+      <label class="admin-label">خط اسم الموقع<select id="adminSiteNameFont" class="admin-input"></select></label>
+      <label class="admin-label">خط الوصف<select id="adminDescriptionFont" class="admin-input"></select></label>
+      <label class="admin-label">خط أسماء الأقسام<select id="adminSectionFont" class="admin-input"></select></label>
+      <label class="admin-label">خط تلميحات الأقسام<select id="adminHintFont" class="admin-input"></select></label>
+    </div>
+    <div class="menu-section admin-section">
+      <h4>الخلفية والكروت</h4>
+      <label class="admin-label">ضبابية الخلفية <span id="adminBlurValue">20px</span><input id="adminBgBlur" type="range" min="0" max="40" value="20"></label>
+      <div class="admin-two"><label class="admin-label">نمط كارد الأعلى<select id="adminTopStyle" class="admin-input"><option value="glass">شفاف زجاجي</option><option value="liquid">سائل</option><option value="glossy">لامع</option><option value="luminous">مضيء</option><option value="solid">لون كامل</option></select></label><label class="admin-label">لون الأعلى<select id="adminTopColor" class="admin-input"></select></label></div>
+      <div class="admin-two"><label class="admin-label">نمط الكارد السفلي<select id="adminBottomStyle" class="admin-input"><option value="glass">شفاف زجاجي</option><option value="liquid">سائل</option><option value="glossy">لامع</option><option value="luminous">مضيء</option><option value="solid">لون كامل</option></select></label><label class="admin-label">لون السفلي<select id="adminBottomColor" class="admin-input"></select></label></div>
+    </div>
+    <div class="menu-section admin-section">
+      <h4>الملاحظات اليومية</h4>
+      <label class="admin-label">تأثير ظهور الملاحظات<select id="adminNoteEffect" class="admin-input"><option value="smooth">سلس</option><option value="shimmer">لامع</option><option value="glow">مضيء</option><option value="float">عائم</option><option value="pulse">نبضي</option></select></label>
+      <div class="menu-row"><span>تصدير إعدادات الموقع</span><button class="pill-btn" id="adminExportSettings">JSON</button></div>
+      <div class="menu-row"><span>تنزيل نسخة للموقع</span><button class="pill-btn" id="adminDownloadSite">HTML</button></div>
+    </div>
+    <div class="menu-section admin-section">
+      <h4>إدارة الألعاب</h4>
+      <input id="adminGameName" class="admin-input" type="text" maxlength="70" placeholder="اسم اللعبة">
+      <input id="adminGameImage" class="admin-input" type="file" accept="image/*">
+      <select id="adminGameIcon" class="admin-input"></select>
+      <div class="game-icon-grid" id="adminGameIconGrid"></div>
+      <div class="admin-two"><button class="pill-btn" id="adminAddGame">إضافة لعبة</button><button class="pill-btn" id="adminClearGames">إرجاع الألعاب</button></div>
+      <div id="adminGamesList" class="admin-games-list"></div>
     </div>
     <div class="menu-section">
       <h4>اختصارات</h4>
@@ -4535,37 +4602,7 @@ GOD
 ===================================================== --><section id="games" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-gamepad"></i>
 GAMES
-</h2><div class="games-grid"><div class="game-card">
-<i class="fa-solid fa-car"></i>
-<h3>Grand Theft Auto V</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-cubes"></i>
-<h3>Minecraft</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-bolt"></i>
-<h3>Fortnite</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-hat-cowboy"></i>
-<h3>Red Dead Redemption 2</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-crosshairs"></i>
-<h3>Call of Duty</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-city"></i>
-<h3>Cyberpunk 2077</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-shield-halved"></i>
-<h3>Valorant</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-dragon"></i>
-<h3>Elden Ring</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-<h3>The Witcher 3</h3>
-</div><div class="game-card">
-<i class="fa-solid fa-flag-checkered"></i>
-<h3>Forza Horizon 5</h3>
-</div></div></div></section><!-- =====================================================
+</h2><div class="games-grid" id="mokoGamesGrid"></div></div></section><!-- =====================================================
      CONTACT
 ===================================================== --><section id="contact" class="tab"><div class="section glass"><h2 class="section-title">
 <i class="fa-solid fa-share-nodes"></i>
@@ -4757,9 +4794,13 @@ type="button">
 
 PUBLISH NOTE
 
-</button></div><div
-class="notes-feed"
-id="notesFeed"></div></div></div></section><!-- =====================================================
+</button></div><div class="notes-feed" id="notesFeed"></div></div>
+<div class="daily-memo-card glass" id="dailyMemoCard">
+  <div class="daily-memo-head"><div><h3><i class="fa-solid fa-calendar-day"></i> DAILY MEMO</h3><p>مذكرة يومية قابلة للتعديل والإخفاء والحذف مع تأثير ظهور فاخر.</p></div><span id="dailyMemoDate" class="daily-memo-date"></span></div>
+  <textarea id="dailyMemoText" class="input" maxlength="2000" placeholder="اكتب مذكرتك اليومية..."></textarea>
+  <div class="daily-memo-controls"><select id="dailyMemoStyle" class="input"><option value="smooth">سلس</option><option value="shimmer">لامع</option><option value="glow">مضيء</option><option value="float">عائم</option><option value="pulse">نبضي</option></select><button class="main-button" id="saveDailyMemo" type="button">حفظ المذكرة</button><button class="ghost-btn" id="hideDailyMemo" type="button">إخفاء</button><button class="ghost-btn" id="deleteDailyMemo" type="button">حذف</button><button class="ghost-btn" id="showDailyMemo" type="button" style="display:none">إظهار</button></div>
+  <div id="dailyMemoPreview" class="daily-memo-preview"></div>
+</div></div></section><!-- =====================================================
      CUSTOMIZE
 ===================================================== --><section id="customize" class="tab"><div class="section glass"><div class="custom-hero"><h3>
 <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -9662,4 +9703,64 @@ window.resetTheme=resetTheme;
 document.addEventListener("keydown",function(event){
   if(event.key==="Escape") closeDrawer();
 });
-</script></body></html>
+</script>
+<script>
+/* =====================================================
+   MOKO ADVANCED SITE CONTROL / NOTES / GAMES
+===================================================== */
+(function(){
+const K={settings:'MOKO_ADVANCED_SETTINGS',games:'MOKO_GAMES_V2',notes:'MOKO_NOTES_V2',daily:'MOKO_DAILY_MEMO_V1'};
+const fonts=['Cairo','El Messiri','Tajawal','Changa','Noto Kufi Arabic','IBM Plex Sans Arabic','Manrope','Cinzel','Cormorant Garamond','Playfair Display','Montserrat','Plus Jakarta Sans','Audiowide','Orbitron'];
+const colors={
+ white:'#ffffff',maroon:'#7f1d3d',indigo:'#4338ca',gray:'#6b7280',purple:'#7c3aed',orange:'#f97316',lime:'#a3e635',pink:'#ec4899',cyan:'#22d3ee',black:'#111827'
+};
+const icons=['fa-gamepad','fa-car','fa-cubes','fa-bolt','fa-hat-cowboy','fa-crosshairs','fa-city','fa-shield-halved','fa-dragon','fa-wand-magic-sparkles','fa-flag-checkered','fa-futbol','fa-basketball','fa-baseball','fa-volleyball','fa-person-running','fa-dumbbell','fa-gun','fa-skull-crossbones','fa-ghost','fa-robot','fa-rocket','fa-space-shuttle','fa-helicopter','fa-plane','fa-ship','fa-motorcycle','fa-truck-monster','fa-chess','fa-chess-knight','fa-dice','fa-puzzle-piece','fa-circle-dot','fa-crosshairs','fa-bullseye','fa-fire','fa-snowflake','fa-bomb','fa-trophy','fa-crown','fa-ring','fa-gem','fa-shield','fa-khanda','fa-wand-magic','fa-horse','fa-spider','fa-fish','fa-tree','fa-earth-americas'];
+const $=id=>document.getElementById(id);
+function load(k,f){try{return JSON.parse(localStorage.getItem(k)||'')}catch{return f}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+const defaults={siteName:'MOKO',description:'مرحباً بك في عالمي الصغير',siteNameFont:'Audiowide',descriptionFont:'Cairo',sectionFont:'Audiowide',hintFont:'Cairo',bgBlur:20,topStyle:'glass',topColor:'white',bottomStyle:'glass',bottomColor:'gray',noteEffect:'smooth'};
+let st={...defaults,...load(K.settings,{})};
+function fillSelect(el,items,current){if(!el)return;el.innerHTML=items.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');el.value=current}
+function rgb(hex){hex=hex.replace('#','');let n=parseInt(hex,16);return `${n>>16&255},${n>>8&255},${n&255}`}
+function apply(){
+  document.querySelectorAll('.brand-name').forEach(e=>e.textContent=st.siteName);
+  const d=document.querySelector('.profile-description');if(d)d.textContent=st.description;
+  document.documentElement.style.setProperty('--moko-site-font',`"${st.siteNameFont}"`);document.documentElement.style.setProperty('--moko-desc-font',`"${st.descriptionFont}"`);document.documentElement.style.setProperty('--moko-section-font',`"${st.sectionFont}"`);document.documentElement.style.setProperty('--moko-hint-font',`"${st.hintFont}"`);
+  document.body.classList.toggle('moko-admin-site-font',true);document.body.classList.toggle('moko-admin-desc-font',true);document.body.classList.toggle('moko-admin-section-font',true);document.body.classList.toggle('moko-admin-hint-font',true);
+  document.documentElement.style.setProperty('--moko-bg-blur',st.bgBlur+'px');document.documentElement.style.setProperty('--moko-top-color',colors[st.topColor]||colors.white);document.documentElement.style.setProperty('--moko-top-rgb',rgb(colors[st.topColor]||colors.white));document.documentElement.style.setProperty('--moko-bottom-color',colors[st.bottomColor]||colors.gray);document.documentElement.style.setProperty('--moko-bottom-rgb',rgb(colors[st.bottomColor]||colors.gray));
+  document.body.className=document.body.className.replace(/moko-top-(glass|liquid|glossy|luminous|solid)/g,'').replace(/moko-bottom-(glass|liquid|glossy|luminous|solid)/g,'');document.body.classList.add('moko-top-'+st.topStyle,'moko-bottom-'+st.bottomStyle,'moko-admin-bg-blur');
+  $('adminBlurValue').textContent=st.bgBlur+'px';if($('adminBgBlur'))$('adminBgBlur').value=st.bgBlur;
+  if($('adminSiteName'))$('adminSiteName').value=st.siteName;if($('adminSiteDescription'))$('adminSiteDescription').value=st.description;
+  $('adminSiteNameFont').value=st.siteNameFont;$('adminDescriptionFont').value=st.descriptionFont;$('adminSectionFont').value=st.sectionFont;$('adminHintFont').value=st.hintFont;$('adminTopStyle').value=st.topStyle;$('adminTopColor').value=st.topColor;$('adminBottomStyle').value=st.bottomStyle;$('adminBottomColor').value=st.bottomColor;$('adminNoteEffect').value=st.noteEffect;
+  save(K.settings,st);
+}
+function bindSettings(){
+ fillSelect($('adminSiteNameFont'),fonts.map(x=>[x,x]),st.siteNameFont);fillSelect($('adminDescriptionFont'),fonts.map(x=>[x,x]),st.descriptionFont);fillSelect($('adminSectionFont'),fonts.map(x=>[x,x]),st.sectionFont);fillSelect($('adminHintFont'),fonts.map(x=>[x,x]),st.hintFont);fillSelect($('adminTopColor'),Object.entries(colors),st.topColor);fillSelect($('adminBottomColor'),Object.entries(colors),st.bottomColor);
+ const fields=[['adminSiteName','siteName'],['adminSiteDescription','description'],['adminSiteNameFont','siteNameFont'],['adminDescriptionFont','descriptionFont'],['adminSectionFont','sectionFont'],['adminHintFont','hintFont'],['adminBgBlur','bgBlur'],['adminTopStyle','topStyle'],['adminTopColor','topColor'],['adminBottomStyle','bottomStyle'],['adminBottomColor','bottomColor'],['adminNoteEffect','noteEffect']];
+ fields.forEach(([id,key])=>$(id)?.addEventListener('input',()=>{st[key]=$(id).type==='range'?Number($(id).value):$(id).value;apply();}));
+}
+// hints under every section title
+function addHints(){document.querySelectorAll('.tab').forEach(tab=>{const h=tab.querySelector('.section-title');if(h&&!h.nextElementSibling?.classList.contains('section-hint')){const x=document.createElement('div');x.className='section-hint';x.textContent='استكشف هذا القسم وعدّل إعداداته من القائمة الجانبية.';h.after(x)}})}
+// NOTES
+function noteData(){return load(K.notes,load('MOKO_SOLO_SHARED_NOTES',[]))}
+function saveNotes(a){save(K.notes,a);localStorage.setItem('MOKO_SOLO_SHARED_NOTES',JSON.stringify(a))}
+function renderAdvancedNotes(){const feed=$('notesFeed');if(!feed)return;const arr=noteData();feed.innerHTML='';if(!arr.length){feed.innerHTML='<div class="note-item">لا توجد ملاحظات حالياً</div>';return}arr.forEach((n,i)=>{const item=document.createElement('div');item.className='note-item'+(n.hidden?' moko-hidden-note':'');const effect=n.effect||st.noteEffect;item.innerHTML=`<div class="note-main note-effect-${effect}">${escapeHTML(n.text||'')}</div><span class="note-time">${new Date(n.time||Date.now()).toLocaleString('ar-IQ')} — ${escapeHTML(n.site||'MOKO')}</span><div class="note-actions"><button data-act="edit">تعديل</button><button data-act="hide">${n.hidden?'إظهار':'إخفاء'}</button><button data-act="style">التأثير</button><button data-act="delete">حذف</button></div>`;item.querySelector('[data-act=edit]').onclick=()=>{const v=prompt('تعديل الملاحظة',n.text||'');if(v!==null){n.text=v;saveNotes(arr);renderAdvancedNotes()}};item.querySelector('[data-act=hide]').onclick=()=>{n.hidden=!n.hidden;saveNotes(arr);renderAdvancedNotes()};item.querySelector('[data-act=delete]').onclick=()=>{if(confirm('حذف الملاحظة؟')){arr.splice(i,1);saveNotes(arr);renderAdvancedNotes()}};item.querySelector('[data-act=style]').onclick=()=>{const v=prompt('النمط: smooth / shimmer / glow / float / pulse',effect);if(['smooth','shimmer','glow','float','pulse'].includes(v)){n.effect=v;saveNotes(arr);renderAdvancedNotes()}};feed.appendChild(item)})}
+// DAILY MEMO
+function renderDaily(){const d=load(K.daily,null);$('dailyMemoDate').textContent=new Date().toLocaleDateString('ar-IQ',{weekday:'long',year:'numeric',month:'long',day:'numeric'});const prev=$('dailyMemoPreview');if(!d){prev.textContent='لا توجد مذكرة يومية محفوظة.';return}prev.textContent=d.text||'';prev.className='daily-memo-preview memo-effect-'+(d.style||'smooth');if(d.hidden){prev.classList.add('hidden-memo');$('showDailyMemo').style.display='inline-block';$('hideDailyMemo').style.display='none'}else{$('showDailyMemo').style.display='none';$('hideDailyMemo').style.display='inline-block'}$('dailyMemoText').value=d.text||'';$('dailyMemoStyle').value=d.style||'smooth'}
+$('saveDailyMemo').onclick=()=>{save(K.daily,{text:$('dailyMemoText').value.trim(),style:$('dailyMemoStyle').value,hidden:false,time:new Date().toISOString()});renderDaily();showToast?.('تم حفظ المذكرة اليومية')};$('deleteDailyMemo').onclick=()=>{localStorage.removeItem(K.daily);renderDaily()};$('hideDailyMemo').onclick=()=>{const d=load(K.daily,null);if(d){d.hidden=true;save(K.daily,d);renderDaily()}};$('showDailyMemo').onclick=()=>{const d=load(K.daily,null);if(d){d.hidden=false;save(K.daily,d);renderDaily()}};
+// GAMES
+const defaultGames=[['Grand Theft Auto V','fa-car'],['Minecraft','fa-cubes'],['Fortnite','fa-bolt'],['Red Dead Redemption 2','fa-hat-cowboy'],['Call of Duty','fa-crosshairs'],['Cyberpunk 2077','fa-city'],['Valorant','fa-shield-halved'],['Elden Ring','fa-dragon'],['The Witcher 3','fa-wand-magic-sparkles'],['Forza Horizon 5','fa-flag-checkered']].map(([name,icon])=>({id:crypto.randomUUID?.()||String(Date.now()+Math.random()),name,icon,image:''}));
+let games=load(K.games,null)||defaultGames;save(K.games,games);
+function renderGames(){const grid=$('mokoGamesGrid');if(!grid)return;grid.innerHTML=games.map(g=>`<div class="game-card">${g.image?`<img src="${g.image}" alt="">`:`<i class="fa-solid ${g.icon||'fa-gamepad'}"></i>`}<h3>${escapeHTML(g.name)}</h3></div>`).join('')}
+function renderGameAdmin(){const box=$('adminGamesList');if(!box)return;box.innerHTML=games.map((g,i)=>`<div class="admin-game-row">${g.image?`<img src="${g.image}">`:`<i class="fa-solid ${g.icon}"></i>`}<span>${escapeHTML(g.name)}</span><button data-edit="${i}">تعديل</button><button data-del="${i}">حذف</button></div>`).join('');box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{games.splice(+b.dataset.del,1);save(K.games,games);renderGames();renderGameAdmin()});box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const i=+b.dataset.edit;const n=prompt('اسم اللعبة',games[i].name);if(n!==null&&n.trim())games[i].name=n.trim();save(K.games,games);renderGames();renderGameAdmin()})}
+function buildIcons(){const sel=$('adminGameIcon'),grid=$('adminGameIconGrid');sel.innerHTML=icons.map((x,i)=>`<option value="${x}">${i+1} — ${x.replace('fa-','')}</option>`).join('');grid.innerHTML=icons.map((x,i)=>`<button type="button" class="game-icon-choice" data-icon="${x}" title="${i+1}"><i class="fa-solid ${x}"></i></button>`).join('');grid.querySelectorAll('.game-icon-choice').forEach(b=>b.onclick=()=>{sel.value=b.dataset.icon;grid.querySelectorAll('.active').forEach(x=>x.classList.remove('active'));b.classList.add('active')})}
+$('adminAddGame').onclick=()=>{const name=$('adminGameName').value.trim();if(!name){showToast?.('اكتب اسم اللعبة');return}const file=$('adminGameImage').files[0];const add=data=>{games.push({id:Date.now()+Math.random(),name,icon:$('adminGameIcon').value,image:data||''});save(K.games,games);renderGames();renderGameAdmin();$('adminGameName').value='';$('adminGameImage').value='';showToast?.('تمت إضافة اللعبة')};if(file){const r=new FileReader();r.onload=()=>add(r.result);r.readAsDataURL(file)}else add('')};$('adminClearGames').onclick=()=>{if(confirm('إرجاع الألعاب الأصلية؟')){games=defaultGames.map(x=>({...x,id:Date.now()+Math.random()}));save(K.games,games);renderGames();renderGameAdmin()}};
+// EXPORT / DOWNLOAD
+$('adminExportSettings').onclick=()=>{const payload={version:2,exportedAt:new Date().toISOString(),settings:st,games,notes:noteData(),dailyMemo:load(K.daily,null),theme:load('MOKO_SOLO_THEME',null),customization:load('MOKO_SOLO_CUSTOM',null)};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MOKO-SITE-SETTINGS.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);showToast?.('تم تصدير إعدادات الموقع')};
+$('adminDownloadSite').onclick=()=>{const clone=document.documentElement.cloneNode(true);clone.querySelectorAll('script').forEach(x=>{if(x.textContent.includes('MOKO ADVANCED SITE CONTROL'))x.remove()});const blob=new Blob(['<!DOCTYPE html>\n'+clone.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MOKO-OFFLINE.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);showToast?.('تم تنزيل نسخة HTML للموقع')};
+// INIT
+bindSettings();buildIcons();addHints();apply();renderGames();renderGameAdmin();renderAdvancedNotes();renderDaily();
+$('adminNoteEffect').addEventListener('change',()=>{st.noteEffect=$('adminNoteEffect').value;save(K.settings,st);renderAdvancedNotes()});
+})();
+</script>
+</body></html>
