@@ -4248,41 +4248,138 @@ body.reduced-motion #customBackgroundVideo{
     transition:none!important;
 }
 
-\n/* ===== PREMIUM SIDE NAVIGATION ===== */
-.side-menu-toggle{position:fixed;top:22px;right:22px;z-index:10001;width:54px;height:54px;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(10,12,20,.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 40px rgba(0,0,0,.3),0 0 30px rgba(124,92,255,.12);transition:.3s}
-.side-menu-toggle:hover{transform:translateY(-2px) scale(1.04);border-color:rgba(255,255,255,.35)}
-.side-menu-toggle span,.side-menu-toggle span:before,.side-menu-toggle span:after{content:"";display:block;width:21px;height:2px;background:currentColor;border-radius:4px;transition:.3s}
-.side-menu-toggle span:before{transform:translateY(-7px)}.side-menu-toggle span:after{transform:translateY(5px)}
-.side-menu-toggle.open span{background:transparent}.side-menu-toggle.open span:before{transform:translateY(0) rotate(45deg)}.side-menu-toggle.open span:after{transform:translateY(-2px) rotate(-45deg)}
-.side-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(5px);z-index:9998;opacity:0;visibility:hidden;transition:.35s}.side-menu-overlay.open{opacity:1;visibility:visible}
-.side-menu{position:fixed;top:0;right:0;height:100dvh;width:min(390px,92vw);z-index:10000;padding:24px 18px;box-sizing:border-box;background:linear-gradient(145deg,rgba(16,18,28,.92),rgba(5,7,13,.86));border-left:1px solid rgba(255,255,255,.13);box-shadow:-25px 0 80px rgba(0,0,0,.48);backdrop-filter:blur(28px) saturate(145%);-webkit-backdrop-filter:blur(28px) saturate(145%);transform:translateX(110%);transition:transform .42s cubic-bezier(.2,.8,.2,1);overflow:auto}
-.side-menu.open{transform:translateX(0)}
-.side-menu-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 4px 20px}.side-menu-brand{display:flex;align-items:center;gap:12px}.side-menu-logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:900;letter-spacing:1px;background:linear-gradient(135deg,#fff,#8b7cff);color:#090a10;box-shadow:0 0 35px rgba(139,124,255,.28)}.side-menu-brand b{display:block;font-size:15px}.side-menu-brand small{display:block;opacity:.55;margin-top:3px;font-size:10px;letter-spacing:1.5px}.side-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:18px}
-.side-menu-section{margin-top:14px}.side-menu-section-title{font-size:10px;letter-spacing:2px;opacity:.4;padding:0 8px 9px}.side-menu-links{display:grid;gap:7px}.side-link{position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border:1px solid transparent;border-radius:17px;background:rgba(255,255,255,.035);color:inherit;text-decoration:none;cursor:pointer;text-align:right;transition:.25s}.side-link:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.11);transform:translateX(-3px)}.side-link.active{background:linear-gradient(135deg,rgba(139,124,255,.18),rgba(255,255,255,.05));border-color:rgba(139,124,255,.28);box-shadow:inset 0 0 30px rgba(139,124,255,.05)}.side-link .side-icon{width:35px;height:35px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.06);font-size:15px}.side-link strong{font-size:13px}.side-link small{display:block;opacity:.45;font-size:10px;margin-top:2px}.side-badge{margin-right:auto;font-size:9px;padding:4px 7px;border-radius:20px;background:rgba(255,255,255,.08);opacity:.7}
-.side-menu-footer{margin-top:20px;padding:15px;border-radius:20px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}.side-mini-row{display:flex;justify-content:space-between;gap:10px;font-size:11px;margin:8px 0;opacity:.7}.side-mini-row b{color:#fff;opacity:1}.side-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:#55e89a;box-shadow:0 0 12px #55e89a;margin-left:5px}
-@media(max-width:600px){.side-menu-toggle{top:14px;right:14px;width:48px;height:48px;border-radius:16px}.side-menu{width:94vw;padding:20px 14px}.side-menu-head{padding-bottom:15px}}
-body.side-menu-open{overflow:hidden}
-</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body>\n<!-- ===== PREMIUM SIDE MENU ===== -->
-<button class="side-menu-toggle" id="sideMenuToggle" aria-label="فتح القائمة" aria-expanded="false"><span></span></button>
-<div class="side-menu-overlay" id="sideMenuOverlay"></div>
-<aside class="side-menu" id="sideMenu" aria-label="القائمة الجانبية">
-  <div class="side-menu-head">
-    <div class="side-menu-brand"><div class="side-menu-logo">TV</div><div><b>THEME VAULT</b><small>PREMIUM CONTROL CENTER</small></div></div>
-    <button class="side-close" id="sideMenuClose" aria-label="إغلاق">✕</button>
-  </div>
-  <div class="side-menu-section"><div class="side-menu-section-title">NAVIGATION</div><div class="side-menu-links">
-    <a class="side-link active" href="#home" data-side-target="home"><span class="side-icon">⌂</span><span><strong>الرئيسية</strong><small>HOME / OVERVIEW</small></span></a>
-    <a class="side-link" href="#themes" data-side-target="themes"><span class="side-icon">✦</span><span><strong>متجر الثيمات</strong><small>THEME STORE</small></span><span class="side-badge">115+</span></a>
-    <a class="side-link" href="#favorites" data-side-action="favorites"><span class="side-icon">♡</span><span><strong>المفضلة</strong><small>SAVED THEMES</small></span><span class="side-badge" id="sideFavoriteBadge">0</span></a>
-    <a class="side-link" href="#random" data-side-action="random"><span class="side-icon">⌁</span><span><strong>ثيم عشوائي</strong><small>RANDOM THEME</small></span></a>
-  </div></div>
-  <div class="side-menu-section"><div class="side-menu-section-title">TOOLS</div><div class="side-menu-links">
-    <a class="side-link" href="#search" data-side-action="search"><span class="side-icon">⌕</span><span><strong>بحث سريع</strong><small>SEARCH THEMES</small></span></a>
-    <a class="side-link" href="#export" data-side-action="export"><span class="side-icon">⇩</span><span><strong>تصدير المفضلة</strong><small>EXPORT JSON</small></span></a>
-    <a class="side-link" href="#reset" data-side-action="reset"><span class="side-icon">↻</span><span><strong>إعادة النظام</strong><small>RESET THEME</small></span></a>
-  </div></div>
-  <div class="side-menu-footer"><div class="side-mini-row"><span>ENGINE</span><b>GLASS UI</b></div><div class="side-mini-row"><span>STATUS</span><b><span class="side-dot"></span>ONLINE</b></div><div class="side-mini-row"><span>THEMES</span><b>115</b></div><div class="side-mini-row"><span>COLORS</span><b>1,150</b></div></div>
-</aside>
+
+/* =====================================================
+   THEME VAULT ULTIMATE — EXACT DRAWER MENU
+===================================================== */
+.icon-btn,.pill-btn,.primary-btn,.ghost-btn{
+  border:1px solid var(--stroke);
+  color:var(--text);
+  background:rgba(255,255,255,.055);
+  border-radius:15px;
+  min-height:42px;
+  padding:0 14px;
+  transition:.22s ease;
+}
+.icon-btn{
+  width:42px;
+  padding:0;
+  display:grid;
+  place-items:center;
+}
+.icon-btn:hover,.pill-btn:hover,.ghost-btn:hover{
+  transform:translateY(-2px);
+  background:var(--glass2);
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--stroke));
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
+}
+
+.drawer{--stroke:var(--border);position:fixed;inset:0;z-index:100;display:none;}
+.drawer.open{display:block}
+.drawer-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.58);
+  backdrop-filter:blur(8px);
+}
+.drawer-panel{
+  position:absolute;
+  top:0;bottom:0;right:0;
+  width:min(430px,92vw);
+  padding:22px;
+  overflow:auto;
+  background:rgba(8,11,19,.94);
+  border-left:1px solid var(--stroke);
+  box-shadow:-30px 0 90px rgba(0,0,0,.5);
+  backdrop-filter:blur(30px);
+  animation:drawerIn .35s ease both;
+}
+@keyframes drawerIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.drawer-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+.drawer-head h3{margin:0}
+.menu-section{
+  margin:20px 0;
+  padding:15px;
+  border:1px solid var(--stroke);
+  border-radius:19px;
+  background:rgba(255,255,255,.035);
+}
+.menu-section h4{
+  margin:0 0 10px;
+  font-size:12px;
+  color:var(--muted);
+}
+.menu-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.menu-row:last-child{border-bottom:0}
+.switch{
+  width:48px;height:27px;
+  padding:3px;
+  border-radius:99px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.08);
+}
+.switch i{
+  display:block;width:19px;height:19px;border-radius:50%;
+  background:#fff;transition:.25s;
+}
+.switch.on{
+  background:var(--accent);
+}
+.switch.on i{transform:translateX(-21px)}
+
+.vault-menu-btn{--stroke:var(--border);--glass2:rgba(255,255,255,.08);--accent:var(--primary);}
+.theme-vault-menu-button{display:flex;align-items:center;margin-inline-start:auto;margin-inline-end:10px;}
+@media(max-width:900px){.theme-vault-menu-button{margin-inline-start:auto;margin-inline-end:6px;}.vault-menu-btn{min-height:40px;width:40px;border-radius:14px;}}
+</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body>
+<div id="drawer" class="drawer">
+  <div class="drawer-backdrop" onclick="closeDrawer()"></div>
+  <aside class="drawer-panel">
+    <div class="drawer-head">
+      <h3>CONTROL CENTER</h3>
+      <button class="icon-btn" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="menu-section">
+      <h4>النظام</h4>
+      <div class="menu-row">
+        <span>تصدير المفضلة</span>
+        <button class="pill-btn" onclick="exportFavorites()">JSON</button>
+      </div>
+      <div class="menu-row">
+        <span>ثيم عشوائي</span>
+        <button class="pill-btn" onclick="randomTheme();closeDrawer()">تشغيل</button>
+      </div>
+      <div class="menu-row">
+        <span>إعادة الألوان</span>
+        <button class="pill-btn" onclick="resetTheme()">Reset</button>
+      </div>
+    </div>
+    <div class="menu-section">
+      <h4>مزايا النظام</h4>
+      <div class="menu-row"><span>110+ فكرة مستقلة</span><span>✓</span></div>
+      <div class="menu-row"><span>10 ألوان لكل ثيم</span><span>✓</span></div>
+      <div class="menu-row"><span>Glass UI</span><span>✓</span></div>
+      <div class="menu-row"><span>LocalStorage</span><span>✓</span></div>
+      <div class="menu-row"><span>Responsive</span><span>✓</span></div>
+      <div class="menu-row"><span>بدون Framework</span><span>✓</span></div>
+    </div>
+    <div class="menu-section">
+      <h4>اختصارات</h4>
+      <div class="menu-row"><span>فتح البحث</span><kbd>Ctrl / ⌘ + K</kbd></div>
+      <div class="menu-row"><span>إغلاق نافذة</span><kbd>ESC</kbd></div>
+    </div>
+  </aside>
+</div>
 <video id="customBackgroundVideo" playsinline autoplay muted loop preload="auto" aria-hidden="true"></video>
 <input id="backgroundJpgInput" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
 <input id="backgroundMp4Input" type="file" accept="video/mp4,.mp4,video/*" hidden>
@@ -4297,7 +4394,7 @@ alt="MOKO">
 
 <span class="brand-name">
 MOKO
-</span></div><nav class="navigation"><button class="nav-button active" data-tab="home">
+</span></div><div class="theme-vault-menu-button"><button class="icon-btn vault-menu-btn" onclick="openDrawer()" title="الإعدادات" aria-label="فتح القائمة">☰</button></div><nav class="navigation"><button class="nav-button active" data-tab="home">
 <i class="fa-solid fa-house"></i>
 HOME
 </button><button class="nav-button" data-tab="dov">
@@ -9507,34 +9604,62 @@ window.SOKO_EXTRA_THEMES={
  Royal:{className:'theme-royal'},
  Ice:{className:'theme-ice'}
 };
-</script></body></html>\n<script>
-/* ===== SIDE MENU ENGINE ===== */
-(function(){
- const menu=document.getElementById('sideMenu'), overlay=document.getElementById('sideMenuOverlay'), toggle=document.getElementById('sideMenuToggle'), close=document.getElementById('sideMenuClose');
- if(!menu||!overlay||!toggle)return;
- function open(){menu.classList.add('open');overlay.classList.add('open');toggle.classList.add('open');toggle.setAttribute('aria-expanded','true');document.body.classList.add('side-menu-open')}
- function shut(){menu.classList.remove('open');overlay.classList.remove('open');toggle.classList.remove('open');toggle.setAttribute('aria-expanded','false');document.body.classList.remove('side-menu-open')}
- window.openSideMenu=open;window.closeSideMenu=shut;
- toggle.addEventListener('click',()=>menu.classList.contains('open')?shut():open()); overlay.addEventListener('click',shut); close.addEventListener('click',shut);
- document.addEventListener('keydown',e=>{if(e.key==='Escape')shut();});
- menu.querySelectorAll('.side-link').forEach(link=>link.addEventListener('click',e=>{
-   const action=link.dataset.sideAction, target=link.dataset.sideTarget;
-   if(action){e.preventDefault();
-     if(action==='random'&&typeof randomTheme==='function') randomTheme();
-     if(action==='export'&&typeof exportFavorites==='function') exportFavorites();
-     if(action==='reset'&&typeof resetTheme==='function') resetTheme();
-     if(action==='search'){const x=document.querySelector('#search');if(x){shut();setTimeout(()=>x.focus(),250);return;}}
-     if(action==='favorites'){const x=document.querySelector('#sort');if(x){x.value='favorites';x.dispatchEvent(new Event('change'));}}
-     shut(); return;
-   }
-   if(target){menu.querySelectorAll('.side-link').forEach(x=>x.classList.remove('active'));link.classList.add('active');
-     const el=document.getElementById(target)||document.querySelector('[data-section="'+target+'"]'); if(el){e.preventDefault();shut();setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);}
-   }
- }));
- function updateBadge(){
-   let n=0; try{n=JSON.parse(localStorage.getItem('themeVaultFavorites')||'[]').length}catch(e){}
-   const b=document.getElementById('sideFavoriteBadge'); if(b)b.textContent=n;
- }
- updateBadge(); window.addEventListener('storage',updateBadge); window.updateSideFavoriteBadge=updateBadge;
-})();
-</script>
+
+/* =====================================================
+   THEME VAULT DRAWER — OPEN / CLOSE EFFECTS
+===================================================== */
+function openDrawer(){
+  const drawer=document.getElementById("drawer");
+  if(drawer) drawer.classList.add("open");
+}
+function closeDrawer(){
+  const drawer=document.getElementById("drawer");
+  if(drawer) drawer.classList.remove("open");
+}
+function randomTheme(){
+  const buttons=[...document.querySelectorAll(".theme-button")];
+  if(buttons.length){
+    const button=buttons[Math.floor(Math.random()*buttons.length)];
+    button.click();
+    closeDrawer();
+    return;
+  }
+  const presets=[["#9d6bff","#55dfff"],["#2adf84","#f4df4e"],["#ff73b8","#b078ff"],["#caff39","#ff4d4d"],["#151515","#4ce6ff"],["#ff9a3d","#ffffff"],["#7f1d3d","#ffd44d"]];
+  if(typeof applyTheme==="function"){
+    const p=presets[Math.floor(Math.random()*presets.length)];
+    applyTheme(p[0],p[1]);
+  }
+  closeDrawer();
+}
+function exportFavorites(){
+  try{
+    const data=localStorage.getItem("MOKO_SOLO_THEME")||"{}";
+    const blob=new Blob([data],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="moko-theme.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    if(typeof showToast==="function") showToast("تم التصدير","تم حفظ إعدادات الثيم الحالية بصيغة JSON.");
+  }catch(error){console.error(error);}
+}
+function resetTheme(){
+  try{
+    ["--primary","--secondary","--primary-rgb"].forEach(v=>document.documentElement.style.removeProperty(v));
+    localStorage.removeItem("MOKO_SOLO_THEME");
+    if(typeof applyTheme==="function") applyTheme("#9da3ad","#eef1f5");
+    if(typeof showToast==="function") showToast("تمت إعادة الضبط","عاد النظام إلى ألوانه الأساسية.");
+  }catch(error){console.error(error);}
+}
+window.openDrawer=openDrawer;
+window.closeDrawer=closeDrawer;
+window.randomTheme=randomTheme;
+window.exportFavorites=exportFavorites;
+window.resetTheme=resetTheme;
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape") closeDrawer();
+});
+</script></body></html>
