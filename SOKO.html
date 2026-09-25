@@ -4378,7 +4378,93 @@ body.moko-top-glass .header{background:rgba(255,255,255,.055)!important}.moko-to
 .moko-bottom-glass .section,.moko-bottom-glass .home-container{background:rgba(255,255,255,.055)!important}.moko-bottom-liquid .section,.moko-bottom-liquid .home-container{background:linear-gradient(135deg,rgba(var(--moko-bottom-rgb),.22),rgba(255,255,255,.035))!important;backdrop-filter:blur(24px)}.moko-bottom-glossy .section,.moko-bottom-glossy .home-container{background:linear-gradient(120deg,rgba(var(--moko-bottom-rgb),.15),rgba(255,255,255,.18),rgba(var(--moko-bottom-rgb),.05))!important}.moko-bottom-luminous .section,.moko-bottom-luminous .home-container{background:rgba(var(--moko-bottom-rgb),.13)!important;box-shadow:0 0 45px rgba(var(--moko-bottom-rgb),.22),inset 0 1px 0 rgba(255,255,255,.2)!important}.moko-bottom-solid .section,.moko-bottom-solid .home-container{background:var(--moko-bottom-color)!important}
 .moko-admin-section-font .section-title{font-family:var(--moko-section-font)!important}.moko-admin-hint-font .section-hint,.moko-admin-hint-font .custom-hero p{font-family:var(--moko-hint-font)!important}.moko-admin-desc-font .profile-description,.moko-admin-desc-font .welcome-text{font-family:var(--moko-desc-font)!important}.moko-admin-site-font .brand-name,.moko-admin-site-font .profile-name{font-family:var(--moko-site-font)!important}
 @media(max-width:650px){.admin-two,.daily-memo-controls{grid-template-columns:1fr}.daily-memo-head{flex-direction:column}.game-icon-grid{grid-template-columns:repeat(5,1fr)}}
-</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet"></head><body>
+</style><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cairo:wght@700;800;900&family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet">\n<style id="moko-grand-redesign">
+/* ================================================================
+   MOKO GRAND REBUILD • SPACIOUS GLASS COMMAND INTERFACE
+   Redesigned layer: generous spacing, premium surfaces, iconography,
+   responsive navigation, tactile states, and elegant feedback.
+================================================================ */
+:root{
+ --grand-bg:#080b12;--grand-panel:rgba(18,23,34,.78);--grand-panel-2:rgba(25,32,47,.76);
+ --grand-line:rgba(225,235,255,.105);--grand-line-hi:rgba(225,235,255,.19);
+ --grand-ink:#f6f8ff;--grand-muted:#9aa6bc;--grand-accent:#a8b6d4;--grand-accent-rgb:168,182,212;
+ --grand-green:#47d7a0;--grand-red:#ff657a;--grand-gold:#d6bd8b;
+ --grand-shadow:0 28px 90px rgba(0,0,0,.42);--grand-radius:26px;
+ --grand-space:clamp(18px,3vw,36px);
+}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{background:var(--grand-bg);color:var(--grand-ink);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 12% 8%,rgba(var(--grand-accent-rgb),.14),transparent 35%),radial-gradient(ellipse at 88% 75%,rgba(68,116,181,.12),transparent 38%),linear-gradient(145deg,#080b12 0%,#0b101a 52%,#080b12 100%)}
+.app{width:min(1660px,calc(100% - 48px));max-width:1660px;margin-inline:auto;padding:clamp(18px,3vw,42px) 0 70px;gap:30px}
+.glass,.section,.home-container,.profile-card,.welcome-card,.album-carousel,.daily-memo-card,.control-card,.theme-card,.game-card,.drawer-panel{background:linear-gradient(145deg,rgba(25,32,47,.86),rgba(12,17,27,.78))!important;border:1px solid var(--grand-line)!important;border-radius:var(--grand-radius)!important;box-shadow:var(--grand-shadow),inset 0 1px 0 rgba(255,255,255,.055)!important;backdrop-filter:blur(24px) saturate(135%);-webkit-backdrop-filter:blur(24px) saturate(135%)}
+header,.topbar,.site-header{gap:22px}
+.navigation{display:flex;flex-wrap:wrap;gap:10px;padding:10px;border:1px solid var(--grand-line);border-radius:24px;background:rgba(9,13,21,.72);box-shadow:0 12px 36px #0003}
+.nav-button{min-height:48px;padding:12px 20px;border-radius:15px!important;border:1px solid transparent!important;background:transparent!important;color:var(--grand-muted)!important;transition:transform .24s ease,background .24s ease,color .24s ease,box-shadow .24s ease}
+.nav-button i,.nav-button svg{font-size:1.02em;filter:drop-shadow(0 0 8px rgba(var(--grand-accent-rgb),.22))}
+.nav-button:hover{transform:translateY(-2px);background:rgba(255,255,255,.055)!important;color:#fff!important}
+.nav-button.active{background:linear-gradient(135deg,rgba(var(--grand-accent-rgb),.2),rgba(255,255,255,.055))!important;border-color:rgba(var(--grand-accent-rgb),.24)!important;color:#fff!important;box-shadow:inset 0 1px 0 #ffffff16,0 8px 24px #0002}
+.icon-btn,.pill-btn,.ghost-btn,.main-button,.lux-action{transition:transform .2s ease,filter .2s ease,box-shadow .2s ease!important;cursor:pointer; -webkit-tap-highlight-color:transparent}
+.icon-btn:hover,.pill-btn:hover,.ghost-btn:hover,.main-button:hover,.lux-action:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.icon-btn:active,.pill-btn:active,.ghost-btn:active,.main-button:active,.lux-action:active,.nav-button:active{transform:scale(.965)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid rgba(var(--grand-accent-rgb),.8);outline-offset:3px}
+.tab{animation:grandEnter .38s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grandEnter{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+.section{padding:clamp(22px,3.5vw,48px)!important;margin-bottom:28px;overflow:visible}
+.section-title{font-size:clamp(1.35rem,2.2vw,2rem);line-height:1.55;letter-spacing:.01em;margin:0 0 26px!important;display:flex;align-items:center;gap:14px}
+.section-title i{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,rgba(var(--grand-accent-rgb),.2),rgba(255,255,255,.045));border:1px solid rgba(var(--grand-accent-rgb),.2);color:var(--grand-accent);box-shadow:inset 0 1px 0 #ffffff18,0 8px 22px #0002}
+.home-container{padding:clamp(20px,3vw,38px)!important}
+.home-grid{gap:clamp(18px,2.5vw,32px)!important;align-items:stretch}
+.profile-card,.welcome-card{padding:clamp(22px,3vw,38px)!important;min-width:0}
+.hero-main-title{font-size:clamp(2rem,4.6vw,4.2rem)!important;line-height:1.22;letter-spacing:-.035em}
+.hero-subtitle{max-width:720px;line-height:2;font-size:clamp(1rem,1.25vw,1.16rem);color:var(--grand-muted)}
+.top-clock{display:inline-flex;align-items:center;gap:12px;padding:12px 18px!important;border-radius:16px!important;border:1px solid var(--grand-line)!important;background:rgba(11,16,25,.72)!important;color:#dfe7f8}
+.top-clock i{color:var(--grand-accent)}
+/* Small premium cards, spacious grids, no cramped rows */
+.home-grid,.games-grid,.theme-grid,.notes-feed,.message-feed{gap:clamp(14px,2vw,24px)!important}
+.games-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))!important}
+.theme-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))!important}
+.game-card,.theme-card{padding:20px!important;min-width:0;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.game-card:hover,.theme-card:hover,.control-card:hover{transform:translateY(-4px);border-color:var(--grand-line-hi)!important;box-shadow:0 26px 58px #0004,inset 0 1px 0 #ffffff12!important}
+input,textarea,select,.input,.admin-input{border-radius:15px!important;border:1px solid rgba(225,235,255,.12)!important;background:rgba(5,9,16,.56)!important;color:var(--grand-ink)!important;min-height:48px;transition:border-color .2s,box-shadow .2s}
+textarea{min-height:130px;line-height:1.9;padding:16px!important}
+input::placeholder,textarea::placeholder{color:#7e8aa1}
+label{line-height:1.8}
+.main-button{min-height:50px;padding:13px 24px!important;border-radius:15px!important;font-weight:800;letter-spacing:.01em;box-shadow:0 10px 26px rgba(var(--grand-accent-rgb),.11),inset 0 1px 0 #ffffff20}
+.ghost-btn,.pill-btn{min-height:43px;padding:10px 17px!important;border-radius:13px!important;border:1px solid var(--grand-line)!important;background:rgba(255,255,255,.045)!important;color:#e8edf8!important}
+/* Custom status dots, no emoji dependency */
+.status-dot,.pulse-dot{display:inline-block;width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:var(--grand-green);box-shadow:0 0 0 4px rgba(71,215,160,.10),0 0 15px rgba(71,215,160,.7);animation:grandPulse 2s ease-in-out infinite}
+.status-dot.red,.pulse-dot.red{background:var(--grand-red);box-shadow:0 0 0 4px rgba(255,101,122,.1),0 0 15px rgba(255,101,122,.7)}
+.status-line{display:inline-flex;align-items:center;gap:10px;color:var(--grand-muted);font-size:.88rem}
+@keyframes grandPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.82)}}
+/* Drawer rebuilt as an elevated glass workspace */
+.drawer{background:rgba(2,5,10,.7)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.drawer-panel{width:min(510px,calc(100vw - 24px))!important;max-width:510px!important;padding:clamp(22px,3vw,34px)!important;border-radius:28px!important;border:1px solid rgba(230,238,255,.15)!important;background:linear-gradient(150deg,rgba(23,30,45,.98),rgba(8,13,22,.98))!important;box-shadow:0 40px 120px #0009!important;overflow-y:auto;overscroll-behavior:contain}
+.drawer-panel h2,.drawer-panel h3{letter-spacing:.01em;line-height:1.6}
+.drawer-panel .menu-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.065)}
+.drawer-panel .menu-row:last-child{border-bottom:0}
+.drawer-panel button{cursor:pointer}
+/* Replace browser alert/confirm prompts with the site's premium glass dialog */
+.lux-dialog,.lux-modal,.lux-dialog-backdrop{z-index:999999!important}
+.lux-dialog-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(1,4,9,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.lux-dialog-backdrop.show{display:flex}
+.lux-dialog{width:min(520px,100%);max-height:min(86vh,760px);overflow:auto;border:1px solid rgba(230,238,255,.16);border-radius:26px;background:linear-gradient(145deg,rgba(27,35,52,.98),rgba(9,14,23,.99));box-shadow:0 36px 110px #000b,inset 0 1px 0 #ffffff18;padding:25px;color:#f4f7ff;animation:grandEnter .25s ease both}
+.lux-dialog-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.lux-dialog-head .lux-dialog-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;border:1px solid rgba(var(--grand-accent-rgb),.25);background:rgba(var(--grand-accent-rgb),.12);color:var(--grand-accent);font-size:1.1rem}
+.lux-dialog-title{font-size:1.18rem;font-weight:900;margin:0}
+.lux-dialog-body{color:#c5cee0;line-height:1.95;overflow-wrap:anywhere}
+.lux-dialog-actions{display:flex;justify-content:flex-start;gap:10px;flex-wrap:wrap;margin-top:22px}
+.lux-action{min-height:45px;padding:11px 20px;border:1px solid var(--grand-line);border-radius:13px;background:rgba(255,255,255,.055);color:#edf2ff;font-weight:800}
+.lux-action.primary{background:linear-gradient(135deg,rgba(var(--grand-accent-rgb),.35),rgba(var(--grand-accent-rgb),.12));border-color:rgba(var(--grand-accent-rgb),.32)}
+.lux-dialog input,.lux-dialog textarea{width:100%;margin-top:14px;padding:13px 15px}
+/* Tooltips, scrollbars and mobile rhythm */
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}::-webkit-scrollbar-thumb{background:rgba(160,177,210,.25);border:2px solid transparent;background-clip:padding-box;border-radius:20px}::-webkit-scrollbar-thumb:hover{background:rgba(160,177,210,.42);background-clip:padding-box}
+@media(min-width:1100px){.home-grid{grid-template-columns:minmax(280px,.78fr) minmax(0,1.55fr)!important}.section{margin-bottom:34px}.navigation{gap:12px}}
+@media(max-width:900px){.app{width:calc(100% - 28px);padding-top:18px}.navigation{justify-content:center}.nav-button{flex:1 1 auto;padding:11px 14px;min-width:90px}.home-grid{grid-template-columns:1fr!important}.section{padding:22px!important}}
+@media(max-width:560px){.app{width:calc(100% - 20px);gap:18px}.navigation{gap:6px;padding:7px;border-radius:19px}.nav-button{min-width:calc(33.333% - 6px);font-size:.82rem;padding:10px 7px;min-height:45px}.section{padding:18px!important;border-radius:21px!important}.home-container{padding:14px!important}.profile-card,.welcome-card{padding:20px!important}.section-title{gap:10px;font-size:1.25rem}.section-title i{width:40px;height:40px;border-radius:13px}.drawer-panel{width:calc(100vw - 16px)!important;padding:20px!important;border-radius:23px!important}.lux-dialog{padding:20px;border-radius:22px}.lux-dialog-actions>*{flex:1}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+
+</head><body>
 <div id="drawer" class="drawer">
   <div class="drawer-backdrop" onclick="closeDrawer()"></div>
   <aside class="drawer-panel">
@@ -9798,167 +9884,16 @@ window.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.conta
 })();
 </script>
 
-
-
-<!-- =========================================================
- MOKO GRAND LUXURY INTERACTION LAYER
- Expanded glass surfaces, dedicated icon tiles, tactile press,
- status lights, drawer navigation, responsive motion and toast.
-========================================================= -->
-<style id="moko-grand-luxury-layer">
-:root{
- --moko-ease:cubic-bezier(.2,.78,.18,1);
- --moko-card-shadow:0 22px 70px rgba(0,0,0,.38);
- --moko-soft-border:rgba(255,255,255,.13);
- --moko-glass-deep:rgba(9,13,22,.78);
- --moko-glass-mid:rgba(255,255,255,.065);
- --moko-focus:0 0 0 3px rgba(var(--primary-rgb,157,163,173),.24);
-}
-/* dedicated icon surfaces */
-.moko-icon-tile,.icon-tile,.admin-icon,.section-icon,.menu-icon,.feature-icon{
- display:inline-grid;place-items:center;flex:0 0 auto;
- width:42px;height:42px;border-radius:15px;
- color:var(--primary,#aab4c2);
- background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.025));
- border:1px solid rgba(255,255,255,.13);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 24px rgba(0,0,0,.18),0 0 22px rgba(var(--primary-rgb,157,163,173),.08);
- transition:transform .35s var(--moko-ease),background .35s,border-color .35s,box-shadow .35s;
-}
-.moko-icon-tile i,.icon-tile i,.admin-icon i,.section-icon i,.menu-icon i,.feature-icon i{font-size:17px;line-height:1}
-button:hover .moko-icon-tile,button:hover .icon-tile,.admin-section:hover .admin-icon,.feature-card:hover .feature-icon{transform:translateY(-2px) rotate(-3deg);border-color:rgba(var(--primary-rgb,157,163,173),.42);box-shadow:0 12px 28px rgba(0,0,0,.24),0 0 24px rgba(var(--primary-rgb,157,163,173),.14)}
-/* compact glass cards with distinct depth */
-.moko-glass-card,.luxury-mini-card,.feature-card,.dashboard-card,.status-card{
- position:relative;isolation:isolate;overflow:hidden;
- border:1px solid var(--moko-soft-border);
- border-radius:23px;
- background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.018)),var(--moko-glass-deep);
- box-shadow:var(--moko-card-shadow),inset 0 1px 0 rgba(255,255,255,.10);
- backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
- transition:transform .36s var(--moko-ease),border-color .36s,box-shadow .36s;
-}
-.moko-glass-card::before,.luxury-mini-card::before,.feature-card::before,.dashboard-card::before,.status-card::before{
- content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
- background:radial-gradient(circle at 0 0,rgba(var(--primary-rgb,157,163,173),.11),transparent 48%),linear-gradient(120deg,rgba(255,255,255,.045),transparent 38%);
-}
-.moko-glass-card:hover,.luxury-mini-card:hover,.feature-card:hover,.dashboard-card:hover,.status-card:hover{
- transform:translateY(-4px);border-color:rgba(var(--primary-rgb,157,163,173),.32);
- box-shadow:0 28px 76px rgba(0,0,0,.46),0 0 35px rgba(var(--primary-rgb,157,163,173),.07),inset 0 1px 0 rgba(255,255,255,.13);
-}
-/* tactile button system */
-.moko-tactile,.lux-action,.nav-button,.theme-button,.admin-section button,.drawer button,.side-menu button{
- -webkit-tap-highlight-color:transparent;transform:translateZ(0);
- transition:transform .22s var(--moko-ease),filter .22s,box-shadow .22s,background .22s,border-color .22s;
-}
-.moko-tactile:active,.lux-action:active,.nav-button:active,.theme-button:active,.admin-section button:active,.drawer button:active,.side-menu button:active{
- transform:translateY(1px) scale(.965);filter:brightness(1.12);
-}
-button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none;box-shadow:var(--moko-focus)}
-/* illuminated status lamps */
-.moko-status,.status-lamp,.live-indicator,.online-dot,.offline-dot{
- display:inline-block;width:9px;height:9px;flex:0 0 9px;border-radius:50%;position:relative;
- background:#35e68b;box-shadow:0 0 0 3px rgba(53,230,139,.12),0 0 13px rgba(53,230,139,.75);
- animation:mokoLampBreath 2.4s ease-in-out infinite;
-}
-.moko-status.red,.status-lamp.red,.offline-dot{background:#ff4d63;box-shadow:0 0 0 3px rgba(255,77,99,.12),0 0 13px rgba(255,77,99,.72)}
-.moko-status.amber,.status-lamp.amber{background:#ffc45b;box-shadow:0 0 0 3px rgba(255,196,91,.12),0 0 13px rgba(255,196,91,.72)}
-.moko-status.blue,.status-lamp.blue{background:#54cfff;box-shadow:0 0 0 3px rgba(84,207,255,.12),0 0 13px rgba(84,207,255,.72)}
-.moko-status::after,.status-lamp::after,.live-indicator::after,.online-dot::after,.offline-dot::after{content:"";position:absolute;inset:-5px;border:1px solid currentColor;border-radius:50%;opacity:.32;animation:mokoLampRing 2.4s ease-out infinite}
-/* custom toast: clean, compact, no browser alert */
-#mokoGrandToast{
- position:fixed;z-index:2147483000;inset-inline:16px;bottom:calc(22px + env(safe-area-inset-bottom));
- margin-inline:auto;width:min(440px,calc(100vw - 32px));padding:13px 15px;
- display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.16);border-radius:20px;
- color:#fff;background:linear-gradient(140deg,rgba(31,38,52,.94),rgba(8,12,20,.94));
- box-shadow:0 22px 75px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.12);
- backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
- opacity:0;transform:translateY(18px) scale(.97);pointer-events:none;
- transition:opacity .3s,transform .36s var(--moko-ease);
-}
-#mokoGrandToast.show{opacity:1;transform:translateY(0) scale(1)}
-#mokoGrandToast .toast-symbol{width:39px;height:39px;display:grid;place-items:center;border-radius:14px;background:rgba(var(--primary-rgb,157,163,173),.15);color:var(--primary,#cbd5e1);font-size:16px;flex:0 0 auto}
-#mokoGrandToast .toast-copy{min-width:0;display:grid;gap:3px}
-#mokoGrandToast strong{font-size:.91rem;font-weight:900}
-#mokoGrandToast span{font-size:.79rem;line-height:1.6;color:rgba(255,255,255,.68);overflow-wrap:anywhere}
-/* ripple feedback */
-.moko-ripple-host{position:relative;overflow:hidden!important;isolation:isolate}
-.moko-ripple{position:absolute;border-radius:50%;pointer-events:none;transform:scale(0);background:rgba(255,255,255,.23);animation:mokoRipple .62s ease-out forwards;z-index:5}
-@keyframes mokoRipple{to{transform:scale(1);opacity:0}}
-@keyframes mokoLampBreath{0%,100%{filter:brightness(.9);opacity:.82}50%{filter:brightness(1.28);opacity:1}}
-@keyframes mokoLampRing{0%{transform:scale(.65);opacity:.45}100%{transform:scale(1.65);opacity:0}}
-/* drawer and sidebar layering */
-.drawer,.side-menu,.sidebar,.admin-sidebar{isolation:isolate}
-.drawer.open,.side-menu.open,.sidebar.open,.admin-sidebar.open{box-shadow:-30px 0 100px rgba(0,0,0,.45),inset 1px 0 0 rgba(255,255,255,.09)}
-.drawer a,.drawer button,.side-menu a,.side-menu button,.sidebar a,.sidebar button,.admin-sidebar a,.admin-sidebar button{
- position:relative;display:flex;align-items:center;gap:11px;border-radius:16px;
-}
-.drawer a::after,.drawer button::after,.side-menu a::after,.side-menu button::after,.sidebar a::after,.sidebar button::after,.admin-sidebar a::after,.admin-sidebar button::after{
- content:"";position:absolute;inset-inline-start:0;top:22%;bottom:22%;width:3px;border-radius:9px;background:var(--primary,#aab4c2);opacity:0;transform:scaleY(.4);transition:opacity .25s,transform .25s;
-}
-.drawer a.active::after,.drawer button.active::after,.side-menu a.active::after,.side-menu button.active::after,.sidebar a.active::after,.sidebar button.active::after,.admin-sidebar a.active::after,.admin-sidebar button.active::after{opacity:1;transform:scaleY(1)}
-/* section headings and descriptive microcopy */
-.section-hint{display:flex;align-items:center;gap:9px;margin:8px 2px 20px;color:rgba(255,255,255,.58);font-size:.82rem;line-height:1.8}
-.section-hint::before{content:"";width:20px;height:1px;flex:0 0 20px;background:var(--primary,#aab4c2);box-shadow:0 0 10px var(--glow,rgba(255,255,255,.2))}
-.section-title{position:relative;display:flex;align-items:center;gap:12px}
-.section-title::before{content:"";width:5px;height:27px;border-radius:9px;background:linear-gradient(180deg,var(--primary,#aab4c2),var(--secondary,#eef1f5));box-shadow:0 0 16px var(--glow,rgba(255,255,255,.15))}
-/* refined fields */
-input:not([type=checkbox]):not([type=radio]),textarea,select{
- border-color:rgba(255,255,255,.13);transition:border-color .25s,box-shadow .25s,background .25s;
-}
-input:not([type=checkbox]):not([type=radio]):focus,textarea:focus,select:focus{border-color:rgba(var(--primary-rgb,157,163,173),.55);box-shadow:0 0 0 4px rgba(var(--primary-rgb,157,163,173),.10);background-color:rgba(255,255,255,.07)}
-/* compact layout rhythm */
-@media(min-width:900px){.moko-card-grid,.feature-grid,.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
-@media(min-width:560px) and (max-width:899px){.moko-card-grid,.feature-grid,.dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}}
-@media(max-width:559px){.moko-glass-card,.luxury-mini-card,.feature-card,.dashboard-card,.status-card{border-radius:19px}.moko-icon-tile,.icon-tile,.admin-icon,.section-icon,.menu-icon,.feature-icon{width:38px;height:38px;border-radius:13px}.section-hint{font-size:.76rem;margin-bottom:15px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
-</style>
-<div id="mokoGrandToast" role="status" aria-live="polite"><div class="toast-symbol"><i class="fa-solid fa-bell"></i></div><div class="toast-copy"><strong id="mokoGrandToastTitle">MOKO</strong><span id="mokoGrandToastText"></span></div></div>
-<script id="moko-grand-interactions">
-(function(){
+\n<script id="moko-grand-interactions">
+(()=>{
  'use strict';
- const toast=document.getElementById('mokoGrandToast');
- const toastTitle=document.getElementById('mokoGrandToastTitle');
- const toastText=document.getElementById('mokoGrandToastText');
- let toastTimer=0;
- window.MOKOGrandToast=function(title,message,kind){
-   if(!toast)return;
-   toastTitle.textContent=String(title||'MOKO');
-   toastText.textContent=String(message||'');
-   const icon=toast.querySelector('.toast-symbol i');
-   if(icon){icon.className='fa-solid '+(kind==='success'?'fa-circle-check':kind==='error'?'fa-circle-exclamation':kind==='info'?'fa-circle-info':'fa-bell')}
-   toast.classList.add('show');clearTimeout(toastTimer);
-   toastTimer=setTimeout(()=>toast.classList.remove('show'),3600);
- };
- // Tap ripple is restricted to visible interactive controls.
- document.addEventListener('pointerdown',function(event){
-   const target=event.target.closest('button,.nav-button,.theme-button,.lux-option,.lux-action,.feature-card,.dashboard-card');
-   if(!target||target.disabled)return;
-   const rect=target.getBoundingClientRect();
-   const diameter=Math.max(rect.width,rect.height)*1.35;
-   const ripple=document.createElement('span');
-   ripple.className='moko-ripple';
-   ripple.style.width=diameter+'px';ripple.style.height=diameter+'px';
-   ripple.style.left=(event.clientX-rect.left-diameter/2)+'px';
-   ripple.style.top=(event.clientY-rect.top-diameter/2)+'px';
-   target.classList.add('moko-ripple-host');target.appendChild(ripple);
-   ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
- },{passive:true});
- // Reflect current navigation selection with a dedicated active state.
- document.addEventListener('click',function(event){
-   const item=event.target.closest('.drawer a,.drawer button,.side-menu a,.side-menu button,.sidebar a,.sidebar button,.admin-sidebar a,.admin-sidebar button');
-   if(!item)return;
-   const group=item.closest('.drawer,.side-menu,.sidebar,.admin-sidebar');
-   if(group){group.querySelectorAll('.active').forEach(el=>{if(el!==item)el.classList.remove('active')});item.classList.add('active')}
- });
- // Keep touch feedback responsive without hijacking form controls.
- document.querySelectorAll('button,.nav-button,.theme-button,.lux-action').forEach(el=>el.classList.add('moko-tactile'));
- // A small public helper for existing features and future controls.
- window.MOKOSetStatus=function(element,state){
-   if(!element)return;
-   element.classList.remove('red','amber','blue');
-   if(state==='offline'||state==='error')element.classList.add('red');
-   else if(state==='waiting'||state==='warning')element.classList.add('amber');
-   else if(state==='info')element.classList.add('blue');
- };
+ // Tactile feedback for every interactive control, with keyboard accessibility preserved.
+ document.addEventListener('pointerdown',e=>{const el=e.target.closest('button,[role="button"],.nav-button,.icon-btn,.pill-btn,.ghost-btn,.main-button');if(el){el.classList.add('grand-pressed');setTimeout(()=>el.classList.remove('grand-pressed'),160)}},{passive:true});
+ // Close the navigation drawer on Escape; leave existing dialog handlers untouched.
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const drawer=document.getElementById('drawer');if(drawer&&drawer.classList.contains('open')){if(typeof window.closeDrawer==='function')window.closeDrawer();}}});
+ // Mark offline/online status with a custom icon dot where a connection indicator exists.
+ const updateOnline=()=>{document.querySelectorAll('[data-network-status]').forEach(el=>{el.classList.toggle('red',!navigator.onLine);el.setAttribute('aria-label',navigator.onLine?'متصل بالإنترنت':'غير متصل بالإنترنت')})};
+ window.addEventListener('online',updateOnline);window.addEventListener('offline',updateOnline);updateOnline();
 })();
 </script>
 
