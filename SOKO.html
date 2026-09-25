@@ -9798,4 +9798,168 @@ window.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.conta
 })();
 </script>
 
+
+
+<!-- =========================================================
+ MOKO GRAND LUXURY INTERACTION LAYER
+ Expanded glass surfaces, dedicated icon tiles, tactile press,
+ status lights, drawer navigation, responsive motion and toast.
+========================================================= -->
+<style id="moko-grand-luxury-layer">
+:root{
+ --moko-ease:cubic-bezier(.2,.78,.18,1);
+ --moko-card-shadow:0 22px 70px rgba(0,0,0,.38);
+ --moko-soft-border:rgba(255,255,255,.13);
+ --moko-glass-deep:rgba(9,13,22,.78);
+ --moko-glass-mid:rgba(255,255,255,.065);
+ --moko-focus:0 0 0 3px rgba(var(--primary-rgb,157,163,173),.24);
+}
+/* dedicated icon surfaces */
+.moko-icon-tile,.icon-tile,.admin-icon,.section-icon,.menu-icon,.feature-icon{
+ display:inline-grid;place-items:center;flex:0 0 auto;
+ width:42px;height:42px;border-radius:15px;
+ color:var(--primary,#aab4c2);
+ background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.025));
+ border:1px solid rgba(255,255,255,.13);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 24px rgba(0,0,0,.18),0 0 22px rgba(var(--primary-rgb,157,163,173),.08);
+ transition:transform .35s var(--moko-ease),background .35s,border-color .35s,box-shadow .35s;
+}
+.moko-icon-tile i,.icon-tile i,.admin-icon i,.section-icon i,.menu-icon i,.feature-icon i{font-size:17px;line-height:1}
+button:hover .moko-icon-tile,button:hover .icon-tile,.admin-section:hover .admin-icon,.feature-card:hover .feature-icon{transform:translateY(-2px) rotate(-3deg);border-color:rgba(var(--primary-rgb,157,163,173),.42);box-shadow:0 12px 28px rgba(0,0,0,.24),0 0 24px rgba(var(--primary-rgb,157,163,173),.14)}
+/* compact glass cards with distinct depth */
+.moko-glass-card,.luxury-mini-card,.feature-card,.dashboard-card,.status-card{
+ position:relative;isolation:isolate;overflow:hidden;
+ border:1px solid var(--moko-soft-border);
+ border-radius:23px;
+ background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.018)),var(--moko-glass-deep);
+ box-shadow:var(--moko-card-shadow),inset 0 1px 0 rgba(255,255,255,.10);
+ backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+ transition:transform .36s var(--moko-ease),border-color .36s,box-shadow .36s;
+}
+.moko-glass-card::before,.luxury-mini-card::before,.feature-card::before,.dashboard-card::before,.status-card::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(circle at 0 0,rgba(var(--primary-rgb,157,163,173),.11),transparent 48%),linear-gradient(120deg,rgba(255,255,255,.045),transparent 38%);
+}
+.moko-glass-card:hover,.luxury-mini-card:hover,.feature-card:hover,.dashboard-card:hover,.status-card:hover{
+ transform:translateY(-4px);border-color:rgba(var(--primary-rgb,157,163,173),.32);
+ box-shadow:0 28px 76px rgba(0,0,0,.46),0 0 35px rgba(var(--primary-rgb,157,163,173),.07),inset 0 1px 0 rgba(255,255,255,.13);
+}
+/* tactile button system */
+.moko-tactile,.lux-action,.nav-button,.theme-button,.admin-section button,.drawer button,.side-menu button{
+ -webkit-tap-highlight-color:transparent;transform:translateZ(0);
+ transition:transform .22s var(--moko-ease),filter .22s,box-shadow .22s,background .22s,border-color .22s;
+}
+.moko-tactile:active,.lux-action:active,.nav-button:active,.theme-button:active,.admin-section button:active,.drawer button:active,.side-menu button:active{
+ transform:translateY(1px) scale(.965);filter:brightness(1.12);
+}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none;box-shadow:var(--moko-focus)}
+/* illuminated status lamps */
+.moko-status,.status-lamp,.live-indicator,.online-dot,.offline-dot{
+ display:inline-block;width:9px;height:9px;flex:0 0 9px;border-radius:50%;position:relative;
+ background:#35e68b;box-shadow:0 0 0 3px rgba(53,230,139,.12),0 0 13px rgba(53,230,139,.75);
+ animation:mokoLampBreath 2.4s ease-in-out infinite;
+}
+.moko-status.red,.status-lamp.red,.offline-dot{background:#ff4d63;box-shadow:0 0 0 3px rgba(255,77,99,.12),0 0 13px rgba(255,77,99,.72)}
+.moko-status.amber,.status-lamp.amber{background:#ffc45b;box-shadow:0 0 0 3px rgba(255,196,91,.12),0 0 13px rgba(255,196,91,.72)}
+.moko-status.blue,.status-lamp.blue{background:#54cfff;box-shadow:0 0 0 3px rgba(84,207,255,.12),0 0 13px rgba(84,207,255,.72)}
+.moko-status::after,.status-lamp::after,.live-indicator::after,.online-dot::after,.offline-dot::after{content:"";position:absolute;inset:-5px;border:1px solid currentColor;border-radius:50%;opacity:.32;animation:mokoLampRing 2.4s ease-out infinite}
+/* custom toast: clean, compact, no browser alert */
+#mokoGrandToast{
+ position:fixed;z-index:2147483000;inset-inline:16px;bottom:calc(22px + env(safe-area-inset-bottom));
+ margin-inline:auto;width:min(440px,calc(100vw - 32px));padding:13px 15px;
+ display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.16);border-radius:20px;
+ color:#fff;background:linear-gradient(140deg,rgba(31,38,52,.94),rgba(8,12,20,.94));
+ box-shadow:0 22px 75px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.12);
+ backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+ opacity:0;transform:translateY(18px) scale(.97);pointer-events:none;
+ transition:opacity .3s,transform .36s var(--moko-ease);
+}
+#mokoGrandToast.show{opacity:1;transform:translateY(0) scale(1)}
+#mokoGrandToast .toast-symbol{width:39px;height:39px;display:grid;place-items:center;border-radius:14px;background:rgba(var(--primary-rgb,157,163,173),.15);color:var(--primary,#cbd5e1);font-size:16px;flex:0 0 auto}
+#mokoGrandToast .toast-copy{min-width:0;display:grid;gap:3px}
+#mokoGrandToast strong{font-size:.91rem;font-weight:900}
+#mokoGrandToast span{font-size:.79rem;line-height:1.6;color:rgba(255,255,255,.68);overflow-wrap:anywhere}
+/* ripple feedback */
+.moko-ripple-host{position:relative;overflow:hidden!important;isolation:isolate}
+.moko-ripple{position:absolute;border-radius:50%;pointer-events:none;transform:scale(0);background:rgba(255,255,255,.23);animation:mokoRipple .62s ease-out forwards;z-index:5}
+@keyframes mokoRipple{to{transform:scale(1);opacity:0}}
+@keyframes mokoLampBreath{0%,100%{filter:brightness(.9);opacity:.82}50%{filter:brightness(1.28);opacity:1}}
+@keyframes mokoLampRing{0%{transform:scale(.65);opacity:.45}100%{transform:scale(1.65);opacity:0}}
+/* drawer and sidebar layering */
+.drawer,.side-menu,.sidebar,.admin-sidebar{isolation:isolate}
+.drawer.open,.side-menu.open,.sidebar.open,.admin-sidebar.open{box-shadow:-30px 0 100px rgba(0,0,0,.45),inset 1px 0 0 rgba(255,255,255,.09)}
+.drawer a,.drawer button,.side-menu a,.side-menu button,.sidebar a,.sidebar button,.admin-sidebar a,.admin-sidebar button{
+ position:relative;display:flex;align-items:center;gap:11px;border-radius:16px;
+}
+.drawer a::after,.drawer button::after,.side-menu a::after,.side-menu button::after,.sidebar a::after,.sidebar button::after,.admin-sidebar a::after,.admin-sidebar button::after{
+ content:"";position:absolute;inset-inline-start:0;top:22%;bottom:22%;width:3px;border-radius:9px;background:var(--primary,#aab4c2);opacity:0;transform:scaleY(.4);transition:opacity .25s,transform .25s;
+}
+.drawer a.active::after,.drawer button.active::after,.side-menu a.active::after,.side-menu button.active::after,.sidebar a.active::after,.sidebar button.active::after,.admin-sidebar a.active::after,.admin-sidebar button.active::after{opacity:1;transform:scaleY(1)}
+/* section headings and descriptive microcopy */
+.section-hint{display:flex;align-items:center;gap:9px;margin:8px 2px 20px;color:rgba(255,255,255,.58);font-size:.82rem;line-height:1.8}
+.section-hint::before{content:"";width:20px;height:1px;flex:0 0 20px;background:var(--primary,#aab4c2);box-shadow:0 0 10px var(--glow,rgba(255,255,255,.2))}
+.section-title{position:relative;display:flex;align-items:center;gap:12px}
+.section-title::before{content:"";width:5px;height:27px;border-radius:9px;background:linear-gradient(180deg,var(--primary,#aab4c2),var(--secondary,#eef1f5));box-shadow:0 0 16px var(--glow,rgba(255,255,255,.15))}
+/* refined fields */
+input:not([type=checkbox]):not([type=radio]),textarea,select{
+ border-color:rgba(255,255,255,.13);transition:border-color .25s,box-shadow .25s,background .25s;
+}
+input:not([type=checkbox]):not([type=radio]):focus,textarea:focus,select:focus{border-color:rgba(var(--primary-rgb,157,163,173),.55);box-shadow:0 0 0 4px rgba(var(--primary-rgb,157,163,173),.10);background-color:rgba(255,255,255,.07)}
+/* compact layout rhythm */
+@media(min-width:900px){.moko-card-grid,.feature-grid,.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+@media(min-width:560px) and (max-width:899px){.moko-card-grid,.feature-grid,.dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}}
+@media(max-width:559px){.moko-glass-card,.luxury-mini-card,.feature-card,.dashboard-card,.status-card{border-radius:19px}.moko-icon-tile,.icon-tile,.admin-icon,.section-icon,.menu-icon,.feature-icon{width:38px;height:38px;border-radius:13px}.section-hint{font-size:.76rem;margin-bottom:15px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+<div id="mokoGrandToast" role="status" aria-live="polite"><div class="toast-symbol"><i class="fa-solid fa-bell"></i></div><div class="toast-copy"><strong id="mokoGrandToastTitle">MOKO</strong><span id="mokoGrandToastText"></span></div></div>
+<script id="moko-grand-interactions">
+(function(){
+ 'use strict';
+ const toast=document.getElementById('mokoGrandToast');
+ const toastTitle=document.getElementById('mokoGrandToastTitle');
+ const toastText=document.getElementById('mokoGrandToastText');
+ let toastTimer=0;
+ window.MOKOGrandToast=function(title,message,kind){
+   if(!toast)return;
+   toastTitle.textContent=String(title||'MOKO');
+   toastText.textContent=String(message||'');
+   const icon=toast.querySelector('.toast-symbol i');
+   if(icon){icon.className='fa-solid '+(kind==='success'?'fa-circle-check':kind==='error'?'fa-circle-exclamation':kind==='info'?'fa-circle-info':'fa-bell')}
+   toast.classList.add('show');clearTimeout(toastTimer);
+   toastTimer=setTimeout(()=>toast.classList.remove('show'),3600);
+ };
+ // Tap ripple is restricted to visible interactive controls.
+ document.addEventListener('pointerdown',function(event){
+   const target=event.target.closest('button,.nav-button,.theme-button,.lux-option,.lux-action,.feature-card,.dashboard-card');
+   if(!target||target.disabled)return;
+   const rect=target.getBoundingClientRect();
+   const diameter=Math.max(rect.width,rect.height)*1.35;
+   const ripple=document.createElement('span');
+   ripple.className='moko-ripple';
+   ripple.style.width=diameter+'px';ripple.style.height=diameter+'px';
+   ripple.style.left=(event.clientX-rect.left-diameter/2)+'px';
+   ripple.style.top=(event.clientY-rect.top-diameter/2)+'px';
+   target.classList.add('moko-ripple-host');target.appendChild(ripple);
+   ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
+ },{passive:true});
+ // Reflect current navigation selection with a dedicated active state.
+ document.addEventListener('click',function(event){
+   const item=event.target.closest('.drawer a,.drawer button,.side-menu a,.side-menu button,.sidebar a,.sidebar button,.admin-sidebar a,.admin-sidebar button');
+   if(!item)return;
+   const group=item.closest('.drawer,.side-menu,.sidebar,.admin-sidebar');
+   if(group){group.querySelectorAll('.active').forEach(el=>{if(el!==item)el.classList.remove('active')});item.classList.add('active')}
+ });
+ // Keep touch feedback responsive without hijacking form controls.
+ document.querySelectorAll('button,.nav-button,.theme-button,.lux-action').forEach(el=>el.classList.add('moko-tactile'));
+ // A small public helper for existing features and future controls.
+ window.MOKOSetStatus=function(element,state){
+   if(!element)return;
+   element.classList.remove('red','amber','blue');
+   if(state==='offline'||state==='error')element.classList.add('red');
+   else if(state==='waiting'||state==='warning')element.classList.add('amber');
+   else if(state==='info')element.classList.add('blue');
+ };
+})();
+</script>
+
 </body></html>
