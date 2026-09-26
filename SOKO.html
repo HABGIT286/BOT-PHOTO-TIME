@@ -9863,4 +9863,58 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
 })();
 </script>
 
+
+<style id="moko-v2-premium-overhaul">
+/* New editorial / command-dashboard home, not the old two-card composition */
+#home.tab.active{display:block!important;padding:clamp(10px,2.2vw,30px)!important;}
+#home .home-container{width:100%!important;max-width:none!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:visible!important}
+#home .home-grid{display:grid!important;grid-template-columns:minmax(250px,.72fr) minmax(0,1.8fr)!important;gap:clamp(16px,2.4vw,34px)!important;align-items:stretch}
+#home .profile-card{position:relative!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;text-align:right!important;justify-content:center!important;padding:clamp(24px,4vw,48px)!important;border-radius:34px!important;min-height:560px!important;background:linear-gradient(155deg,rgba(14,21,39,.94),rgba(30,14,46,.72))!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:0 30px 90px #0005!important;overflow:hidden}
+#home .profile-card:before{content:"";position:absolute;inset:-35%;background:radial-gradient(circle at 20% 20%,rgba(0,224,255,.2),transparent 38%),radial-gradient(circle at 85% 75%,rgba(198,68,255,.24),transparent 35%);pointer-events:none}
+#home .profile-card>*{position:relative;z-index:1}
+#home .profile-card .avatar{width:clamp(115px,13vw,180px)!important;height:clamp(115px,13vw,180px)!important;border-radius:30px!important;object-fit:cover!important;border:1px solid #ffffff3d!important;box-shadow:0 15px 55px #0008!important;margin-bottom:25px!important}
+#home .profile-small-title{letter-spacing:3px!important;color:#70eaff!important;font-size:11px!important}
+#home .profile-name{font-size:clamp(40px,5vw,68px)!important;line-height:1!important;margin:12px 0!important}
+#home .profile-description{font-size:15px!important;color:#c8d4e7!important}
+#home .welcome-card{min-height:560px!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;position:relative!important;padding:clamp(24px,4vw,55px)!important;border-radius:34px!important;background:linear-gradient(135deg,rgba(18,27,48,.92),rgba(12,15,29,.8))!important;border:1px solid rgba(255,255,255,.12)!important;overflow:hidden!important}
+#home .welcome-card:after{content:"MOKO / PERSONAL UNIVERSE";position:absolute;right:30px;top:20px;font:10px Orbitron,sans-serif;letter-spacing:3px;color:#91a8c8;opacity:.7}
+#home .hero-center{margin-top:35px!important;text-align:right!important}
+#home .hero-main-title{font-size:clamp(65px,12vw,150px)!important;line-height:.95!important;letter-spacing:-5px!important;background:linear-gradient(110deg,#fff 10%,#78eaff 45%,#c98cff 85%);-webkit-background-clip:text;background-clip:text;color:transparent!important;text-shadow:none!important}
+#home .hero-subtitle{letter-spacing:3px!important;color:#aabbd3!important;font-size:11px!important}
+#home .home-stats{display:flex!important;gap:10px!important;flex-wrap:wrap!important;margin:30px 0!important}
+#home .home-stat{flex:1;min-width:105px;text-align:right!important;padding:18px 20px!important;border-radius:18px!important;background:linear-gradient(135deg,#ffffff12,#ffffff04)!important;border:1px solid #ffffff16!important;backdrop-filter:blur(15px)}
+#home .welcome-title{font-size:clamp(23px,3vw,38px)!important;margin:25px 0 10px!important}
+#home .welcome-text{max-width:650px;line-height:2!important;color:#bdc9dc!important}
+#home .album-thumbnails{display:flex!important;gap:9px!important;overflow-x:auto!important;padding:15px 0!important}
+#home .album-image{width:clamp(48px,6vw,82px)!important;height:clamp(65px,8vw,105px)!important;border-radius:13px!important;object-fit:cover!important;flex:0 0 auto;transform:rotate(-2deg);transition:.25s}
+#home .album-image:nth-child(even){transform:rotate(3deg);margin-top:8px}
+#home .album-image:hover{transform:translateY(-7px) rotate(0) scale(1.05)}
+#home .music-player{margin-top:18px!important;padding:16px!important;border-radius:20px!important;background:#070b16a8!important;border:1px solid #ffffff17!important}
+/* Premium expandable-looking sidebar panels and colored game controls */
+.drawer-panel{width:min(540px,96vw)!important;background:linear-gradient(155deg,rgba(9,15,30,.98),rgba(22,12,39,.97))!important;border-left:1px solid #ffffff20!important}
+.menu-section{border:1px solid #ffffff13!important;border-radius:22px!important;background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018))!important;box-shadow:0 12px 35px #0002!important;margin:14px 0!important;padding:19px!important}
+.menu-section h4{display:flex;align-items:center;gap:10px;font-size:15px!important;color:#f4f6ff!important}
+.menu-section h4:before{content:"";width:4px;height:22px;border-radius:8px;background:linear-gradient(#52eaff,#b56aff);box-shadow:0 0 15px #65dfff}
+.admin-games-list{display:grid!important;gap:10px!important;max-height:390px!important;overflow:auto!important;padding:4px!important}
+.admin-game-row{display:grid!important;grid-template-columns:48px minmax(0,1fr) auto auto!important;align-items:center!important;gap:10px!important;padding:12px!important;border-radius:17px!important;background:linear-gradient(110deg,rgba(45,211,255,.12),rgba(167,91,255,.1),rgba(255,255,255,.035))!important;border:1px solid rgba(150,190,255,.2)!important;box-shadow:inset 0 1px #ffffff10!important}
+.admin-game-row img,.admin-game-row>i{width:46px!important;height:46px!important;object-fit:cover!important;border-radius:13px!important;display:grid;place-items:center;background:linear-gradient(135deg,#0cbad4,#7b42d9)!important;color:white!important;font-size:19px!important}
+.admin-game-row span{font-weight:800!important;color:#f5f7ff!important;overflow-wrap:anywhere}
+.admin-game-row button{border:1px solid #ffffff20!important;border-radius:11px!important;padding:9px 12px!important;color:white!important;font-weight:800!important;background:linear-gradient(135deg,#167eae,#5c42a7)!important}
+.admin-game-row button[data-del]{background:linear-gradient(135deg,#a92d52,#6c245f)!important}
+/* Daily notes and memo become rich editorial panels */
+#notes .section{background:transparent!important;border:0!important;box-shadow:none!important;padding:clamp(12px,2vw,28px)!important}
+#notes .section-title{font-size:clamp(23px,4vw,38px)!important;letter-spacing:1px!important;padding:20px 0!important}
+#notes .notes-grid{display:grid!important;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)!important;gap:20px!important}
+#notes .notes-grid>.form{padding:24px!important;border-radius:26px!important;background:linear-gradient(145deg,#101a30eF,#21122fe8)!important;border:1px solid #ffffff19!important;box-shadow:0 20px 55px #0003!important}
+#notes .note-item{padding:20px!important;margin:12px 0!important;border-radius:22px!important;background:linear-gradient(120deg,rgba(20,174,203,.12),rgba(147,70,214,.12),rgba(255,255,255,.035))!important;border:1px solid #ffffff1b!important;box-shadow:0 12px 32px #0002!important}
+#notes .note-actions button{border-radius:12px!important;padding:9px 13px!important;background:linear-gradient(135deg,#126e93,#5b3d99)!important;color:#fff!important;border:1px solid #ffffff20!important}
+#notes .daily-memo-card{padding:clamp(20px,3vw,34px)!important;border-radius:30px!important;background:linear-gradient(135deg,rgba(16,28,49,.96),rgba(43,19,58,.88))!important;border:1px solid #ffffff20!important;box-shadow:0 25px 70px #0004!important;margin-top:24px!important}
+#notes .daily-memo-head h3{font-size:clamp(20px,3vw,30px)!important}
+#notes .daily-memo-preview{min-height:90px!important;border-radius:20px!important;background:linear-gradient(110deg,#ffffff0d,#ffffff04)!important;border:1px solid #ffffff19!important;line-height:1.9!important;font-size:16px!important}
+#notes .daily-memo-controls{grid-template-columns:minmax(130px,.8fr) repeat(4,minmax(90px,auto))!important}
+@media(max-width:850px){#home .home-grid{grid-template-columns:1fr!important}#home .profile-card{min-height:0!important;display:grid!important;grid-template-columns:auto 1fr!important;column-gap:20px!important;align-items:center!important}#home .profile-card .avatar{grid-row:span 4;margin:0!important}#home .welcome-card{min-height:490px!important}#notes .notes-grid{grid-template-columns:1fr!important}#notes .daily-memo-controls{grid-template-columns:1fr 1fr!important}}
+@media(max-width:520px){#home .profile-card{display:flex!important;align-items:center!important;text-align:center!important;padding:24px!important}#home .profile-card .avatar{margin-bottom:14px!important}#home .welcome-card{padding:23px!important;min-height:0!important}#home .hero-main-title{font-size:76px!important}#home .home-stats{gap:7px!important}#home .home-stat{min-width:0;padding:13px 9px!important}#notes .daily-memo-controls{grid-template-columns:1fr!important}.admin-game-row{grid-template-columns:42px minmax(0,1fr) auto!important}.admin-game-row button[data-del]{grid-column:3}.admin-game-row img,.admin-game-row>i{width:40px!important;height:40px!important}}
+</style>
+
+
 </body></html>
