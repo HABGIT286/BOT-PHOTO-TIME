@@ -9917,4 +9917,58 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
 </style>
 
 
+
+
+<style id="moko-reference-glass-theme-design">
+/* Floating icon dock inspired by the supplied reference */
+.navigation{position:fixed!important;right:22px!important;top:50%!important;transform:translateY(-50%)!important;z-index:1200!important;display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important;gap:12px!important;margin:0!important;padding:15px 11px!important;width:72px!important;border:1px solid rgba(255,255,255,.17)!important;border-radius:34px!important;background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(9,13,30,.74))!important;backdrop-filter:blur(28px) saturate(160%)!important;-webkit-backdrop-filter:blur(28px) saturate(160%)!important;box-shadow:0 20px 70px #0007,inset 0 1px #ffffff25!important}
+.nav-button{width:48px!important;height:48px!important;min-width:48px!important;padding:0!important;border-radius:17px!important;display:grid!important;place-items:center!important;background:linear-gradient(145deg,#ffffff12,#ffffff04)!important;border:1px solid #ffffff12!important;color:#dce5f6!important;font-size:0!important;position:relative!important;overflow:visible!important;transition:transform .28s ease,box-shadow .28s ease,background .28s ease!important}
+.nav-button i{font-size:18px!important;margin:0!important;color:var(--primary)!important;filter:drop-shadow(0 0 8px rgba(var(--primary-rgb),.55))}
+.nav-button:after{content:attr(data-tab);position:absolute;right:60px;top:50%;transform:translate(7px,-50%);opacity:0;pointer-events:none;white-space:nowrap;padding:9px 13px;border-radius:12px;background:rgba(9,13,27,.92);border:1px solid #ffffff20;color:#fff;font:700 11px/1.2 "Audiowide","Cairo",sans-serif;letter-spacing:1px;box-shadow:0 10px 30px #0006;transition:.22s}
+.nav-button:hover:after{opacity:1;transform:translate(0,-50%)}
+.nav-button:hover,.nav-button.active{transform:scale(1.08)!important;border-color:rgba(var(--primary-rgb),.55)!important;background:linear-gradient(145deg,rgba(var(--primary-rgb),.32),rgba(255,255,255,.08))!important;box-shadow:0 0 26px rgba(var(--primary-rgb),.25),inset 0 1px #ffffff22!important;color:white!important}
+.nav-button.active i{color:#fff!important}
+/* Luxurious theme selector cards with color chips */
+#themes.tab.active{padding:clamp(12px,2.4vw,34px)!important}
+#themes>.section{max-width:1500px!important;margin-inline:auto!important;padding:clamp(20px,3vw,42px)!important;border-radius:32px!important;background:linear-gradient(145deg,rgba(19,27,48,.78),rgba(22,12,39,.62))!important;border:1px solid #ffffff1d!important;box-shadow:0 30px 100px #0005,inset 0 1px #ffffff16!important;backdrop-filter:blur(26px) saturate(150%)!important}
+#themes .section-title{font-size:clamp(24px,3vw,40px)!important;display:flex!important;align-items:center!important;gap:15px!important;margin-bottom:26px!important}
+#themes .section-title i{display:grid;place-items:center;width:52px;height:52px;border-radius:17px;background:linear-gradient(135deg,rgba(var(--primary-rgb),.3),rgba(255,255,255,.07));border:1px solid rgba(var(--primary-rgb),.3);box-shadow:0 0 30px rgba(var(--primary-rgb),.16);font-size:21px}
+.themes-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,225px),1fr))!important;gap:18px!important}
+.theme-button{position:relative!important;isolation:isolate!important;min-height:145px!important;padding:22px!important;border-radius:24px!important;text-align:right!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:space-between!important;gap:17px!important;overflow:hidden!important;background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.025))!important;border:1px solid rgba(255,255,255,.16)!important;box-shadow:0 14px 35px #0002,inset 0 1px #ffffff1a!important;font-size:15px!important;font-weight:800!important;letter-spacing:0!important;backdrop-filter:blur(18px)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s!important}
+.theme-button:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 95% 0%,color-mix(in srgb,var(--theme-accent,#8a5cff) 32%,transparent),transparent 57%);opacity:.85;pointer-events:none}
+.theme-button:after{content:"APPLY THEME  ↗";font:9px "Audiowide",sans-serif;letter-spacing:1.5px;color:#c6d1e7;opacity:.62;direction:ltr}
+.theme-button:hover{transform:translateY(-6px) scale(1.015)!important;border-color:rgba(var(--primary-rgb),.5)!important;box-shadow:0 24px 55px #0005,0 0 30px rgba(var(--primary-rgb),.15),inset 0 1px #ffffff28!important}
+.theme-button .theme-colors{gap:9px!important;margin:0!important;align-items:center!important}
+.theme-button .theme-color{width:28px!important;height:28px!important;border-radius:10px!important;border:1px solid #ffffff55!important;box-shadow:0 4px 13px #0005,inset 0 1px #ffffff55!important;transform:rotate(-7deg)!important}
+.theme-button .theme-color:nth-child(even){transform:rotate(8deg) translateY(3px)!important}
+.theme-button.is-selected{border-color:rgba(var(--primary-rgb),.9)!important;background:linear-gradient(145deg,rgba(var(--primary-rgb),.22),rgba(255,255,255,.07))!important;box-shadow:0 0 0 1px rgba(var(--primary-rgb),.22),0 20px 50px #0004,0 0 34px rgba(var(--primary-rgb),.18),inset 0 1px #ffffff35!important}
+.theme-button.is-selected .theme-colors:after{content:"✓";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;margin-inline-start:auto;background:var(--primary);color:#08101c;font-size:14px;font-weight:900;box-shadow:0 0 20px rgba(var(--primary-rgb),.5)}
+/* Glass depth for section containers */
+.tab .section.glass{border:1px solid #ffffff19!important;box-shadow:0 24px 75px #0003,inset 0 1px #ffffff16!important;backdrop-filter:blur(22px) saturate(145%)!important}
+@media(max-width:850px){.navigation{right:50%!important;top:auto!important;bottom:14px!important;transform:translateX(50%)!important;flex-direction:row!important;width:auto!important;max-width:calc(100vw - 18px)!important;overflow-x:auto!important;padding:9px 12px!important;gap:8px!important;border-radius:28px!important}.nav-button{flex:0 0 43px!important;width:43px!important;height:43px!important;min-width:43px!important;border-radius:15px!important}.nav-button:after{display:none!important}.main-container,.app{padding-bottom:105px!important}}
+@media(max-width:480px){.themes-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}.theme-button{min-height:125px!important;padding:15px!important;border-radius:19px!important;font-size:13px!important}.theme-button .theme-color{width:23px!important;height:23px!important;border-radius:8px!important}#themes>.section{padding:17px!important;border-radius:24px!important}.navigation{gap:5px!important;padding:8px!important}.nav-button{flex-basis:39px!important;width:39px!important;min-width:39px!important;height:39px!important}}
+@media(prefers-reduced-motion:reduce){.navigation,.nav-button,.theme-button{transition:none!important}}
+</style>
+<script id="moko-reference-theme-enhancer">
+(()=>{
+  const navLabels={home:'الرئيسية',dov:'الملف الشخصي',games:'الألعاب',contact:'التواصل',message:'الرسائل',themes:'الثيمات',notes:'الملاحظات',customize:'التخصيص'};
+  document.querySelectorAll('.nav-button').forEach(button=>{
+    const key=button.dataset.tab;
+    if(key && navLabels[key]) button.setAttribute('aria-label',navLabels[key]);
+    if(key && !button.title) button.title=navLabels[key]||key;
+  });
+  const themeButtons=[...document.querySelectorAll('.theme-button')];
+  themeButtons.forEach((button,index)=>{
+    const color=button.dataset.primary||'#8a5cff';
+    button.style.setProperty('--theme-accent',color);
+    button.setAttribute('aria-label','تطبيق ثيم '+button.textContent.trim());
+    button.addEventListener('click',()=>{
+      themeButtons.forEach(item=>{item.classList.remove('is-selected');item.removeAttribute('aria-pressed')});
+      button.classList.add('is-selected');button.setAttribute('aria-pressed','true');
+    });
+    if(index===0 && !themeButtons.some(item=>item.classList.contains('is-selected'))){button.classList.add('is-selected');button.setAttribute('aria-pressed','true')}
+  });
+})();
+</script>
+
 </body></html>
