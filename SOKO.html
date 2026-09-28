@@ -10104,4 +10104,48 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
  document.querySelectorAll('.nav-button').forEach(b=>b.addEventListener('click',()=>{if(window.matchMedia('(max-width:760px)').matches)b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});}));
 })();
 </script>
+
+<style id="moko-horizontal-glass-layout-fix">
+/* FIX: keep the home sections inside one clear horizontal glass workspace */
+#home.tab.active{padding:clamp(10px,2vw,24px)!important;}
+#home .home-container{
+  width:100%!important;max-width:1500px!important;margin:18px auto 22px!important;
+  padding:clamp(12px,2vw,26px)!important;
+  background:linear-gradient(135deg,rgba(8,13,29,.91),rgba(17,20,39,.84))!important;
+  border:1px solid rgba(210,230,255,.24)!important;border-radius:30px!important;
+  box-shadow:0 24px 85px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.13)!important;
+  backdrop-filter:blur(28px) saturate(145%)!important;-webkit-backdrop-filter:blur(28px) saturate(145%)!important;
+  overflow:hidden!important;
+}
+#home .home-grid{
+  display:grid!important;grid-template-columns:minmax(0,1.72fr) minmax(190px,.68fr)!important;
+  gap:clamp(12px,1.8vw,24px)!important;align-items:stretch!important;
+}
+#home .profile-card,#home .welcome-card{
+  min-width:0!important;min-height:0!important;height:100%!important;
+  background:linear-gradient(145deg,rgba(26,34,57,.93),rgba(13,18,34,.91))!important;
+  border:1px solid rgba(220,235,255,.19)!important;border-radius:25px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 12px 35px rgba(0,0,0,.2)!important;
+  backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;
+}
+#home .profile-card{padding:clamp(15px,2vw,28px)!important;align-items:center!important;text-align:center!important;justify-content:center!important}
+#home .profile-card .avatar{width:clamp(78px,10vw,145px)!important;height:clamp(78px,10vw,145px)!important;margin:0 auto 15px!important;border-radius:23px!important}
+#home .profile-name{font-size:clamp(27px,4vw,58px)!important;overflow-wrap:anywhere!important}
+#home .welcome-card{padding:clamp(18px,3vw,42px)!important;justify-content:flex-start!important;gap:15px!important}
+#home .hero-center{padding:clamp(10px,1.5vw,22px)!important;margin:12px 0 0!important;min-height:0!important}
+#home .hero-main-title{font-size:clamp(48px,9vw,125px)!important;letter-spacing:-3px!important;overflow-wrap:anywhere!important}
+#home .home-stats{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin:20px 0!important}
+#home .home-stat{min-width:0!important;padding:clamp(10px,1.4vw,19px)!important;text-align:center!important}
+#home .album-carousel{width:100%!important;max-width:1500px!important;margin:20px auto!important;padding:clamp(12px,2vw,24px)!important;background:linear-gradient(135deg,rgba(8,13,29,.88),rgba(17,20,39,.82))!important;border:1px solid rgba(220,235,255,.2)!important;border-radius:27px!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;box-shadow:0 22px 65px rgba(0,0,0,.3)!important}
+@media(max-width:560px){
+ #home .home-grid{grid-template-columns:minmax(0,1fr)!important}
+ #home .profile-card{display:flex!important;flex-direction:column!important}
+ #home .profile-card .avatar{width:105px!important;height:105px!important}
+ #home .welcome-card{padding:18px!important}
+ #home .hero-main-title{font-size:clamp(48px,15vw,82px)!important}
+ #home .home-stats{gap:7px!important}
+ #home .home-stat{padding:11px 6px!important}
+}
+</style>
+
 </body></html>
